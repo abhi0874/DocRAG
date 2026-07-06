@@ -3,10 +3,10 @@ import { embed, embedMany } from 'ai'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 
-// Google Gemini (free tier, no credit card needed).
-// gemini-embedding-001 is truncated to 1536 dims to match the vector(1536) column.
-export const EMBEDDING_MODEL = google.embedding('gemini-embedding-001')
-export const CHAT_MODEL = google('gemini-2.5-flash')
+// Google Gemini latest models (free tier, no credit card needed).
+// gemini-embedding-2 outputs 1536 dims to match the vector(1536) column.
+export const EMBEDDING_MODEL = google.embedding('gemini-embedding-2')
+export const CHAT_MODEL = google('gemini-3.5-flash')
 export const EMBEDDING_DIMENSIONS = 1536
 
 const CHUNK_SIZE = 1000
