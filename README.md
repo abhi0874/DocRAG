@@ -6,6 +6,16 @@ Chat with your PDFs using Retrieval-Augmented Generation. Upload a document, ask
 
 Runs entirely on free tiers: Google AI Studio (no credit card) + Neon free tier.
 
+## Screenshots
+
+**Grounded chat with inline citations and inspectable retrieval scores:**
+
+![Chat answering a question with citation chips and a sources panel showing vector, keyword, and RRF scores](docs/screenshots/chat-with-citations.png)
+
+**RAG vs no-RAG evaluation — the same question, side by side:**
+
+![Evaluation page showing the RAG answer citing the exact figure from the document while the bare model guesses a vague range](docs/screenshots/rag-vs-no-rag.png)
+
 ## Features
 
 - **PDF ingestion pipeline** — parse, chunk with overlap, embed, and store in Postgres
