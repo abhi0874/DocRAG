@@ -1,9 +1,13 @@
+import { google, type GoogleEmbeddingModelOptions } from '@ai-sdk/google'
 import { embed, embedMany } from 'ai'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 
-export const EMBEDDING_MODEL = 'openai/text-embedding-3-small'
-export const CHAT_MODEL = 'openai/gpt-5.4-mini'
+// Google Gemini (free tier, no credit card needed).
+// gemini-embedding-001 is truncated to 1536 dims to match the vector(1536) column.
+export const EMBEDDING_MODEL = google.embedding('gemini-embedding-001')
+export const CHAT_MODEL = google('gemini-2.5-flash')
+export const EMBEDDING_DIMENSIONS = 1536
 
 const CHUNK_SIZE = 1000
 const CHUNK_OVERLAP = 200
@@ -72,6 +76,12 @@ export async function embedChunks(contents: string[]): Promise<number[][]> {
     const { embeddings } = await embedMany({
       model: EMBEDDING_MODEL,
       values: contents.slice(i, i + BATCH),
+      providerOptions: {
+        google: {
+          outputDimensionality: EMBEDDING_DIMENSIONS,
+          taskType: 'RETRIEVAL_DOCUMENT',
+        } satisfies GoogleEmbeddingModelOptions,
+      },
     })
     allEmbeddings.push(...embeddings)
   }
@@ -87,7 +97,16 @@ export async function hybridSearch(
   documentId: number,
   topK = 6,
 ): Promise<RetrievedChunk[]> {
-  const { embedding } = await embed({ model: EMBEDDING_MODEL, value: query })
+  const { embedding } = await embed({
+    model: EMBEDDING_MODEL,
+    value: query,
+    providerOptions: {
+      google: {
+        outputDimensionality: EMBEDDING_DIMENSIONS,
+        taskType: 'RETRIEVAL_QUERY',
+      } satisfies GoogleEmbeddingModelOptions,
+    },
+  })
   const embStr = `[${embedding.join(',')}]`
 
   const [vectorRes, keywordRes] = await Promise.all([

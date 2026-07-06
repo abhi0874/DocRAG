@@ -84,9 +84,10 @@ export async function POST(req: Request) {
     return Response.json(ready)
   } catch (error) {
     console.error('[v0] Document ingestion failed:', error)
+    const raw = error instanceof Error ? error.message : ''
     const message =
-      error instanceof Error && error.message.includes('credit card')
-        ? 'AI Gateway needs a credit card on file to unlock free credits. Add one in your Vercel account, then retry.'
+      raw.includes('API key') || raw.includes('API_KEY') || raw.includes('401') || raw.includes('403')
+        ? 'Google API key is missing or invalid. Add GOOGLE_GENERATIVE_AI_API_KEY (free from aistudio.google.com) and retry.'
         : 'Failed to process the PDF. Please try another file.'
     return Response.json({ error: message }, { status: 500 })
   }
