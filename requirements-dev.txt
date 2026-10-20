@@ -1,0 +1,13 @@
+ruff==0.14.2
+pytest==8.4.2
+pytest-cov==7.0.0
+psycopg[binary]==3.2.12
+python-dotenv==1.2.1
+sqlparse==0.5.3
+
+# Pinned transitive dependencies for reproducible Python setup.
+coverage==7.16.2
+iniconfig==2.3.1
+packaging==26.3
+pluggy==1.7.0
+Pygments==2.21.0

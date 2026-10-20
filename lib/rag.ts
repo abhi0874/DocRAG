@@ -2,12 +2,13 @@ import { google, type GoogleEmbeddingModelOptions } from '@ai-sdk/google'
 import { embed, embedMany } from 'ai'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
+import modelConfig from './model-config.json'
 
 // Google Gemini latest models (free tier, no credit card needed).
 // gemini-embedding-2 outputs 1536 dims to match the vector(1536) column.
-export const EMBEDDING_MODEL = google.embedding('gemini-embedding-2')
-export const CHAT_MODEL = google('gemini-3.5-flash')
-export const EMBEDDING_DIMENSIONS = 1536
+export const EMBEDDING_MODEL = google.embedding(modelConfig.embedding)
+export const CHAT_MODEL = google(modelConfig.chat)
+export const EMBEDDING_DIMENSIONS = modelConfig.embeddingDimensions
 
 const CHUNK_SIZE = 1000
 const CHUNK_OVERLAP = 200

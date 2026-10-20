@@ -1,0 +1,5 @@
+{
+  "chat": "gemini-3.5-flash",
+  "embedding": "gemini-embedding-2",
+  "embeddingDimensions": 1536
+}

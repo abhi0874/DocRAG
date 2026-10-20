@@ -1,4 +1,7 @@
+import { sql } from 'drizzle-orm'
 import {
+  customType,
+  index,
   integer,
   jsonb,
   pgTable,
@@ -7,6 +10,10 @@ import {
   timestamp,
   vector,
 } from 'drizzle-orm/pg-core'
+
+const tsvector = customType<{ data: string }>({
+  dataType: () => 'tsvector',
+})
 
 export const documents = pgTable('documents', {
   id: serial('id').primaryKey(),
@@ -26,11 +33,18 @@ export const chunks = pgTable('chunks', {
   chunkIndex: integer('chunk_index').notNull(),
   pageNumber: integer('page_number').notNull().default(1),
   content: text('content').notNull(),
+  contentTsv: tsvector('content_tsv').generatedAlwaysAs(
+    sql`to_tsvector('english', content)`,
+  ),
   embedding: vector('embedding', { dimensions: 1536 }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
-})
+}, (table) => [
+  index('chunks_content_tsv_idx').using('gin', table.contentTsv),
+  index('chunks_embedding_idx').using('hnsw', table.embedding.op('vector_cosine_ops')),
+  index('chunks_document_id_idx').on(table.documentId),
+])
 
 export const evaluations = pgTable('evaluations', {
   id: serial('id').primaryKey(),
