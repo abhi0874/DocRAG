@@ -573,7 +573,7 @@ and remote-reference check also succeeded and are recorded separately.
 | curl -sf http://localhost:8000/ -o /dev/null -w "%{http_code}\n" | 0 | HTTP 200; a separate body read confirmed HTML containing DocRAG |
 | curl -sf http://localhost:8000/api/documents -o /dev/null -w "%{http_code}\n" | 0 | HTTP 200; actual response parsed as an empty JSON array |
 | test -s docs/AUDIT.md && echo ok | 0 | ok |
-| Document structure/reference check | 0 | All 20 numbered sections in order; all 23 referenced repository file paths exist |
+| Document structure/reference check | 0 | All 20 numbered sections in order; all 24 referenced repository file paths exist |
 | Mermaid syntax check | 0 | Mermaid 11.12.0 parser accepted the flowchart; edges also reviewed against source |
 | make lint | 0 | Ruff checks/format, ESLint and TypeScript passed |
 | make test | 0 | 14 Python tests and 13 TypeScript tests passed; zero failures |
