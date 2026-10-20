@@ -1,0 +1,7 @@
+overrides:
+  hono: 4.12.25
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  msw: true

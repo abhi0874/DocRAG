@@ -13,3 +13,20 @@ __v0_jsx-dev-runtime.ts
 node_modules
 .next/
 .DS_Store
+
+# Local development and generated outputs
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+coverage/
+.coverage
+htmlcov/
+eval/results/latest.json
+loadtest/results_*
+*.tsbuildinfo
+next-env.d.ts
+.local/
