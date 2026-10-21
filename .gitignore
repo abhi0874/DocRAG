@@ -26,6 +26,7 @@ coverage/
 .coverage
 htmlcov/
 eval/results/latest.json
+eval/.cache/
 loadtest/results_*
 *.tsbuildinfo
 next-env.d.ts
