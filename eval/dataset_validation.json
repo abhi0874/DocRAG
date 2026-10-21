@@ -12,6 +12,6 @@
   "near_duplicate_candidates": [],
   "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
   "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
-  "human_review": "pending",
-  "semantic_validation": "AI-assisted only"
+  "human_review": "confirmed",
+  "semantic_validation": "human-confirmed candidates; hash-bound receipt"
 }

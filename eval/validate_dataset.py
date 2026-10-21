@@ -139,6 +139,7 @@ def validate(path, require_review=False):
         ):
             raise ValueError("Human review receipt does not cover the exact dataset")
         result["human_review"] = "confirmed"
+        result["semantic_validation"] = "human-confirmed candidates; hash-bound receipt"
     if require_review and result["human_review"] != "confirmed":
         raise ValueError("Human review pending: read eval/REVIEW_NEEDED.md")
     return result
