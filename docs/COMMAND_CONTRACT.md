@@ -6,7 +6,7 @@ The parent directory is an unrelated empty Git repository created by the workspa
 
 Use Python 3.11+, Node >=20.9 (checked against the installed Next package),
 and pnpm 11.25.0. This is a Next.js application with TypeScript API routes;
-Python is used only for setup helpers. No Python server exists.
+Python is used for setup helpers and evaluation utilities. No Python server exists.
 
 | Command | Actual behavior |
 | --- | --- |
@@ -91,3 +91,54 @@ Check that lockfiles and both documentation files exist.
   permission was granted and Postgres.app 2.9.6 / PostgreSQL 16.15 is installed.
   The native helper only manages a cluster with its checkout ownership
   marker, preserves an existing real DATABASE_URL, and never prints its generated password.
+
+## STEP 2 corpus and mandatory review checkpoint
+
+The commands below are implemented for the pre-review checkpoint. The evaluation
+runner and regression targets above remain deliberately unimplemented until the
+user confirms review. This is not a completed STEP 2 command contract.
+
+```sh
+source .venv/bin/activate
+python scripts/ingest_corpus.py
+python scripts/ingest_corpus.py
+python scripts/eval_db_query.py "SELECT count(*) FROM chunks"
+python scripts/eval_db_query.py "SELECT s.source_id, count(c.id) FROM eval_sources s JOIN chunks c ON c.document_id = s.document_id AND c.page_number = s.page_number GROUP BY s.source_id ORDER BY s.source_id"
+python scripts/db_query.py "SELECT count(*) FROM chunks"
+wc -l eval/golden_set.jsonl
+python -m eval.validate_dataset
+make lint
+make test
+make build-fe
+git diff --check
+git status --short
+```
+
+Run the entire checkpoint list after fixing a failed checkpoint check. The second
+ingestion must preserve IDs/content and avoid additional model calls. The evaluation
+count must be nonzero and match the 12 intended sources. The ordinary db_query
+command still addresses the separate application development database; its count
+must remain unchanged. `eval_db_query.py` reuses that helper's SELECT validation,
+read-only transaction, timeout and secret handling after privately selecting the
+owned evaluation database. This is the necessary adaptation of the requested
+`SELECT count(*) FROM chunks` check for strict database isolation.
+
+Ingestion creates only `docrag_eval_v1` on this checkout's existing native server.
+It verifies server directory and ownership, reuses db/init.sql there, then adds
+evaluation metadata tables. It never drops data or modifies .env. Corpus changes
+or unrecognized database contents fail for explicit investigation. Source hashes,
+stored chunks, dimensions and mappings are verified on rerun. Existing lib/rag.ts
+functions are invoked with the pinned project-only tsx 4.20.6 runtime.
+
+Embedding batches remain at most 100, using the actual embedChunks function,
+model and provider options. Completed batches are cached under ignored
+.local/eval-cache/ingestion with model/text/corpus/configuration hashes. Fresh
+batches are separated by at least 61 seconds to respect the observed 100-request
+window; SDK exponential retries still apply. Other project activity can consume
+quota, and daily quotas still apply. Errors remain failures, not partial success.
+
+`python -m eval.validate_dataset --require-review` must exit 1 while review is
+pending. This deliberate negative check is distinct from ordinary structural
+validation. Only an explicit human confirmation can justify a hash-bound receipt
+in eval/human_review.json; no such receipt is fabricated. After confirmation, the
+remaining STEP 2 implementation and complete A–H verification list are required.
