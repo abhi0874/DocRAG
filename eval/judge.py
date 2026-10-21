@@ -34,6 +34,7 @@ Schema (no extra fields):
 """
 JUDGE_CONFIG = {
     "rubric_version": "v1",
+    "output_format": "json",
     "temperature": 0,
     "max_output_tokens": 4096,
     "thinking_level": "minimal",

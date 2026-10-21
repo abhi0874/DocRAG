@@ -57,11 +57,12 @@ globalThis.fetch = async (requestInput, init) => {
 async function main() {
   if (input.action === 'judge') {
     const {google} = await import('@ai-sdk/google')
-    const {generateText} = await import('ai')
+    const {generateText, Output} = await import('ai')
     await pace()
     const start = performance.now()
     const result = await generateText({
       model: google(input.judgeModel!), prompt: input.prompt!,
+      output: Output.json(),
       maxOutputTokens: 4096, temperature: 0, maxRetries: 2,
       providerOptions: {google: {thinkingConfig: {thinkingLevel: 'minimal'}}},
       abortSignal: AbortSignal.timeout(90000),

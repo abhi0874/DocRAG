@@ -116,6 +116,8 @@ reference and supporting full source pages. Both use 0, 0.5 and 1:
 
 The complete rubric is in eval/judge.py. The configured answer model is also used
 as judge, with temperature 0, minimal reasoning and a 4096 output-token budget.
+The SDK requests JSON response mode so Markdown fences are not treated as scores;
+the full schema and citation checks still run before any judgment is accepted.
 This is model-assisted scoring, not objective ground truth. Self-judging can be
 biased, prompts can be misinterpreted, human labels can be wrong, and temperature
 0 does not guarantee repeatability. The model must return strict validated JSON;
