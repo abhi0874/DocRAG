@@ -1,6 +1,7 @@
 # STEP 2 — live evaluation quota checkpoint
 
-Date: 2026-10-21 (Asia/Kolkata). STEP 2 is NOT COMPLETE.
+Original checkpoint: 2026-10-21. Updated: 2026-10-22 (Asia/Kolkata).
+STEP 2 is NOT COMPLETE.
 Repository: https://github.com/abhi0874/DocRAG
 Branch: feat/production-rag. No push, PR, merge, deployment or STEP 3 work occurred.
 
@@ -106,6 +107,35 @@ unnecessary. These fixes do not remove the current external quota blocker.
 
 ## Metrics and final confirmations
 
+### October 22 resume before quota reset
+
+At approximately 03:06 IST, the published daily reset had not occurred yet.
+Google's [rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits)
+states that daily quotas reset at midnight Pacific time. Converting October 22
+midnight America/Los_Angeles with the timezone database gives October 22,
+12:30 IST. A new Indian calendar date does not itself reset the provider quota.
+No new model requests were made during this preflight; no accounts or keys were
+rotated. The local database was started with make up without deleting data.
+
+All seven A–C commands in the table above were rerun and exited 0: 26 metric tests,
+idempotent ingestion, evaluation chunk count, source ownership join, unchanged
+application count, dataset line count and confirmed-review validation. Counts
+remain 151 chunks, 12 sources and 100 reviewed questions. Existing caches remain
+five embeddings/five answers across configurations and three valid judgments.
+
+The outstanding synthetic CLI regression check was also executed independently,
+using temporary explicitly synthetic inputs through eval.verify_results.negative_gate.
+It passed by observing exit 1 with the exact error:
+
+    Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)
+
+This makes 8/8 non-provider preflight checks passed. Synthetic values were never
+written to a baseline or reported as measured performance. The real positive gate,
+two-run comparison and complete A–H sequence remain pending. The earlier 82-test,
+lint and build results still describe the unchanged implementation; they were
+not represented as fresh runs on October 22. Only checkpoint/command documentation
+was updated in this resume.
+
 Recall@3, recall@5, recall@10, MRR, citation accuracy, faithfulness, correctness,
 p50/p95 latency, tokens/query and estimated cost/query: UNAVAILABLE as complete
 baseline metrics. Individual calls have real usage/timing records, but aggregating
@@ -115,8 +145,9 @@ Complete token/cost totals also require the limitations documented in eval/READM
 Reproducibility: NOT RUN for two complete evaluations.
 First/second full-precision recall@5: UNAVAILABLE.
 Positive baseline regression gate and saved-baseline verification: NOT RUN.
-Regression boundary/invalid-input unit tests passed; a synthetic CLI rejection
-and full provenance verification still belong to the complete final sequence.
+Regression boundary/invalid-input unit tests and the independent synthetic CLI
+rejection passed. Full baseline provenance verification remains pending, and the
+synthetic rejection will run again inside the complete final sequence.
 
 CONFIRMATION 1 — DATASET: PASS.
 CONFIRMATION 2 — BASELINE: FAIL (full live run missing).

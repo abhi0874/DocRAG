@@ -192,6 +192,30 @@ check. The regression gate compares full serialized decimal values, not formatte
 percentages. Provenance covers dataset/corpus/configuration, metric definitions,
 model names, code hashes, actual Git revision, timestamp and cache statistics.
 
+When a live baseline is blocked by provider quota, the same negative CLI check can
+be exercised independently with an explicitly synthetic fixture. Run this from the
+repository with .venv activated. It must report exit_code 1 and a Regression message;
+the wrapper itself fails if rejection does not occur. This checks gate behavior,
+not application performance, and does not replace the full A–H sequence:
+
+```sh
+python - <<'PY'
+from eval.metrics import DEFINITIONS
+from eval.verify_results import negative_gate
+
+fixture = {
+    "fixture_kind": "SYNTHETIC_ONLY_NOT_EVALUATION",
+    "status": "complete",
+    "human_review": "confirmed",
+    "dataset_sha256": "0" * 64,
+    "corpus_hash": "1" * 64,
+    "metric_definitions": DEFINITIONS,
+    "metrics": {"recall@5": 0.9, "faithfulness": 1.0},
+}
+print(negative_gate(fixture))
+PY
+```
+
 The evaluator now calls the same shared generation function as the chat route.
 Extracting that function required a narrowly scoped edit to the completed chat
 route; its original prompt, model, converted messages and SDK defaults are covered
