@@ -1,5 +1,9 @@
 # STEP 2 — mandatory human review checkpoint
 
+Historical report: human review has since been confirmed. See
+[the quota checkpoint](STEP2_QUOTA_CHECKPOINT.md) for subsequent implementation,
+tests and the current live-evaluation blocker. The text below records the earlier state.
+
 Date: 2026-10-21 (Asia/Kolkata). STEP 2 is NOT COMPLETE.
 Repository: https://github.com/abhi0874/DocRAG
 Branch: feat/production-rag. No push, PR, merge, or deployment occurred.
