@@ -27,11 +27,9 @@ check-env:
 db-query:
 	$(PYTHON) scripts/db_query.py "SELECT extname FROM pg_extension WHERE extname = 'vector'"
 eval:
-	@echo 'STEP 2 not yet implemented: python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/latest.json' >&2
-	@exit 1
+	$(PYTHON) -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/latest.json
 eval-gate:
-	@echo 'STEP 2 not yet implemented: python -m eval.check_regression --baseline eval/results/baseline.json --current eval/results/latest.json' >&2
-	@exit 1
+	$(PYTHON) -m eval.check_regression --baseline eval/results/baseline.json --current eval/results/latest.json
 load:
 	@echo 'STEP 10 load testing is not yet implemented.' >&2
 	@exit 1

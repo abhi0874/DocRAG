@@ -21,7 +21,8 @@ Python is used for setup helpers and evaluation utilities. No Python server exis
 | `make up` | Initializes/starts the isolated native PostgreSQL 16 cluster and applies additive development schema SQL. Uses installed Postgres.app PostgreSQL 16.15. |
 | `make down`, `make stop` | Stop only this checkout’s native database, preserving all data. |
 | `make db-status` | Checks whether this checkout’s native server is running. |
-| `make eval`, `make eval-gate` | Fail clearly; reserved STEP 2 command lines are printed. |
+| `make eval` | Runs the reviewed 100-question evaluator against the isolated corpus; writes ignored eval/results/latest.json. |
+| `make eval-gate` | Compares baseline.json with latest.json; rejects incompatible data or recall@5/faithfulness drops greater than 0.02. |
 | `make load` | Fails clearly; reserved for STEP 10. |
 
 Native PostgreSQL was selected by the user. No Docker targets or volume deletion
@@ -78,7 +79,7 @@ Check that lockfiles and both documentation files exist.
 - The AI SDK check uses at most two retries, exponential backoff and a 30-second
   timeout, a 256-token output cap, and minimal reasoning. The original 16-token
   cap returned empty output; the corrected check requires nonempty text.
-  It makes no embedding or evaluation requests. STEP 2 caching is not built.
+  It makes no embedding or evaluation requests. Evaluation caches are separate from this probe.
 - `db/init.sql` supplies the missing generated `content_tsv` column and indexes;
   it has been applied to the isolated local development database only.
 - `.env` is loaded explicitly by Python helpers and automatically by Next.js.
@@ -92,11 +93,11 @@ Check that lockfiles and both documentation files exist.
   The native helper only manages a cluster with its checkout ownership
   marker, preserves an existing real DATABASE_URL, and never prints its generated password.
 
-## STEP 2 corpus and mandatory review checkpoint
+## STEP 2 evaluation commands
 
-The commands below are implemented for the pre-review checkpoint. The evaluation
-runner and regression targets above remain deliberately unimplemented until the
-user confirms review. This is not a completed STEP 2 command contract.
+The review checkpoint was completed by explicit user confirmation. The receipt in
+eval/human_review.json covers the unchanged 100-question dataset and corpus hashes.
+The original checkpoint commands remain useful for corpus verification:
 
 ```sh
 source .venv/bin/activate
@@ -137,8 +138,66 @@ batches are separated by at least 61 seconds to respect the observed 100-request
 window; SDK exponential retries still apply. Other project activity can consume
 quota, and daily quotas still apply. Errors remain failures, not partial success.
 
-`python -m eval.validate_dataset --require-review` must exit 1 while review is
-pending. This deliberate negative check is distinct from ordinary structural
-validation. Only an explicit human confirmation can justify a hash-bound receipt
-in eval/human_review.json; no such receipt is fabricated. After confirmation, the
-remaining STEP 2 implementation and complete A–H verification list are required.
+`python -m eval.validate_dataset --require-review` now exits 0 with the actual
+confirmed receipt. It must fail when the receipt is absent, invalid or stale;
+tests cover that boundary. Candidate JSON retains its original authoring status;
+the validated hash-bound receipt supplies the effective human-reviewed status.
+
+
+### Complete STEP 2 verification (A–H)
+
+Use the same repository root and activated .venv. Every command must actually run.
+The evaluator uses real provider calls on misses; ignored caches make repeats cheap.
+Run only one evaluator at a time. If a failure needs a fix, restart the full list.
+Keep the original successful baseline; do not replace it with a faster cached rerun.
+
+```sh
+# A: independently calculated metric examples and regression boundaries
+pytest tests/test_metrics.py -q
+# B: real ingestion and strict evaluation ownership
+python scripts/ingest_corpus.py
+python scripts/eval_db_query.py "SELECT count(*) FROM chunks"
+python scripts/eval_db_query.py "SELECT s.source_id, count(c.id) FROM eval_sources s JOIN chunks c ON c.document_id = s.document_id AND c.page_number = s.page_number GROUP BY s.source_id ORDER BY s.source_id"
+python scripts/db_query.py "SELECT count(*) FROM chunks"
+# C: all lines, source mappings and effective human review
+wc -l eval/golden_set.jsonl
+python -m eval.validate_dataset --require-review
+# D: run once, preserve the actual first complete result, then run again
+make eval
+# First baseline recording only: validate this run before copying it.
+python -m eval.verify_results --baseline eval/results/latest.json --current eval/results/latest.json
+# Execute these copies only if baseline.json has not yet been recorded:
+cp eval/results/latest.json .local/eval-first.json
+cp eval/results/latest.json eval/results/baseline.json
+make eval
+# E: compatible rerun, full-precision recall, real gate and synthetic rejection
+make eval-gate
+python -m eval.verify_results --out eval/results/reproducibility.json
+# F: application regressions
+make lint
+make test
+make build-fe
+# G: independently recompute aggregates and verify implementation provenance
+python -m eval.verify_results
+# H: Git safety (stage/commit the verified baseline locally, then inspect again)
+git branch --show-current
+git status --short
+git diff --check
+git log -5 --oneline
+```
+
+The synthetic rejection is expected to exit 1 internally; verify_results.py fails
+unless the CLI reports an actual regression. It does not suppress a failed positive
+check. The regression gate compares full serialized decimal values, not formatted
+percentages. Provenance covers dataset/corpus/configuration, metric definitions,
+model names, code hashes, actual Git revision, timestamp and cache statistics.
+
+The evaluator now calls the same shared generation function as the chat route.
+Extracting that function required a narrowly scoped edit to the completed chat
+route; its original prompt, model, converted messages and SDK defaults are covered
+by a contract test. Retrieval/chunking/embedding code and configuration are unchanged.
+
+Task 15's database SELECT is deliberately routed through eval_db_query.py for the
+nonzero evaluation count. The original db_query.py command additionally verifies
+that the separate application database remains unchanged. No credentials or URLs
+are printed. No Docker, new backend, global installation or production data is used.

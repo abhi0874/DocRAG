@@ -1,16 +1,10 @@
 import {
-  convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
-  streamText,
   toUIMessageStream,
 } from 'ai'
-import {
-  buildContext,
-  CHAT_MODEL,
-  hybridSearch,
-  RAG_INSTRUCTIONS,
-} from '@/lib/rag'
+import { hybridSearch } from '@/lib/rag'
+import { startRagAnswer } from '@/lib/rag-answer'
 import type { RagUIMessage } from '@/lib/types'
 
 export const maxDuration = 60
@@ -35,7 +29,6 @@ export async function POST(req: Request) {
 
   // Hybrid retrieval: vector + keyword, fused with RRF
   const retrieved = await hybridSearch(question, documentId, 6)
-  const context = buildContext(retrieved)
 
   const stream = createUIMessageStream<RagUIMessage>({
     execute: async ({ writer }) => {
@@ -45,11 +38,7 @@ export async function POST(req: Request) {
         data: { sources: retrieved },
       })
 
-      const result = streamText({
-        model: CHAT_MODEL,
-        instructions: `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${context}`,
-        messages: await convertToModelMessages(messages),
-      })
+      const result = await startRagAnswer(messages, retrieved)
 
       writer.merge(toUIMessageStream({ stream: result.stream }))
     },
