@@ -8,6 +8,48 @@ Branch: feat/production-rag. No push, PR, merge, deployment or STEP 3 work occur
 This supersedes the pending-review status in STEP2_REVIEW_CHECKPOINT.md. That file
 is retained as the historical pre-review report. The previous-step audit passed.
 
+## Latest status after the October 22 daily reset
+
+The evaluation now has **9 of 100 complete cached answer/judgment pairs**, six
+more than at the previous checkpoint. The first full attempt started at
+07:00:26 UTC (12:30:26 IST), after the published daily reset. The same saved key
+was used; no account rotation, billing activation or model substitution occurred.
+The current blocker is again the daily free-tier request quota. The final provider
+error reported limit 20 and a retry delay of 23h48m23s. The next published reset is
+October 23, 2026, at 12:30 IST. This is a scheduled reset, not a guarantee of model
+availability or that other activity will leave the entire quota unused.
+
+Two attempts encountered temporary model high demand, with backoff between full
+verification restarts. Further progress reached six questions, then the provider
+reported a short-window limit of five requests with a roughly 35-second retry
+delay. This exposed a pacing problem: the original seven-second spacing was too
+short, and SDK retry attempts were not individually spaced.
+
+Local commit e076308 fixes only the evaluation harness. Every generation HTTP
+attempt, including retries, now waits at least 13 seconds from the preceding
+attempt. Evaluation timing subtracts that deliberate wait. Production generation,
+retrieval, model configuration, chunking, prompts and scoring rules remain unchanged.
+Pacing stays in result provenance but no longer changes semantic cache identities.
+Legacy seven-second entries are read only if every other model/prompt/corpus/config
+input matches exactly, then copied to the current cache key without altering their
+responses. Tests cover retry pacing across adapter instances, requests that must
+not consume generation pacing, and legacy/current judgment reuse after interval
+changes. All six complete cached pairs were demonstrably reused in the live rerun.
+
+After the fix, the entire A–H sequence was restarted. A–C passed (seven commands,
+all exit 0; 26 metric tests). D1 reached question fastapi-009, then stopped on the
+daily quota error: make eval exited 2, with underlying evaluator exit 1. No baseline
+or latest result was written. The independent application checks for this exact
+implementation passed: make lint exit 0; make test exit 0 with 70 Python and
+16 TypeScript tests (86 total, zero failed); make build-fe exit 0. These do not
+replace the pending complete A–H run, positive baseline gate or repeat evaluation.
+Read-only GitHub branch references remained unchanged from the values below.
+
+The raw file count in cache directories is no longer a completed-question count:
+legacy entries are intentionally retained alongside migrated entries. Progress is
+the evaluator's nine successfully completed question/judgment records. No partial
+scores are presented as baseline measurements. Tasks 11, 12 and 15 remain pending.
+
 ## Completed work: 12/15 task groups
 
 Tasks 1–10, 13 and 14 are implemented. Tasks 11 (complete real baseline),
@@ -36,7 +78,7 @@ strict validation, hash-keyed caches and the unchanged 0.02 regression threshold
 eval/README.md documents rubrics, calculations, limitations and reproducibility.
 make eval and make eval-gate now execute the real implementations.
 
-## Actual verification results
+## October 21 verification results (historical)
 
 The latest ordered A–H attempt passed 7 of its 8 executed commands, then stopped
 at D1. Subsequent independent application checks passed, but do not substitute
@@ -139,7 +181,7 @@ was updated in this resume.
 Recall@3, recall@5, recall@10, MRR, citation accuracy, faithfulness, correctness,
 p50/p95 latency, tokens/query and estimated cost/query: UNAVAILABLE as complete
 baseline metrics. Individual calls have real usage/timing records, but aggregating
-three completed questions would not meet the required 100-question baseline.
+the partially completed questions would not meet the required 100-question baseline.
 Complete token/cost totals also require the limitations documented in eval/README.md.
 
 Reproducibility: NOT RUN for two complete evaluations.
