@@ -4,7 +4,8 @@ import json
 
 import pytest
 
-from eval.judge import judge
+from eval.corpus import canonical, sha256
+from eval.judge import JUDGE_CONFIG, judge
 
 
 def reply():
@@ -79,3 +80,32 @@ def test_invalid_outputs_exhaust_retries_without_cache(tmp_path, monkeypatch):
     assert len(calls) == 3
     assert delays == [2, 4]
     assert not list(tmp_path.rglob("*.json"))
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_pacing_changes_preserve_valid_judgments(tmp_path, monkeypatch, legacy):
+    monkeypatch.setattr("eval.judge.ROOT", tmp_path)
+    calls = []
+    monkeypatch.setattr("eval.judge.call_adapter", lambda p: calls.append(p) or reply())
+    args = list(inputs())
+    args[5]["minimum_model_interval_ms"] = 7000
+    original, hit = judge(*args)
+    assert hit is False
+    if legacy:
+        directory = tmp_path / ".local/eval-cache/judge"
+        key = sha256(
+            canonical(
+                {
+                    "model": args[4],
+                    "prompt": calls[0]["prompt"],
+                    "judge_config": JUDGE_CONFIG,
+                    "run_config": args[5],
+                }
+            )
+        )
+        (directory / f"{original['cache_key']}.json").rename(directory / f"{key}.json")
+    args[5]["minimum_model_interval_ms"] = 13000
+    cached, hit = judge(*args)
+    assert hit is True
+    assert cached["judgment"] == original["judgment"]
+    assert len(calls) == 1

@@ -46,7 +46,7 @@ def configuration():
         "answer_top_k": 6,
         "answer_options": "unchanged SDK defaults from startRagAnswer",
         "judge_options": JUDGE_CONFIG,
-        "minimum_model_interval_ms": 7000,
+        "minimum_model_interval_ms": 13000,
         "cache_policy": "v1; query embeddings and generated answers/judgments cached; "
         "SQL retrieval rerun; current observed latency reported",
         "application_file_hashes": {p: sha256((ROOT / p).read_bytes()) for p in files},
@@ -87,6 +87,7 @@ def run(golden, output):
     )
     evaluator_files = [
         "eval/runtime_adapter.ts",
+        "eval/request-pacing.ts",
         "eval/runtime.py",
         "eval/run_eval.py",
         "eval/metrics.py",
@@ -104,7 +105,7 @@ def run(golden, output):
                 "question": record["question"],
                 "documentId": documents[record["document_key"]],
                 "config": config,
-                "modelIntervalMs": 7000,
+                "modelIntervalMs": config["minimum_model_interval_ms"],
             }
         )
         ranked = response["ranked"]

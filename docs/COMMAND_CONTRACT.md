@@ -221,6 +221,15 @@ Extracting that function required a narrowly scoped edit to the completed chat
 route; its original prompt, model, converted messages and SDK defaults are covered
 by a contract test. Retrieval/chunking/embedding code and configuration are unchanged.
 
+Evaluation generation requests are spaced by at least 13 seconds, including each
+HTTP attempt inside SDK retries, after an observed five-request short-window limit.
+This evaluation-only pacing is recorded and excluded from pipeline latency.
+Changing only pacing preserves valid cached responses: legacy seven-second cache
+entries are accepted only when all other model/prompt/corpus/configuration inputs
+match. Tests check the five-per-minute boundary across retries and adapters and
+verify cache reuse without weakening semantic invalidation. This does not increase
+daily quota or affect the production chat route.
+
 Task 15's database SELECT is deliberately routed through eval_db_query.py for the
 nonzero evaluation count. The original db_query.py command additionally verifies
 that the separate application database remains unchanged. No credentials or URLs

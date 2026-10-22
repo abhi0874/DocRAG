@@ -100,22 +100,32 @@ def judge(record, answer, context, supporting_docs, model, config):
         "citation_numbers_in_occurrence_order": numbers,
     }
     prompt = RUBRIC + "\nDATA:\n" + json.dumps(data, ensure_ascii=False)
-    key = sha256(
-        canonical(
-            {
-                "model": model,
-                "prompt": prompt,
-                "judge_config": JUDGE_CONFIG,
-                "run_config": config,
-            }
-        )
-    )
+    cache_config = dict(config)
+    cache_config.pop("minimum_model_interval_ms", None)
+    key_data = {
+        "model": model,
+        "prompt": prompt,
+        "judge_config": JUDGE_CONFIG,
+        "run_config": cache_config,
+    }
+    key = sha256(canonical(key_data))
     directory = ROOT / ".local/eval-cache/judge"
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"{key}.json"
-    if path.exists():
-        cached = json.loads(path.read_text())
+    legacy_data = {
+        **key_data,
+        "run_config": {**config, "minimum_model_interval_ms": 7000},
+    }
+    legacy_path = directory / f"{sha256(canonical(legacy_data))}.json"
+    read_path = path if path.exists() else legacy_path
+    if read_path.exists():
+        cached = json.loads(read_path.read_text())
         validate_judgment(cached["judgment"], numbers, len(context))
+        if read_path != path:
+            cached["cache_key"] = key
+            temporary = path.with_suffix(".tmp")
+            temporary.write_text(json.dumps(cached, ensure_ascii=False))
+            temporary.replace(path)
         return cached, True
     errors = []
     attempt_usage = []
@@ -127,7 +137,7 @@ def judge(record, answer, context, supporting_docs, model, config):
                 "prompt": prompt,
                 "judgeModel": model,
                 "config": config,
-                "modelIntervalMs": 7000,
+                "modelIntervalMs": config.get("minimum_model_interval_ms", 13000),
             }
         )
         attempt_usage.append(result["usage"])

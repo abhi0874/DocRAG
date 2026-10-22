@@ -129,7 +129,7 @@ use the SDK's two retries; Python does not multiply provider/quota retries.
 
 Per question, monotonic wall clocks measure retrieval, generation and the combined
 adapter pipeline in milliseconds. Pipeline timings exclude the separate judge,
-the seven-second minimum model-call spacing, and Python/Node process startup.
+the 13-second minimum generation-request spacing, and Python/Node process startup.
 Judge time and deliberate pacing are recorded separately. p50 and p95 use linear
 interpolation over sorted observed pipeline latencies. They are local harness
 timings, not browser latency, hosted latency, throughput, or a production SLA.
@@ -144,6 +144,12 @@ reference documents and judge settings. Ingestion caches include text, model,
 dimensions, task type, corpus hash, code and lockfile hashes. All caches are ignored.
 Runtime cache execution is sequential; simultaneous evaluator processes are not
 supported by the pacing/cache design.
+Pacing is applied to each generation HTTP attempt, including SDK retries, to
+respect the observed five-request short-window limit. The actual interval remains
+in result configuration, but scheduling alone is excluded from cache identities.
+Legacy seven-second cache keys are reused only when every other input still
+matches; stored responses and judgments are retained without new model calls.
+Changing models, prompts, evidence or scoring configuration still invalidates keys.
 
 Every result reports hit/miss counts. A cache hit's observed time is cache-read time,
 not fresh model latency. Original generation time/date and provider usage are
