@@ -71,6 +71,9 @@ original streamText call extracted without changing model, instructions, message
 conversion or SDK defaults. A contract test checks its original literal prompt
 and options. Each evaluation is a single user turn, with no conversational history.
 The adapter consumes the answer stream and its actual provider token usage.
+It also observes stream errors: underlying provider errors are reported through
+the redacted error handler instead of being masked by the SDK's generic missing
+output error. Text from a stream that emitted an error is not cached or scored.
 
 ## Retrieval metrics
 

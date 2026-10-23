@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '
 import { performance } from 'node:perf_hooks'
 import { resolve } from 'node:path'
 import { generationPacer } from './request-pacing'
+import { consumeAnswer } from './consume-answer'
 
 const input = JSON.parse(readFileSync(0, 'utf8')) as {
   action: 'answer' | 'judge'; config: Record<string, unknown>;
@@ -120,9 +121,7 @@ async function main() {
       const pacingBeforeGeneration = pacingMs
       const generationStart = performance.now()
       const stream = await startRagAnswer(messages, retrieved)
-      const text = await stream.text
-      const usage = await stream.totalUsage
-      const finishReason = await stream.finishReason
+      const {text, usage, finishReason} = await consumeAnswer(stream)
       generationMs = performance.now() - generationStart - (pacingMs - pacingBeforeGeneration)
       if (!text.trim()) throw new Error('Empty generated answer')
       answer = {text, usage, original_generation_latency_ms: generationMs,

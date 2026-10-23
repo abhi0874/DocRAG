@@ -88,6 +88,7 @@ def run(golden, output):
     evaluator_files = [
         "eval/runtime_adapter.ts",
         "eval/request-pacing.ts",
+        "eval/consume-answer.ts",
         "eval/runtime.py",
         "eval/run_eval.py",
         "eval/metrics.py",
