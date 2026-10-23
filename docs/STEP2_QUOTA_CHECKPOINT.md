@@ -1,6 +1,6 @@
 # STEP 2 — live evaluation quota checkpoint
 
-Original checkpoint: 2026-10-21. Updated: 2026-10-22 (Asia/Kolkata).
+Original checkpoint: 2026-10-21. Updated: 2026-10-23 (Asia/Kolkata).
 STEP 2 is NOT COMPLETE.
 Repository: https://github.com/abhi0874/DocRAG
 Branch: feat/production-rag. No push, PR, merge, deployment or STEP 3 work occurred.
@@ -8,7 +8,48 @@ Branch: feat/production-rag. No push, PR, merge, deployment or STEP 3 work occur
 This supersedes the pending-review status in STEP2_REVIEW_CHECKPOINT.md. That file
 is retained as the historical pre-review report. The previous-step audit passed.
 
-## Latest status after the October 22 daily reset
+## Latest status after the October 23 daily reset
+
+The evaluator has **20 of 100 complete cached answer/judgment pairs**, eleven
+more than the October 22 checkpoint. Today's first verification started after
+the published daily reset, reused the previous nine completed pairs, and reached
+fastapi-020. The next answer stream failed with the SDK's generic missing-output
+message. No partial result or baseline was written.
+
+Local commit 38de202 makes the evaluator observe the answer stream's error events
+alongside text and usage promises. It preserves the underlying provider error and
+rejects partial text from failed streams before caching or scoring. Three tests
+cover the masked error, partial output and unchanged successful output. Application
+generation, models, prompts, retrieval, scoring and semantic cache keys are unchanged.
+
+After this fix, the full A–H verification was restarted from A. All seven A–C
+commands passed with exit 0, including 26 metric tests, idempotent ingestion,
+151 evaluation chunks, 12 sources, 0 application chunks and 100 reviewed questions.
+D1 reused all twenty completed pairs, then reported the actual provider error:
+
+    AI_APICallError: You exceeded your current quota
+    generativelanguage.googleapis.com/generate_content_free_tier_requests
+    limit: 20, model: gemini-3.6-flash
+    Please retry in 22h39m39s.
+
+make eval exited 2 (underlying evaluator exit 1). The run stopped there; no
+baseline.json or latest.json exists. Independent checks passed for this code:
+make lint exit 0; make test exit 0 with 70 Python and 19 TypeScript tests
+(89 total, zero failed); make build-fe exit 0. Thus the latest ordered attempt
+passed 7/8 executed checks; including those three independent checks gives
+10/11, not a completed A–H verification. Tasks 11, 12 and 15 remain pending.
+
+Google's [rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits),
+rechecked October 23, says daily quotas reset at midnight Pacific time. The next
+published reset is **October 24, 2026, at 12:30 IST**. Availability and unused quota
+are not guaranteed. No billing, key/account rotation, model substitution, push,
+deployment or STEP 3 work occurred. Saved caches remain available for the next run.
+
+Git status/diff and credential checks passed before this checkpoint commit.
+Only .env.example is tracked; .env and .local remain ignored. The remote branch
+references were verified unchanged from the values recorded below.
+
+## October 22 daily-reset results (historical)
 
 The evaluation now has **9 of 100 complete cached answer/judgment pairs**, six
 more than at the previous checkpoint. The first full attempt started at
