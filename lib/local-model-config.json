@@ -1,0 +1,26 @@
+{
+  "provider": "ollama",
+  "baseUrl": "http://localhost:11434",
+  "chat": "qwen3.8:latest",
+  "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+  "embedding": "embeddinggemma:300m",
+  "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+  "embeddingDimensions": 768,
+  "options": {
+    "num_ctx": 32768,
+    "num_predict": 2048,
+    "temperature": 0,
+    "seed": 42,
+    "top_k": 20,
+    "top_p": 0.95,
+    "min_p": 0,
+    "repeat_penalty": 1,
+    "presence_penalty": 0
+  },
+  "think": false,
+  "keep_alive": "30m",
+  "timeout_ms": 180000,
+  "max_attempts": 3,
+  "document_prefix": "title: none | text: ",
+  "query_prefix": "task: search result | query: "
+}

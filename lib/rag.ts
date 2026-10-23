@@ -3,11 +3,13 @@ import { embed, embedMany } from 'ai'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import modelConfig from './model-config.json'
+import { providerName } from './provider-config'
+import { localEmbeddings, ollamaLanguageModel } from './ollama'
 
 // Google Gemini latest models (free tier, no credit card needed).
 // gemini-embedding-2 outputs 1536 dims to match the vector(1536) column.
 export const EMBEDDING_MODEL = google.embedding(modelConfig.embedding)
-export const CHAT_MODEL = google(modelConfig.chat)
+export const CHAT_MODEL = providerName() === 'ollama' ? ollamaLanguageModel() : google(modelConfig.chat)
 export const EMBEDDING_DIMENSIONS = modelConfig.embeddingDimensions
 
 const CHUNK_SIZE = 1000
@@ -70,6 +72,7 @@ export function chunkPages(pages: string[]): TextChunk[] {
 
 /** Batch-embed chunk contents. Order is preserved. */
 export async function embedChunks(contents: string[]): Promise<number[][]> {
+  if (providerName() === 'ollama') return (await localEmbeddings(contents, 'document')).embeddings
   const allEmbeddings: number[][] = []
   // Embed in batches to stay under provider limits
   const BATCH = 100
@@ -98,7 +101,9 @@ export async function hybridSearch(
   documentId: number,
   topK = 6,
 ): Promise<RetrievedChunk[]> {
-  const { embedding } = await embed({
+  const { embedding } = providerName() === 'ollama'
+    ? { embedding: (await localEmbeddings([query], 'query')).embeddings[0] }
+    : await embed({
     model: EMBEDDING_MODEL,
     value: query,
     providerOptions: {
