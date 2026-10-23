@@ -9,9 +9,22 @@ from eval.corpus import ROOT, evaluation_url
 
 def call_adapter(payload):
     env = os.environ.copy()
-    env["DATABASE_URL"] = evaluation_url()
+    local = payload.get("config", {}).get("provider") == "ollama"
+    env["AI_PROVIDER"] = "ollama" if local else "gemini"
+    if local:
+        from eval.local_corpus import local_url
+
+        env["OLLAMA_DATABASE_URL"] = local_url()
+        env.pop("GOOGLE_GENERATIVE_AI_API_KEY", None)
+    else:
+        env["DATABASE_URL"] = evaluation_url()
     result = subprocess.run(
-        ["node", "--import", "tsx", "eval/runtime_adapter.ts"],
+        [
+            "node",
+            "--import",
+            "tsx",
+            "eval/local_adapter.ts" if local else "eval/runtime_adapter.ts",
+        ],
         cwd=ROOT,
         input=json.dumps(payload),
         env=env,

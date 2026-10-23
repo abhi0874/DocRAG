@@ -1,5 +1,13 @@
 SHELL := /bin/sh
 PYTHON := .venv/bin/python
+ifeq ($(AI_PROVIDER),ollama)
+EVAL_LATEST := eval/results/latest-local-ollama.json
+EVAL_BASELINE := eval/results/baseline-local-ollama.json
+else
+EVAL_LATEST := eval/results/latest.json
+EVAL_BASELINE := eval/results/baseline.json
+endif
+
 export PATH := $(CURDIR)/.venv/bin:$(PATH)
 
 .PHONY: setup lint test cov build-fe run-api eval eval-gate up down stop load check-env db-query db-status
@@ -27,9 +35,9 @@ check-env:
 db-query:
 	$(PYTHON) scripts/db_query.py "SELECT extname FROM pg_extension WHERE extname = 'vector'"
 eval:
-	$(PYTHON) -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/latest.json
+	$(PYTHON) -m eval.run_eval --golden eval/golden_set.jsonl --out $(EVAL_LATEST)
 eval-gate:
-	$(PYTHON) -m eval.check_regression --baseline eval/results/baseline.json --current eval/results/latest.json
+	$(PYTHON) -m eval.check_regression --baseline $(EVAL_BASELINE) --current $(EVAL_LATEST)
 load:
 	@echo 'STEP 10 load testing is not yet implemented.' >&2
 	@exit 1
@@ -39,3 +47,11 @@ stop down:
 	$(PYTHON) scripts/native_db.py stop
 db-status:
 	$(PYTHON) scripts/native_db.py status
+
+.PHONY: local-check local-ingest local-calibrate
+local-check:
+	AI_PROVIDER=ollama $(PYTHON) -m eval.local_setup --check
+local-ingest:
+	AI_PROVIDER=ollama $(PYTHON) -m eval.local_setup --ingest
+local-calibrate:
+	AI_PROVIDER=ollama $(PYTHON) -m eval.local_calibration

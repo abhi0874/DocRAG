@@ -1,0 +1,466 @@
+[
+  {
+    "id": "fastapi-correct",
+    "category": "correct",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "It produces the Python integer 3. [1]",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "fastapi-unsupported",
+    "category": "unsupported",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "It produces the string \"three\". [1]",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "fastapi-wrong_citation",
+    "category": "wrong_citation",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "It produces the Python integer 3. [2]",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "fastapi-missing_citation",
+    "category": "missing_citation",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "It produces the Python integer 3.",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "fastapi-incorrect_refusal",
+    "category": "incorrect_refusal",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "I could not find this in the document.",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [],
+      "substantive_claims": false
+    }
+  },
+  {
+    "id": "fastapi-proper_refusal",
+    "category": "proper_refusal",
+    "question": "Which JWT signing algorithm is configured?",
+    "type": "unanswerable",
+    "reference_answer": "The excerpts do not provide this information.",
+    "answer": "I could not find this in the document.",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": false
+    }
+  },
+  {
+    "id": "fastapi-partially_correct",
+    "category": "partially_correct",
+    "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+    "type": "easy",
+    "reference_answer": "It produces the Python integer 3.",
+    "answer": "It produces an integer. [1]",
+    "context": [
+      {
+        "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      },
+      {
+        "content": "Request parameters are validated.",
+        "source_id": "fastapi.path-params",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "fastapi.path-params",
+        "text": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\".\nRequest parameters are validated."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 0.5,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "postgresql-correct",
+    "category": "correct",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "BEGIN starts the transaction and COMMIT ends it. [1]",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "postgresql-unsupported",
+    "category": "unsupported",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "START TRANSACTIONAL starts it and SAVE ends it. [1]",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "postgresql-wrong_citation",
+    "category": "wrong_citation",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "BEGIN starts the transaction and COMMIT ends it. [2]",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "postgresql-missing_citation",
+    "category": "missing_citation",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": true
+    }
+  },
+  {
+    "id": "postgresql-incorrect_refusal",
+    "category": "incorrect_refusal",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "I could not find this in the document.",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [],
+      "substantive_claims": false
+    }
+  },
+  {
+    "id": "postgresql-proper_refusal",
+    "category": "proper_refusal",
+    "question": "Which backup retention period does this page prescribe?",
+    "type": "unanswerable",
+    "reference_answer": "The excerpts do not provide this information.",
+    "answer": "I could not find this in the document.",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": false
+    }
+  },
+  {
+    "id": "postgresql-partially_correct",
+    "category": "partially_correct",
+    "question": "Which commands surround an explicit PostgreSQL transaction?",
+    "type": "easy",
+    "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+    "answer": "BEGIN starts the transaction. [1]",
+    "context": [
+      {
+        "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      },
+      {
+        "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.",
+        "source_id": "postgresql.tutorial-transactions",
+        "pageNumber": 1
+      }
+    ],
+    "supporting_docs": [
+      {
+        "source_id": "postgresql.tutorial-transactions",
+        "text": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+      }
+    ],
+    "proposed_labels": {
+      "faithfulness": 1,
+      "correctness": 0.5,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true
+    }
+  }
+]

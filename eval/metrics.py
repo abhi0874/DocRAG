@@ -113,4 +113,26 @@ def aggregate(rows):
         result[f"{kind}_tokens_per_query"] = (
             mean(tokens) if all(type(t) is int and t >= 0 for t in tokens) else None
         )
+    if all(r.get("estimated_api_cost_usd") == 0 for r in rows):
+        totals = []
+        for row in rows:
+            usages = [row["answer_usage"], row.get("embedding_usage")]
+            usages += row.get("judge_attempt_usage", [row["judge_usage"]])
+            values = [
+                u.get("totalTokens") if isinstance(u, dict) else None for u in usages
+            ]
+            if all(type(v) is int and v >= 0 for v in values):
+                totals.append(sum(values))
+        result["tokens_per_query"] = mean(totals) if len(totals) == len(rows) else None
+        result["tokens_unavailable_reason"] = (
+            None if len(totals) == len(rows) else "Some local responses omit usage."
+        )
+        result["estimated_cost_per_query_usd"] = 0
+        result["cost_unavailable_reason"] = None
+    for stage in ("retrieval", "generation"):
+        if all(f"{stage}_latency_ms" in r for r in rows):
+            for q, name in ((0.5, "p50"), (0.95, "p95")):
+                result[f"{stage}_{name}_latency_ms"] = percentile(
+                    [r[f"{stage}_latency_ms"] for r in rows], q
+                )
     return result

@@ -32,6 +32,16 @@ Schema (no extra fields):
  "citation_support": [{"occurrence": 0, "supported": true|false,
  "reason": "why the specific excerpt supports/does not support its claim"}]}
 """
+LOCAL_CLARIFICATION = """
+For the LOCAL evaluator, apply the existing rubric dimensions independently.
+Faithfulness asks whether ANY of the retrieved excerpts supports each material
+claim. Do not lower faithfulness solely because a citation number is wrong or
+missing when the claim is fully supported elsewhere in the retrieved context.
+Citation support separately tests the specifically cited excerpt. Thus an answer
+supported by excerpt 1 but citing unrelated excerpt 2 can have faithfulness 1,
+correctness 1 and citation_support false. This does not excuse unsupported claims.
+"""
+
 JUDGE_CONFIG = {
     "rubric_version": "v1",
     "output_format": "json",
@@ -81,6 +91,7 @@ def validate_judgment(value, numbers, context_count):
 
 
 def judge(record, answer, context, supporting_docs, model, config):
+    is_local = config.get("provider") == "ollama"
     numbers = citations(answer)
     data = {
         "question": record["question"],
@@ -99,17 +110,20 @@ def judge(record, answer, context, supporting_docs, model, config):
         "reference_documents": supporting_docs,
         "citation_numbers_in_occurrence_order": numbers,
     }
-    prompt = RUBRIC + "\nDATA:\n" + json.dumps(data, ensure_ascii=False)
+    rubric = RUBRIC + LOCAL_CLARIFICATION if is_local else RUBRIC
+    prompt = rubric + "\nDATA:\n" + json.dumps(data, ensure_ascii=False)
     cache_config = dict(config)
     cache_config.pop("minimum_model_interval_ms", None)
     key_data = {
         "model": model,
         "prompt": prompt,
-        "judge_config": JUDGE_CONFIG,
+        "judge_config": config["judge_options"] if is_local else JUDGE_CONFIG,
         "run_config": cache_config,
     }
     key = sha256(canonical(key_data))
-    directory = ROOT / ".local/eval-cache/judge"
+    directory = ROOT / (
+        ".local/ollama-cache/judge" if is_local else ".local/eval-cache/judge"
+    )
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"{key}.json"
     legacy_data = {
@@ -117,7 +131,7 @@ def judge(record, answer, context, supporting_docs, model, config):
         "run_config": {**config, "minimum_model_interval_ms": 7000},
     }
     legacy_path = directory / f"{sha256(canonical(legacy_data))}.json"
-    read_path = path if path.exists() else legacy_path
+    read_path = path if path.exists() or is_local else legacy_path
     if read_path.exists():
         cached = json.loads(read_path.read_text())
         validate_judgment(cached["judgment"], numbers, len(context))

@@ -22,10 +22,11 @@ from eval.metrics import (
 from eval.validate_dataset import validate
 
 
-def verify(result):
+def verify(result, allow_provisional=False):
     reviewed = validate(ROOT / "eval/golden_set.jsonl", require_review=True)
     if (
-        result["status"] != "complete"
+        result["status"]
+        not in ({"complete", "provisional"} if allow_provisional else {"complete"})
         or result["human_review"] != "confirmed"
         or result["dataset_sha256"] != reviewed["dataset_sha256"]
         or result["corpus_hash"] != load_corpus()["corpus_hash"]
@@ -33,10 +34,27 @@ def verify(result):
         or result["config_sha256"] != sha256(canonical(result["config"]))
     ):
         raise ValueError("Result provenance/status mismatch")
+    if result["config"].get("provider") == "ollama":
+        from eval.local_calibration import verify_calibration
+
+        calibration = verify_calibration(require_human=not allow_provisional)
+        if (
+            result.get("judge_calibration", {}).get("config_sha256")
+            != calibration["config_sha256"]
+        ):
+            raise ValueError("Local judge calibration provenance mismatch")
     golden = [
         json.loads(line)
         for line in (ROOT / "eval/golden_set.jsonl").read_text().splitlines()
     ]
+    mapping_file = ROOT / (
+        ".local/ollama-corpus-map.json"
+        if result["config"].get("provider") == "ollama"
+        else ".local/eval-corpus-map.json"
+    )
+    mappings = {
+        m["chunk_id"]: m for m in json.loads(mapping_file.read_text())["chunks"]
+    }
     rows = result["questions"]
     if [r["id"] for r in rows] != [r["id"] for r in golden]:
         raise ValueError("Result IDs/count do not match reviewed dataset")
@@ -50,6 +68,20 @@ def verify(result):
         ):
             if row[key] != reference[key]:
                 raise ValueError("Question labels changed")
+        ranked = row["ranked_chunks"]
+        if row["retrieved_source_ids"] != [c["source_id"] for c in ranked] or row[
+            "answer_context_count"
+        ] != min(6, len(ranked)):
+            raise ValueError("Retrieval source/context mismatch")
+        for chunk in ranked:
+            mapping = mappings[chunk["id"]]
+            if (
+                mapping["content_sha256"] != sha256(chunk["content"].encode())
+                or mapping["source_id"] != chunk["source_id"]
+                or mapping["page_number"] != chunk["pageNumber"]
+                or mapping["document_key"] != reference["document_key"]
+            ):
+                raise ValueError("Retrieved evidence provenance mismatch")
         if not isinstance(row["answer"], str) or not row["answer"].strip():
             raise ValueError("Missing generated answer")
         numbers = citations(row["answer"])
@@ -162,20 +194,26 @@ def main():
         "--current", type=Path, default=ROOT / "eval/results/latest.json"
     )
     parser.add_argument("--out", type=Path)
+    parser.add_argument(
+        "--diagnostic",
+        action="store_true",
+        help="Verify provisional measurements; never validate a baseline",
+    )
     args = parser.parse_args()
     try:
         baseline, current = [
             json.loads(p.read_text()) for p in (args.baseline, args.current)
         ]
-        verify(baseline)
-        verify(current)
-        check(baseline, current)
+        verify(baseline, allow_provisional=args.diagnostic)
+        verify(current, allow_provisional=args.diagnostic)
+        if not args.diagnostic:
+            check(baseline, current)
         if baseline["config"] != current["config"]:
             raise ValueError("Rerun configuration differs")
         if baseline["metrics"]["recall@5"] != current["metrics"]["recall@5"]:
             raise ValueError("Full-precision recall@5 differs: investigate retrieval")
         result = {
-            "status": "PASS",
+            "status": "DIAGNOSTIC ONLY" if args.diagnostic else "PASS",
             "dataset_sha256": baseline["dataset_sha256"],
             "corpus_hash": baseline["corpus_hash"],
             "first_recall@5": baseline["metrics"]["recall@5"],
@@ -184,7 +222,7 @@ def main():
             "current_sha256": sha256(args.current.read_bytes()),
             "first_cache_statistics": baseline["cache_statistics"],
             "second_cache_statistics": current["cache_statistics"],
-            "negative_gate": negative_gate(baseline),
+            "negative_gate": None if args.diagnostic else negative_gate(baseline),
             "judge_variability": "Not measured across fresh calls; cached "
             "judgments do not demonstrate model determinism.",
         }

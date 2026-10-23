@@ -5,6 +5,7 @@ import copy
 import pytest
 
 from eval.check_regression import check
+from eval.corpus import canonical, sha256
 from eval.judge import validate_judgment
 from eval.metrics import (
     citation_counts,
@@ -73,6 +74,8 @@ def test_percentiles_are_linear_interpolation():
 @pytest.fixture
 def result():
     return {
+        "config": {"provider": "test", "model": "fixed"},
+        "config_sha256": sha256(canonical({"provider": "test", "model": "fixed"})),
         "status": "complete",
         "human_review": "confirmed",
         "dataset_sha256": "a" * 64,
@@ -150,3 +153,23 @@ def test_judge_rejects_bool_score_missing_judgments_and_out_of_range():
         validate_judgment(good, [2], 1)
     with pytest.raises(ValueError):
         validate_judgment(good, [1, 2], 2)
+
+
+@pytest.mark.parametrize(
+    "mutation", ["missing", "changed", "invalid_hash", "unreviewed_judge"]
+)
+def test_config_and_judge_compatibility_fail_closed(result, mutation):
+    current = copy.deepcopy(result)
+    if mutation == "missing":
+        del current["config"]
+    elif mutation == "changed":
+        current["config"]["model"] = "another"
+        current["config_sha256"] = sha256(canonical(current["config"]))
+    elif mutation == "invalid_hash":
+        current["config_sha256"] = "0" * 64
+    else:
+        current["config"]["provider"] = "ollama"
+        current["config_sha256"] = sha256(canonical(current["config"]))
+        current["judge_calibration"] = {"human_review": "pending"}
+    with pytest.raises(ValueError):
+        check(result, current)

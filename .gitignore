@@ -31,3 +31,5 @@ loadtest/results_*
 *.tsbuildinfo
 next-env.d.ts
 .local/
+
+eval/results/latest-local-ollama.json

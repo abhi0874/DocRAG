@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "frozen_before_measurement": true,
+  "minimum_cases": 14,
+  "faithfulness_exact_agreement": 0.9,
+  "correctness_exact_agreement": 0.9,
+  "citation_support_exact_agreement": 0.95,
+  "substantive_claims_exact_agreement": 0.9,
+  "critical_categories": [
+    "unsupported",
+    "wrong_citation",
+    "incorrect_refusal",
+    "proper_refusal"
+  ],
+  "critical_cases_must_match_all_labels": true,
+  "review_status": "awaiting human review; proposed labels are AI-authored, not human labels yet"
+}

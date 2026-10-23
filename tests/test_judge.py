@@ -109,3 +109,17 @@ def test_pacing_changes_preserve_valid_judgments(tmp_path, monkeypatch, legacy):
     assert hit is True
     assert cached["judgment"] == original["judgment"]
     assert len(calls) == 1
+
+
+def test_local_judge_never_reuses_gemini_cache(tmp_path, monkeypatch):
+    monkeypatch.setattr("eval.judge.ROOT", tmp_path)
+    calls = []
+    monkeypatch.setattr("eval.judge.call_adapter", lambda p: calls.append(p) or reply())
+    args = list(inputs())
+    judge(*args)
+    args[5] = {"provider": "ollama", "judge_options": {"temperature": 0}}
+    assert judge(*args)[1] is False
+    assert judge(*args)[1] is True
+    assert len(calls) == 2
+    assert list((tmp_path / ".local/eval-cache/judge").glob("*.json"))
+    assert list((tmp_path / ".local/ollama-cache/judge").glob("*.json"))

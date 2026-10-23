@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import subprocess
 import time
 from collections import Counter
@@ -9,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from eval.corpus import CORPUS, ROOT, canonical, connect_evaluation, load_corpus, sha256
-from eval.judge import JUDGE_CONFIG, judge
+from eval.judge import JUDGE_CONFIG, LOCAL_CLARIFICATION, RUBRIC, judge
 from eval.metrics import (
     DEFINITIONS,
     aggregate,
@@ -22,7 +23,10 @@ from eval.runtime import call_adapter
 from eval.validate_dataset import validate
 
 
-def configuration():
+def configuration(provider=None):
+    provider = provider or os.environ.get("AI_PROVIDER", "gemini")
+    if provider not in ("gemini", "ollama"):
+        raise ValueError("Unknown evaluation provider")
     model = json.loads((ROOT / "lib/model-config.json").read_text())
     files = [
         "lib/rag.ts",
@@ -51,17 +55,66 @@ def configuration():
         "SQL retrieval rerun; current observed latency reported",
         "application_file_hashes": {p: sha256((ROOT / p).read_bytes()) for p in files},
     }
+    if provider == "ollama":
+        local = json.loads((ROOT / "lib/local-model-config.json").read_text())
+        config.update(
+            {
+                "provider": "ollama",
+                "embedding_model": local["embedding"],
+                "embedding_dimensions": local["embeddingDimensions"],
+                "answer_model": local["chat"],
+                "judge_model": local["chat"],
+                "local_settings": local,
+                "answer_options": local["options"],
+                "judge_options": {
+                    **local["options"],
+                    "format": "json",
+                    "think": local["think"],
+                    "rubric": "v1-local-independent-dimensions",
+                    "rubric_sha256": sha256((RUBRIC + LOCAL_CLARIFICATION).encode()),
+                },
+                "minimum_model_interval_ms": 0,
+                "cache_policy": "ollama-v1; separate local responses; SQL always rerun",
+            }
+        )
+        for path in (
+            "lib/ollama.ts",
+            "lib/provider-config.ts",
+            "lib/local-model-config.json",
+            "lib/db/index.ts",
+        ):
+            config["application_file_hashes"][path] = sha256((ROOT / path).read_bytes())
     return config
 
 
 def run(golden, output):
+    config = configuration()
+    is_local = config.get("provider") == "ollama"
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
-    # Recheck the full persisted source/chunk mapping without writing user data.
-    from scripts.ingest_corpus import main as verify_ingestion
+    config["corpus_hash"] = corpus["corpus_hash"]
+    config["dataset_sha256"] = reviewed["dataset_sha256"] if is_local else None
+    if not is_local:
+        config.pop("dataset_sha256")  # preserve the original Gemini cache inputs
+        from scripts.ingest_corpus import main as verify_ingestion
 
-    verify_ingestion()
-    local = json.loads((ROOT / ".local/eval-corpus-map.json").read_text())
+        verify_ingestion()
+        map_path = ROOT / ".local/eval-corpus-map.json"
+        connect = connect_evaluation
+    else:
+        from eval.local_calibration import verify_calibration
+        from eval.local_corpus import MAPPING, connect_local, prepare
+
+        calibration = verify_calibration(require_human=False)
+        config["calibration_cases_sha256"] = calibration["cases_sha256"]
+        config["calibration_criteria_sha256"] = calibration["criteria_sha256"]
+        metadata = call_adapter({"action": "metadata", "config": config})
+        config["ollama_version"] = metadata["version"]["version"]
+        if metadata["settings"] != config["local_settings"]:
+            raise ValueError("Environment overrides differ from fixed local benchmark")
+        prepare(config)
+        map_path, connect = MAPPING, connect_local
+    local = json.loads(map_path.read_text())
     if local["corpus_hash"] != corpus["corpus_hash"]:
         raise ValueError("Ingestion map/corpus mismatch")
     source_map = {s["source_id"]: s for s in corpus["sources"]}
@@ -69,9 +122,7 @@ def run(golden, output):
     documents = {}
     for chunk in local["chunks"]:
         documents[chunk["document_key"]] = chunk["document_id"]
-    config = configuration()
-    config["corpus_hash"] = corpus["corpus_hash"]
-    with connect_evaluation() as conn:
+    with connect() as conn:
         conn.read_only = True
         config["postgresql_version"] = conn.execute("SHOW server_version").fetchone()[0]
         config["pgvector_version"] = conn.execute(
@@ -95,6 +146,12 @@ def run(golden, output):
         "eval/judge.py",
         "eval/corpus.py",
     ]
+    if is_local:
+        evaluator_files += [
+            "eval/local_adapter.ts",
+            "eval/local_corpus.py",
+            "eval/local_calibration.py",
+        ]
     fingerprints = {p: sha256((ROOT / p).read_bytes()) for p in evaluator_files}
     rows = []
     cache_stats = Counter()
@@ -170,8 +227,8 @@ def run(golden, output):
             "answer_usage": response["answer"]["usage"],
             "judge_usage": judgment["usage"],
             "judge_attempt_usage": judgment["attempt_usage"],
-            "embedding_usage": None,
-            "estimated_api_cost_usd": None,
+            "embedding_usage": response.get("embedding_usage"),
+            "estimated_api_cost_usd": 0 if is_local else None,
             "faithfulness": scores["faithfulness"],
             "correctness": scores["correctness"],
             "judge_detail": scores,
@@ -205,7 +262,9 @@ def run(golden, output):
         )
     result = {
         "schema_version": 1,
-        "status": "complete",
+        "status": "complete"
+        if not is_local or calibration["human_review"] == "confirmed"
+        else "provisional",
         "human_review": reviewed["human_review"],
         "human_review_receipt_sha256": sha256(
             (ROOT / "eval/human_review.json").read_bytes()
@@ -231,6 +290,17 @@ def run(golden, output):
         "token_caveat": "Cached usage is the original provider usage, not newly billed "
         "tokens. Embedding usage unavailable in the installed Google SDK.",
     }
+    if is_local:
+        result["judge_calibration"] = calibration
+        result["paid_api_charges_inr"] = 0
+        result["token_caveat"] = (
+            "Provider-reported answer/judge/query embedding usage; cached usage is "
+            "historical. Document ingestion is amortized separately."
+        )
+        result["local_benchmark_disclosure"] = (
+            "Local models only. Gemini benchmark remains incomplete at 20/100 and "
+            "preserved separately."
+        )
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(".tmp")
     temporary.write_text(

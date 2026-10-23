@@ -7,6 +7,8 @@ import re
 from decimal import Decimal
 from pathlib import Path
 
+from eval.corpus import canonical, sha256
+
 
 def check(baseline, current):
     for result in (baseline, current):
@@ -21,7 +23,24 @@ def check(baseline, current):
             "metric_definitions"
         ].get("version"):
             raise ValueError("Missing metric definitions")
-    for field in ("dataset_sha256", "corpus_hash", "metric_definitions"):
+        config = result.get("config")
+        if (
+            not isinstance(config, dict)
+            or not config
+            or result.get("config_sha256") != sha256(canonical(config))
+        ):
+            raise ValueError("Missing/invalid evaluation configuration")
+        if (
+            config.get("provider") == "ollama"
+            and result.get("judge_calibration", {}).get("human_review") != "confirmed"
+        ):
+            raise ValueError("Local judge calibration is not human validated")
+    for field in (
+        "dataset_sha256",
+        "corpus_hash",
+        "metric_definitions",
+        "config_sha256",
+    ):
         if (
             field not in baseline
             or field not in current
