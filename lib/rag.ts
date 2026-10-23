@@ -3,14 +3,15 @@ import { embed, embedMany } from 'ai'
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import modelConfig from './model-config.json'
-import { providerName } from './provider-config'
+import { localSettings, providerName } from './provider-config'
 import { localEmbeddings, ollamaLanguageModel } from './ollama'
 
 // Google Gemini latest models (free tier, no credit card needed).
 // gemini-embedding-2 outputs 1536 dims to match the vector(1536) column.
 export const EMBEDDING_MODEL = google.embedding(modelConfig.embedding)
 export const CHAT_MODEL = providerName() === 'ollama' ? ollamaLanguageModel() : google(modelConfig.chat)
-export const EMBEDDING_DIMENSIONS = modelConfig.embeddingDimensions
+export const EMBEDDING_DIMENSIONS = providerName() === 'ollama'
+  ? localSettings().embeddingDimensions : modelConfig.embeddingDimensions
 
 const CHUNK_SIZE = 1000
 const CHUNK_OVERLAP = 200

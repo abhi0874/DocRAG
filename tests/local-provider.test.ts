@@ -65,3 +65,12 @@ it('a stream interrupted after partial text never finishes successfully', async 
   const read=async()=>{for(;;){const r=await reader.read();if(r.done)break}}
   await expect(read()).rejects.toThrow('Interrupted')
 })
+
+it('declares the selected vector dimension without changing Gemini defaults', async () => {
+  vi.stubEnv('AI_PROVIDER','ollama'); vi.resetModules()
+  const local = await import('../lib/db/schema')
+  expect(local.chunks.embedding.getSQLType()).toBe('vector(768)')
+  vi.stubEnv('AI_PROVIDER','gemini'); vi.resetModules()
+  const gemini = await import('../lib/db/schema')
+  expect(gemini.chunks.embedding.getSQLType()).toBe('vector(1536)')
+})

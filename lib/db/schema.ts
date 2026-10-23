@@ -1,4 +1,6 @@
 import { sql } from 'drizzle-orm'
+import { localSettings, providerName } from '../provider-config'
+import modelConfig from '../model-config.json'
 import {
   customType,
   index,
@@ -36,7 +38,8 @@ export const chunks = pgTable('chunks', {
   contentTsv: tsvector('content_tsv').generatedAlwaysAs(
     sql`to_tsvector('english', content)`,
   ),
-  embedding: vector('embedding', { dimensions: 1536 }),
+  embedding: vector('embedding', { dimensions: providerName() === 'ollama'
+    ? localSettings().embeddingDimensions : modelConfig.embeddingDimensions }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

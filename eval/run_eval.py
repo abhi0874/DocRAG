@@ -82,6 +82,7 @@ def configuration(provider=None):
             "lib/provider-config.ts",
             "lib/local-model-config.json",
             "lib/db/index.ts",
+            "lib/db/schema.ts",
         ):
             config["application_file_hashes"][path] = sha256((ROOT / path).read_bytes())
     return config
