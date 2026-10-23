@@ -189,3 +189,35 @@ Remaining limits include a small English documentation corpus, only 20 synthesiz
 multi-hop questions, no adversarial prompt-injection suite, no multi-turn benchmark,
 unversioned provider aliases, local database query plans and network variability.
 Public deployment and later improvements are outside STEP 2. Nothing is pushed.
+
+## Optional local Ollama baseline (STEP 2 FIX)
+
+The user chose a separate local benchmark to avoid additional Gemini quota usage.
+Gemini remains the production default, and its existing 20 completed pairs are
+preserved separately. `AI_PROVIDER=ollama make eval` uses the same reviewed set,
+chunk texts, retrieval function, ranking, prompt and metrics, with recorded local
+Qwen generation and EmbeddingGemma vectors. Local embeddings live in an isolated
+vector(768) database; existing vector(1536) data is never overwritten or mixed.
+
+See docs/LOCAL_OLLAMA.md and the local command-contract sequence for exact model
+digests, settings, API endpoints, human calibration requirements and uninstall
+instructions. Local output/baseline names have the `-local-ollama` suffix. The
+local runtime rejects nonloopback model requests, checks installed digests even
+on cache hits, and writes only successful complete generations to its own cache.
+
+Local judge calibration is a separate requirement from the existing dataset
+review. AI-proposed labels remain explicitly unconfirmed; only a real human
+review can establish the requested human reference. Provisional 100-question
+results are useful diagnostics but cannot pass the baseline gate or complete
+STEP 2. Never relabel them as verified quality measurements.
+
+The gate now requires identical valid configuration hashes as well as identical
+dataset, corpus and metric definitions. A deliberate future configuration change
+must establish compatibility explicitly; it cannot silently compare unrelated
+providers or models. Thresholds remain strictly greater than 0.02, at full precision.
+Local provider usage includes query embedding, answer and judge attempts where
+reported. Cached counts describe original calls, not newly consumed inference.
+Paid API inference charges are zero for this loopback-only path; electricity and
+hardware costs are not included. Timings remain observed current-run timings,
+with original generation durations separately retained. Cached repeatability is
+not fresh-generation determinism. Self-judging and the small corpus remain limits.

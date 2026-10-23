@@ -201,10 +201,13 @@ not application performance, and does not replace the full A–H sequence:
 ```sh
 python - <<'PY'
 from eval.metrics import DEFINITIONS
+from eval.corpus import canonical, sha256
 from eval.verify_results import negative_gate
 
 fixture = {
     "fixture_kind": "SYNTHETIC_ONLY_NOT_EVALUATION",
+    "config": {"provider": "synthetic", "model": "fixture"},
+    "config_sha256": sha256(canonical({"provider": "synthetic", "model": "fixture"})),
     "status": "complete",
     "human_review": "confirmed",
     "dataset_sha256": "0" * 64,
@@ -234,3 +237,61 @@ Task 15's database SELECT is deliberately routed through eval_db_query.py for th
 nonzero evaluation count. The original db_query.py command additionally verifies
 that the separate application database remains unchanged. No credentials or URLs
 are printed. No Docker, new backend, global installation or production data is used.
+
+## STEP 2 FIX: local Ollama verification
+
+The user explicitly selected a separate local baseline. Gemini's 20 cached pairs
+remain incomplete and separate. Ollama was already installed; only the missing
+embeddinggemma:300m download was approved. Do not reinstall Qwen/Ollama.
+
+These are the provider-specific adaptations to the original A–H contract. Use the
+existing repository root and `.venv`. Keep Ollama running. After a fix, restart
+this whole applicable sequence; a human-review failure remains a real blocker.
+
+```sh
+git remote -v
+git branch --show-current
+git status --short
+git log -5 --oneline
+ollama --version
+ollama list
+ollama show qwen3.8:latest
+curl --fail http://localhost:11434/api/tags
+make up
+make local-check
+make local-ingest
+make local-ingest
+python -m eval.validate_dataset --require-review
+pytest tests/test_metrics.py -q
+make local-calibrate
+# Human calibration labels are mandatory for VERIFIED baseline metrics:
+python -m eval.local_calibration --verify
+AI_PROVIDER=ollama make eval
+python -m eval.verify_results --baseline eval/results/latest-local-ollama.json --current eval/results/latest-local-ollama.json
+# Only after complete verified results, and only if no local baseline exists:
+cp eval/results/latest-local-ollama.json .local/eval-first-local.json
+cp eval/results/latest-local-ollama.json eval/results/baseline-local-ollama.json
+AI_PROVIDER=ollama make eval
+AI_PROVIDER=ollama make eval-gate
+python -m eval.verify_results --baseline eval/results/baseline-local-ollama.json --current eval/results/latest-local-ollama.json --out eval/results/reproducibility-local.json
+make lint
+make test
+make build-fe
+git diff --check
+git status --short
+git log -5 --oneline
+```
+
+Before human calibration is confirmed, local evaluation may be run independently
+for explicitly provisional diagnostics. It does not satisfy the full sequence,
+create a valid baseline, or permit STEP 3. The gate rejects provisional results.
+The 100-question dataset review is already confirmed; only the new calibration
+labels lack human validation. No AI-authored receipt may substitute for that.
+
+`make local-check` performs real local generation and embedding, checks model
+digests/settings, records dimensions and hardware/loaded models, and validates
+original source mapping. `make local-ingest` creates/verifies only the separately
+owned native local index with the actual dimensions. Both use the existing
+TypeScript runtime, not a Python search/generation implementation.
+The gate now also rejects missing/mismatched configuration hashes; unit tests
+cover both precision thresholds, missing provenance, providers and judge review.
