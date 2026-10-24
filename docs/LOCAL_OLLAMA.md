@@ -157,3 +157,15 @@ judge prompt, and preserve each previous diagnostic result.
 
 Future online deployment is outside this step. A local benchmark does not make
 the recruiter-facing application available when this Mac is offline.
+
+## Calibration diagnosis recorded during integration
+
+The initial Qwen diagnostic agreed on correctness/citations/claim flags in all 14
+cases, but faithfulness agreement was 12/14 (0.8571428571428571), below the frozen
+0.90 requirement. Both disagreements conflated a wrong citation with factual
+support from another retrieved excerpt. The local-only judge prompt now explicitly
+separates those dimensions, preserving the existing rubric. Gemini's judge prompt,
+proposed labels and acceptance thresholds are unchanged. The failed result remains
+in local-calibration-attempt1.json. The corrected diagnostic matched all 14 cases.
+The same small set was used to diagnose the prompt and retest; it is not a held-out
+accuracy estimate, and it still lacks independently established human labels.

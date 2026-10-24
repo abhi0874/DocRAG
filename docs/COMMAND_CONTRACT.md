@@ -295,3 +295,26 @@ owned native local index with the actual dimensions. Both use the existing
 TypeScript runtime, not a Python search/generation implementation.
 The gate now also rejects missing/mismatched configuration hashes; unit tests
 cover both precision thresholds, missing provenance, providers and judge review.
+
+For the explicitly provisional diagnostic path (these do not satisfy the verified
+baseline gate), preserve the first complete diagnostic result and compare it with
+the second run using the diagnostic flag:
+
+```sh
+AI_PROVIDER=ollama make eval
+# Only if this first-diagnostic file does not already exist:
+cp eval/results/latest-local-ollama.json eval/results/diagnostic-local-ollama-first.json
+python -m eval.verify_results --diagnostic --baseline eval/results/diagnostic-local-ollama-first.json --current eval/results/latest-local-ollama.json
+AI_PROVIDER=ollama make eval
+python -m eval.verify_results --diagnostic --baseline eval/results/diagnostic-local-ollama-first.json --current eval/results/latest-local-ollama.json --out eval/results/reproducibility-local-diagnostic.json
+python -m eval.preservation
+```
+
+The diagnostic verifier recomputes scores, checks source/code provenance and tests
+full-precision retrieval reproducibility. It explicitly reports DIAGNOSTIC ONLY;
+it does not grant human approval or pass the positive baseline regression gate.
+The ordinary gate must reject these provisional files with a nonzero exit code.
+Independent synthetic CLI tests exercised recall@5 and faithfulness drops of
+0.020000000001; both exited 1 with the matching Regression error. Actual outputs
+are retained in eval/results/local-negative-gate-checks.json. These synthetic
+numbers are never baseline performance measurements.
