@@ -1,0 +1,296 @@
+{
+  "status": "STEP 2 NOT COMPLETE",
+  "checks_satisfied": 25,
+  "checks_executed": 27,
+  "zero_exit_checks": 24,
+  "expected_rejection_checks": 1,
+  "blocked_checks": 2,
+  "checks": [
+    {
+      "label": "branch",
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "version",
+      "command": [
+        "ollama",
+        "--version"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "models",
+      "command": [
+        "ollama",
+        "list"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "qwen",
+      "command": [
+        "ollama",
+        "show",
+        "qwen3.8:latest"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "tags",
+      "command": [
+        "curl",
+        "--fail",
+        "--silent",
+        "--show-error",
+        "http://localhost:11434/api/tags"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "database",
+      "command": [
+        "make",
+        "up"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "local API",
+      "command": [
+        "make",
+        "local-check"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "local index",
+      "command": [
+        "make",
+        "local-ingest"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "repeat ingestion",
+      "command": [
+        "make",
+        "local-ingest"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "Gemini preservation",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.preservation"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "reviewed dataset",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.validate_dataset",
+        "--require-review"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "metric tests",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_metrics.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "calibration diagnostic",
+      "command": [
+        "make",
+        "local-calibrate"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "human calibration requirement",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.local_calibration",
+        "--verify"
+      ],
+      "exit_code": 1,
+      "outcome": "BLOCKED"
+    },
+    {
+      "label": "local evaluation 1",
+      "command": [
+        "env",
+        "AI_PROVIDER=ollama",
+        "make",
+        "eval"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "verify diagnostic 1",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.verify_results",
+        "--diagnostic",
+        "--baseline",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--current",
+        "eval/results/latest-local-ollama.json"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "local evaluation 2",
+      "command": [
+        "env",
+        "AI_PROVIDER=ollama",
+        "make",
+        "eval"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "verify diagnostic reproducibility",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.verify_results",
+        "--diagnostic",
+        "--baseline",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--current",
+        "eval/results/latest-local-ollama.json",
+        "--out",
+        "eval/results/reproducibility-local-diagnostic.json"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "local baseline gate",
+      "command": [
+        "env",
+        "AI_PROVIDER=ollama",
+        "make",
+        "eval-gate"
+      ],
+      "exit_code": 2,
+      "outcome": "BLOCKED"
+    },
+    {
+      "label": "reject provisional result",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.check_regression",
+        "--baseline",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--current",
+        "eval/results/latest-local-ollama.json"
+      ],
+      "exit_code": 1,
+      "outcome": "PASS (expected rejection)"
+    },
+    {
+      "label": "lint",
+      "command": [
+        "make",
+        "lint"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "tests",
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "build",
+      "command": [
+        "make",
+        "build-fe"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "Gemini preservation after evaluation",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.preservation"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "status",
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    },
+    {
+      "label": "history",
+      "command": [
+        "git",
+        "log",
+        "-5",
+        "--oneline"
+      ],
+      "exit_code": 0,
+      "outcome": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "fixture_kind": "SYNTHETIC_ONLY_NOT_EVALUATION",
+  "results": [
+    {
+      "metric": "recall@5",
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)"
+    },
+    {
+      "metric": "faithfulness",
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "status": "DIAGNOSTIC ONLY",
+  "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+  "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+  "first_recall@5": 0.9625,
+  "second_recall@5": 0.9625,
+  "baseline_sha256": "1debb20824d1931c881cee2bc42f71e422d11284662966a8c01a9e20a384b92d",
+  "current_sha256": "601d736430dc50d37a620c317dfb5174b5edd222b12234cb469ce001795fa136",
+  "first_cache_statistics": {
+    "embedding_hits": 16,
+    "embedding_misses": 84,
+    "answer_hits": 16,
+    "answer_misses": 84,
+    "judge_hits": 15,
+    "judge_misses": 85
+  },
+  "second_cache_statistics": {
+    "embedding_hits": 100,
+    "embedding_misses": 0,
+    "answer_hits": 100,
+    "answer_misses": 0,
+    "judge_hits": 100,
+    "judge_misses": 0
+  },
+  "negative_gate": null,
+  "judge_variability": "Not measured across fresh calls; cached judgments do not demonstrate model determinism."
+}

@@ -51,7 +51,7 @@
     "rubric_sha256": "c11f7bf979491602e9d2da1dafa2f2145b2e7f15e562172986573af1000d1918"
   },
   "config_sha256": "658999f6b2b22f8a899a594eb1a3115caa2504a0b8416e64dd33d89d7820804c",
-  "timestamp": "2026-10-23T16:06:50.174494+00:00",
+  "timestamp": "2026-10-24T11:35:55.221810+00:00",
   "case_count": 14,
   "agreement": {
     "faithfulness": 1.0,
@@ -87,7 +87,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer accurately states that the endpoint produces the Python integer 3, which is fully supported by the retrieved context. The citation [1] correctly references the excerpt that explicitly mentions the value is a Python int, not a string.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-unsupported",
@@ -115,7 +115,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer claims the output is the string \"three\", which directly contradicts the retrieved context stating the value is the Python integer 3. The reference answer confirms it should be the integer 3. Therefore, the answer is factually incorrect and unfaithful to the provided evidence.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-wrong_citation",
@@ -143,7 +143,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer is factually correct and supported by the retrieved context. Excerpt 1 explicitly states that the value is 3 as a Python int. Although the answer cites excerpt 2, which only mentions validation, the claim is fully supported by the retrieved context (excerpt 1), so faithfulness remains 1. Correctness is 1 as it matches the reference answer.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-missing_citation",
@@ -167,7 +167,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer is fully supported by the retrieved context, which explicitly states that the value is 3 as a Python int. The answer matches the reference answer exactly. There are no citations to evaluate.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-incorrect_refusal",
@@ -191,7 +191,7 @@
         "substantive_claims": true
       },
       "rationale": "The retrieved context explicitly contains the answer to the question (Excerpt 1 states the value is 3 as a Python int). The model's refusal to answer is therefore incorrect because the evidence was available. Faithfulness is 0 because a refusal is only faithful if the context lacks evidence, which is not the case here.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-proper_refusal",
@@ -215,7 +215,7 @@
         "substantive_claims": true
       },
       "rationale": "The retrieved context discusses FastAPI path parameters and request parsing but contains no information regarding JWT signing algorithms. The question is unanswerable based on the provided data. The model correctly refuses to answer by stating it could not find the information, which aligns with the reference answer. Since there are no factual claims made, faithfulness is 1. Correctness is 1 because it is an explicit refusal for an unanswerable question without inventing an answer.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "fastapi-partially_correct",
@@ -243,7 +243,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer is faithful to the retrieved context, which explicitly states that the value is a Python int. However, it is only partially correct because it omits the specific value '3' requested by the question, whereas the reference answer specifies 'the Python integer 3'.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-correct",
@@ -271,7 +271,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer accurately reflects the reference answer and is fully supported by the retrieved context. The claim that BEGIN starts and COMMIT ends a transaction is explicitly stated in excerpt 1. The citation [1] correctly points to the excerpt that supports this specific claim.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-unsupported",
@@ -299,7 +299,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer claims 'START TRANSACTIONAL' and 'SAVE' are the commands, which contradicts the retrieved context stating 'BEGIN' and 'COMMIT'. The reference answer confirms 'BEGIN' and 'COMMIT'. The citation [1] is attached to a false claim, as excerpt 1 explicitly states the correct commands are BEGIN and COMMIT.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-wrong_citation",
@@ -327,7 +327,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer accurately reflects the reference answer and is fully supported by the retrieved context. Excerpt 1 explicitly states that transactions are surrounded by BEGIN and COMMIT. Although the answer cites excerpt 2, which discusses ROLLBACK, the core factual claim is supported by the retrieved context as a whole, satisfying the faithfulness requirement. The citation itself is incorrect for the specific claim, but this does not lower faithfulness under the local evaluator rules.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-missing_citation",
@@ -351,7 +351,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer accurately reflects the reference answer and is fully supported by the retrieved context, which explicitly states that transactions are surrounded by BEGIN and COMMIT commands. Since there are no citations in the answer, the citation support list is empty.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-incorrect_refusal",
@@ -375,7 +375,7 @@
         "substantive_claims": true
       },
       "rationale": "The retrieved context explicitly states that transactions are surrounded by BEGIN and COMMIT commands. The model's refusal to answer is incorrect because the evidence is present in the context. Therefore, faithfulness is 0 (refusal despite sufficient evidence) and correctness is 0 (refusing an answerable question).",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-proper_refusal",
@@ -399,7 +399,7 @@
         "substantive_claims": true
       },
       "rationale": "The retrieved context discusses PostgreSQL transactions and does not contain information about backup retention periods. The question is unanswerable based on the provided data. The answer correctly refuses to answer by stating the information could not be found, which aligns with the reference answer. Since there are no citations in the answer, the citation support list is empty.",
-      "cache_hit": false
+      "cache_hit": true
     },
     {
       "id": "postgresql-partially_correct",
@@ -427,7 +427,7 @@
         "substantive_claims": true
       },
       "rationale": "The answer is factually supported by the retrieved context, which states that transactions are surrounded by BEGIN and COMMIT. However, it is materially incomplete because it omits COMMIT, which is explicitly mentioned in the reference answer and context as the command that ends the transaction. The citation [1] correctly supports the claim regarding BEGIN.",
-      "cache_hit": false
+      "cache_hit": true
     }
   ]
 }

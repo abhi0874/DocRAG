@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-23T16:05:41.907666+00:00",
+  "timestamp": "2026-10-24T11:35:52.683062+00:00",
   "models": {
     "models": [
       {
@@ -85,7 +85,7 @@
       "inputTokens": 22,
       "outputTokens": 6
     },
-    "latency_ms": 381.08075,
+    "latency_ms": 5996.09725,
     "finish_reason": "stop"
   },
   "embedding_dimensions": 768,
@@ -95,7 +95,7 @@
     "Mac17,8",
     "Apple M5 Pro"
   ],
-  "loaded_models": "NAME                   ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL               \nembeddinggemma:300m    85462619ee72    685 MB    100% GPU     2048       llamacpp    29 minutes from now    \nqwen3.8:latest         47951e4a6661    25 GB     100% GPU     32768      mlx         29 minutes from now    \n",
+  "loaded_models": "NAME              ID              SIZE     PROCESSOR    CONTEXT    RUNNER    UNTIL               \nqwen3.8:latest    47951e4a6661    18 GB    100% GPU     32768      mlx       29 minutes from now    \n",
   "dataset": {
     "records": 100,
     "types": {
