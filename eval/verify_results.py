@@ -34,7 +34,11 @@ def verify(result, allow_provisional=False):
         or result["config_sha256"] != sha256(canonical(result["config"]))
     ):
         raise ValueError("Result provenance/status mismatch")
-    if result["config"].get("provider") == "ollama":
+    if result.get("evaluation_validation") is not None:
+        from eval.promote_local import verify_derivation
+
+        verify_derivation(result)
+    elif result["config"].get("provider") == "ollama":
         from eval.local_calibration import verify_calibration
 
         calibration = verify_calibration(require_human=not allow_provisional)
@@ -157,11 +161,13 @@ def verify(result, allow_provisional=False):
             )
 
 
-def negative_gate(baseline):
+def negative_gate(baseline, metric="recall@5"):
+    if metric not in ("recall@5", "faithfulness"):
+        raise ValueError("Unsupported regression metric")
     synthetic_base = copy.deepcopy(baseline)
-    synthetic_base["metrics"]["recall@5"] = 0.9
+    synthetic_base["metrics"][metric] = 0.9
     degraded = copy.deepcopy(synthetic_base)
-    degraded["metrics"]["recall@5"] = 0.879999999999
+    degraded["metrics"][metric] = 0.879999999999
     with tempfile.TemporaryDirectory(prefix="docrag-regression-") as directory:
         root = Path(directory)
         (root / "base.json").write_text(json.dumps(synthetic_base))
@@ -223,6 +229,9 @@ def main():
             "first_cache_statistics": baseline["cache_statistics"],
             "second_cache_statistics": current["cache_statistics"],
             "negative_gate": None if args.diagnostic else negative_gate(baseline),
+            "negative_faithfulness_gate": None
+            if args.diagnostic
+            else negative_gate(baseline, "faithfulness"),
             "judge_variability": "Not measured across fresh calls; cached "
             "judgments do not demonstrate model determinism.",
         }

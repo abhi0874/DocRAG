@@ -395,3 +395,75 @@ is preserved under .local/fresh-calibration-internal.json with its hash committe
 before review. No expected labels are supplied there. After all human decisions,
 compare predictions against those labels under the frozen criteria and then follow
 the full verified-baseline workflow. Do not run that workflow prematurely.
+
+## Authorized automated evaluation completion (2026-10-25)
+
+The user changed the independent-label requirement and accepted the name automated
+ evaluation with accurate technical disclosure. Numeric calibration acceptance,
+metric definitions and the >0.02 regression limits are unchanged. This is a
+methodology change, not a claim of independent human validation. The recorded
+14 reference decisions were suggested by AI and checked against evidence by the
+user. The fresh blinded set remains 0/14 and is not claimed as completed review.
+
+This sequence supersedes the pending human-only completion path for the authorized
+protocol. Preserve the earlier reports. `local-calibrate-automated` judges the
+corrected 14-example packet using the existing rubric and model settings, checks
+unchanged criteria, and saves a separate report. It reuses an existing valid report
+without rewriting its identity; changed inputs fail. Do not force a failing report
+to pass. Commit validator implementation before promotion so its code hashes can
+be checked against the recorded Git revision.
+
+```sh
+git remote -v
+git branch --show-current
+git status --short
+git log -5 --oneline
+make up
+ollama --version
+ollama list
+ollama show qwen3.8:latest
+curl --fail --silent --show-error http://localhost:11434/api/tags
+make local-check
+make local-ingest
+make local-ingest
+.venv/bin/python -m eval.preservation
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m pytest tests/test_metrics.py -q
+make local-calibrate-automated
+.venv/bin/python -m eval.automated_validation --verify
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/diagnostic-local-ollama-first.json --current eval/results/diagnostic-local-ollama-second.json
+.venv/bin/python -m eval.promote_local --source eval/results/diagnostic-local-ollama-first.json --out eval/results/baseline-local-ollama.json
+.venv/bin/python -m eval.promote_local --source eval/results/diagnostic-local-ollama-second.json --out eval/results/latest-local-ollama.json
+cp eval/results/latest-local-ollama.json eval/results/validated-local-ollama-second.json
+AI_PROVIDER=ollama make eval-gate
+.venv/bin/python -m eval.verify_results --baseline eval/results/baseline-local-ollama.json --current eval/results/validated-local-ollama-second.json --out eval/results/reproducibility-local.json
+make lint
+make test
+make build-fe
+.venv/bin/python -m eval.preservation
+git diff --check
+git status --short
+git log -5 --oneline
+```
+
+Reuse the two completed full runs rather than regenerating 100 answers: their
+question rows, metrics, timings, cache counts and original Git provenance are
+preserved exactly. Promotion only adds explicit methodology/validation provenance
+and a complete-under-that-protocol status. The verifier compares the result with
+the hash-bound original artifact and rejects changed measurements. The historical
+judge_calibration field remains the original pending-human diagnostic, while the
+new evaluation_validation field records the current authorized method separately.
+The top-level human_review field still refers only to the 100-question golden set.
+
+The regression gate checks compatible evaluation and validation identities and
+retains exact decimal >0.02 limits. verify_results invokes both recall@5 and
+faithfulness negative CLI tests; each must exit 1 and report an actual Regression.
+Old provisional files without a valid protocol record still fail the gate.
+
+For future actual local runs: `AI_PROVIDER=ollama make eval`, then
+`make local-validate-results`, then `AI_PROVIDER=ollama make eval-gate`. The
+validation target retains an immutable hash-named copy of the raw run before
+attaching methodology. It never overwrites an existing baseline with a different
+run. Unchanged cached inference is reused; SQL retrieval is rerun by make eval.
+Changing the answer/judge settings or rubric requires compatible recalibration,
+not relabeling historical scores. Full human-independent validation is not claimed.

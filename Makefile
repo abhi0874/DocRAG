@@ -55,3 +55,9 @@ local-ingest:
 	AI_PROVIDER=ollama $(PYTHON) -m eval.local_setup --ingest
 local-calibrate:
 	AI_PROVIDER=ollama $(PYTHON) -m eval.local_calibration
+
+.PHONY: local-calibrate-automated local-validate-results
+local-calibrate-automated:
+	$(PYTHON) -m eval.automated_validation
+local-validate-results:
+	$(PYTHON) -m eval.promote_local --source eval/results/latest-local-ollama.json --out eval/results/latest-local-ollama.json

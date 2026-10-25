@@ -11,6 +11,7 @@ from eval.corpus import canonical, sha256
 
 
 def check(baseline, current):
+    methods = []
     for result in (baseline, current):
         if not isinstance(result, dict):
             raise ValueError("Result must be an object")
@@ -30,11 +31,19 @@ def check(baseline, current):
             or result.get("config_sha256") != sha256(canonical(config))
         ):
             raise ValueError("Missing/invalid evaluation configuration")
-        if (
+        if result.get("evaluation_validation") is not None:
+            from eval.automated_validation import verify_method
+
+            methods.append(verify_method(result))
+        elif (
             config.get("provider") == "ollama"
             and result.get("judge_calibration", {}).get("human_review") != "confirmed"
         ):
             raise ValueError("Local judge calibration is not human validated")
+        else:
+            methods.append(None)
+    if methods[0] != methods[1]:
+        raise ValueError("Incompatible evaluation validation protocols")
     for field in (
         "dataset_sha256",
         "corpus_hash",

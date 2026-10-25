@@ -1,0 +1,17 @@
+{
+  "method": "automated-evaluation-v1",
+  "authorized_date": "2026-10-25",
+  "user_request": "at the end i just want the project to work perfectly. no matter whether ai or human reviews, i want the rag system to produce correct answers only",
+  "authorization_context": "User accepted automated evaluation with accurate technical disclosure of judge model and validation limits. Independent-before-suggestions labeling is no longer a completion requirement. Numeric acceptance and regression thresholds remain unchanged.",
+  "independent_human_validation": false,
+  "label_provenance": "AI-suggested reference decisions, personally checked against evidence by the user; not independent or blind human labels.",
+  "packet_sha256": "2bae0b05351dfe98954c77d663baf7e4a48de2df556e321c196e23ed145236ad",
+  "labels_sha256": "749f083608b7066228f413e812c3bdd68aa1c2a9e21bc99ca7ca7cb63e48b17c",
+  "criteria_sha256": "d90c02b6c620e92486b92cff199e11d586b70d6ce5d13b4f61a56c22d527544e",
+  "limits": [
+    "14 simple cases over two topics; not a held-out reliability estimate.",
+    "Qwen is both answer generator and judge; shared errors/self-preference are possible.",
+    "Passing calibration or regression checks does not guarantee correct answers."
+  ],
+  "fresh_review": "Preserved separately with 0/14 labels; not used as completed human review."
+}
