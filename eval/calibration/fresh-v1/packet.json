@@ -1,0 +1,397 @@
+{
+  "version": "fresh-v1",
+  "cases": [
+    {
+      "id": "N01",
+      "question": "What are the two default values of skip and limit in this example?",
+      "answer": "The defaults are skip=0 and limit=10. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 1134,
+          "end_offset": 1203,
+          "start_line": 25,
+          "content": "In the example above they have default values of skip=0 and limit=10.",
+          "page_number": 2
+        },
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 1855,
+          "end_offset": 1940,
+          "start_line": 45,
+          "content": "In this case, the function parameter q will be optional, and will be None by default.",
+          "page_number": 2
+        }
+      ]
+    },
+    {
+      "id": "N02",
+      "question": "How does the shown rule make a query parameter required?",
+      "answer": "Give it a default value to make it required. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 3803,
+          "end_offset": 3900,
+          "start_line": 96,
+          "content": "But when you want to make a query parameter required, you can just not declare any default value:",
+          "page_number": 2
+        },
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 416,
+          "end_offset": 512,
+          "start_line": 10,
+          "content": "The query is the set of key-value pairs that go after the ? in a URL, separated by & characters.",
+          "page_number": 2
+        }
+      ]
+    },
+    {
+      "id": "N03",
+      "question": "Must you return or raise HTTPException in the described Python code?",
+      "answer": "You raise HTTPException rather than returning it. [2]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 1330,
+          "end_offset": 1397,
+          "start_line": 27,
+          "content": "Because it's a Python exception, you don't return it, you raise it.",
+          "page_number": 5
+        },
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 2731,
+          "end_offset": 2954,
+          "start_line": 50,
+          "content": "When raising an HTTPException, you can pass any value that can be converted to JSON as the parameter detail, not only str.\nYou could pass a dict, a list, etc.\nThey are handled automatically by FastAPI and converted to JSON.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N04",
+      "question": "What values can HTTPException detail accept, according to these excerpts?",
+      "answer": "It accepts JSON-convertible values, including lists, and automatically encrypts every detail value. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 2731,
+          "end_offset": 2954,
+          "start_line": 50,
+          "content": "When raising an HTTPException, you can pass any value that can be converted to JSON as the parameter detail, not only str.\nYou could pass a dict, a list, etc.\nThey are handled automatically by FastAPI and converted to JSON.",
+          "page_number": 5
+        },
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 668,
+          "end_offset": 747,
+          "start_line": 11,
+          "content": "The status codes in the 400 range mean that there was an error from the client.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N05",
+      "question": "Which comparisons can the Hash index described here handle?",
+      "answer": "Hash indexes handle range comparisons as well as equality comparisons. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 1907,
+          "end_offset": 2055,
+          "start_line": 17,
+          "content": "Hash indexes store a 32-bit hash code derived from the value of the indexed column. Hence, such indexes can only handle simple equality comparisons.",
+          "page_number": 3
+        },
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 312,
+          "end_offset": 410,
+          "start_line": 8,
+          "content": "By default, the CREATE INDEX command creates B-tree indexes, which fit the most common situations.",
+          "page_number": 3
+        }
+      ]
+    },
+    {
+      "id": "N06",
+      "question": "How much RAM, in gigabytes, must a server have to use the described indexes?",
+      "answer": "I cannot determine a RAM requirement from these excerpts.",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 1907,
+          "end_offset": 2055,
+          "start_line": 17,
+          "content": "Hash indexes store a 32-bit hash code derived from the value of the indexed column. Hence, such indexes can only handle simple equality comparisons.",
+          "page_number": 3
+        },
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 312,
+          "end_offset": 410,
+          "start_line": 8,
+          "content": "By default, the CREATE INDEX command creates B-tree indexes, which fit the most common situations.",
+          "page_number": 3
+        }
+      ]
+    },
+    {
+      "id": "N07",
+      "question": "Which index type does CREATE INDEX choose when no index type is specified?",
+      "answer": "It creates a B-tree index.",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 312,
+          "end_offset": 410,
+          "start_line": 8,
+          "content": "By default, the CREATE INDEX command creates B-tree indexes, which fit the most common situations.",
+          "page_number": 3
+        },
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 1907,
+          "end_offset": 2055,
+          "start_line": 17,
+          "content": "Hash indexes store a 32-bit hash code derived from the value of the indexed column. Hence, such indexes can only handle simple equality comparisons.",
+          "page_number": 3
+        }
+      ]
+    },
+    {
+      "id": "N08",
+      "question": "What does a status code in the 400 range indicate in the supplied text?",
+      "answer": "The supplied text does not provide enough information to answer.",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 668,
+          "end_offset": 747,
+          "start_line": 11,
+          "content": "The status codes in the 400 range mean that there was an error from the client.",
+          "page_number": 5
+        },
+        {
+          "source_id": "fastapi.handling-errors",
+          "source_file": "eval/corpus/fastapi.handling-errors.txt",
+          "source_sha256": "402bb8b2d28dd91d222af7cf5d5bc05a3d8259073441de81b37632277d5325d7",
+          "start_offset": 2731,
+          "end_offset": 2954,
+          "start_line": 50,
+          "content": "When raising an HTTPException, you can pass any value that can be converted to JSON as the parameter detail, not only str.\nYou could pass a dict, a list, etc.\nThey are handled automatically by FastAPI and converted to JSON.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N09",
+      "question": "What does an aggregate function do, according to these excerpts?",
+      "answer": "It computes one result from multiple input rows and automatically emails that result to the database administrator. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.tutorial-agg",
+          "source_file": "eval/corpus/postgresql.tutorial-agg.txt",
+          "source_sha256": "6f18e040554766fcb92357d1a65d0adcc1885f131a4adfd3bee3d9d51aff510d",
+          "start_offset": 114,
+          "end_offset": 186,
+          "start_line": 2,
+          "content": "An aggregate function computes a single result from multiple input rows.",
+          "page_number": 5
+        },
+        {
+          "source_id": "postgresql.tutorial-agg",
+          "source_file": "eval/corpus/postgresql.tutorial-agg.txt",
+          "source_sha256": "6f18e040554766fcb92357d1a65d0adcc1885f131a4adfd3bee3d9d51aff510d",
+          "start_offset": 3704,
+          "end_offset": 3839,
+          "start_line": 59,
+          "content": "FILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N10",
+      "question": "What kinds of queries can the described B-tree handle?",
+      "answer": "It can handle equality and range queries. [2]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.indexes-types",
+          "source_file": "eval/corpus/postgresql.indexes-types.txt",
+          "source_sha256": "08257acb7e9bb5fbcd0f273d4afd43184be195da8f1eded6da24a8c040038805",
+          "start_offset": 610,
+          "end_offset": 702,
+          "start_line": 11,
+          "content": "B-trees can handle equality and range queries on data that can be sorted into some ordering.",
+          "page_number": 3
+        },
+        {
+          "source_id": "postgresql.tutorial-agg",
+          "source_file": "eval/corpus/postgresql.tutorial-agg.txt",
+          "source_sha256": "6f18e040554766fcb92357d1a65d0adcc1885f131a4adfd3bee3d9d51aff510d",
+          "start_offset": 114,
+          "end_offset": 186,
+          "start_line": 2,
+          "content": "An aggregate function computes a single result from multiple input rows.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N11",
+      "question": "What column limit is given, and do INCLUDE columns count toward it?",
+      "answer": "The stated limit is 32 columns. [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.indexes-multicolumn",
+          "source_file": "eval/corpus/postgresql.indexes-multicolumn.txt",
+          "source_sha256": "c07a689ee819a367ec11b5b84fee81a53ec4e244ac8a55c987ffdcf7b15e9c8a",
+          "start_offset": 708,
+          "end_offset": 856,
+          "start_line": 12,
+          "content": "Indexes can have up to 32 columns, including INCLUDE columns. (This limit can be altered when building PostgreSQL; see the file pg_config_manual.h.)",
+          "page_number": 4
+        },
+        {
+          "source_id": "postgresql.indexes-multicolumn",
+          "source_file": "eval/corpus/postgresql.indexes-multicolumn.txt",
+          "source_sha256": "c07a689ee819a367ec11b5b84fee81a53ec4e244ac8a55c987ffdcf7b15e9c8a",
+          "start_offset": 28,
+          "end_offset": 87,
+          "start_line": 2,
+          "content": "An index can be defined on more than one column of a table.",
+          "page_number": 4
+        }
+      ]
+    },
+    {
+      "id": "N12",
+      "question": "Does FILTER remove rows from every aggregate, or only from its attached aggregate?",
+      "answer": "I could not find an answer in the supplied excerpts.",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "postgresql.tutorial-agg",
+          "source_file": "eval/corpus/postgresql.tutorial-agg.txt",
+          "source_sha256": "6f18e040554766fcb92357d1a65d0adcc1885f131a4adfd3bee3d9d51aff510d",
+          "start_offset": 3704,
+          "end_offset": 3839,
+          "start_line": 59,
+          "content": "FILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to.",
+          "page_number": 5
+        },
+        {
+          "source_id": "postgresql.tutorial-agg",
+          "source_file": "eval/corpus/postgresql.tutorial-agg.txt",
+          "source_sha256": "6f18e040554766fcb92357d1a65d0adcc1885f131a4adfd3bee3d9d51aff510d",
+          "start_offset": 114,
+          "end_offset": 186,
+          "start_line": 2,
+          "content": "An aggregate function computes a single result from multiple input rows.",
+          "page_number": 5
+        }
+      ]
+    },
+    {
+      "id": "N13",
+      "question": "Where do query key-value pairs begin in a URL, and what character separates them?",
+      "answer": "They begin after the question mark (?). [1]",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 416,
+          "end_offset": 512,
+          "start_line": 10,
+          "content": "The query is the set of key-value pairs that go after the ? in a URL, separated by & characters.",
+          "page_number": 2
+        },
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 1134,
+          "end_offset": 1203,
+          "start_line": 25,
+          "content": "In the example above they have default values of skip=0 and limit=10.",
+          "page_number": 2
+        }
+      ]
+    },
+    {
+      "id": "N14",
+      "question": "How many requests per minute does the described API allow?",
+      "answer": "The provided excerpts do not state a requests-per-minute limit.",
+      "answer_origin": "New controlled assistant-authored calibration fixture, not a benchmark generation",
+      "retrieved_evidence": [
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 416,
+          "end_offset": 512,
+          "start_line": 10,
+          "content": "The query is the set of key-value pairs that go after the ? in a URL, separated by & characters.",
+          "page_number": 2
+        },
+        {
+          "source_id": "fastapi.query-params",
+          "source_file": "eval/corpus/fastapi.query-params.txt",
+          "source_sha256": "8644e0f71df2b06d90de4db39bb531fc8e575ea28a38038cf2ab75284575c228",
+          "start_offset": 1134,
+          "end_offset": 1203,
+          "start_line": 25,
+          "content": "In the example above they have default values of skip=0 and limit=10.",
+          "page_number": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "packet_sha256": "7c8912604dbc64c8850c1d621fb781eefa2b5fa4817552f759ed0473e7e6fd7c",
+  "status": "awaiting independent human decisions",
+  "cases": [
+    {
+      "id": "N01",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N02",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N03",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N04",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N05",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N06",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N07",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N08",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N09",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N10",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N11",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N12",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N13",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    },
+    {
+      "id": "N14",
+      "faithfulness": null,
+      "correctness": null,
+      "citation_support": null,
+      "substantive_claims": null,
+      "refusal_behavior": null,
+      "reason": null,
+      "user_message": null
+    }
+  ]
+}

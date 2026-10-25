@@ -1,0 +1,15 @@
+{
+  "version": "fresh-v1",
+  "created_date": "2026-10-25",
+  "packet_sha256": "7c8912604dbc64c8850c1d621fb781eefa2b5fa4817552f759ed0473e7e6fd7c",
+  "acceptance_sha256": "80ffb10dcc12efdcf699ca1e086707928b61eb356e0f66f6c9805b4ceaa9ddd4",
+  "rubric_sha256": "c11f7bf979491602e9d2da1dafa2f2145b2e7f15e562172986573af1000d1918",
+  "withheld_metadata_sha256": "331746d0044b9fb59693e6e1b401d31f8eb3af4ec9013a1e9090c5f05ae69be3",
+  "withheld_metadata_location": ".local/fresh-calibration-internal.json",
+  "withheld_metadata_contents": "Predeclared category/type/reference answer only; no expected human labels or automated predictions. Do not reveal until review is complete.",
+  "criterion_origin": "Existing acceptance thresholds and critical-category requirements copied unchanged; contradictions belong to the existing unsupported critical category.",
+  "case_count": 14,
+  "presentation": "One neutral case at a time; random order fixed before review.",
+  "model_predictions_computed": false,
+  "prior_review": "Earlier AI-assisted submission preserved separately; no labels transferred."
+}

@@ -358,3 +358,40 @@ both sets and bind actual review evidence to the packet hash. Prior exposure to
 proposed labels must be disclosed; the original 14 cases alone cannot establish
 broad held-out judge reliability. Do not fabricate a review receipt or merely flip
 result status. The original full verified sequence remains required after review.
+
+## Fresh independent review checkpoint (2026-10-25)
+
+The user requested 14 new cases after disclosing AI suggestions for the previous
+submission. Preserve that submission as AI-assisted; do not reuse its labels.
+Run the following checkpoint sequence from the repository root. It performs no
+answer-generation or judge calls. If a technical fix is needed, restart the list.
+
+```sh
+git remote -v
+git branch --show-current
+git status --short
+git log -5 --oneline
+make up
+ollama --version
+ollama list
+curl --fail --silent --show-error http://localhost:11434/api/tags
+.venv/bin/python -m eval.preservation
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/diagnostic-local-ollama-first.json --current eval/results/diagnostic-local-ollama-second.json
+.venv/bin/python -m eval.fresh_review
+make lint
+make test
+make build-fe
+git diff --check
+```
+
+Then `.venv/bin/python -m eval.fresh_review --show-next` displays only the next
+pending neutral case, never categories/reference answers or predictions. Present
+that case to the user, record actual decisions, and stop for input. Partial entries
+remain pending. The read-only checker verifies source offsets/hashes and frozen
+packet/rubric/criteria; it never performs inference or grants human approval.
+
+Fresh files are in eval/calibration/fresh-v1. Withheld category/reference metadata
+is preserved under .local/fresh-calibration-internal.json with its hash committed
+before review. No expected labels are supplied there. After all human decisions,
+compare predictions against those labels under the frozen criteria and then follow
+the full verified-baseline workflow. Do not run that workflow prematurely.

@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-25",
+  "status": "STEP 2 NOT COMPLETE; awaiting fresh independent human labels",
+  "human_reviewed_cases": 0,
+  "new_case_count": 14,
+  "tests_passed": 120,
+  "tests_failed": 0,
+  "model_calls_performed": 0,
+  "judge_agreement": null,
+  "calibration_acceptance": "NOT_MEASURED",
+  "verified_baseline_created": false,
+  "positive_regression_gate": "PENDING_HUMAN_CALIBRATION",
+  "checks": [
+    {
+      "command": [
+        "git",
+        "remote",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "log",
+        "-5",
+        "--oneline"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "up"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ollama",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ollama",
+        "list"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "curl",
+        "--fail",
+        "--silent",
+        "--show-error",
+        "http://localhost:11434/api/tags"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.preservation"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.verify_results",
+        "--diagnostic",
+        "--baseline",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--current",
+        "eval/results/diagnostic-local-ollama-second.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.fresh_review"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "lint"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "build-fe"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "prior_evaluations": "Both 100-question runs verified unchanged; exact Recall@5 0.9625",
+  "gemini_preservation": "20/20 pairs and 151 vectors unchanged",
+  "fixes": "Preparation helper import path resolved before validation; one line-length lint error corrected, full checkpoint list restarted and passed."
+}
