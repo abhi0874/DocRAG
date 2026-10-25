@@ -61,7 +61,10 @@ Earlier in this turn the preservation check failed because native PostgreSQL was
 stopped (connection refused). Starting the existing owned server with make up
 resolved it; no database was deleted or reinstalled. A line-length lint error in
 new review_packet.py was corrected. The entire checkpoint list was restarted after
-that fix and passed. The nonfatal Node module.register deprecation warning remains.
+that fix and passed. A staged diff check subsequently detected an extra blank line at the end of the
+new review file. It was removed, the template hash updated, and the complete
+checkpoint sequence rerun. No label fields or evidence were changed.
+The nonfatal Node module.register deprecation warning remains.
 The positive baseline gate was not run at this mandatory human checkpoint; no
 verified baseline exists. Prior negative-gate evidence remains preserved.
 

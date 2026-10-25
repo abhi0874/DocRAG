@@ -74,5 +74,5 @@
     }
   ],
   "change": "FastAPI evidence [2] replaced a paraphrase with an exact sentence from the same saved source. Historical calibration and 100-question outputs remain unchanged. All 14 cases require human labels for this packet; affected calibration predictions must be recalculated before acceptance. Neutral IDs/order hide semantic case categories.",
-  "review_template_sha256": "fe7df47c500e29a5184b81c6db5c730b8302942cff05cc89609964d41cb67241"
+  "review_template_sha256": "69481042d4515d5056e762e604de1bf9d82561313bc5f3207d950ab489bb7c20"
 }
