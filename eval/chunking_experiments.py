@@ -89,7 +89,12 @@ def config_for(name):
 def expected_chunks(name):
     manifest = load_corpus()
     output = []
-    for document_id, key in enumerate(("fastapi", "postgresql"), 1):
+    original_mapping = json.loads((ROOT / ".local/ollama-corpus-map.json").read_text())
+    document_ids = {
+        c["document_key"]: c["document_id"] for c in original_mapping["chunks"]
+    }
+    for key in ("fastapi", "postgresql"):
+        document_id = document_ids[key]
         sources = [s for s in manifest["sources"] if s["document_key"] == key]
         payload = {
             "pages": [(CORPUS / s["text_file"]).read_text() for s in sources],
@@ -350,7 +355,11 @@ def retrieve(name, records, label):
             {
                 "action": "retrieve",
                 "question": record["question"],
-                "documentId": 1 if record["document_key"] == "fastapi" else 2,
+                "documentId": next(
+                    c["document_id"]
+                    for c in mapping["chunks"]
+                    if c["document_key"] == record["document_key"]
+                ),
                 "config": config,
             }
         )
