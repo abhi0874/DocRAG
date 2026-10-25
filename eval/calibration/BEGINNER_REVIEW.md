@@ -1,37 +1,40 @@
-# A simple way to review the judge examples
+# Start your independent calibration review here
 
-You do not need to know FastAPI, PostgreSQL or machine learning to check these
-examples. Read the two short pieces of evidence, then compare each answer with
-what the evidence says. The complete exact excerpts are in REVIEW.md.
+Open HUMAN_REVIEW.md in this folder. It contains all 14 questions, the exact saved
+calibration answers, numbered source excerpts, reference answers, and blank fields.
+The examples are controlled test fixtures, not claimed to be Qwen-generated answers.
+No knowledge of machine learning is required: compare each answer with its evidence.
 
-Evidence A says that the `/items/3` example produces the Python integer `3`,
-not the text string `"3"`. Another excerpt says parameters are validated.
+In TextEdit, choose File > Open, press Cmd+Shift+G, and enter:
+/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/eval/calibration/HUMAN_REVIEW.md
+Then click Open. Alternatively, click the HUMAN_REVIEW.md link in this chat.
 
-Evidence B says that `BEGIN` and `COMMIT` surround a PostgreSQL transaction.
-Another excerpt explains that `ROLLBACK` cancels changes instead of committing.
+1. Read the short scoring instructions at the top.
+2. For R01 through R14, replace the six blank fields with your own decisions:
+   F (faithfulness), C (correctness), citation support, substantive claims,
+   refusal behavior and a short reason. Allowed values are explained in the file.
+3. Fill in reviewer name, date and whether you previously saw suggested labels.
+4. Save with Cmd+S, then reply "Review file saved". The assistant will validate
+   your entries and ask about unfinished or ambiguous entries before recording review.
 
-For each topic, the seven examples ask the following checks:
+You can stop partway and save. Leave unfinished fields blank or write `unsure`;
+that preserves progress without treating uncertainty as approval. You may instead
+send your decisions in chat, using R01–R14 and the same field names. Do not merely
+say you agree with the plan; the actual case decisions are needed.
 
-1. Correct answer: Does it say the same thing as the evidence? Proposed: yes.
-2. Unsupported answer: Does the evidence support “string three” or the invented
-   transaction commands “START TRANSACTIONAL” and “SAVE”? Proposed: no.
-3. Wrong citation: The answer is correct, but points to excerpt [2], which lacks
-   the complete answer. Proposed: the factual answer is supported somewhere in
-   the evidence, but that particular citation is wrong.
-4. Missing citation: The answer is correct but gives no bracketed reference.
-   Proposed: the factual answer is correct; citation coverage is missing.
-5. Incorrect refusal: The model says it cannot find an answer that is plainly in
-   excerpt [1]. Proposed: this refusal is wrong.
-6. Proper refusal: The question asks about JWT signing or backup retention,
-   neither of which appears in these excerpts. Proposed: refusing is appropriate.
-7. Partial answer: It gives the integer type but omits the value 3, or names BEGIN
-   but omits COMMIT. Proposed: what it says is supported, but the answer is incomplete.
+Do not open the old REVIEW.md, cases.json, review-packet-map.json or previous
+calibration results before recording your labels: they reveal proposed judgments.
+The former version of this guide revealed proposals too. If you already saw any,
+mark the exposure field honestly; a new file cannot erase that exposure.
 
-These are proposed judgments prepared by the assistant. They do not become human
-judgments merely because a model agrees with them. If you understand and agree
-with these checks for all 14 entries in REVIEW.md, you can explicitly confirm
-that review. If anything is confusing or appears wrong, identify that example;
-there is no need to guess or agree automatically.
+Common problems:
+- File appears read-only: open it in TextEdit using the exact path above; if macOS
+  reports a permission error, tell the assistant the message. Do not create a second
+  file with a different name without saying so.
+- Unsure about a score: write `unsure` and a short question in Reason. Do not guess.
+- No citations: type `none` in Citation support. Do not invent a yes/no occurrence.
+- Saving offers .txt or rich text: keep the existing .md filename and plain text.
 
-Your earlier review of the 100 benchmark questions remains valid. This review is
-only for the separate 14-example test of the automated answer scorer.
+Success means your own six fields are saved for every case and no question or
+evidence text changed. This file check is not automatic approval of the judge.
+The existing 100-question golden-dataset review remains valid and need not be repeated.

@@ -1,0 +1,469 @@
+{
+  "version": 2,
+  "cases": [
+    {
+      "review_id": "R01",
+      "question": "Which JWT signing algorithm is configured?",
+      "answer": "I could not find this in the document.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "The excerpts do not provide this information.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R02",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "It produces the Python integer 3. [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    },
+    {
+      "review_id": "R03",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "I could not find this in the document.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R04",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "START TRANSACTIONAL starts it and SAVE ends it. [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    },
+    {
+      "review_id": "R05",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "It produces the Python integer 3. [2]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        2
+      ]
+    },
+    {
+      "review_id": "R06",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R07",
+      "question": "Which backup retention period does this page prescribe?",
+      "answer": "I could not find this in the document.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "The excerpts do not provide this information.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R08",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "It produces the string \"three\". [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    },
+    {
+      "review_id": "R09",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "BEGIN starts the transaction and COMMIT ends it. [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    },
+    {
+      "review_id": "R10",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "BEGIN starts the transaction and COMMIT ends it. [2]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        2
+      ]
+    },
+    {
+      "review_id": "R11",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "I could not find this in the document.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R12",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "It produces the Python integer 3.",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": []
+    },
+    {
+      "review_id": "R13",
+      "question": "Which commands surround an explicit PostgreSQL transaction?",
+      "answer": "BEGIN starts the transaction. [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "BEGIN starts the transaction and COMMIT ends it.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 15,
+          "end_line": 15,
+          "content": "In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:"
+        },
+        {
+          "number": 2,
+          "source_id": "postgresql.tutorial-transactions",
+          "source_file": "eval/corpus/postgresql.tutorial-transactions.txt",
+          "source_sha256": "9a4d6260a6e3dc68a0f1a81b6ce41d0c7f81a2e5c32ae819b1ebf47c74afa928",
+          "start_line": 21,
+          "end_line": 21,
+          "content": "If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    },
+    {
+      "review_id": "R14",
+      "question": "When item_id is declared as int, what type and value does /items/3 produce?",
+      "answer": "It produces an integer. [1]",
+      "answer_origin": "Saved assistant-authored calibration fixture; not a Qwen benchmark generation",
+      "reference_answer": "It produces the Python integer 3.",
+      "retrieved_evidence": [
+        {
+          "number": 1,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 24,
+          "end_line": 28,
+          "content": "If you run this example and open your browser at http://127.0.0.1:8000/items/3, you will see a response of:\n{\"item_id\":3}\nTip\nNotice that the value your function received (and returned) is 3, as a Python int, not a string \"3\".\nSo, with that type declaration, FastAPI gives you automatic request \"parsing\"."
+        },
+        {
+          "number": 2,
+          "source_id": "fastapi.path-params",
+          "source_file": "eval/corpus/fastapi.path-params.txt",
+          "source_sha256": "d275f5edf5ad427ed4e90e4ffb9b7cbd3e5bdec14643397c49593136998d74c1",
+          "start_line": 47,
+          "end_line": 47,
+          "content": "So, with the same Python type declaration, FastAPI gives you data validation."
+        }
+      ],
+      "reference_evidence_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers": [
+        1
+      ]
+    }
+  ]
+}

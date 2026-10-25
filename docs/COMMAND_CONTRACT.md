@@ -318,3 +318,43 @@ Independent synthetic CLI tests exercised recall@5 and faithfulness drops of
 0.020000000001; both exited 1 with the matching Regression error. Actual outputs
 are retained in eval/results/local-negative-gate-checks.json. These synthetic
 numbers are never baseline performance measurements.
+
+## Final STEP 2 human-review checkpoint (2026-10-25)
+
+Stop at the actual human review before baseline promotion. Do not rerun 100 answer
+calls for this checkpoint. Start the existing native server with `make up` if the
+preservation check reports connection refused, then restart this checkpoint list:
+
+```sh
+git remote -v
+git branch --show-current
+git status --short
+git log -5 --oneline
+make up
+ollama list
+curl --fail --silent --show-error http://localhost:11434/api/tags
+.venv/bin/python -m eval.preservation
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/diagnostic-local-ollama-first.json --current eval/results/diagnostic-local-ollama-second.json
+.venv/bin/python -m eval.review_packet
+make lint
+make test
+make build-fe
+git diff --check
+```
+
+`eval.review_packet` checks all 28 exact excerpts against saved source hashes/line
+ranges, protects the packet content, and identifies missing/invalid human entries.
+It never writes a human-review receipt or approves labels. Partial valid entries
+remain pending; invalid entries fail. HUMAN_REVIEW.md uses neutral shuffled IDs
+and no AI labels. The internal mapping preserves the original 14 case identities.
+One FastAPI paraphrase was replaced in this new packet with an exact source sentence;
+historical cases/results remain unchanged. The new packet therefore needs matching
+judge predictions after real human review; old agreement is not its validation.
+
+After human entries arrive, compare against those independent labels rather than
+rubber-stamping `proposed_labels`. The current legacy calibration tool still reads
+proposed labels and must be adapted before it can certify this new packet. Preserve
+both sets and bind actual review evidence to the packet hash. Prior exposure to
+proposed labels must be disclosed; the original 14 cases alone cannot establish
+broad held-out judge reliability. Do not fabricate a review receipt or merely flip
+result status. The original full verified sequence remains required after review.

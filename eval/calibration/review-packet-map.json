@@ -1,0 +1,78 @@
+{
+  "historical_cases_sha256": "a9becb9842c4fba0ae9a2ca267d376fbb18b13024297bdcd6d8008a7dfc851a6",
+  "packet_sha256": "2bae0b05351dfe98954c77d663baf7e4a48de2df556e321c196e23ed145236ad",
+  "mapping": [
+    {
+      "review_id": "R01",
+      "original_case_id": "fastapi-proper_refusal",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R02",
+      "original_case_id": "fastapi-correct",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R03",
+      "original_case_id": "fastapi-incorrect_refusal",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R04",
+      "original_case_id": "postgresql-unsupported",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R05",
+      "original_case_id": "fastapi-wrong_citation",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R06",
+      "original_case_id": "postgresql-missing_citation",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R07",
+      "original_case_id": "postgresql-proper_refusal",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R08",
+      "original_case_id": "fastapi-unsupported",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R09",
+      "original_case_id": "postgresql-correct",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R10",
+      "original_case_id": "postgresql-wrong_citation",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R11",
+      "original_case_id": "postgresql-incorrect_refusal",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R12",
+      "original_case_id": "fastapi-missing_citation",
+      "evidence_changed": true
+    },
+    {
+      "review_id": "R13",
+      "original_case_id": "postgresql-partially_correct",
+      "evidence_changed": false
+    },
+    {
+      "review_id": "R14",
+      "original_case_id": "fastapi-partially_correct",
+      "evidence_changed": true
+    }
+  ],
+  "change": "FastAPI evidence [2] replaced a paraphrase with an exact sentence from the same saved source. Historical calibration and 100-question outputs remain unchanged. All 14 cases require human labels for this packet; affected calibration predictions must be recalculated before acceptance. Neutral IDs/order hide semantic case categories.",
+  "review_template_sha256": "fe7df47c500e29a5184b81c6db5c730b8302942cff05cc89609964d41cb67241"
+}
