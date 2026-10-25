@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+  "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+  "first_recall@5": 0.9625,
+  "second_recall@5": 0.9625,
+  "baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
+  "current_sha256": "30e03efd105ea6fa7513c292287984dcc46c68f3c740c97dafc535cff73d43ee",
+  "first_cache_statistics": {
+    "embedding_hits": 16,
+    "embedding_misses": 84,
+    "answer_hits": 16,
+    "answer_misses": 84,
+    "judge_hits": 15,
+    "judge_misses": 85
+  },
+  "second_cache_statistics": {
+    "embedding_hits": 100,
+    "embedding_misses": 0,
+    "answer_hits": 100,
+    "answer_misses": 0,
+    "judge_hits": 100,
+    "judge_misses": 0
+  },
+  "negative_gate": {
+    "exit_code": 1,
+    "message": "Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)"
+  },
+  "negative_faithfulness_gate": {
+    "exit_code": 1,
+    "message": "Regression gate failed: Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+  },
+  "judge_variability": "Not measured across fresh calls; cached judgments do not demonstrate model determinism."
+}

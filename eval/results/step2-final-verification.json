@@ -1,0 +1,297 @@
+{
+  "status": "PASS under authorized automated evaluation protocol",
+  "date": "2026-10-25",
+  "method": "automated-evaluation-v1",
+  "independent_human_validation": false,
+  "baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
+  "second_result_sha256": "30e03efd105ea6fa7513c292287984dcc46c68f3c740c97dafc535cff73d43ee",
+  "checks_passed": 30,
+  "checks_executed": 30,
+  "checks": [
+    {
+      "command": [
+        "git",
+        "remote",
+        "-v"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "log",
+        "-5",
+        "--oneline"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "up"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ollama",
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ollama",
+        "list"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "ollama",
+        "show",
+        "qwen3.8:latest"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "curl",
+        "--fail",
+        "--silent",
+        "--show-error",
+        "http://localhost:11434/api/tags"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "local-check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "local-ingest"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "local-ingest"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.preservation"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.validate_dataset",
+        "--require-review"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_metrics.py",
+        "-q"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "local-calibrate-automated"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.automated_validation",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.verify_results",
+        "--diagnostic",
+        "--baseline",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--current",
+        "eval/results/diagnostic-local-ollama-second.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.promote_local",
+        "--source",
+        "eval/results/diagnostic-local-ollama-first.json",
+        "--out",
+        "eval/results/baseline-local-ollama.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.promote_local",
+        "--source",
+        "eval/results/diagnostic-local-ollama-second.json",
+        "--out",
+        "eval/results/latest-local-ollama.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "cp",
+        "eval/results/latest-local-ollama.json",
+        "eval/results/validated-local-ollama-second.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "env",
+        "AI_PROVIDER=ollama",
+        "make",
+        "eval-gate"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.verify_results",
+        "--baseline",
+        "eval/results/baseline-local-ollama.json",
+        "--current",
+        "eval/results/validated-local-ollama-second.json",
+        "--out",
+        "eval/results/reproducibility-local.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "lint"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "test"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "make",
+        "build-fe"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.preservation"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "log",
+        "-5",
+        "--oneline"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "tests_passed": 127,
+  "tests_failed": 0,
+  "negative_regression_checks": {
+    "recall@5": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)"
+    },
+    "faithfulness": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+    }
+  },
+  "calibration_cases": 14,
+  "calibration_agreement": {
+    "faithfulness": 1.0,
+    "correctness": 1.0,
+    "citation_support": 1.0,
+    "substantive_claims": 1.0
+  },
+  "calibration_disagreements": [],
+  "false_positive_citation_labels_against_references": 0,
+  "false_negative_citation_labels_against_references": 0,
+  "gemini_preserved": 20,
+  "paid_api_charges_inr": 0,
+  "new_full_benchmark_generations": 0,
+  "new_calibration_judgments": 14,
+  "statement": "Completion is of STEP 2 under the revised method, not a guarantee that all RAG answers are correct."
+}

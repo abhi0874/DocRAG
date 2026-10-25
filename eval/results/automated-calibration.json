@@ -1,0 +1,319 @@
+{
+  "method": "automated-evaluation-v1",
+  "independent_human_validation": false,
+  "label_provenance": "AI-suggested reference decisions, personally checked against evidence by the user; not independent or blind human labels.",
+  "limits": [
+    "14 simple cases over two topics; not a held-out reliability estimate.",
+    "Qwen is both answer generator and judge; shared errors/self-preference are possible.",
+    "Passing calibration or regression checks does not guarantee correct answers."
+  ],
+  "config": {
+    "provider": "ollama",
+    "purpose": "automated-evaluation-v1",
+    "local_settings": {
+      "provider": "ollama",
+      "baseUrl": "http://localhost:11434",
+      "chat": "qwen3.8:latest",
+      "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+      "embedding": "embeddinggemma:300m",
+      "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+      "embeddingDimensions": 768,
+      "options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0
+      },
+      "think": false,
+      "keep_alive": "30m",
+      "timeout_ms": 180000,
+      "max_attempts": 3,
+      "document_prefix": "title: none | text: ",
+      "query_prefix": "task: search result | query: "
+    },
+    "judge_options": {
+      "num_ctx": 32768,
+      "num_predict": 2048,
+      "temperature": 0,
+      "seed": 42,
+      "top_k": 20,
+      "top_p": 0.95,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "presence_penalty": 0,
+      "format": "json",
+      "think": false,
+      "rubric": "v1"
+    },
+    "rubric_sha256": "c11f7bf979491602e9d2da1dafa2f2145b2e7f15e562172986573af1000d1918",
+    "protocol_sha256": "5d357f7b64e890221cadc4772dcb6cb24fa5dcf9604e66fd08f5a0aca4f9e7b5",
+    "packet_sha256": "2bae0b05351dfe98954c77d663baf7e4a48de2df556e321c196e23ed145236ad",
+    "labels_sha256": "749f083608b7066228f413e812c3bdd68aa1c2a9e21bc99ca7ca7cb63e48b17c",
+    "criteria_sha256": "d90c02b6c620e92486b92cff199e11d586b70d6ce5d13b4f61a56c22d527544e"
+  },
+  "config_sha256": "af01de3c75ba9a4c100086fcbf68ca31b1b5eaa132cb7f0d72209055b8295c6f",
+  "measured_at": "2026-10-25T18:13:54.007006+00:00",
+  "case_count": 14,
+  "cases": [
+    {
+      "id": "R01",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The retrieved context discusses FastAPI path parameters and data validation, containing no information about JWT signing algorithms. The question is unanswerable based on the provided data. The answer correctly refuses to answer by stating the information could not be found, which aligns with the reference answer. Since there are no citations in the answer, the citation support list is empty.",
+        "substantive_claims": false,
+        "citation_support": []
+      },
+      "cache_key": "d8ee0b4f870273d61995d90821ea98c5e3063a7c6bc0aeb023b454f0eb01f184",
+      "cache_hit": false
+    },
+    {
+      "id": "R02",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer accurately states that the endpoint produces the Python integer 3, which is fully supported by the retrieved context. The citation correctly points to the excerpt confirming this behavior.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states that the value received and returned is 3 as a Python int, directly supporting the claim."
+          }
+        ]
+      },
+      "cache_key": "2747bfeee52172eab528aaaa51cbdf60718749153380a884d4ffa59e3d14e6fe",
+      "cache_hit": false
+    },
+    {
+      "id": "R03",
+      "judgment": {
+        "faithfulness": 0,
+        "correctness": 0,
+        "rationale": "The retrieved context explicitly contains the answer to the question (Excerpt 1 states the value is 3 as a Python int). The model's answer is a refusal ('I could not find this in the document'), which is incorrect because the information is present. According to the rubric, a refusal receives a faithfulness score of 0 if the context has enough evidence to answer. Since the question is answerable and the model refused, correctness is 0.",
+        "substantive_claims": false,
+        "citation_support": []
+      },
+      "cache_key": "5b473362debe1c9eee58eabdc7b4ee05c6b4de25daf414166b8c31973904eddc",
+      "cache_hit": false
+    },
+    {
+      "id": "R04",
+      "judgment": {
+        "faithfulness": 0,
+        "correctness": 0,
+        "rationale": "The answer claims 'START TRANSACTIONAL' and 'SAVE' are the commands, which contradicts the retrieved context stating 'BEGIN' and 'COMMIT'. The reference answer confirms 'BEGIN' and 'COMMIT'. The citation [1] is attached to a false claim, as excerpt 1 explicitly states the correct commands are BEGIN and COMMIT.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": false,
+            "reason": "Excerpt 1 states that transactions are surrounded by BEGIN and COMMIT, directly contradicting the answer's claim that they are START TRANSACTIONAL and SAVE."
+          }
+        ]
+      },
+      "cache_key": "373d057fca33dfb08caa28ccdac7b1145a63e159031820833bec397307e6be76",
+      "cache_hit": false
+    },
+    {
+      "id": "R05",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer is factually correct and supported by the retrieved context. Excerpt 1 explicitly states that the value is 3 as a Python int. Although the answer cites excerpt 2, which only mentions data validation and does not explicitly state the type or value, the claim is fully supported by the retrieved context as a whole (specifically excerpt 1). Therefore, faithfulness is 1. Correctness is 1 as it matches the reference answer. Citation support is false because excerpt 2 does not contain the specific information about the type and value.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": false,
+            "reason": "Excerpt 2 discusses data validation but does not contain the specific claim that the output is the Python integer 3. That information is found in Excerpt 1."
+          }
+        ]
+      },
+      "cache_key": "b7eb60a3dab8cbb223568f50f81dc40726609a55974c57ba222c5fcf4772d889",
+      "cache_hit": false
+    },
+    {
+      "id": "R06",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer accurately reflects the reference answer and is fully supported by the retrieved context, which explicitly states that transactions are surrounded by BEGIN and COMMIT commands. Since no citations were provided in the answer, the citation support list is empty.",
+        "substantive_claims": true,
+        "citation_support": []
+      },
+      "cache_key": "42029b21566cc5b616ea8acc4810ca53000e54609d3bdfe0327f3d9b5fac7a4a",
+      "cache_hit": false
+    },
+    {
+      "id": "R07",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The retrieved context discusses PostgreSQL transactions and does not contain information about backup retention periods. The question is unanswerable based on the provided data. The answer correctly refuses to answer by stating the information could not be found, which aligns with the reference answer. Since there are no citations in the answer, the citation support list is empty.",
+        "substantive_claims": false,
+        "citation_support": []
+      },
+      "cache_key": "8376f5496d76e42b5d519abf7c0bf0355a712dab9043dc0cfef7b69061ac04a6",
+      "cache_hit": false
+    },
+    {
+      "id": "R08",
+      "judgment": {
+        "faithfulness": 0,
+        "correctness": 0,
+        "rationale": "The answer claims the output is the string \"three\", which is factually incorrect and contradicts the retrieved context stating the value is the Python integer 3. The reference answer confirms it should be the integer 3. The citation [1] is attached to a claim that is explicitly refuted by the content of excerpt 1.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": false,
+            "reason": "Excerpt 1 explicitly states that the value is 3 as a Python int, not a string, directly contradicting the answer's claim that it produces the string \"three\"."
+          }
+        ]
+      },
+      "cache_key": "3bc27899530275f667ec83dc66f8a923b7abcdb82e2ed6d331acd9462e6294cc",
+      "cache_hit": false
+    },
+    {
+      "id": "R09",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer accurately identifies BEGIN and COMMIT as the commands surrounding a PostgreSQL transaction, which is fully supported by the retrieved context. The citation [1] correctly points to the excerpt that explicitly states this fact.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states that a transaction is set up by surrounding SQL commands with BEGIN and COMMIT, directly supporting the claim."
+          }
+        ]
+      },
+      "cache_key": "733f137e38793228d0bd2075973c330945d7a10a00c54b942f108549ccb0e149",
+      "cache_hit": false
+    },
+    {
+      "id": "R10",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer correctly identifies BEGIN and COMMIT as the commands surrounding a PostgreSQL transaction, which is fully supported by the retrieved context (specifically excerpt 1). Although the citation [2] points to an excerpt discussing ROLLBACK, the claim itself is factually accurate and supported by the broader retrieved context, so faithfulness remains high. Correctness is 1 as it matches the reference answer.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": false,
+            "reason": "Excerpt 2 discusses ROLLBACK as an alternative to COMMIT, but does not explicitly state that BEGIN and COMMIT surround the transaction; that specific claim is supported by excerpt 1."
+          }
+        ]
+      },
+      "cache_key": "59ebbcedb86ae0d82cac5849186afc8a3966812ac89b896535161ff27a47cd14",
+      "cache_hit": false
+    },
+    {
+      "id": "R11",
+      "judgment": {
+        "faithfulness": 0,
+        "correctness": 0,
+        "rationale": "The retrieved context explicitly states that transactions are surrounded by BEGIN and COMMIT commands. The model's answer is a refusal ('I could not find this in the document'), which is incorrect because the information is clearly present in the provided context. Since the question is answerable from the context, the refusal is not justified, resulting in a faithfulness score of 0 (the refusal contradicts the available evidence) and a correctness score of 0 (refusing an answerable question).",
+        "substantive_claims": false,
+        "citation_support": []
+      },
+      "cache_key": "34346078a6b35a3ddc0c908a815917b2a1f45c96bfff588706e79ea135cbdae1",
+      "cache_hit": false
+    },
+    {
+      "id": "R12",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer is fully supported by the retrieved context, which explicitly states that the value is 3 as a Python int. The answer matches the reference answer exactly. There are no citations to evaluate.",
+        "substantive_claims": true,
+        "citation_support": []
+      },
+      "cache_key": "d74e3c9a334406e3493e6a8e06d33cfcdae79164568641f6c8599035fcefe7b3",
+      "cache_hit": false
+    },
+    {
+      "id": "R13",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer is factually supported by the retrieved context, which states that transactions are surrounded by BEGIN and COMMIT. However, it is materially incomplete because it omits COMMIT, which is explicitly part of the reference answer and the retrieved context. The citation [1] correctly supports the claim regarding BEGIN.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states that transactions are set up by surrounding SQL commands with BEGIN and COMMIT, supporting the claim that BEGIN starts the transaction."
+          }
+        ]
+      },
+      "cache_key": "1466b6ac0d8985ec84903e5838e6e1edb528a244e8bb251752ac23bc445a41f4",
+      "cache_hit": false
+    },
+    {
+      "id": "R14",
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer is faithful to the retrieved context, which explicitly states that the value is a Python int. However, it is only partially correct because it omits the specific value '3' requested by the question, whereas the reference answer specifies 'the Python integer 3'.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states that the value is 3 as a Python int, supporting the claim that it produces an integer."
+          }
+        ]
+      },
+      "cache_key": "ea0dba6c33f8b4b8cb7470a9aab42726d7baa9dc8dcee3f62153ed8fefc76ea0",
+      "cache_hit": false
+    }
+  ],
+  "agreement": {
+    "faithfulness": 1.0,
+    "correctness": 1.0,
+    "citation_support": 1.0,
+    "substantive_claims": 1.0
+  },
+  "critical_cases_pass": true,
+  "per_category": {
+    "proper_refusal": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "correct": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "incorrect_refusal": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "unsupported": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "wrong_citation": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "missing_citation": {
+      "count": 2,
+      "all_labels_match": 2
+    },
+    "partially_correct": {
+      "count": 2,
+      "all_labels_match": 2
+    }
+  },
+  "disagreements": [],
+  "status": "PASS"
+}
