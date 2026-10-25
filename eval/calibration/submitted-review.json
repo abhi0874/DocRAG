@@ -1,0 +1,156 @@
+{
+  "status": "AI-assisted human-checked labels; independent-before-suggestions requirement not satisfied",
+  "source": "User chat message beginning these are my answers: R01",
+  "received_date": "2026-10-25",
+  "packet_sha256": "2bae0b05351dfe98954c77d663baf7e4a48de2df556e321c196e23ed145236ad",
+  "independent_human_review_confirmed": false,
+  "ai_assistance": "AI suggested labels; user personally checked each one against the evidence.",
+  "prior_proposed_label_exposure": "yes: AI suggestions before submitted decisions; exposure to the older guide separately unspecified",
+  "normalization": "Non-breaking spaces normalized to ordinary spaces; label values and reasons preserved.",
+  "cases": [
+    {
+      "review_id": "R01",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": false,
+      "refusal_behavior": "appropriate",
+      "reason": "The provided excerpts do not mention JWT configuration, making this refusal justified and faithful to the source scope."
+    },
+    {
+      "review_id": "R02",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "Excerpt [1] explicitly states that the returned value is 3 as a Python int, which fully supports the answer and its citation."
+    },
+    {
+      "review_id": "R03",
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [],
+      "substantive_claims": false,
+      "refusal_behavior": "inappropriate",
+      "reason": "The answer refuses the question even though excerpt [1] clearly states the function returns the Python int 3."
+    },
+    {
+      "review_id": "R04",
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The claims START TRANSACTIONAL and SAVE directly contradict excerpt [1], which specifies BEGIN and COMMIT commands."
+    },
+    {
+      "review_id": "R05",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The answer is factually correct per excerpt [1], but citation [2] is unsupported because excerpt [2] covers data validation instead."
+    },
+    {
+      "review_id": "R06",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The answer is completely correct and supported by excerpt [1], though it contains no bracketed citations."
+    },
+    {
+      "review_id": "R07",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": false,
+      "refusal_behavior": "appropriate",
+      "reason": "Neither excerpt mentions backup retention periods, so the refusal is accurate and faithful."
+    },
+    {
+      "review_id": "R08",
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The claim that it produces the string \"three\" is incorrect and directly contradicted by excerpt [1]."
+    },
+    {
+      "review_id": "R09",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "Excerpt [1] directly supports the statement that transactions are surrounded by BEGIN and COMMIT commands."
+    },
+    {
+      "review_id": "R10",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [
+        false
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The answer is supported by excerpt [1], but citation [2] is incorrect because excerpt [2] only discusses ROLLBACK."
+    },
+    {
+      "review_id": "R11",
+      "faithfulness": 0,
+      "correctness": 0,
+      "citation_support": [],
+      "substantive_claims": false,
+      "refusal_behavior": "inappropriate",
+      "reason": "The model refuses to answer even though excerpt [1] explicitly states BEGIN and COMMIT surround transactions."
+    },
+    {
+      "review_id": "R12",
+      "faithfulness": 1,
+      "correctness": 1,
+      "citation_support": [],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The statement is completely accurate and supported by excerpt [1], with no citations provided."
+    },
+    {
+      "review_id": "R13",
+      "faithfulness": 1,
+      "correctness": 0.5,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The claim about BEGIN is supported by excerpt [1], but the answer is materially incomplete because it omits COMMIT."
+    },
+    {
+      "review_id": "R14",
+      "faithfulness": 1,
+      "correctness": 0.5,
+      "citation_support": [
+        true
+      ],
+      "substantive_claims": true,
+      "refusal_behavior": "not_a_refusal",
+      "reason": "The answer correctly identifies the type per excerpt [1] but omits the requested value 3, making it materially incomplete."
+    }
+  ],
+  "user_provenance_statement": "AI suggested labels, and I personally checked each one against the evidence.",
+  "human_checked_each_case": true
+}

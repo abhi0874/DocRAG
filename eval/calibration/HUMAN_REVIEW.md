@@ -53,10 +53,10 @@ The earlier guide showed suggested labels. If you saw them, disclose that below;
 we cannot promise a fully blind review after prior exposure. Honesty here does not
 change the acceptance thresholds or count an unfinished review as complete.
 
-Reviewer name: ____
-Previously saw proposed labels: ____
+Reviewer name: Abhishesh Ramadas Shet
+Previously saw proposed labels: yes
 (use yes, no, or unsure)
-Review date: ____
+Review date: 2026-10-25
 
 Packet SHA-256: 2bae0b05351dfe98954c77d663baf7e4a48de2df556e321c196e23ed145236ad
 
@@ -91,12 +91,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R01:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: none
+Substantive claims: no
+Refusal behavior: appropriate
+Reason: The provided excerpts do not mention JWT configuration, making this refusal justified and faithful to the source scope.
 
 ---
 
@@ -131,12 +131,12 @@ Citation occurrences in order: [1]
 
 Your labels — R02:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: yes
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: Excerpt [1] explicitly states that the returned value is 3 as a Python int, which fully supports the answer and its citation.
 
 ---
 
@@ -171,12 +171,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R03:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 0
+C: 0
+Citation support: none
+Substantive claims: no
+Refusal behavior: inappropriate
+Reason: The answer refuses the question even though excerpt [1] clearly states the function returns the Python int 3.
 
 ---
 
@@ -207,12 +207,12 @@ Citation occurrences in order: [1]
 
 Your labels — R04:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 0
+C: 0
+Citation support: no
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The claims START TRANSACTIONAL and SAVE directly contradict excerpt [1], which specifies BEGIN and COMMIT commands.
 
 ---
 
@@ -247,12 +247,12 @@ Citation occurrences in order: [2]
 
 Your labels — R05:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: no
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The answer is factually correct per excerpt [1], but citation [2] is unsupported because excerpt [2] covers data validation instead.
 
 ---
 
@@ -283,12 +283,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R06:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: none
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The answer is completely correct and supported by excerpt [1], though it contains no bracketed citations.
 
 ---
 
@@ -319,12 +319,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R07:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: none
+Substantive claims: no
+Refusal behavior: appropriate
+Reason: Neither excerpt mentions backup retention periods, so the refusal is accurate and faithful.
 
 ---
 
@@ -359,12 +359,12 @@ Citation occurrences in order: [1]
 
 Your labels — R08:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 0
+C: 0
+Citation support: no
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The claim that it produces the string "three" is incorrect and directly contradicted by excerpt [1].
 
 ---
 
@@ -395,12 +395,12 @@ Citation occurrences in order: [1]
 
 Your labels — R09:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: yes
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: Excerpt [1] directly supports the statement that transactions are surrounded by BEGIN and COMMIT commands.
 
 ---
 
@@ -431,12 +431,12 @@ Citation occurrences in order: [2]
 
 Your labels — R10:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: no
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The answer is supported by excerpt [1], but citation [2] is incorrect because excerpt [2] only discusses ROLLBACK.
 
 ---
 
@@ -467,12 +467,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R11:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 0
+C: 0
+Citation support: none
+Substantive claims: no
+Refusal behavior: inappropriate
+Reason: The model refuses to answer even though excerpt [1] explicitly states BEGIN and COMMIT surround transactions.
 
 ---
 
@@ -507,12 +507,12 @@ Citation occurrences in order: (no bracketed citations present)
 
 Your labels — R12:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 1
+Citation support: none
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The statement is completely accurate and supported by excerpt [1], with no citations provided.
 
 ---
 
@@ -543,12 +543,12 @@ Citation occurrences in order: [1]
 
 Your labels — R13:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 0.5
+Citation support: yes
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The claim about BEGIN is supported by excerpt [1], but the answer is materially incomplete because it omits COMMIT.
 
 ---
 
@@ -583,11 +583,11 @@ Citation occurrences in order: [1]
 
 Your labels — R14:
 
-F: ____
-C: ____
-Citation support: ____
-Substantive claims: ____
-Refusal behavior: ____
-Reason: ____
+F: 1
+C: 0.5
+Citation support: yes
+Substantive claims: yes
+Refusal behavior: not_a_refusal
+Reason: The answer correctly identifies the type per excerpt [1] but omits the requested value 3, making it materially incomplete.
 
 ---
