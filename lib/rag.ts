@@ -13,14 +13,8 @@ export const CHAT_MODEL = providerName() === 'ollama' ? ollamaLanguageModel() : 
 export const EMBEDDING_DIMENSIONS = providerName() === 'ollama'
   ? localSettings().embeddingDimensions : modelConfig.embeddingDimensions
 
-const CHUNK_SIZE = 1000
-const CHUNK_OVERLAP = 200
-
-export interface TextChunk {
-  content: string
-  pageNumber: number
-  chunkIndex: number
-}
+export { chunkPages } from './chunking'
+export type { TextChunk } from './chunking'
 
 export interface RetrievedChunk {
   id: number
@@ -30,45 +24,6 @@ export interface RetrievedChunk {
   vectorScore: number | null
   keywordScore: number | null
   rrfScore: number
-}
-
-/**
- * Split page texts into overlapping chunks, preferring sentence boundaries.
- * Overlap preserves context that would otherwise be lost at chunk edges.
- */
-export function chunkPages(pages: string[]): TextChunk[] {
-  const chunks: TextChunk[] = []
-  let chunkIndex = 0
-
-  pages.forEach((pageText, pageIdx) => {
-    const text = pageText.replace(/\s+/g, ' ').trim()
-    if (!text) return
-
-    let start = 0
-    while (start < text.length) {
-      let end = Math.min(start + CHUNK_SIZE, text.length)
-
-      // Prefer breaking at a sentence boundary within the last 200 chars
-      if (end < text.length) {
-        const window = text.slice(Math.max(start, end - 200), end)
-        const lastPeriod = window.lastIndexOf('. ')
-        if (lastPeriod > 0) {
-          end = Math.max(start, end - 200) + lastPeriod + 1
-        }
-      }
-
-      const content = text.slice(start, end).trim()
-      if (content.length > 20) {
-        chunks.push({ content, pageNumber: pageIdx + 1, chunkIndex })
-        chunkIndex++
-      }
-
-      if (end >= text.length) break
-      start = end - CHUNK_OVERLAP
-    }
-  })
-
-  return chunks
 }
 
 /** Batch-embed chunk contents. Order is preserved. */

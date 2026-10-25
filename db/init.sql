@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS chunks (
 );
 ALTER TABLE chunks ADD COLUMN IF NOT EXISTS content_tsv tsvector
   GENERATED ALWAYS AS (to_tsvector('english', content)) STORED;
+ALTER TABLE chunks ADD COLUMN IF NOT EXISTS metadata jsonb;
 CREATE INDEX IF NOT EXISTS chunks_content_tsv_idx ON chunks USING gin(content_tsv);
 CREATE INDEX IF NOT EXISTS chunks_embedding_idx ON chunks USING hnsw(embedding vector_cosine_ops);
 CREATE INDEX IF NOT EXISTS chunks_document_id_idx ON chunks(document_id);

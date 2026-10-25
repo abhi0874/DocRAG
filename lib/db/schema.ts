@@ -35,6 +35,7 @@ export const chunks = pgTable('chunks', {
   chunkIndex: integer('chunk_index').notNull(),
   pageNumber: integer('page_number').notNull().default(1),
   content: text('content').notNull(),
+  metadata: jsonb('metadata'),
   contentTsv: tsvector('content_tsv').generatedAlwaysAs(
     sql`to_tsvector('english', content)`,
   ),

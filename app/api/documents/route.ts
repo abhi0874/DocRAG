@@ -67,6 +67,9 @@ export async function POST(req: Request) {
       chunkIndex: c.chunkIndex,
       pageNumber: c.pageNumber,
       content: c.content,
+      metadata: c.metadata ? {...c.metadata, documentId: doc.id, sourceDocument: file.name,
+        sourceId: `document:${doc.id}:${c.metadata.sourceId}`,
+        sectionId: `document:${doc.id}:${c.metadata.sectionId}`} : null,
       embedding: embeddings[i],
     }))
     const INSERT_BATCH = 50
