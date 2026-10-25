@@ -15,6 +15,14 @@ def call_adapter(payload):
         from eval.local_corpus import local_url
 
         env["OLLAMA_DATABASE_URL"] = local_url()
+        if payload.get("config", {}).get("chunking_experiment"):
+            from eval.chunking_experiments import experiment_url
+
+            experiment = payload["config"]["chunking_experiment"]
+            env["OLLAMA_DATABASE_URL"] = experiment_url(experiment)
+            env["DOCRAG_CHUNKING_EXPERIMENT"] = experiment
+        else:
+            env.pop("DOCRAG_CHUNKING_EXPERIMENT", None)
         env.pop("GOOGLE_GENERATIVE_AI_API_KEY", None)
     else:
         env["DATABASE_URL"] = evaluation_url()

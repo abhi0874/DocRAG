@@ -467,3 +467,20 @@ attaching methodology. It never overwrites an existing baseline with a different
 run. Unchanged cached inference is reused; SQL retrieval is rerun by make eval.
 Changing the answer/judge settings or rubric requires compatible recalibration,
 not relabeling historical scores. Full human-independent validation is not claimed.
+
+## Step 3 isolated chunking experiments
+
+After the mandatory Step 2 audit passes, the frozen matrix uses only the existing
+local models and separate owned native databases. Run from the same checkout:
+
+```sh
+.venv/bin/python -m eval.chunking_experiments --matrix
+```
+
+The command records development retrieval for all five configurations, freezes
+selection, then measures control/selected holdout. An existing selection prevents
+accidental retuning. The source dataset and original baseline are never rewritten.
+If interrupted before selection, caches retain only successful model responses;
+failed attempts are saved and must remain documented. Runtime network access to
+loopback and build-time access to existing Google Fonts may require leaving the
+sandbox; do not change model URLs or remove checks to bypass permissions.

@@ -48,7 +48,7 @@ async function main() {
     const result = await localChat([{role: 'user', content: input.prompt}], 'json')
     return {text: result.message.content, usage: {totalTokens: result.prompt_eval_count + result.eval_count, inputTokens: result.prompt_eval_count, outputTokens: result.eval_count}, latency_ms: performance.now() - start, finish_reason: result.done_reason}
   }
-  if (input.action !== 'answer') throw new Error('Unknown local evaluation action')
+  if (!['answer', 'retrieve'].includes(input.action)) throw new Error('Unknown local evaluation action')
   const {hybridSearch, buildContext, RAG_INSTRUCTIONS} = await import('../lib/rag')
   const {startRagAnswer} = await import('../lib/rag-answer')
   const {consumeAnswer} = await import('./consume-answer')
@@ -57,6 +57,7 @@ async function main() {
     const start = performance.now()
     const ranked = await hybridSearch(input.question, input.documentId, 10)
     const retrievalMs = performance.now() - start
+    if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats}
     const retrieved = ranked.slice(0, 6)
     const instructions = `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${buildContext(retrieved)}`
     const messages = [{id: 'evaluation', role: 'user' as const, parts: [{type: 'text' as const, text: input.question}]}]
