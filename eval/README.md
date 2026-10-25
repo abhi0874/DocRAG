@@ -200,16 +200,20 @@ Qwen generation and EmbeddingGemma vectors. Local embeddings live in an isolated
 vector(768) database; existing vector(1536) data is never overwritten or mixed.
 
 See docs/LOCAL_OLLAMA.md and the local command-contract sequence for exact model
-digests, settings, API endpoints, human calibration requirements and uninstall
+digests, settings, API endpoints, calibration methodology and uninstall
 instructions. Local output/baseline names have the `-local-ollama` suffix. The
 local runtime rejects nonloopback model requests, checks installed digests even
 on cache hits, and writes only successful complete generations to its own cache.
 
-Local judge calibration is a separate requirement from the existing dataset
-review. AI-proposed labels remain explicitly unconfirmed; only a real human
-review can establish the requested human reference. Provisional 100-question
-results are useful diagnostics but cannot pass the baseline gate or complete
-STEP 2. Never relabel them as verified quality measurements.
+Local judge calibration is separate from the existing dataset review. The current
+user-authorized method is **automated evaluation**, documented in
+docs/AUTOMATED_EVALUATION.md. It uses the submitted reference decisions with their
+actual provenance and does not claim independent human validation. The earlier
+human-only diagnostic reports and fresh uncompleted review are preserved as history.
+After compatible calibration passes unchanged criteria, `eval.promote_local`
+attaches an explicit validation record to a copy of the immutable measurements.
+The raw diagnostic files remain provisional. New complete artifacts are verified
+under the automated protocol, not asserted to be error-free or human-independent.
 
 The gate now requires identical valid configuration hashes as well as identical
 dataset, corpus and metric definitions. A deliberate future configuration change

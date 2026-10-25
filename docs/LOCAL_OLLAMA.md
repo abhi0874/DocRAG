@@ -1,5 +1,11 @@
 # Local Ollama evaluation
 
+Current completion method (authorized 2026-10-25): automated evaluation, described
+in AUTOMATED_EVALUATION.md and the final section of COMMAND_CONTRACT.md. The prior
+human-only review requirement was replaced by the user's later instruction; the
+historical calibration discussion below explains earlier checkpoints. No independent
+human-validation claim is made. Model settings and numeric thresholds are unchanged.
+
 This is an optional local provider for the existing Next.js/TypeScript application.
 Gemini remains the default. No Python backend or replacement retrieval algorithm
 is introduced. Local evaluation makes no Google model requests and has zero new
@@ -130,8 +136,10 @@ Acceptance criteria are fixed before measurement in acceptance.json: at least
 95% for per-case citation-label lists; all critical unsupported/citation/refusal
 cases must match every label. Results retain all disagreements. These small
 synthetic cases diagnose judge behavior; they cannot establish broad reliability.
-Until a human has confirmed/corrected these evidence-based labels, 100-question
-local results remain explicitly provisional and the baseline gate refuses them.
+Under the earlier human-only protocol, 100-question local results remained
+explicitly provisional and the baseline gate refused them. They remain preserved
+that way. The current automated protocol uses a distinct validation record and
+checks actual submitted reference labels without claiming they were independent.
 The existing 100-question human review remains valid and need not be repeated.
 
 Qwen is both answer model and judge; self-preference remains a limitation even
