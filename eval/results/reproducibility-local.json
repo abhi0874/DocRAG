@@ -5,7 +5,7 @@
   "first_recall@5": 0.9625,
   "second_recall@5": 0.9625,
   "baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
-  "current_sha256": "30e03efd105ea6fa7513c292287984dcc46c68f3c740c97dafc535cff73d43ee",
+  "current_sha256": "928542b36b85f9b2c4b0c76d6ae7d7f4737d40ea1d0b42b26adb39e74b26cbf5",
   "first_cache_statistics": {
     "embedding_hits": 16,
     "embedding_misses": 84,

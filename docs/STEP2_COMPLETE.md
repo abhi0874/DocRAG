@@ -177,7 +177,11 @@ The positive gate returned zero decreases for Recall@5 and faithfulness. Both
 synthetic decreases of 0.020000000001 were rejected by the actual CLI with exit 1
 and the appropriate Regression message. Synthetic scores are not baseline scores.
 A line-length lint issue in the new code was fixed before the complete sequence;
-the full final sequence passed. Node emitted a nonfatal module.register deprecation.
+the full final sequence passed. An additional integrity-check command initially
+misused a SHA helper return value; that command was corrected, then the entire
+30-command sequence passed again using the preserved calibration report. The final
+result-hash, original-evidence, private-value and .env checks also passed.
+Node emitted a nonfatal module.register deprecation.
 The missing tracked review Markdown was restored from its committed copy; saved
 submitted labels were never changed.
 

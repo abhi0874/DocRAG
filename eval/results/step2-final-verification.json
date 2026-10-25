@@ -4,7 +4,7 @@
   "method": "automated-evaluation-v1",
   "independent_human_validation": false,
   "baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
-  "second_result_sha256": "30e03efd105ea6fa7513c292287984dcc46c68f3c740c97dafc535cff73d43ee",
+  "second_result_sha256": "928542b36b85f9b2c4b0c76d6ae7d7f4737d40ea1d0b42b26adb39e74b26cbf5",
   "checks_passed": 30,
   "checks_executed": 30,
   "checks": [
@@ -293,5 +293,7 @@
   "paid_api_charges_inr": 0,
   "new_full_benchmark_generations": 0,
   "new_calibration_judgments": 14,
-  "statement": "Completion is of STEP 2 under the revised method, not a guarantee that all RAG answers are correct."
+  "statement": "Completion is of STEP 2 under the revised method, not a guarantee that all RAG answers are correct.",
+  "final_integrity_check": "PASS; source and result hashes, unchanged original evidence, no invented human review, private-value scan, .env ignored.",
+  "verification_repeat": "Full sequence repeated successfully after correcting a helper-command SHA return-type typo; no application or scoring change."
 }

@@ -22132,8 +22132,8 @@
     "protocol_sha256": "5d357f7b64e890221cadc4772dcb6cb24fa5dcf9604e66fd08f5a0aca4f9e7b5",
     "source_result_path": "eval/results/diagnostic-local-ollama-second.json",
     "source_result_sha256": "601d736430dc50d37a620c317dfb5174b5edd222b12234cb469ce001795fa136",
-    "validated_at": "2026-10-25T18:13:58.177875+00:00",
-    "validator_git_revision": "b76eaaf5d2ffa2dc29ccd1eb17404cdbca8d026e",
+    "validated_at": "2026-10-25T18:17:48.558480+00:00",
+    "validator_git_revision": "02a04e3113993d44dfc4b4636d450c5e759e51dd",
     "validator_file_hashes": {
       "eval/automated_validation.py": "e4ac92d1d669047e466c09a3db002ef8b7f931b3f794641dd60e2006ded772b6",
       "eval/promote_local.py": "9c9d11fe47e7c675b31268e1e4010f0319344fa4d1a720c533ce2eb1df6dd8a6",
