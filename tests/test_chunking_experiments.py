@@ -83,3 +83,32 @@ def test_gate_rejects_undeclared_file_change():
     candidate["config"]["application_file_hashes"]["lib/rag-answer.ts"] = "0" * 64
     with pytest.raises(ValueError, match="Undeclared"):
         compatible(baseline, candidate)
+
+
+def test_declared_chunking_compatibility_preserves_retrieval_code(monkeypatch):
+    import subprocess
+
+    from eval.chunking_experiments import config_for
+
+    baseline = json.loads(
+        (ROOT / "eval/results/baseline-local-ollama.json").read_text()
+    )
+    candidate = copy.deepcopy(baseline)
+    candidate["config"] = config_for("heading-1400-280")
+    for key in ("ollama_version", "postgresql_version", "pgvector_version"):
+        candidate["config"][key] = baseline["config"][key]
+    candidate["git_revision"] = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    assert compatible(baseline, candidate)["declared_chunking"] == "heading-1400-280"
+    original = subprocess.check_output
+
+    def changed(args, **kwargs):
+        value = original(args, **kwargs)
+        if args[-1] == candidate["git_revision"] + ":lib/rag.ts":
+            return value.replace(b"const K = 60", b"const K = 61")
+        return value
+
+    monkeypatch.setattr(subprocess, "check_output", changed)
+    with pytest.raises(ValueError, match="Retrieval"):
+        compatible(baseline, candidate)

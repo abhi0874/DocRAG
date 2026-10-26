@@ -74,3 +74,17 @@ it('declares the selected vector dimension without changing Gemini defaults', as
   const gemini = await import('../lib/db/schema')
   expect(gemini.chunks.embedding.getSQLType()).toBe('vector(1536)')
 })
+
+it('requires an explicit matching local experiment database and preserves Gemini selection', () => {
+  vi.stubEnv('AI_PROVIDER', 'ollama')
+  vi.stubEnv('DOCRAG_CHUNKING_EXPERIMENT', 'heading-1400-280')
+  vi.stubEnv('OLLAMA_DATABASE_URL', 'postgresql://local@127.0.0.1:55432/docrag_chunking_heading_1400_280')
+  expect(databaseConnection()).toContain('/docrag_chunking_heading_1400_280')
+  for (const db of ['docrag_dev', 'docrag_eval_v1', 'docrag_ollama_v1', 'docrag_chunking_heading_700_140']) {
+    vi.stubEnv('OLLAMA_DATABASE_URL', `postgresql://local@127.0.0.1:55432/${db}`)
+    expect(databaseConnection).toThrow()
+  }
+  vi.stubEnv('AI_PROVIDER', 'gemini')
+  vi.stubEnv('DATABASE_URL', 'mock-gemini-database')
+  expect(databaseConnection()).toBe('mock-gemini-database')
+})

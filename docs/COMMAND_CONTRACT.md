@@ -484,3 +484,33 @@ If interrupted before selection, caches retain only successful model responses;
 failed attempts are saved and must remain documented. Runtime network access to
 loopback and build-time access to existing Google Fonts may require leaving the
 sandbox; do not change model URLs or remove checks to bypass permissions.
+
+The frozen selected configuration is heading-1400-280. Its all-question run uses:
+
+```sh
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/chunking-selected-raw.json --chunking-experiment heading-1400-280
+.venv/bin/python -m eval.promote_local --source eval/results/chunking-selected-raw.json --out eval/results/chunking-selected.json
+.venv/bin/python -m eval.chunking_gate --baseline eval/results/baseline-local-ollama.json --candidate eval/results/chunking-selected.json
+.venv/bin/python -m eval.chunking_report
+make lint
+make test
+make build-fe
+.venv/bin/python -m eval.chunking_smoke
+.venv/bin/python -m eval.preservation
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m eval.verify_results --baseline eval/results/baseline-local-ollama.json --current eval/results/validated-local-ollama-second.json
+AI_PROVIDER=ollama make eval-gate
+git diff --check
+git status --short
+```
+
+Commit evaluator/validator code before generating or promoting results so recorded
+Git revisions can verify code hashes. Keep raw candidate measurements immutable.
+The explicit chunking gate checks every unchanged config field and byte-identical
+retrieval/embedding/prompt code, allowing only declared chunk settings, the exact
+isolated database selector, and nullable metadata. The ordinary gate remains strict.
+The report verifies frozen development/holdout IDs, source hashes, chunk mapping,
+selection rule and per-row metrics. Full evaluation runs must not be concurrent.
+The smoke command starts a temporary production-built loopback HTTP server against
+the selected experiment database, tests real documents/chat routes, then stops it.
+It uses installed Ollama models, never Gemini inference.
