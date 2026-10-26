@@ -88,8 +88,12 @@ def configuration(provider=None):
     return config
 
 
-def run(golden, output):
+def run(golden, output, experiment=None):
     config = configuration()
+    if experiment:
+        from eval.chunking_experiments import config_for
+
+        config = config_for(experiment)
     is_local = config.get("provider") == "ollama"
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
@@ -113,10 +117,28 @@ def run(golden, output):
         config["ollama_version"] = metadata["version"]["version"]
         if metadata["settings"] != config["local_settings"]:
             raise ValueError("Environment overrides differ from fixed local benchmark")
-        prepare(config)
-        map_path, connect = MAPPING, connect_local
+        if experiment:
+            from eval.chunking_experiments import (
+                connect_experiment,
+                mapping_path,
+            )
+            from eval.chunking_experiments import (
+                prepare as prepare_experiment,
+            )
+
+            prepare_experiment(experiment, config)
+            map_path = mapping_path(experiment)
+
+            def connect():
+                return connect_experiment(experiment)
+        else:
+            prepare(config)
+            map_path, connect = MAPPING, connect_local
     local = json.loads(map_path.read_text())
-    if local["corpus_hash"] != corpus["corpus_hash"]:
+    if (
+        local.get("corpus_hash", local.get("identity", {}).get("corpus_hash"))
+        != corpus["corpus_hash"]
+    ):
         raise ValueError("Ingestion map/corpus mismatch")
     source_map = {s["source_id"]: s for s in corpus["sources"]}
     chunk_map = {m["chunk_id"]: m for m in local["chunks"]}
@@ -152,6 +174,13 @@ def run(golden, output):
             "eval/local_adapter.ts",
             "eval/local_corpus.py",
             "eval/local_calibration.py",
+        ]
+    if experiment:
+        evaluator_files += [
+            "eval/chunking_experiments.py",
+            "eval/chunk_adapter.ts",
+            "lib/chunking.ts",
+            "lib/chunking-default.json",
         ]
     fingerprints = {p: sha256((ROOT / p).read_bytes()) for p in evaluator_files}
     rows = []
@@ -325,9 +354,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--golden", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--chunking-experiment")
     args = parser.parse_args()
     try:
-        run(args.golden.resolve(), args.out.resolve())
+        run(args.golden.resolve(), args.out.resolve(), args.chunking_experiment)
     except Exception as exc:
         # Known adapter failures are already sanitized; arbitrary DB errors are not.
         detail = (

@@ -1,0 +1,13 @@
+{
+  "selected": "heading-1400-280",
+  "rule": "Development recall@5, MRR, multi-hop recall@5; control on equality, then fewer chunks. Source checks are mandatory. Unanswerable retrieval has no relevant labels and is not assigned recall.",
+  "development_artifact_hashes": {
+    "control-1000-200": "4967ba9b1944f90b9da19af11fab92eda8ce2a6e2a56c6d593078387ebb49c3a",
+    "heading-1000-200": "9a378f12389fe197dd9e0c62bf4f6982a9f7406bfb635ec094cf069d0c9a435b",
+    "heading-700-140": "24fdab49044ed5e95aca67fb786361404bc1008f919a8c8a9b0c0a7c27b410ed",
+    "heading-1400-280": "2069fcb1574a959265aac2a7ff3d5fd1e847c61d40a90c04f81ec2bd399a4023",
+    "heading-1000-100": "a79121b7f963cc1b4123546c4eb440b414eb8efa5515fb6295d3975cb932eede"
+  },
+  "split_sha256": "b95f0d64582573f315a63a3b80906543a7cd8c5d24136c788689830685ef4a0c",
+  "frozen_at": "2026-10-26T13:07:44.508426+00:00"
+}

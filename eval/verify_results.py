@@ -56,6 +56,14 @@ def verify(result, allow_provisional=False):
         if result["config"].get("provider") == "ollama"
         else ".local/eval-corpus-map.json"
     )
+    if result["config"].get("chunking_experiment"):
+        from eval.chunking_experiments import expected_chunks, mapping_path
+
+        mapping_file = mapping_path(result["config"]["chunking_experiment"])
+        if json.loads(mapping_file.read_text())["chunks"] != expected_chunks(
+            result["config"]["chunking_experiment"]
+        ):
+            raise ValueError("Experiment source mapping changed")
     mappings = {
         m["chunk_id"]: m for m in json.loads(mapping_file.read_text())["chunks"]
     }

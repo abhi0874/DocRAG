@@ -348,6 +348,18 @@ def summarize(rows):
 def retrieve(name, records, label):
     config = config_for(name)
     mapping = prepare(name, config)
+    result_path = DIRECTORY / f"{name}-{label}.json"
+    if result_path.exists():
+        saved = json.loads(result_path.read_text())
+        if (
+            saved["config"] != config
+            or saved["mapping_sha256"] != sha256(mapping_path(name).read_bytes())
+            or [r["id"] for r in saved["questions"]] != [r["id"] for r in records]
+            or saved["metrics"] != summarize(saved["questions"])
+        ):
+            raise ValueError("Saved experiment is incompatible; preserved")
+        print(f"{name} {label}: preserved completed measurements", flush=True)
+        return saved
     by_id = {c["chunk_id"]: c for c in mapping["chunks"]}
     rows = []
     for record in records:
@@ -427,6 +439,9 @@ def matrix():
                 {
                     "name": name,
                     "error_type": type(exc).__name__,
+                    "detail": str(exc)
+                    if isinstance(exc, (RuntimeError, ValueError))
+                    else type(exc).__name__,
                     "stage": "development",
                 },
             )
