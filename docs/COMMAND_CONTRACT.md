@@ -536,3 +536,21 @@ The diagnostic flag here verifies the original unannotated measurement artifacts
 the validated selected result must separately pass chunking_gate. It never grants
 baseline status or bypasses the quality gate. Repeated SQL retrieval still runs;
 only exact compatible context/model/prompt/config caches can be reused.
+
+## Step 4 retrieval profiling and selection
+
+Only after the independent Step 3 audit passes:
+
+```sh
+.venv/bin/python -m eval.retrieval_experiments schema
+.venv/bin/python -m eval.retrieval_experiments plans
+.venv/bin/python -m eval.retrieval_experiments matrix
+```
+
+These use the unchanged Step 3 selected index and models. Profiling bypasses the
+evaluation query-embedding cache, reuses SQL connections within each batch, and
+records three repetitions. EXPLAIN ANALYZE is restricted to internally constructed
+parameterized SELECTs inside read-only transactions. Full-text maintenance tests
+use a temporary fixture and rollback. No application read-only helper is weakened.
+The selection rule/split are frozen before holdout; saved experiments and previous
+baselines must not be overwritten. Independent model benchmarks must not overlap.

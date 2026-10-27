@@ -16,7 +16,7 @@ globalThis.fetch = async (url, init) => {
   const request = new Request(url, init)
   const target = new URL(request.url)
   if (target.origin !== localSettings().baseUrl) throw new Error('Nonlocal model request forbidden in Ollama evaluation')
-  if (target.pathname !== '/api/embed') return originalFetch(request)
+  if (input.uncachedRetrieval || target.pathname !== '/api/embed') return originalFetch(request)
   const body = await request.clone().text()
   const key = hash({provider: 'ollama', body, config: input.config, settings: localSettings()})
   const path = `${directory}/embedding-${key}.json`
@@ -48,16 +48,47 @@ async function main() {
     const result = await localChat([{role: 'user', content: input.prompt}], 'json')
     return {text: result.message.content, usage: {totalTokens: result.prompt_eval_count + result.eval_count, inputTokens: result.prompt_eval_count, outputTokens: result.eval_count}, latency_ms: performance.now() - start, finish_reason: result.done_reason}
   }
-  if (!['answer', 'retrieve'].includes(input.action)) throw new Error('Unknown local evaluation action')
+  if (!['answer', 'retrieve', 'profile', 'plans'].includes(input.action)) throw new Error('Unknown local evaluation action')
   const {hybridSearch, buildContext, RAG_INSTRUCTIONS} = await import('../lib/rag')
   const {startRagAnswer} = await import('../lib/rag-answer')
   const {consumeAnswer} = await import('./consume-answer')
   const {pool} = await import('../lib/db')
   try {
+    if (input.action === 'profile') {
+      const rows = []
+      for (let repetition = 0; repetition < input.repetitions; repetition++) {
+        for (const request of input.requests) {
+          let timing
+          const ranked = await hybridSearch(request.question, request.documentId, 10, input.config.retrieval,
+            value => {timing = value})
+          rows.push({id: request.id, repetition, ranked, timing})
+        }
+      }
+      return {rows, cache_condition: input.uncachedRetrieval ? 'fresh query embeddings; warm persistent SQL pool after first query' : 'evaluation cache enabled'}
+    }
+    if (input.action === 'plans') {
+      const {searchStatements} = await import('../lib/retrieval')
+      const {PgDialect} = await import('drizzle-orm/pg-core')
+      const {sql} = await import('drizzle-orm')
+      const embedding = (await localEmbeddings([input.question], 'query')).embeddings[0]
+      const statements = searchStatements(input.question, input.documentId, embedding, input.config.retrieval)
+      const client = await pool.connect()
+      try {
+        await client.query('BEGIN READ ONLY')
+        const plans: Record<string, unknown> = {}
+        for (const [name, statement] of Object.entries(statements)) {
+          const query = new PgDialect().sqlToQuery(sql`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${statement}`)
+          plans[name] = (await client.query(query.sql, query.params)).rows[0]['QUERY PLAN']
+        }
+        return plans
+      } finally {await client.query('ROLLBACK'); client.release()}
+    }
     const start = performance.now()
-    const ranked = await hybridSearch(input.question, input.documentId, 10)
+    let timing
+    const ranked = await hybridSearch(input.question, input.documentId, 10, input.config.retrieval,
+      value => {timing = value})
     const retrievalMs = performance.now() - start
-    if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats}
+    if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats, timing}
     const retrieved = ranked.slice(0, 6)
     const instructions = `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${buildContext(retrieved)}`
     const messages = [{id: 'evaluation', role: 'user' as const, parts: [{type: 'text' as const, text: input.question}]}]
@@ -76,7 +107,7 @@ async function main() {
       answer = {text: result.text, usage: result.usage, finish_reason: result.finishReason, original_generation_latency_ms: performance.now() - generationStart, generated_at: new Date().toISOString()}
       save(path, answer)
     }
-    return {ranked, answer, cache: stats, embedding_usage: embeddingUsage, retrieval_latency_ms: retrievalMs,
+    return {ranked, answer, timing, cache: stats, embedding_usage: embeddingUsage, retrieval_latency_ms: retrievalMs,
       generation_latency_ms: performance.now() - generationStart, total_latency_ms: performance.now() - start, pacing_ms: 0}
   } finally {await pool.end()}
 }
