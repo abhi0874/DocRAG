@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "provider": "ollama",
+  "experiment": "heading-1400-280",
+  "routes": [
+    "GET /api/documents",
+    "POST /api/chat"
+  ],
+  "answer": "In PostgreSQL, a transaction is set up by surrounding the SQL commands with the `BEGIN` and `COMMIT` commands [1][2]. If a transaction is not explicitly started with `BEGIN`, each individual SQL statement is implicitly wrapped in its own `BEGIN` and `COMMIT` [1]. To cancel a transaction instead of committing it, the `ROLLBACK` command is used [1].",
+  "source_count": 6,
+  "document_id": 4,
+  "paid_api_charges_inr": 0
+}

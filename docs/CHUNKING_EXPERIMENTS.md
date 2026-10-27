@@ -1,4 +1,4 @@
-# Step 3 chunking experiments (in progress)
+# Step 3 chunking experiments — complete
 
 ## Previous-step audit
 
@@ -66,8 +66,8 @@ application code while leaving the unused nullable column in place; no destructi
 schema downgrade is necessary. Applying schema changes to deployed databases is
 outside this local step.
 
-Production default remains legacy-v1 until experimental evidence justifies a
-change. Automated answer quality uses the unchanged approved protocol; its
+Production default was legacy-v1 during selection; the final measured default
+is heading-v1 1400/280. Automated answer quality uses the unchanged approved protocol; its
 reference decisions were AI-suggested and personally checked, not independently
 blind human validated. Qwen self-judging and coarse source-page relevance remain
 limitations.
@@ -114,12 +114,6 @@ remain saved. The logger now retains sanitized adapter/validation error messages
 An initial syntax error in a new test and formatting/import lint errors were fixed;
 the full lint/test sequence passed afterwards, with existing tests preserved.
 
-## Remaining Step 3 work
-
-All-question answer generation/judging, final automated quality acceptance,
-production-default decision, HTTP smoke check, comparison report and final task
-audit are pending. This file does not declare Step 3 complete.
-
 ## Full selected-candidate outcome
 
 The first complete selected run finished all 100 questions with zero cache hits:
@@ -161,3 +155,26 @@ full correctness scores in this run. All 20 unanswerable cases scored 1 for
 faithfulness/correctness. These are model judgments, not guarantees or independent
 human validation. No answer or score was manually raised, and the rubric was not
 changed. The original imperfect baseline and all candidate outputs are retained.
+
+## Final verification (2026-10-27)
+
+18/18 final commands passed. Tests: 106 Python + 38 TypeScript = 144, zero failures.
+Lint, production build, source/metric/provenance validation, the original strict
+gate, selected explicit gate, and both original negative regression tests passed.
+A separate cached repeat completed all 100 questions with 100 hits/zero misses
+for embeddings, answers and judges; all answer text, judgments and retrieved source
+sequences matched. This demonstrates cached repeatability, not fresh determinism.
+The first all-fresh measurements remain the selected comparison artifact.
+
+The production-built HTTP server passed GET /api/documents and POST /api/chat
+against the isolated selected index, returning a streamed answer about BEGIN and
+COMMIT with citations and six sources. Its temporary server was stopped afterward.
+Original baseline/dataset hashes, 20 Gemini pairs, 151 original Gemini vectors,
+and 151 local baseline vectors passed preservation. The application database
+remains at zero documents/chunks; no production data was deleted. A nullable
+metadata column was added for upload compatibility without changing vector values.
+No new Gemini inference, model download, global install, push, PR or deployment.
+
+All 14 task groups and three confirmations passed; the complete command ledger,
+file inventory and concrete personal checks are in STEP3_COMPLETE.md. Known
+answer-quality and methodological limits above remain. No Step 4 work was started.

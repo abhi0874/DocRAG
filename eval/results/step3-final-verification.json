@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "command": "git remote -v",
+      "exit_code": 0,
+      "seconds": 0.011465708987088874
+    },
+    {
+      "command": "git branch --show-current",
+      "exit_code": 0,
+      "seconds": 0.010276207991410047
+    },
+    {
+      "command": ".venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/chunking-repeat-raw.json --chunking-experiment heading-1400-280",
+      "exit_code": 0,
+      "seconds": 28.046781542012468
+    },
+    {
+      "command": ".venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/chunking-selected-raw.json --current eval/results/chunking-repeat-raw.json",
+      "exit_code": 0,
+      "seconds": 1.7788629999849945
+    },
+    {
+      "command": ".venv/bin/python -m eval.chunking_gate --baseline eval/results/baseline-local-ollama.json --candidate eval/results/chunking-selected.json",
+      "exit_code": 0,
+      "seconds": 1.9161784579919185
+    },
+    {
+      "command": ".venv/bin/python -m eval.chunking_report",
+      "exit_code": 0,
+      "seconds": 3.551217458996689
+    },
+    {
+      "command": "make lint",
+      "exit_code": 0,
+      "seconds": 1.9453615000238642
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "seconds": 2.7579122919996735
+    },
+    {
+      "command": "make build-fe",
+      "exit_code": 0,
+      "seconds": 4.359883125027409
+    },
+    {
+      "command": ".venv/bin/python -m eval.chunking_smoke",
+      "exit_code": 0,
+      "seconds": 12.397670625010505
+    },
+    {
+      "command": ".venv/bin/python -m eval.chunking_integrity",
+      "exit_code": 0,
+      "seconds": 0.7733069579990115
+    },
+    {
+      "command": ".venv/bin/python -m eval.validate_dataset --require-review",
+      "exit_code": 0,
+      "seconds": 0.5817042500129901
+    },
+    {
+      "command": ".venv/bin/python -m eval.automated_validation --verify",
+      "exit_code": 0,
+      "seconds": 0.09376012498978525
+    },
+    {
+      "command": ".venv/bin/python -m eval.verify_results --baseline eval/results/baseline-local-ollama.json --current eval/results/validated-local-ollama-second.json",
+      "exit_code": 0,
+      "seconds": 1.8243762499769218
+    },
+    {
+      "command": "make eval-gate",
+      "exit_code": 0,
+      "seconds": 0.11446483398322016
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "seconds": 0.012879457994131371
+    },
+    {
+      "command": "git status --short",
+      "exit_code": 0,
+      "seconds": 0.010714917007135227
+    },
+    {
+      "command": "git log -5 --oneline",
+      "exit_code": 0,
+      "seconds": 0.00994358299067244
+    }
+  ]
+}

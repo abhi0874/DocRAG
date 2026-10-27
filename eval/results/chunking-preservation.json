@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
+  "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+  "local_baseline_chunks": 151,
+  "local_vectors_equal_control": true,
+  "gemini_pairs_preserved": 20,
+  "application_counts": {
+    "documents": 0,
+    "chunks": 0
+  },
+  "tracked_secret_scan": "PASS"
+}
