@@ -88,18 +88,11 @@ def test_gate_rejects_undeclared_file_change():
 def test_declared_chunking_compatibility_preserves_retrieval_code(monkeypatch):
     import subprocess
 
-    from eval.chunking_experiments import config_for
-
     baseline = json.loads(
         (ROOT / "eval/results/baseline-local-ollama.json").read_text()
     )
-    candidate = copy.deepcopy(baseline)
-    candidate["config"] = config_for("heading-1400-280")
-    for key in ("ollama_version", "postgresql_version", "pgvector_version"):
-        candidate["config"][key] = baseline["config"][key]
-    candidate["git_revision"] = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
-    ).strip()
+    # This contract tests the frozen Step 3 change, not arbitrary later HEADs.
+    candidate = json.loads((ROOT / "eval/results/chunking-selected.json").read_text())
     assert compatible(baseline, candidate)["declared_chunking"] == "heading-1400-280"
     original = subprocess.check_output
 

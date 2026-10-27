@@ -1,7 +1,7 @@
 import { google, type GoogleEmbeddingModelOptions } from '@ai-sdk/google'
 import { embed, embedMany } from 'ai'
-import { sql } from 'drizzle-orm'
-import { db } from '@/lib/db'
+import { retrieve } from './retrieval'
+import { retrievalDefault, type RetrievalConfig, type RetrievalTiming } from './retrieval-config'
 import modelConfig from './model-config.json'
 import { localSettings, providerName } from './provider-config'
 import { localEmbeddings, ollamaLanguageModel } from './ollama'
@@ -53,10 +53,11 @@ export async function embedChunks(contents: string[]): Promise<number[][]> {
  * fused with Reciprocal Rank Fusion (RRF). Returns top K chunks.
  */
 export async function hybridSearch(
-  query: string,
-  documentId: number,
-  topK = 6,
+  query: string, documentId: number, topK = 6,
+  config: RetrievalConfig = retrievalDefault,
+  observer?: (timing: RetrievalTiming) => void,
 ): Promise<RetrievedChunk[]> {
+  return retrieve(query, documentId, topK, config, async () => {
   const { embedding } = providerName() === 'ollama'
     ? { embedding: (await localEmbeddings([query], 'query')).embeddings[0] }
     : await embed({
@@ -69,76 +70,8 @@ export async function hybridSearch(
       } satisfies GoogleEmbeddingModelOptions,
     },
   })
-  const embStr = `[${embedding.join(',')}]`
-
-  const [vectorRes, keywordRes] = await Promise.all([
-    db.execute(sql`
-      SELECT id, content, page_number, chunk_index,
-             1 - (embedding <=> ${embStr}::vector) AS score
-      FROM chunks
-      WHERE document_id = ${documentId} AND embedding IS NOT NULL
-      ORDER BY embedding <=> ${embStr}::vector
-      LIMIT 12
-    `),
-    db.execute(sql`
-      SELECT id, content, page_number, chunk_index,
-             ts_rank(content_tsv, plainto_tsquery('english', ${query})) AS score
-      FROM chunks
-      WHERE document_id = ${documentId}
-        AND content_tsv @@ plainto_tsquery('english', ${query})
-      ORDER BY score DESC
-      LIMIT 12
-    `),
-  ])
-
-  type Row = {
-    id: number
-    content: string
-    page_number: number
-    chunk_index: number
-    score: string | number
-  }
-
-  const vectorRows = vectorRes.rows as unknown as Row[]
-  const keywordRows = keywordRes.rows as unknown as Row[]
-
-  // Reciprocal Rank Fusion: score = sum over lists of 1 / (k + rank)
-  const K = 60
-  const fused = new Map<number, RetrievedChunk>()
-
-  vectorRows.forEach((row, rank) => {
-    fused.set(row.id, {
-      id: row.id,
-      content: row.content,
-      pageNumber: row.page_number,
-      chunkIndex: row.chunk_index,
-      vectorScore: Number(row.score),
-      keywordScore: null,
-      rrfScore: 1 / (K + rank + 1),
-    })
-  })
-
-  keywordRows.forEach((row, rank) => {
-    const existing = fused.get(row.id)
-    if (existing) {
-      existing.keywordScore = Number(row.score)
-      existing.rrfScore += 1 / (K + rank + 1)
-    } else {
-      fused.set(row.id, {
-        id: row.id,
-        content: row.content,
-        pageNumber: row.page_number,
-        chunkIndex: row.chunk_index,
-        vectorScore: null,
-        keywordScore: Number(row.score),
-        rrfScore: 1 / (K + rank + 1),
-      })
-    }
-  })
-
-  return Array.from(fused.values())
-    .sort((a, b) => b.rrfScore - a.rrfScore)
-    .slice(0, topK)
+    return embedding
+  }, observer)
 }
 
 /** Build the numbered context block the model cites from. */
