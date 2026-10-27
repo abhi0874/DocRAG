@@ -1,0 +1,14 @@
+{
+  "selected": "control",
+  "rule": "Hybrid candidates only; no Recall@5 or MRR loss versus control. Maximize Recall@5, MRR, multi-hop Recall@5; use measured median latency only to break quality ties. Vector/keyword ablations remain diagnostic.",
+  "development_hashes": {
+    "control": "e433a59acef43ab17313164088f9630e38d9b525eb49b88202e32b801c4c09d3",
+    "vector": "7f7333d2e97d13d09647abfffd1db6510d736dd06f545537ab47e1288ed2a548",
+    "keyword": "b864097da35411849ed15cfcd6fcc35f3cf7460b10c9f87c77449541328babf3",
+    "combined": "45fb5d4ce064dc201669a0de38441ba864c15e75e5a45b51307c0fbfe44abb52",
+    "pool24": "2c65feb59a078c5078abefd7d9faa0c9ff3a7ed4c3de3fedb9c0b078aadd2e55",
+    "broad24": "2918f8fd1e139db2ee69755afb400cda93ff7d4ec16bafaaac9a4524a44d7a7d"
+  },
+  "frozen_at": "2026-10-27T13:18:34.500710+00:00",
+  "split_sha256": "b95f0d64582573f315a63a3b80906543a7cd8c5d24136c788689830685ef4a0c"
+}

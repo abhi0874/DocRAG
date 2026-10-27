@@ -88,12 +88,19 @@ def configuration(provider=None):
     return config
 
 
-def run(golden, output, experiment=None):
+def run(golden, output, experiment=None, retrieval_experiment=None):
     config = configuration()
     if experiment:
         from eval.chunking_experiments import config_for
 
         config = config_for(experiment)
+    if retrieval_experiment:
+        from eval.retrieval_experiments import configuration as retrieval_configuration
+
+        if experiment not in (None, "heading-1400-280"):
+            raise ValueError("Retrieval experiments require the frozen Step 3 chunks")
+        experiment = "heading-1400-280"
+        config = retrieval_configuration(retrieval_experiment)
     is_local = config.get("provider") == "ollama"
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
@@ -182,6 +189,8 @@ def run(golden, output, experiment=None):
             "lib/chunking.ts",
             "lib/chunking-default.json",
         ]
+    if retrieval_experiment:
+        evaluator_files += ["eval/retrieval_experiments.py"]
     fingerprints = {p: sha256((ROOT / p).read_bytes()) for p in evaluator_files}
     rows = []
     cache_stats = Counter()
@@ -283,6 +292,8 @@ def run(golden, output, experiment=None):
                 for k in (3, 5, 10)
             }
         )
+        if retrieval_experiment:
+            row["retrieval_timing"] = response["timing"]
         rows.append(row)
         cache_stats.update(row["cache"])
         print(
@@ -355,9 +366,15 @@ def main():
     parser.add_argument("--golden", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--chunking-experiment")
+    parser.add_argument("--retrieval-experiment")
     args = parser.parse_args()
     try:
-        run(args.golden.resolve(), args.out.resolve(), args.chunking_experiment)
+        run(
+            args.golden.resolve(),
+            args.out.resolve(),
+            args.chunking_experiment,
+            args.retrieval_experiment,
+        )
     except Exception as exc:
         # Known adapter failures are already sanitized; arbitrary DB errors are not.
         detail = (

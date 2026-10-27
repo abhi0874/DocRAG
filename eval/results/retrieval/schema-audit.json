@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "indexes": [
+    [
+      "chunks_content_tsv_idx",
+      "CREATE INDEX chunks_content_tsv_idx ON public.chunks USING gin (content_tsv)"
+    ],
+    [
+      "chunks_document_id_idx",
+      "CREATE INDEX chunks_document_id_idx ON public.chunks USING btree (document_id)"
+    ],
+    [
+      "chunks_embedding_idx",
+      "CREATE INDEX chunks_embedding_idx ON public.chunks USING hnsw (embedding vector_cosine_ops)"
+    ],
+    [
+      "chunks_pkey",
+      "CREATE UNIQUE INDEX chunks_pkey ON public.chunks USING btree (id)"
+    ]
+  ],
+  "validity": [
+    [
+      "chunks_pkey",
+      true,
+      true
+    ],
+    [
+      "chunks_content_tsv_idx",
+      true,
+      true
+    ],
+    [
+      "chunks_embedding_idx",
+      true,
+      true
+    ],
+    [
+      "chunks_document_id_idx",
+      true,
+      true
+    ]
+  ],
+  "column": [
+    "tsvector",
+    "ALWAYS",
+    "to_tsvector('english'::regconfig, content)"
+  ],
+  "population": [
+    162,
+    162,
+    0
+  ],
+  "insert_update_empty_punctuation": "PASS on isolated temporary fixture; rolled back",
+  "schema_changes_required": false
+}
