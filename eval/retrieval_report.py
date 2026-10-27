@@ -19,7 +19,7 @@ from eval.retrieval_experiments import (
     summary,
 )
 from eval.retrieval_gate import gate
-from eval.verify_results import negative_gate
+from eval.verify_results import negative_gate, verify
 
 
 def verify_profile(result):
@@ -198,6 +198,42 @@ def report(profiles_only=False):
         candidate = json.loads(
             (ROOT / "eval/results/retrieval-selected.json").read_text()
         )
+        repeat = json.loads(
+            (ROOT / "eval/results/retrieval-repeat-raw.json").read_text()
+        )
+        verify(repeat, allow_provisional=True)
+        if candidate["config"] != repeat["config"]:
+            raise ValueError("Repeat configuration differs")
+        for first, second in zip(
+            candidate["questions"], repeat["questions"], strict=True
+        ):
+            for field in (
+                "answer",
+                "judge_detail",
+                "ranked_chunks",
+                "retrieved_source_ids",
+                "faithfulness",
+                "correctness",
+            ):
+                if first[field] != second[field]:
+                    raise ValueError("Cached repeat changed answer/evidence/judgment")
+        if repeat["cache_statistics"] != {
+            "embedding_hits": 100,
+            "embedding_misses": 0,
+            "answer_hits": 100,
+            "answer_misses": 0,
+            "judge_hits": 100,
+            "judge_misses": 0,
+        }:
+            raise ValueError("Expected a complete compatible cached repeat")
+        result["reproducibility"] = {
+            "exact_answers_contexts_judgments": "100/100 identical",
+            "repeat_cache_statistics": repeat["cache_statistics"],
+            "repeat_sha256": sha256(
+                (ROOT / "eval/results/retrieval-repeat-raw.json").read_bytes()
+            ),
+            "caveat": "Cached replay does not establish fresh inference determinism.",
+        }
         result["regression_gate"] = gate(baseline, candidate)
         result["negative_gates"] = {
             m: negative_gate(baseline, m) for m in ("recall@5", "faithfulness")
