@@ -1,4 +1,4 @@
-# Step 4 hybrid retrieval experiments — in progress
+# Step 4 hybrid retrieval experiments
 
 ## Previous-step audit (2026-10-27)
 
@@ -86,3 +86,102 @@ Production semantic caching, rerankers and generation-prompt changes are exclude
 No production schema changes are planned. Full-text insertion/update behavior is
 checked in an isolated temporary table and rolled back, without changing existing
 rows or sequences. Roll back a selected strategy by selecting the control settings.
+
+## Retrieval experiment results
+
+All numbers below are recomputed from the saved per-query measurements. Each
+row uses 60 development questions, three repetitions, 180 observations. Quality
+means use the 48 answerable questions; the 12 unanswerable questions remain in
+latency measurements. Retrieval alone does not decide whether an answer refuses.
+
+| Strategy | Recall@3 | Recall@5 | Recall@10 | MRR | Multi-hop Recall@5 | Retrieval p50 / p95 ms |
+|---|---:|---:|---:|---:|---:|---:|
+| Control: parallel 12/12 AND | .9270833333 | .9583333333 | 1 | .9756944444 | .8333333333 | 22.127333 / 25.556052 |
+| Vector only | .9270833333 | .9583333333 | 1 | .9756944444 | .8333333333 | 22.773354 / 27.414561 |
+| Keyword only, AND | .0416666667 | .0416666667 | .0416666667 | .0416666667 | 0 | .348563 / .777119 |
+| Combined 12/12 AND | .9270833333 | .9583333333 | 1 | .9756944444 | .8333333333 | 23.462167 / 27.610346 |
+| Combined 24/24 AND | .9270833333 | .9583333333 | 1 | .9756944444 | .8333333333 | 23.511041 / 28.321854 |
+| Combined 24/24 OR | .9270833333 | .9791666667 | 1 | .9739583333 | .9166666667 | 24.091604 / 27.956291 |
+
+**Selection: retain control.** Combining reads was about 1.33 ms slower at the
+median in these sequentially ordered, warm batches. Broad OR improved development
+Recall@5 by .0208333333 but reduced MRR by .0017361111 and source precision@6
+from .7881944444 to .75. It failed the predeclared no-MRR-loss selection rule;
+the .02 regression threshold is not permission to sacrifice quality for speed.
+Increasing candidate pools alone did not change relevant rankings. No claim of
+statistical significance or general speed improvement is made.
+
+The keyword-only result diagnoses an important limitation: AND requires every
+non-stopword from a natural-language question to occur in one chunk. It often
+returns nothing. This does not mean keyword search or its index is broken;
+exact technical-term and isolated full-text tests are separate. Broad OR is a
+recorded trade-off, not an adopted optimization. Source precision@6 here counts
+chunks from labeled relevant pages among returned top-six chunks; it is a
+retrieval diagnostic, not automated citation accuracy or a claim-level score.
+
+Selection was frozen before the one final holdout assessment. Because control
+won, control and selected are the same holdout run: 40 questions, 120 observations,
+Recall@3 .984375, Recall@5/10 1, MRR .96875, multi-hop Recall@5 1; retrieval p50
+22.5857915 ms and p95 26.8047771 ms. All three repeated chunk-rank sequences for
+all 100 control questions match the original Step 3 ranking exactly. The 40-question
+holdout includes 8 unanswerable questions; 32 are answerable for retrieval quality.
+
+## Component timings and database plans
+
+Control development p50 / p95 in milliseconds:
+
+| Component | p50 | p95 |
+|---|---:|---:|
+| Query embedding, including digest verification | 20.4550835 | 23.53175035 |
+| Vector SQL client elapsed | 1.550125 | 2.0499625 |
+| Keyword SQL client elapsed | 1.012396 | 1.382908 |
+| Concurrent database wall time | 1.552979 | 2.0545524 |
+| RRF merge | .0246875 | .038666 |
+| Total retrieval | 22.127333 | 25.55605175 |
+
+Embedding dominates the warm batch. Client SQL times include driver, network and
+result decoding; EXPLAIN execution times describe server work and are not the
+same measurement. SQL branches overlap, so adding their medians is invalid.
+
+EXPLAIN sampled 8 development questions × 3 repetitions × 4 configurations × 3
+statement forms = 288 plans. Control vector execution p50 was .8265 ms, keyword
+.2965 ms, and combined .8475 ms. Each control branch used sequential scans in 12
+plans and chunks_document_id_idx scans in 12. The combined statements contain
+both scans. All sampled plans recorded zero shared read blocks: these were warm
+buffer observations, not cold disk tests. GIN and HNSW exist and are valid but the
+planner did not choose them for these small filtered queries. There is no measured
+case for another index, planner forcing, or an index-removal migration. Existing
+HNSW/GIN maintenance and storage overhead remains; large-corpus scalability has
+not been measured in Step 4.
+
+Legacy ties retain input insertion order in fusion. The controlled alternatives
+use explicit chunk-ID SQL and fusion tie breaks. Fixed-index control repetition
+was identical in all 300 observations, but legacy SQL equal-score order is not
+guaranteed across physical database changes. This limitation is retained with
+the winning existing strategy and must not be described as universal determinism.
+
+## Verification and rollback
+
+Run the Step 4 section of COMMAND_CONTRACT.md. New reports verify the frozen
+artifact hashes, every source mapping, repeated chunk ranks, individual and
+aggregate metrics, split coverage and the selection rule. The comparison gate
+permits only declared retrieval fields and the audited retrieval extraction;
+models, query-embedding request, generation instructions, chunker, relevance
+labels, and unrelated application hashes must match. Step 3's measured revision
+predated adoption of its default chunk size, so the gate verifies the current
+chunking default equals the same explicit 1400/280 measured configuration.
+The ordinary regression checker remains unchanged and strict.
+
+No schema migration is needed; there is no schema rollback to perform. The
+application default is already the retained control. If reverting the code
+refactor is ever necessary, use a new revert commit after preserving evidence;
+do not reset history or remove saved measurements. Experimental strategies are
+available only through explicit internal configuration; user chat requests
+cannot override the chosen ranking configuration.
+
+The first end-to-end launch stopped before question 1 because the native
+PostgreSQL service had stopped between work sessions. `make up` restarted the
+owned cluster, using its existing idempotent schema setup, and `make db-status`
+confirmed it running. No reinstall or data reset was performed. The applicable
+verification sequence must pass after recovery; this operational issue is not
+silently treated as an evaluation result.

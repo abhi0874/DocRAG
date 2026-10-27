@@ -554,3 +554,47 @@ parameterized SELECTs inside read-only transactions. Full-text maintenance tests
 use a temporary fixture and rollback. No application read-only helper is weakened.
 The selection rule/split are frozen before holdout; saved experiments and previous
 baselines must not be overwritten. Independent model benchmarks must not overlap.
+
+The frozen winner is `control`. Preserve historical output names; use these new
+Step 4 artifacts. Commit evaluator code before running or validating measurements.
+If the existing native server has stopped, use `make up` followed by
+`make db-status`; this restarts the owned cluster without resetting data.
+
+```sh
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/retrieval-selected-raw.json --retrieval-experiment control
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/retrieval-repeat-raw.json --retrieval-experiment control
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/retrieval-selected-raw.json --current eval/results/retrieval-repeat-raw.json
+.venv/bin/python -m eval.promote_local --source eval/results/retrieval-selected-raw.json --out eval/results/retrieval-selected.json
+.venv/bin/python -m eval.retrieval_gate --baseline eval/results/chunking-selected.json --candidate eval/results/retrieval-selected.json
+.venv/bin/python -m eval.retrieval_report --profiles-only
+.venv/bin/python -m eval.retrieval_report
+make lint
+make test
+make build-fe
+make db-status
+.venv/bin/python -m eval.retrieval_sql_checks
+.venv/bin/python -m eval.retrieval_smoke
+.venv/bin/python -m eval.retrieval_integrity
+.venv/bin/python -m eval.preservation
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/chunking-selected-raw.json --current eval/results/chunking-repeat-raw.json
+.venv/bin/python -m eval.chunking_gate --baseline eval/results/baseline-local-ollama.json --candidate eval/results/chunking-selected.json
+AI_PROVIDER=ollama make eval-gate
+git branch --show-current
+git diff --check
+git status --short
+git log -5 --oneline
+```
+
+`retrieval_report` verifies all experiment source/metric/code hashes, the frozen
+selection and holdout, and executes negative Recall@5 and faithfulness gates.
+`retrieval_sql_checks` tests exact technical terms, punctuation and document
+isolation against the actual selected index through the TypeScript keyword path,
+without model inference. `retrieval_smoke` starts a temporary production HTTP
+server and checks streaming answers and source provenance, writing a new Step 4
+receipt. Run smoke/model checks after the measured evaluation, not concurrently.
+`retrieval_integrity` preserves all prior result, corpus and calibration files,
+Gemini cache/vectors and original local vectors, and checks tracked plus nonignored
+untracked files for private values without printing them. It creates only a new
+Step 4 preservation receipt. `make eval-gate` remains the unchanged strict legacy
+gate; the explicit retrieval gate above compares Step 4 against Step 3.

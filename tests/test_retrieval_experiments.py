@@ -76,3 +76,20 @@ def test_retrieval_gate_keeps_strict_quality_boundary(monkeypatch, metric):
     candidate["metrics"][metric] = baseline["metrics"][metric] - 0.020000001
     with pytest.raises(ValueError, match="Regression"):
         gate(baseline, candidate)
+
+
+@pytest.mark.parametrize("corruption", ["source", "coverage", "metric"])
+def test_profile_verification_rejects_corrupt_evidence(corruption):
+    from eval.retrieval_report import verify_profile
+
+    data = json.loads(
+        (ROOT / "eval/results/retrieval/control-development.json").read_text()
+    )
+    if corruption == "source":
+        data["rows"][0]["ranked_chunks"][0]["pageNumber"] = -1
+    elif corruption == "coverage":
+        data["rows"].pop()
+    else:
+        data["rows"][0]["recall@5"] = -1
+    with pytest.raises(ValueError, match="metadata|coverage|recall"):
+        verify_profile(data)

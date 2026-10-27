@@ -1,0 +1,482 @@
+{
+  "status": "PASS",
+  "selected": "control",
+  "development": {
+    "control": {
+      "quality": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9583333333333334,
+        "recall@10": 1.0,
+        "mrr": 0.9756944444444444,
+        "multi_hop_recall@5": 0.8333333333333334,
+        "source_precision@6": 0.7881944444444444
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 20.455083499999887,
+          "p95": 23.53175035000035
+        },
+        "vector_ms": {
+          "p50": 1.55012499999998,
+          "p95": 2.0499624999999577
+        },
+        "keyword_ms": {
+          "p50": 1.0123960000000807,
+          "p95": 1.3829080000001226
+        },
+        "database_wall_ms": {
+          "p50": 1.5529790000001071,
+          "p95": 2.0545523999998516
+        },
+        "fusion_ms": {
+          "p50": 0.024687500000027285,
+          "p95": 0.03866599999992104
+        },
+        "total_ms": {
+          "p50": 22.12733300000002,
+          "p95": 25.556051750000158
+        },
+        "combined_ms": null
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    },
+    "vector": {
+      "quality": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9583333333333334,
+        "recall@10": 1.0,
+        "mrr": 0.9756944444444444,
+        "multi_hop_recall@5": 0.8333333333333334,
+        "source_precision@6": 0.7881944444444444
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 21.066937499999995,
+          "p95": 25.32477049999992
+        },
+        "vector_ms": {
+          "p50": 1.643041999999923,
+          "p95": 2.169546149999837
+        },
+        "keyword_ms": {
+          "p50": 0.0,
+          "p95": 0.0
+        },
+        "database_wall_ms": {
+          "p50": 1.6468125000001237,
+          "p95": 2.1754375000004296
+        },
+        "fusion_ms": {
+          "p50": 0.024937999999906424,
+          "p95": 0.04526315000032353
+        },
+        "total_ms": {
+          "p50": 22.773354000000012,
+          "p95": 27.41456075000014
+        },
+        "combined_ms": null
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    },
+    "keyword": {
+      "quality": {
+        "recall@3": 0.041666666666666664,
+        "recall@5": 0.041666666666666664,
+        "recall@10": 0.041666666666666664,
+        "mrr": 0.041666666666666664,
+        "multi_hop_recall@5": 0.0,
+        "source_precision@6": 0.041666666666666664
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 0.0,
+          "p95": 0.0
+        },
+        "vector_ms": {
+          "p50": 0.0,
+          "p95": 0.0
+        },
+        "keyword_ms": {
+          "p50": 0.3414165000000082,
+          "p95": 0.7666145999999995
+        },
+        "database_wall_ms": {
+          "p50": 0.3419374999999718,
+          "p95": 0.7671416999999888
+        },
+        "fusion_ms": {
+          "p50": 0.0007919999999899119,
+          "p95": 0.0036249999999995453
+        },
+        "total_ms": {
+          "p50": 0.3485625000000141,
+          "p95": 0.7771187499999934
+        },
+        "combined_ms": null
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    },
+    "combined": {
+      "quality": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9583333333333334,
+        "recall@10": 1.0,
+        "mrr": 0.9756944444444444,
+        "multi_hop_recall@5": 0.8333333333333334,
+        "source_precision@6": 0.7881944444444444
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 21.09887450000008,
+          "p95": 25.0323764500001
+        },
+        "vector_ms": null,
+        "keyword_ms": null,
+        "database_wall_ms": {
+          "p50": 2.234104499999944,
+          "p95": 2.8913642499999805
+        },
+        "fusion_ms": {
+          "p50": 0.02420799999981682,
+          "p95": 0.03794200000053251
+        },
+        "total_ms": {
+          "p50": 23.462167000000022,
+          "p95": 27.610345849999916
+        },
+        "combined_ms": {
+          "p50": 2.220666499999993,
+          "p95": 2.874387199999921
+        }
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    },
+    "pool24": {
+      "quality": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9583333333333334,
+        "recall@10": 1.0,
+        "mrr": 0.9756944444444444,
+        "multi_hop_recall@5": 0.8333333333333334,
+        "source_precision@6": 0.7881944444444444
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 21.11987549999992,
+          "p95": 25.725708049999955
+        },
+        "vector_ms": null,
+        "keyword_ms": null,
+        "database_wall_ms": {
+          "p50": 2.197896000000128,
+          "p95": 2.8787395999998115
+        },
+        "fusion_ms": {
+          "p50": 0.028541499999846565,
+          "p95": 0.04745450000020809
+        },
+        "total_ms": {
+          "p50": 23.51104149999992,
+          "p95": 28.321854499999976
+        },
+        "combined_ms": {
+          "p50": 2.1798745000000963,
+          "p95": 2.8613919999996136
+        }
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    },
+    "broad24": {
+      "quality": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9791666666666666,
+        "recall@10": 1.0,
+        "mrr": 0.9739583333333334,
+        "multi_hop_recall@5": 0.9166666666666666,
+        "source_precision@6": 0.75
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 21.16168800000014,
+          "p95": 24.969556599999894
+        },
+        "vector_ms": null,
+        "keyword_ms": null,
+        "database_wall_ms": {
+          "p50": 2.6951040000001285,
+          "p95": 3.4925562500001774
+        },
+        "fusion_ms": {
+          "p50": 0.042125000000169166,
+          "p95": 0.06172355000001053
+        },
+        "total_ms": {
+          "p50": 24.09160399999996,
+          "p95": 27.956291349999475
+        },
+        "combined_ms": {
+          "p50": 2.675312500000018,
+          "p95": 3.4665729000002896
+        }
+      },
+      "questions": 60,
+      "observations": 180,
+      "unanswerable_questions": 12
+    }
+  },
+  "holdout": {
+    "control": {
+      "quality": {
+        "recall@3": 0.984375,
+        "recall@5": 1.0,
+        "recall@10": 1.0,
+        "mrr": 0.96875,
+        "multi_hop_recall@5": 1.0,
+        "source_precision@6": 0.8229166666666666
+      },
+      "timing": {
+        "embedding_ms": {
+          "p50": 20.82781250000005,
+          "p95": 24.823116649999953
+        },
+        "vector_ms": {
+          "p50": 1.504229500000065,
+          "p95": 2.048847300000025
+        },
+        "keyword_ms": {
+          "p50": 0.978542000000175,
+          "p95": 1.278002399999945
+        },
+        "database_wall_ms": {
+          "p50": 1.5077090000002045,
+          "p95": 2.169579449999918
+        },
+        "fusion_ms": {
+          "p50": 0.024125000000140062,
+          "p95": 0.038958649999869976
+        },
+        "total_ms": {
+          "p50": 22.585791500000028,
+          "p95": 26.804777100000027
+        },
+        "combined_ms": null
+      },
+      "questions": 40,
+      "observations": 120,
+      "unanswerable_questions": 8
+    }
+  },
+  "plans": {
+    "control": {
+      "vectorSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.8265,
+        "execution_p95_ms": 1.27405,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "keywordSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.2965,
+        "execution_p95_ms": 0.49154999999999993,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "combined": {
+        "observations": 24,
+        "execution_p50_ms": 0.8474999999999999,
+        "execution_p95_ms": 1.385,
+        "nodes": {
+          "Append": 24,
+          "Limit": 48,
+          "Sort": 48,
+          "Seq Scan": 24,
+          "CTE Scan": 48,
+          "Subquery Scan": 24,
+          "Index Scan": 24
+        },
+        "indexes": {
+          "chunks_document_id_idx": 24
+        },
+        "shared_read_blocks": 0
+      }
+    },
+    "combined": {
+      "vectorSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.8185,
+        "execution_p95_ms": 1.2625,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "keywordSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.256,
+        "execution_p95_ms": 0.43644999999999995,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "combined": {
+        "observations": 24,
+        "execution_p50_ms": 0.891,
+        "execution_p95_ms": 1.4259999999999997,
+        "nodes": {
+          "Append": 24,
+          "Limit": 48,
+          "Sort": 48,
+          "Seq Scan": 24,
+          "CTE Scan": 48,
+          "Subquery Scan": 24,
+          "Index Scan": 24
+        },
+        "indexes": {
+          "chunks_document_id_idx": 24
+        },
+        "shared_read_blocks": 0
+      }
+    },
+    "pool24": {
+      "vectorSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.8565,
+        "execution_p95_ms": 1.3209499999999998,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "keywordSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.28900000000000003,
+        "execution_p95_ms": 0.5102499999999999,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "combined": {
+        "observations": 24,
+        "execution_p50_ms": 0.9605,
+        "execution_p95_ms": 1.39255,
+        "nodes": {
+          "Append": 24,
+          "Limit": 48,
+          "Sort": 48,
+          "Seq Scan": 24,
+          "CTE Scan": 48,
+          "Subquery Scan": 24,
+          "Index Scan": 24
+        },
+        "indexes": {
+          "chunks_document_id_idx": 24
+        },
+        "shared_read_blocks": 0
+      }
+    },
+    "broad24": {
+      "vectorSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.8865000000000001,
+        "execution_p95_ms": 1.28755,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "keywordSql": {
+        "observations": 24,
+        "execution_p50_ms": 0.5675,
+        "execution_p95_ms": 0.82685,
+        "nodes": {
+          "Limit": 24,
+          "Sort": 24,
+          "Seq Scan": 12,
+          "Index Scan": 12
+        },
+        "indexes": {
+          "chunks_document_id_idx": 12
+        },
+        "shared_read_blocks": 0
+      },
+      "combined": {
+        "observations": 24,
+        "execution_p50_ms": 1.245,
+        "execution_p95_ms": 1.8433,
+        "nodes": {
+          "Append": 24,
+          "Limit": 48,
+          "Sort": 48,
+          "Seq Scan": 24,
+          "CTE Scan": 48,
+          "Subquery Scan": 24,
+          "Index Scan": 24
+        },
+        "indexes": {
+          "chunks_document_id_idx": 24
+        },
+        "shared_read_blocks": 0
+      }
+    }
+  },
+  "historical_control_ranks": "100/100 identical, all three repetitions"
+}
