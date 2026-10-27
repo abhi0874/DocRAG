@@ -1,0 +1,545 @@
+{
+  "status": "PASS",
+  "original_baseline_sha256": "c1f7b2fd7709c8b86ca725d95490e765e081bb1ec5a99eb10cd9577bbd9bf894",
+  "candidate_sha256": "54595286ef29787e2cc8060f582f04c47d5c123e21613cc1b23ac4a6193e36a9",
+  "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+  "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+  "models": {
+    "provider": "ollama",
+    "baseUrl": "http://localhost:11434",
+    "chat": "qwen3.8:latest",
+    "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+    "embedding": "embeddinggemma:300m",
+    "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+    "embeddingDimensions": 768,
+    "options": {
+      "num_ctx": 32768,
+      "num_predict": 2048,
+      "temperature": 0,
+      "seed": 42,
+      "top_k": 20,
+      "top_p": 0.95,
+      "min_p": 0,
+      "repeat_penalty": 1,
+      "presence_penalty": 0
+    },
+    "think": false,
+    "keep_alive": "30m",
+    "timeout_ms": 180000,
+    "max_attempts": 3,
+    "document_prefix": "title: none | text: ",
+    "query_prefix": "task: search result | query: "
+  },
+  "experiments": [
+    {
+      "name": "control-1000-200",
+      "configuration": {
+        "algorithm": "legacy-v1",
+        "size": 1000,
+        "overlap": 200
+      },
+      "chunk_count": 151,
+      "lengths": {
+        "mean": 928.6622516556291,
+        "min": 322,
+        "max": 1000,
+        "p25": 902.0,
+        "p50": 960.0,
+        "p95": 1000.0
+      },
+      "ingestion_seconds": 0.37169512498076074,
+      "embedding_seconds": 3.2499374356120825e-06,
+      "development": {
+        "recall@3": 0.90625,
+        "recall@5": 0.9479166666666666,
+        "recall@10": 0.9895833333333334,
+        "mrr": 0.9520833333333333,
+        "multi_hop_recall@5": 0.7916666666666666,
+        "retrieval_p50_ms": 59.533437999999975,
+        "retrieval_p95_ms": 67.28917645,
+        "count": 60,
+        "unanswerable_count": 12
+      }
+    },
+    {
+      "name": "heading-1000-200",
+      "configuration": {
+        "algorithm": "heading-v1",
+        "size": 1000,
+        "overlap": 200
+      },
+      "chunk_count": 195,
+      "lengths": {
+        "mean": 652.9230769230769,
+        "min": 11,
+        "max": 994,
+        "p25": 431.5,
+        "p50": 743.0,
+        "p95": 976.0
+      },
+      "ingestion_seconds": 5.337146292004036,
+      "embedding_seconds": 4.456145662930794,
+      "development": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9479166666666666,
+        "recall@10": 0.9895833333333334,
+        "mrr": 0.9729166666666667,
+        "multi_hop_recall@5": 0.7916666666666666,
+        "retrieval_p50_ms": 59.102520500000026,
+        "retrieval_p95_ms": 61.52024200000002,
+        "count": 60,
+        "unanswerable_count": 12
+      }
+    },
+    {
+      "name": "heading-700-140",
+      "configuration": {
+        "algorithm": "heading-v1",
+        "size": 700,
+        "overlap": 140
+      },
+      "chunk_count": 261,
+      "lengths": {
+        "mean": 504.264367816092,
+        "min": 11,
+        "max": 698,
+        "p25": 389.0,
+        "p50": 575.0,
+        "p95": 690.0
+      },
+      "ingestion_seconds": 6.694422208995093,
+      "embedding_seconds": 5.468287585914368,
+      "development": {
+        "recall@3": 0.9166666666666666,
+        "recall@5": 0.9166666666666666,
+        "recall@10": 0.9895833333333334,
+        "mrr": 0.9826388888888888,
+        "multi_hop_recall@5": 0.75,
+        "retrieval_p50_ms": 58.89218750000002,
+        "retrieval_p95_ms": 61.47113574999999,
+        "count": 60,
+        "unanswerable_count": 12
+      }
+    },
+    {
+      "name": "heading-1400-280",
+      "configuration": {
+        "algorithm": "heading-v1",
+        "size": 1400,
+        "overlap": 280
+      },
+      "chunk_count": 162,
+      "lengths": {
+        "mean": 768.4876543209876,
+        "min": 11,
+        "max": 1396,
+        "p25": 423.5,
+        "p50": 757.5,
+        "p95": 1381.55
+      },
+      "ingestion_seconds": 4.274045208003372,
+      "embedding_seconds": 3.5548404160072096,
+      "development": {
+        "recall@3": 0.9270833333333334,
+        "recall@5": 0.9583333333333334,
+        "recall@10": 1.0,
+        "mrr": 0.9756944444444444,
+        "multi_hop_recall@5": 0.8333333333333334,
+        "retrieval_p50_ms": 54.31064549999998,
+        "retrieval_p95_ms": 62.77936665000001,
+        "count": 60,
+        "unanswerable_count": 12
+      }
+    },
+    {
+      "name": "heading-1000-100",
+      "configuration": {
+        "algorithm": "heading-v1",
+        "size": 1000,
+        "overlap": 100
+      },
+      "chunk_count": 189,
+      "lengths": {
+        "mean": 630.1798941798942,
+        "min": 11,
+        "max": 994,
+        "p25": 404.0,
+        "p50": 695.0,
+        "p95": 975.2
+      },
+      "ingestion_seconds": 4.817779292003252,
+      "embedding_seconds": 3.9674974600202404,
+      "development": {
+        "recall@3": 0.9375,
+        "recall@5": 0.9479166666666666,
+        "recall@10": 0.9895833333333334,
+        "mrr": 0.9652777777777778,
+        "multi_hop_recall@5": 0.7916666666666666,
+        "retrieval_p50_ms": 59.172167000000016,
+        "retrieval_p95_ms": 66.56465829999998,
+        "count": 60,
+        "unanswerable_count": 12
+      }
+    }
+  ],
+  "selection": {
+    "selected": "heading-1400-280",
+    "rule": "Development recall@5, MRR, multi-hop recall@5; control on equality, then fewer chunks. Source checks are mandatory. Unanswerable retrieval has no relevant labels and is not assigned recall.",
+    "development_artifact_hashes": {
+      "control-1000-200": "4967ba9b1944f90b9da19af11fab92eda8ce2a6e2a56c6d593078387ebb49c3a",
+      "heading-1000-200": "9a378f12389fe197dd9e0c62bf4f6982a9f7406bfb635ec094cf069d0c9a435b",
+      "heading-700-140": "24fdab49044ed5e95aca67fb786361404bc1008f919a8c8a9b0c0a7c27b410ed",
+      "heading-1400-280": "2069fcb1574a959265aac2a7ff3d5fd1e847c61d40a90c04f81ec2bd399a4023",
+      "heading-1000-100": "a79121b7f963cc1b4123546c4eb440b414eb8efa5515fb6295d3975cb932eede"
+    },
+    "split_sha256": "b95f0d64582573f315a63a3b80906543a7cd8c5d24136c788689830685ef4a0c",
+    "frozen_at": "2026-10-26T13:07:44.508426+00:00"
+  },
+  "split": {
+    "seed": 42,
+    "development": [
+      "fastapi-002",
+      "fastapi-006",
+      "fastapi-007",
+      "fastapi-010",
+      "fastapi-011",
+      "fastapi-012",
+      "fastapi-013",
+      "fastapi-014",
+      "fastapi-015",
+      "fastapi-016",
+      "fastapi-017",
+      "fastapi-020",
+      "fastapi-022",
+      "fastapi-023",
+      "fastapi-026",
+      "fastapi-027",
+      "fastapi-028",
+      "fastapi-030",
+      "fastapi-032",
+      "fastapi-033",
+      "fastapi-034",
+      "fastapi-036",
+      "fastapi-038",
+      "fastapi-039",
+      "fastapi-043",
+      "fastapi-045",
+      "fastapi-047",
+      "fastapi-048",
+      "fastapi-049",
+      "fastapi-050",
+      "postgresql-001",
+      "postgresql-005",
+      "postgresql-006",
+      "postgresql-007",
+      "postgresql-008",
+      "postgresql-009",
+      "postgresql-011",
+      "postgresql-014",
+      "postgresql-016",
+      "postgresql-017",
+      "postgresql-019",
+      "postgresql-021",
+      "postgresql-022",
+      "postgresql-023",
+      "postgresql-025",
+      "postgresql-027",
+      "postgresql-028",
+      "postgresql-029",
+      "postgresql-031",
+      "postgresql-033",
+      "postgresql-036",
+      "postgresql-037",
+      "postgresql-038",
+      "postgresql-040",
+      "postgresql-041",
+      "postgresql-042",
+      "postgresql-043",
+      "postgresql-048",
+      "postgresql-049",
+      "postgresql-050"
+    ],
+    "holdout": [
+      "fastapi-001",
+      "fastapi-003",
+      "fastapi-004",
+      "fastapi-005",
+      "fastapi-008",
+      "fastapi-009",
+      "fastapi-018",
+      "fastapi-019",
+      "fastapi-021",
+      "fastapi-024",
+      "fastapi-025",
+      "fastapi-029",
+      "fastapi-031",
+      "fastapi-035",
+      "fastapi-037",
+      "fastapi-040",
+      "fastapi-041",
+      "fastapi-042",
+      "fastapi-044",
+      "fastapi-046",
+      "postgresql-002",
+      "postgresql-003",
+      "postgresql-004",
+      "postgresql-010",
+      "postgresql-012",
+      "postgresql-013",
+      "postgresql-015",
+      "postgresql-018",
+      "postgresql-020",
+      "postgresql-024",
+      "postgresql-026",
+      "postgresql-030",
+      "postgresql-032",
+      "postgresql-034",
+      "postgresql-035",
+      "postgresql-039",
+      "postgresql-044",
+      "postgresql-045",
+      "postgresql-046",
+      "postgresql-047"
+    ],
+    "limitation": "All 100 questions were previously used in Step 2; this is a parameter-selection holdout, not an unseen unbiased benchmark."
+  },
+  "holdout": {
+    "control-1000-200": {
+      "recall@3": 0.96875,
+      "recall@5": 0.984375,
+      "recall@10": 1.0,
+      "mrr": 0.96875,
+      "multi_hop_recall@5": 0.9375,
+      "retrieval_p50_ms": 59.209917000000004,
+      "retrieval_p95_ms": 62.81974134999998,
+      "count": 40,
+      "unanswerable_count": 8
+    },
+    "heading-1400-280": {
+      "recall@3": 0.984375,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.96875,
+      "multi_hop_recall@5": 1.0,
+      "retrieval_p50_ms": 58.555479000000005,
+      "retrieval_p95_ms": 62.71901460000001,
+      "count": 40,
+      "unanswerable_count": 8
+    }
+  },
+  "baseline": {
+    "recall@3": 0.93125,
+    "recall@5": 0.9625,
+    "recall@10": 0.99375,
+    "mrr": 0.95875,
+    "citation_accuracy": 1.0,
+    "citation_supported": 298,
+    "citation_denominator": 298,
+    "faithfulness": 0.995,
+    "correctness": 0.975,
+    "p50_latency_ms": 5165.6565835,
+    "p95_latency_ms": 11939.51523895,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6443.79,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1592.21,
+    "judge_tokens_per_query": 4823.64,
+    "retrieval_p50_latency_ms": 31.57474949999998,
+    "retrieval_p95_latency_ms": 40.85333749999998,
+    "generation_p50_latency_ms": 5130.316666499999,
+    "generation_p95_latency_ms": 11899.3349521
+  },
+  "candidate": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 268,
+    "citation_denominator": 268,
+    "faithfulness": 1,
+    "correctness": 0.99,
+    "p50_latency_ms": 5769.012625,
+    "p95_latency_ms": 13034.495908649997,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6681.21,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1717.09,
+    "judge_tokens_per_query": 4936.18,
+    "retrieval_p50_latency_ms": 60.2312915,
+    "retrieval_p95_latency_ms": 66.68716904999998,
+    "generation_p50_latency_ms": 5708.036021,
+    "generation_p95_latency_ms": 12969.903556849997
+  },
+  "differences": {
+    "recall@3": {
+      "baseline": 0.93125,
+      "candidate": 0.95,
+      "absolute": 0.018749999999999933,
+      "relative_percent": 2.0134228187919394
+    },
+    "recall@5": {
+      "baseline": 0.9625,
+      "candidate": 0.975,
+      "absolute": 0.012499999999999956,
+      "relative_percent": 1.298701298701294
+    },
+    "recall@10": {
+      "baseline": 0.99375,
+      "candidate": 1.0,
+      "absolute": 0.006249999999999978,
+      "relative_percent": 0.6289308176100606
+    },
+    "mrr": {
+      "baseline": 0.95875,
+      "candidate": 0.9729166666666667,
+      "absolute": 0.01416666666666666,
+      "relative_percent": 1.4776184267709684
+    },
+    "citation_accuracy": {
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "absolute": 0.0,
+      "relative_percent": 0.0
+    },
+    "citation_supported": {
+      "baseline": 298,
+      "candidate": 268,
+      "absolute": -30,
+      "relative_percent": -10.06711409395973
+    },
+    "citation_denominator": {
+      "baseline": 298,
+      "candidate": 268,
+      "absolute": -30,
+      "relative_percent": -10.06711409395973
+    },
+    "faithfulness": {
+      "baseline": 0.995,
+      "candidate": 1,
+      "absolute": 0.0050000000000000044,
+      "relative_percent": 0.5025125628140708
+    },
+    "correctness": {
+      "baseline": 0.975,
+      "candidate": 0.99,
+      "absolute": 0.015000000000000013,
+      "relative_percent": 1.5384615384615399
+    },
+    "p50_latency_ms": {
+      "baseline": 5165.6565835,
+      "candidate": 5769.012625,
+      "absolute": 603.3560415000002,
+      "relative_percent": 11.68014233519169
+    },
+    "p95_latency_ms": {
+      "baseline": 11939.51523895,
+      "candidate": 13034.495908649997,
+      "absolute": 1094.9806696999967,
+      "relative_percent": 9.171064719008584
+    },
+    "answerable_count": {
+      "baseline": 80,
+      "candidate": 80,
+      "absolute": 0,
+      "relative_percent": 0.0
+    },
+    "unanswerable_count": {
+      "baseline": 20,
+      "candidate": 20,
+      "absolute": 0,
+      "relative_percent": 0.0
+    },
+    "tokens_per_query": {
+      "baseline": 6443.79,
+      "candidate": 6681.21,
+      "absolute": 237.42000000000007,
+      "relative_percent": 3.6844776133300443
+    },
+    "estimated_cost_per_query_usd": {
+      "baseline": 0,
+      "candidate": 0,
+      "absolute": 0,
+      "relative_percent": null
+    },
+    "answer_tokens_per_query": {
+      "baseline": 1592.21,
+      "candidate": 1717.09,
+      "absolute": 124.87999999999988,
+      "relative_percent": 7.843186514341694
+    },
+    "judge_tokens_per_query": {
+      "baseline": 4823.64,
+      "candidate": 4936.18,
+      "absolute": 112.53999999999996,
+      "relative_percent": 2.333092851041951
+    },
+    "retrieval_p50_latency_ms": {
+      "baseline": 31.57474949999998,
+      "candidate": 60.2312915,
+      "absolute": 28.656542000000016,
+      "relative_percent": 90.75778099205516
+    },
+    "retrieval_p95_latency_ms": {
+      "baseline": 40.85333749999998,
+      "candidate": 66.68716904999998,
+      "absolute": 25.83383155,
+      "relative_percent": 63.23554727933798
+    },
+    "generation_p50_latency_ms": {
+      "baseline": 5130.316666499999,
+      "candidate": 5708.036021,
+      "absolute": 577.7193545000009,
+      "relative_percent": 11.260890741353247
+    },
+    "generation_p95_latency_ms": {
+      "baseline": 11899.3349521,
+      "candidate": 12969.903556849997,
+      "absolute": 1070.5686047499967,
+      "relative_percent": 8.996877632737469
+    }
+  },
+  "gate": {
+    "status": "PASS",
+    "compatibility": {
+      "declared_chunking": "heading-1400-280",
+      "changed_application_files": [
+        "lib/db/schema.ts",
+        "lib/provider-config.ts",
+        "lib/rag.ts"
+      ],
+      "baseline_config_sha256": "ac6fefd8f60b35abcad3be91ae3b4274d54268e043081c1618c760a4307a9c0a",
+      "candidate_config_sha256": "9143de9064106902400d34cae3f402defc7c3298064b9c995175f7b3515eaaa6"
+    },
+    "decreases": {
+      "recall@5": "-0.0125",
+      "faithfulness": "-0.005"
+    }
+  },
+  "failures": [
+    {
+      "name": "control-1000-200",
+      "error_type": "ValueError",
+      "stage": "development"
+    },
+    {
+      "name": "heading-1400-280",
+      "error_type": "RuntimeError",
+      "stage": "development"
+    }
+  ],
+  "limitations": [
+    "Automated scores; reference labels AI-suggested and personally checked, not independent blind human validation.",
+    "All questions previously used in Step 2. Selection holdout is not a fresh unbiased benchmark.",
+    "Source-page recall does not guarantee answer-bearing evidence.",
+    "Baseline timings mix 16 cached and 84 fresh answers. Candidate cache counts must be interpreted separately.",
+    "Timing excludes judging/startup and is not browser or deployed latency.",
+    "Interrupted first larger-chunk retrieval attempt recorded RuntimeError without retaining its underlying message; precise historical cause is unavailable."
+  ]
+}

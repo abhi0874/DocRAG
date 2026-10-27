@@ -60,6 +60,20 @@ def compatible(baseline, candidate):
         != at(candidate, "lib/rag.ts").split(marker, 1)[1]
     ):
         raise ValueError("Retrieval, embedding or answer instructions changed")
+    old_rag = at(baseline, "lib/rag.ts")
+    expected_rag = (
+        old_rag[: old_rag.index("const CHUNK_SIZE =")]
+        + "export { chunkPages } from './chunking'\n"
+        + "export type { TextChunk } from './chunking'\n\n"
+        + old_rag[
+            old_rag.index("export interface RetrievedChunk") : old_rag.index(
+                "/**\n * Split page texts"
+            )
+        ]
+        + old_rag[old_rag.index(marker) :]
+    )
+    if at(candidate, "lib/rag.ts") != expected_rag:
+        raise ValueError("Application changed beyond the declared chunker extraction")
     old_schema = at(baseline, "lib/db/schema.ts")
     new_schema = at(candidate, "lib/db/schema.ts")
     if new_schema.replace("  metadata: jsonb('metadata'),\n", "") != old_schema:

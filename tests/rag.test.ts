@@ -3,7 +3,8 @@ vi.mock('@/lib/db', () => ({ db: { execute: vi.fn() } }))
 vi.mock('ai', () => ({ embed: vi.fn(), embedMany: vi.fn() }))
 import { embed, embedMany } from 'ai'
 import { db } from '@/lib/db'
-import { buildContext, chunkPages, embedChunks, hybridSearch } from '@/lib/rag'
+import { legacyChunkPages as chunkPages } from '@/lib/chunking'
+import { buildContext, embedChunks, hybridSearch } from '@/lib/rag'
 
 describe('existing chunking behavior', () => {
   it('returns no chunks for empty or whitespace-only documents', () => {

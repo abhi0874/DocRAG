@@ -1,5 +1,5 @@
 {
-  "algorithm": "legacy-v1",
-  "size": 1000,
-  "overlap": 200
+  "algorithm": "heading-v1",
+  "size": 1400,
+  "overlap": 280
 }

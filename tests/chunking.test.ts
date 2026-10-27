@@ -50,3 +50,9 @@ describe('heading-aware chunks', () => {
     expect(chunkPages(input, {...config, overlap: 0}).length).toBeGreaterThan(0)
   })
 })
+
+ it('uses the measured selected configuration for future uploads', () => {
+  const text = '# Overview\n' + 'Public evidence sentence. '.repeat(100)
+  expect(chunkPages([text])).toEqual(chunkPages([text], {algorithm: 'heading-v1', size: 1400, overlap: 280}))
+  expect(chunkPages([text])[0].metadata?.configId).toBe('heading-v1-1400-280')
+})

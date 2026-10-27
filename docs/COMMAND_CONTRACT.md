@@ -514,3 +514,25 @@ selection rule and per-row metrics. Full evaluation runs must not be concurrent.
 The smoke command starts a temporary production-built loopback HTTP server against
 the selected experiment database, tests real documents/chat routes, then stops it.
 It uses installed Ollama models, never Gemini inference.
+
+The final read-only preservation and private-value check is:
+
+```sh
+.venv/bin/python -m eval.chunking_integrity
+```
+
+It compares the original baseline/dataset bytes, original Gemini cache/vectors,
+and original local vectors against the exact control copy, records application
+row counts, and scans tracked content in memory without printing private values.
+
+For final cached reproducibility, preserve the first run and use a separate output:
+
+```sh
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/chunking-repeat-raw.json --chunking-experiment heading-1400-280
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/chunking-selected-raw.json --current eval/results/chunking-repeat-raw.json
+```
+
+The diagnostic flag here verifies the original unannotated measurement artifacts;
+the validated selected result must separately pass chunking_gate. It never grants
+baseline status or bypasses the quality gate. Repeated SQL retrieval still runs;
+only exact compatible context/model/prompt/config caches can be reused.
