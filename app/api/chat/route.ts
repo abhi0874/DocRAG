@@ -3,7 +3,7 @@ import {
   createUIMessageStreamResponse,
   toUIMessageStream,
 } from 'ai'
-import { hybridSearch } from '@/lib/rag'
+import { selectContext } from '@/lib/select-context'
 import { startRagAnswer } from '@/lib/rag-answer'
 import type { RagUIMessage } from '@/lib/types'
 
@@ -28,7 +28,8 @@ export async function POST(req: Request) {
       .join(' ') ?? ''
 
   // Hybrid retrieval: vector + keyword, fused with RRF
-  const retrieved = await hybridSearch(question, documentId, 6)
+  const selection = await selectContext(question, documentId, 6)
+  const retrieved = selection.ranked
 
   const stream = createUIMessageStream<RagUIMessage>({
     execute: async ({ writer }) => {
@@ -44,5 +45,8 @@ export async function POST(req: Request) {
     },
   })
 
-  return createUIMessageStreamResponse({ stream })
+  return createUIMessageStreamResponse({ stream, headers: {
+    'X-DocRAG-Reranker-Status': selection.trace.status,
+    ...(selection.trace.reason ? {'X-DocRAG-Reranker-Reason': selection.trace.reason} : {}),
+  } })
 }

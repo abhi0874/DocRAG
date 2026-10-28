@@ -5,5 +5,5 @@ import nextTypescript from 'eslint-config-next/typescript'
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
-  globalIgnores(['.next/**', '.venv/**', 'coverage/**', 'next-env.d.ts']),
+  globalIgnores(['.next/**', '.venv/**', '.local/reranker-minilm/**', 'coverage/**', 'next-env.d.ts']),
 ])

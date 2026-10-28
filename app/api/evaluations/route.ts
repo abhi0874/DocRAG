@@ -5,9 +5,9 @@ import { evaluations } from '@/lib/db/schema'
 import {
   buildContext,
   CHAT_MODEL,
-  hybridSearch,
   RAG_INSTRUCTIONS,
 } from '@/lib/rag'
+import { selectContext } from '@/lib/select-context'
 
 export const maxDuration = 120
 
@@ -32,7 +32,8 @@ export async function POST(req: Request) {
   }
 
   // Retrieve context for the RAG answer
-  const retrieved = await hybridSearch(question, documentId, 6)
+  const selection = await selectContext(question, documentId, 6)
+  const retrieved = selection.ranked
   const context = buildContext(retrieved)
 
   // Run both answers in parallel: with retrieval vs. without
@@ -61,5 +62,5 @@ export async function POST(req: Request) {
     })
     .returning()
 
-  return Response.json(saved)
+  return Response.json({...saved, reranking: selection.trace})
 }
