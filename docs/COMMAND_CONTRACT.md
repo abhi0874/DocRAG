@@ -701,3 +701,19 @@ The production smoke starts/stops owned servers on loopback port8003 and verifie
 home/documents/chat, enabled/disabled modes, missing runtime, timeout fallback,
 source provenance, citations and worker shutdown. No files are removed to simulate
 unavailability. It uses launch configuration only, and no Gemini inference.
+
+The clean recovery matrix retained `control`. The selected all100 command above
+therefore uses `--reranking-experiment control`. Afterward:
+
+```sh
+.venv/bin/python -m eval.reranking_cases
+.venv/bin/python -m eval.reranking_integrity
+```
+
+Case diagnostics cover the two incomplete answers and one deliberately
+unanswerable question per document, under all three configurations. They are
+separate automated diagnostics, never selection tuning or all100 candidate scores.
+The integrity command compares every Step2–4 result, corpus and annotation to
+commit4ba666c, verifies preserved Gemini/local vectors and scans tracked plus
+nonignored files for private values without printing them. It writes only a new
+Step5 receipt.
