@@ -612,8 +612,7 @@ OLLAMA_HOST=127.0.0.1:11434 OLLAMA_NO_CLOUD=1 .local/ollama-runtime-0.40.9/ollam
 ```
 
 Leave that process running for the Step 4 verification commands; Ctrl+C stops it.
-Do not launch a competing desktop Ollama server. `eval/results/retrieval/runtime-
-reproducibility.json` records the official archive hash, executable hash, server
+Do not launch a competing desktop Ollama server. `eval/results/retrieval/runtime-reproducibility.json` records the official archive hash, executable hash, server
 version and verified model digests. To reconstruct the project-local runtime:
 
 ```sh
@@ -633,6 +632,6 @@ metadata retrieval. System curl completed the same request with TLS verification
 intact; certificate checks were never disabled. No global installation occurred.
 
 When this historical benchmark runtime is no longer needed, stop its server,
-open Finder → Go → Go to Folder, enter the checkout's `.local` path, and move only
-`ollama-runtime-0.40.9` to Trash. This removes the extra runtime/archive, not the
+open Finder → Go → Go to Folder, enter `/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local`,
+and move only `ollama-runtime-0.40.9` to Trash. This removes the extra runtime/archive, not the
 installed app or shared models. Model uninstall instructions remain in LOCAL_OLLAMA.md.
