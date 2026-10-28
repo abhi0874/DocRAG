@@ -12,7 +12,7 @@ from eval.retrieval_experiments import configuration as control_configuration
 from eval.retrieval_experiments import inputs, save
 from eval.runtime import call_adapter
 
-DIRECTORY = ROOT / "eval/results/reranking"
+DIRECTORY = ROOT / "eval/results/reranking-final"
 FILES = [
     "lib/reranker-config.ts",
     "lib/reranker-client.ts",
@@ -90,6 +90,15 @@ def measure(name, subset):
     records, split, mapping = inputs()
     selected = [r for r in records if r["id"] in split[subset]]
     config = configuration(name)
+    revision = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    for path, digest in config["application_file_hashes"].items():
+        committed = subprocess.check_output(
+            ["git", "show", f"{revision}:{path}"], cwd=ROOT
+        )
+        if sha256(committed) != digest:
+            raise ValueError("Commit measured application code before profiling")
     requests = [
         {
             "id": r["id"],
@@ -111,6 +120,8 @@ def measure(name, subset):
             "uncachedRetrieval": True,
         }
     )
+    if config != configuration(name):
+        raise ValueError("Implementation changed during measurement")
     refs = {r["id"]: r for r in selected}
     signatures = {}
     for row in result["rows"]:

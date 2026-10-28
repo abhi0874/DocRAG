@@ -1,0 +1,10 @@
+{
+  "selected": "control",
+  "frozen_at": "2026-10-28T16:31:25.174457+00:00",
+  "rule": "No development Recall@5 or MRR loss; maximize Recall@5, MRR, multi-hop Recall@5; latency breaks ties. Full answer regression still required.",
+  "development_hashes": {
+    "control": "c9f74e969f00c143c84c2fb9fcf03d20c6918c3058b93909b5bc995c3a756a83",
+    "top10": "b48876b123986d41fb00fb4b9a67d5e07b6d27997ed1c47286c7e3345ae60802",
+    "top20": "ee4a71e8cb155d59c9aac80344cf07831112ed8917dcd9617b099c8cb7bd8b5c"
+  }
+}

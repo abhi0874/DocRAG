@@ -1,5 +1,6 @@
 """Real offline CPU/MPS smoke test; no quality claim from this toy example."""
 
+import argparse
 import json
 import subprocess
 import time
@@ -8,7 +9,10 @@ from scripts.reranker_setup import ROOT, TARGET, environment
 
 
 def main():
-    output = ROOT / "eval/results/reranking/device-probe.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", default="eval/results/reranking/device-probe.json")
+    args = parser.parse_args()
+    output = ROOT / args.out
     if output.exists():
         raise ValueError("Preserve existing probe")
     rows = []
