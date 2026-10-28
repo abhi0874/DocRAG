@@ -30,11 +30,13 @@ class Worker {
   }
   start() {
     const root = process.cwd()
-    // Optional host installation is resolved at runtime, never bundled as app assets.
-    const target = path.join(/* turbopackIgnore: true */ root, '.local/reranker-minilm')
+    // Host-installed optional runtime: configured when launching the server,
+    // not a project-relative asset for Next.js to discover and bundle.
+    const target = process.env.DOCRAG_RERANKER_HOME
+    if (!target || !path.isAbsolute(target)) throw new Error('model_missing')
     const python = path.join(target, 'env/bin/python')
     const manifest = path.join(target, 'manifest.json')
-    if (!existsSync(/* turbopackIgnore: true */ python) || !existsSync(/* turbopackIgnore: true */ manifest)) throw new Error('model_missing')
+    if (!existsSync(python) || !existsSync(manifest)) throw new Error('model_missing')
     // Do not pass database/API credentials into the optional inference child.
     const env: NodeJS.ProcessEnv = {
       PATH: process.env.PATH, NODE_ENV: process.env.NODE_ENV, LANG: 'en_US.UTF-8', PYTHONNOUSERSITE: '1',
@@ -45,7 +47,7 @@ class Worker {
       SENTENCE_TRANSFORMERS_HOME: 'cache/sentence-transformers', XDG_CACHE_HOME: 'cache',
       PIP_CACHE_DIR: 'cache/pip', TMPDIR: 'tmp', PYTHONPYCACHEPREFIX: 'cache/pycache',
     })) env[key] = path.join(target, relative)
-    const child = spawn(/* turbopackIgnore: true */ python, ['-m', 'scripts.reranker_worker', this.device], {cwd: root, env, stdio: 'pipe'})
+    const child = spawn(python, ['-m', 'scripts.reranker_worker', this.device], {cwd: root, env, stdio: 'pipe'})
     this.child = child
     const lines = createInterface({input: child.stdout})
     child.stderr.resume() // Worker errors use fixed safe codes, never model/library stderr.

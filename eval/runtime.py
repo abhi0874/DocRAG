@@ -9,6 +9,8 @@ from eval.corpus import ROOT, evaluation_url
 
 def call_adapter(payload):
     env = os.environ.copy()
+    if payload.get("config", {}).get("reranking"):
+        env["DOCRAG_RERANKER_HOME"] = str(ROOT / ".local/reranker-minilm")
     local = payload.get("config", {}).get("provider") == "ollama"
     env["AI_PROVIDER"] = "ollama" if local else "gemini"
     if local:

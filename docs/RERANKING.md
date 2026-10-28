@@ -88,3 +88,31 @@ Git revision rather than requiring today's integration route to be identical.
 Its settings, hash coverage, committed file hashes, source mappings and computed
 metrics remain checked. Historical gate tests use the saved Step 4 candidate;
 negative prompt, configuration and regression checks remain in place.
+
+## Production build recovery
+
+The reproduced Next.js16.2.6/Turbopack failure occurred during module file-reference
+resolution (`DirAssetReference`), before successful production emission:
+`Symlink [project]/.local/reranker-minilm/env/bin/python is invalid, it points out
+of the filesystem root`. That Python link resolves through python3.14 to
+`/Library/Frameworks/Python.framework/Versions/3.14/bin/python3.14`. This is a normal
+working Python venv link, distinct from pnpm's working package links. There was no
+custom tracing include or broad Next.js configuration glob.
+
+The client previously constructed a statically discoverable path from process.cwd
+into `.local/reranker-minilm`. Its runtime filesystem/process references caused
+Turbopack to discover the optional host installation as directory assets. Tracing
+annotations and `/usr/bin/env` did not fix this. The successful correction makes
+`DOCRAG_RERANKER_HOME` an explicit absolute server-launch setting, removing that
+project-relative asset reference. Missing configuration falls back honestly.
+Direct argument-vector Python spawn is restored. No global tracing/type-check
+setting was disabled, no dependency downgraded, and no environment or model moved.
+
+Lint, 198 tests and the actual production build passed after that correction.
+Ten production trace manifests contained1,931 file entries and zero Python venv,
+site-packages or safetensors entries. The CPU environment and weights stay at the
+same removable path. A host enabling the optional feature must separately install
+its pinned environment and provide the repository's Python worker/setup modules;
+these are server runtime requirements, not files delivered to a visitor's browser.
+The eventual free hosting platform is not verified here. Missing optional runtime
+on that host uses original hybrid search; it is not described as reranking.

@@ -671,3 +671,33 @@ overwritten. The probe records one cold and five warm inferences per device.
 No cloud inference or extra model downloads occur. Installation uses a separate
 project environment; ESLint/TypeScript exclude its third-party dependency files,
 while continuing to check all project source files.
+
+### Step 5 recovery: host runtime configuration
+
+The optional runtime is explicitly configured when starting the Next.js server:
+
+```sh
+DOCRAG_RERANKER_HOME="$PWD/.local/reranker-minilm" RERANKER_ENABLED=true pnpm start --hostname 127.0.0.1 --port 8003
+```
+
+The path must be absolute. Missing installation/configuration uses the documented
+hybrid fallback. Never put this variable in `next.config` or a public build-time
+variable. The evaluator supplies the same absolute path privately to its local
+adapter. No environment relocation, weight deletion or global install is required.
+Run `make lint`, `make test`, `make build-fe` after the correction.
+
+Recovery verification uses separate outputs, preserving the preliminary matrix:
+
+```sh
+.venv/bin/python -m scripts.reranker_probe --out eval/results/reranking-final/device-probe.json
+.venv/bin/python -m eval.reranking_smoke
+.venv/bin/python -m eval.reranking_experiments matrix
+```
+
+The final matrix writes `eval/results/reranking-final/`, with unchanged split and
+selection rule. Commit measured source first; the runner checks hashes before and
+after measurement. Run model tests sequentially, without simultaneous builds.
+The production smoke starts/stops owned servers on loopback port8003 and verifies
+home/documents/chat, enabled/disabled modes, missing runtime, timeout fallback,
+source provenance, citations and worker shutdown. No files are removed to simulate
+unavailability. It uses launch configuration only, and no Gemini inference.
