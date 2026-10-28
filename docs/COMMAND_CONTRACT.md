@@ -635,3 +635,39 @@ When this historical benchmark runtime is no longer needed, stop its server,
 open Finder → Go → Go to Folder, enter `/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local`,
 and move only `ollama-runtime-0.40.9` to Trash. This removes the extra runtime/archive, not the
 installed app or shared models. Model uninstall instructions remain in LOCAL_OLLAMA.md.
+
+## Step 5 approved optional reranker setup
+
+The Step 4 audit must pass first. The user approved the model download subject to
+complete local removability. The setup places its separate environment, weights,
+caches and temporary files under `.local/reranker-minilm`; no global installation
+or modification of the existing core virtual environment is needed.
+
+```sh
+.venv/bin/python -m scripts.reranker_setup
+```
+
+The model revision/weight hash is pinned in `lib/reranker-model.json`, and Python
+packages are pinned in `requirements-reranker.txt`. See RERANKING.md for exact
+paths and the explicitly user-invoked cleanup command. Never remove all `.local`.
+
+Step 5 checks and controlled measurements (CPU inference is sandbox-compatible;
+MPS probing requires macOS GPU access):
+
+```sh
+.venv/bin/python -m scripts.reranker_probe
+make lint
+make test
+make build-fe
+.venv/bin/python -m eval.reranking_experiments matrix
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/reranking-selected-raw.json --reranking-experiment control
+.venv/bin/python -m eval.promote_local --source eval/results/reranking-selected-raw.json --out eval/results/reranking-selected.json
+.venv/bin/python -m eval.reranking_gate --baseline eval/results/retrieval-selected.json --candidate eval/results/reranking-selected.json
+```
+
+Use the frozen `reranking/selection.json` configuration in the full-run command;
+`control` is a placeholder until selection. Completed experiment files are never
+overwritten. The probe records one cold and five warm inferences per device.
+No cloud inference or extra model downloads occur. Installation uses a separate
+project environment; ESLint/TypeScript exclude its third-party dependency files,
+while continuing to check all project source files.
