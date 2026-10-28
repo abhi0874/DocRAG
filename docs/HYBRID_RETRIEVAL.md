@@ -139,6 +139,15 @@ Control development p50 / p95 in milliseconds:
 | RRF merge | .0246875 | .038666 |
 | Total retrieval | 22.127333 | 25.55605175 |
 
+The first control query in the new client process took 62.391541 ms: embedding
+50.5135 ms and database wall time 11.614333 ms. The subsequent 179 observations
+had medians 20.453667 ms for embedding, 1.551041 ms for database wall time and
+22.116291 ms total. The first-query sample is n=1 and the server was already warm;
+it is a client-start comparison, not a cold-storage benchmark. The end-to-end
+evaluator starts a new Node process and SQL pool per question, unlike the batched
+profiler. This is a concrete reason not to equate the 22 ms warm batch with an
+application improvement over Step 3's approximately 60 ms measurements.
+
 Embedding dominates the warm batch. Client SQL times include driver, network and
 result decoding; EXPLAIN execution times describe server work and are not the
 same measurement. SQL branches overlap, so adding their medians is invalid.
@@ -185,3 +194,81 @@ owned cluster, using its existing idempotent schema setup, and `make db-status`
 confirmed it running. No reinstall or data reset was performed. The applicable
 verification sequence must pass after recovery; this operational issue is not
 silently treated as an evaluation result.
+
+## Full 100-question evaluation
+
+Fresh measurement: 100 query embeddings, 100 answers and 100 automated judgments;
+all 300 operations were cache misses. A separate compatible replay had 100 hits
+and zero misses for each category, with identical contexts, answers and judgments.
+SQL retrieval ran again. This verifies cache compatibility, not fresh-model determinism.
+
+| Metric | Step 3 | Step 4 |
+|---|---:|---:|
+| recall@3 | 0.95 | 0.95 |
+| recall@5 | 0.975 | 0.975 |
+| recall@10 | 1.0 | 1.0 |
+| mrr | 0.9729166666666667 | 0.9729166666666667 |
+| Automated citation_accuracy | 1.0 | 1.0 |
+| Automated faithfulness | 1 | 1 |
+| Automated correctness | 0.99 | 0.99 |
+| retrieval_p50_latency_ms | 60.2312915 | 51.69933300000001 |
+| retrieval_p95_latency_ms | 66.68716904999998 | 62.65260654999998 |
+| generation_p50_latency_ms | 5708.036021 | 5882.515167 |
+| generation_p95_latency_ms | 12969.903556849997 | 11658.978309749995 |
+| p50_latency_ms | 5769.012625 | 5934.257104 |
+| p95_latency_ms | 13034.495908649997 | 11715.474928849995 |
+
+Step 4 automated citation support is 264/264 occurrences. The judge rated 98
+answers fully correct and two partially correct. All 20 deliberately unanswerable
+cases received automated faithfulness/correctness 1.0. All 100 retrieved contexts
+match Step 3. Both incomplete answers are verbatim unchanged: postgresql-005 still
+omits the savepoint's continued existence despite that evidence being present;
+postgresql-037 still lacks foreign-key evidence in the six selected excerpts and
+refuses that part. Step 4 has not solved these two limitations.
+
+Recall@5 and MRR changes are zero. Observed retrieval median decreased by about
+8.532 ms, while pipeline median increased by about 165.244 ms. The strategy is
+unchanged, the runs happened at different times, and client/model/database warmup
+was not controlled identically. These are observed run differences, not evidence
+that a new retrieval optimization made the application faster. The first-query
+versus persistent-pool experiment above explains why batch timings differ.
+
+Fresh full-run component p50 / p95, milliseconds:
+
+| Component | p50 | p95 |
+|---|---:|---:|
+| Embedding, including model verification | 42.3502705 | 52.5716476 |
+| Vector query client elapsed | 8.46375 | 10.82463575 |
+| Keyword query client elapsed | 8.160375 | 10.718825 |
+| Concurrent database wall | 8.545354 | 11.1395215 |
+| RRF | .085854 | .10512915 |
+
+These full-run component measurements include new database connections per
+question. They must not be confused with the warm persistent-pool measurements.
+The outer retrieval timer includes a small wrapper overhead, so it is slightly
+larger than the observer's internal total. Pipeline latency includes retrieval
+and answer generation, excluding the offline judge and process startup. The
+fresh evaluation wall time was 2494.3551187499834 seconds (about 41.6 minutes).
+
+The strict Step 3 comparison gate passes with zero Recall@5/faithfulness drops.
+Synthetic decreases of .020000000001 in each guarded metric are rejected with
+exit code 1. No threshold, label, reference answer, prompt or model was changed.
+The ordinary Step 2 gate is retained separately.
+
+Raw measurements: `eval/results/retrieval-selected-raw.json`.
+Validated copy: `eval/results/retrieval-selected.json`.
+Cached replay: `eval/results/retrieval-repeat-raw.json`.
+Recomputed comparisons/negative gates: `eval/results/retrieval/comparison.json`.
+
+After the fresh run, the installed Ollama app changed to 0.40.11. The original
+0.40.9 official release was verified and run from `.local/ollama-runtime-0.40.9`
+for replay/API validation, using the existing model files. No global installation
+or app downgrade was performed. The runtime receipt and command contract document
+its source, checksum, startup and removal. Both services required a restart after
+the cross-session pause; measurements were preserved unchanged.
+
+The dataset is small, English-only and reused across steps. The same Qwen family
+answers and judges, and the reference-review provenance is unchanged. Independent
+human validation has not been established. Automated scores are not guarantees
+of correctness. The Gemini benchmark remains separately preserved at 20/100.
+No large-corpus, concurrent-load, cold-storage or multi-turn claim is made.

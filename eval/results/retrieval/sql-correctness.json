@@ -1,0 +1,178 @@
+{
+  "status": "PASS",
+  "queries": 21,
+  "repetitions": 2,
+  "observations": 42,
+  "model_inference": "none",
+  "content_nullable": "NO",
+  "queries_and_chunk_ids": [
+    {
+      "id": "3-0",
+      "documentId": 3,
+      "question": "PostgreSQL",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-1",
+      "documentId": 3,
+      "question": "pgvector",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-2",
+      "documentId": 3,
+      "question": "FastAPI",
+      "chunk_ids": [
+        48,
+        8,
+        26,
+        37,
+        60,
+        88,
+        90,
+        91,
+        52,
+        83
+      ]
+    },
+    {
+      "id": "3-3",
+      "documentId": 3,
+      "question": "HTTP GET",
+      "chunk_ids": [
+        84
+      ]
+    },
+    {
+      "id": "3-4",
+      "documentId": 3,
+      "question": "weather",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-5",
+      "documentId": 3,
+      "question": "ROLLBACK",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-6",
+      "documentId": 3,
+      "question": "savepoint",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-7",
+      "documentId": 3,
+      "question": "!?'&|:",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-8",
+      "documentId": 3,
+      "question": "'); DROP TABLE chunks; --",
+      "chunk_ids": []
+    },
+    {
+      "id": "3-9",
+      "documentId": 3,
+      "question": "",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-0",
+      "documentId": 4,
+      "question": "PostgreSQL",
+      "chunk_ids": [
+        105,
+        119,
+        104,
+        117,
+        118,
+        120,
+        121,
+        124,
+        142,
+        143
+      ]
+    },
+    {
+      "id": "4-1",
+      "documentId": 4,
+      "question": "pgvector",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-2",
+      "documentId": 4,
+      "question": "FastAPI",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-3",
+      "documentId": 4,
+      "question": "HTTP GET",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-4",
+      "documentId": 4,
+      "question": "weather",
+      "chunk_ids": [
+        161,
+        153,
+        154,
+        157,
+        158,
+        159,
+        160,
+        156,
+        162
+      ]
+    },
+    {
+      "id": "4-5",
+      "documentId": 4,
+      "question": "ROLLBACK",
+      "chunk_ids": [
+        107,
+        105,
+        106
+      ]
+    },
+    {
+      "id": "4-6",
+      "documentId": 4,
+      "question": "savepoint",
+      "chunk_ids": [
+        106,
+        107,
+        105
+      ]
+    },
+    {
+      "id": "4-7",
+      "documentId": 4,
+      "question": "!?'&|:",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-8",
+      "documentId": 4,
+      "question": "'); DROP TABLE chunks; --",
+      "chunk_ids": []
+    },
+    {
+      "id": "4-9",
+      "documentId": 4,
+      "question": "",
+      "chunk_ids": []
+    },
+    {
+      "id": "absent-document",
+      "documentId": 2147483647,
+      "question": "PostgreSQL",
+      "chunk_ids": []
+    }
+  ]
+}

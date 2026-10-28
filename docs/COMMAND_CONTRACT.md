@@ -598,3 +598,41 @@ Gemini cache/vectors and original local vectors, and checks tracked plus nonigno
 untracked files for private values without printing them. It creates only a new
 Step 4 preservation receipt. `make eval-gate` remains the unchanged strict legacy
 gate; the explicit retrieval gate above compares Step 4 against Step 3.
+
+### Reproduce Step 4 after the installed Ollama app updates
+
+On 2026-10-28, the installed app client reported 0.40.11, while the completed
+Step 2/3/4 measurements used 0.40.9. Both servers were stopped between sessions.
+Keep the measured version for exact comparisons. A verified 0.40.9 runtime is
+stored in the ignored project directory; the installed app and model files were
+not replaced. Start it only when port 11434 is unused:
+
+```sh
+OLLAMA_HOST=127.0.0.1:11434 OLLAMA_NO_CLOUD=1 .local/ollama-runtime-0.40.9/ollama serve
+```
+
+Leave that process running for the Step 4 verification commands; Ctrl+C stops it.
+Do not launch a competing desktop Ollama server. `eval/results/retrieval/runtime-
+reproducibility.json` records the official archive hash, executable hash, server
+version and verified model digests. To reconstruct the project-local runtime:
+
+```sh
+mkdir -p .local/ollama-runtime-0.40.9
+curl --fail --location https://github.com/ollama/ollama/releases/download/v0.40.9/ollama-darwin.tgz --output .local/ollama-runtime-0.40.9/runtime.tgz
+shasum -a 256 .local/ollama-runtime-0.40.9/runtime.tgz
+```
+
+Before extraction, require SHA-256 exactly
+`cdfaee591d3ba7753e1bb4ae28be228ef7488199f263b7f202e0eddc900c08f4`, as published
+in the official GitHub release asset metadata. Stop on a mismatch. Extract only
+into this project directory, then start the command above. The executor used
+Python `tarfile.extractall(..., filter='data')` after verifying the hash.
+
+Python's system certificate store could not verify the GitHub certificate during
+metadata retrieval. System curl completed the same request with TLS verification
+intact; certificate checks were never disabled. No global installation occurred.
+
+When this historical benchmark runtime is no longer needed, stop its server,
+open Finder → Go → Go to Folder, enter the checkout's `.local` path, and move only
+`ollama-runtime-0.40.9` to Trash. This removes the extra runtime/archive, not the
+installed app or shared models. Model uninstall instructions remain in LOCAL_OLLAMA.md.

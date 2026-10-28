@@ -24,3 +24,16 @@ The first full-answer launch exited before question 1 with `OperationalError`: t
 Full-answer evaluation results and final verification are recorded in STEP4_COMPLETE.md only after those commands finish. No failed candidate was deleted or retuned.
 
 Artifacts: `eval/results/retrieval/*-development.json`, `control-holdout.json`, `selection.json`, `query-plans.json`, and `profile-verification.json`. Detailed methodology and exact metrics: HYBRID_RETRIEVAL.md and the JSON artifacts.
+
+## Cross-session runtime recovery (2026-10-28)
+
+The fresh run completed on 2026-10-27 with 100/100 cache misses for embeddings,
+answers and judgments. On resumption, native PostgreSQL and Ollama were stopped;
+the installed Ollama client reported 0.40.11. PostgreSQL was restarted without a
+reset. The first replay attempt failed at metadata connection before any question.
+The original 0.40.9 official runtime was downloaded into an ignored project-local
+folder and SHA-256 checked against official release metadata. The installed app
+was not downgraded. The existing models passed their pinned digest checks. This
+preserves the original runtime configuration for cached replay and API validation.
+The fresh result is never overwritten. See runtime-reproducibility.json and the
+command contract for startup, source/checksum and removal instructions.

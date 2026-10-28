@@ -1,0 +1,87 @@
+{
+  "runtime": "0.40.9",
+  "installed_app_client_version": "0.40.11",
+  "scope": "project-local runtime; installed app unchanged; existing models reused",
+  "release": "https://github.com/ollama/ollama/releases/tag/v0.40.9",
+  "asset": "https://github.com/ollama/ollama/releases/download/v0.40.9/ollama-darwin.tgz",
+  "archive_sha256": "cdfaee591d3ba7753e1bb4ae28be228ef7488199f263b7f202e0eddc900c08f4",
+  "executable_sha256": "be4b054f8ebf8b3b185daa30671849a80f22c2b2ef45e064de562f69aba46a96",
+  "metadata": {
+    "models": [
+      {
+        "name": "embeddinggemma:300m",
+        "model": "embeddinggemma:300m",
+        "modified_at": "2026-10-23T21:20:39.825090617+05:30",
+        "size": 621875917,
+        "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+        "details": {
+          "parent_model": "embeddinggemma:300m-bf16",
+          "format": "gguf",
+          "family": "gemma3",
+          "families": [
+            "gemma3"
+          ],
+          "parameter_size": "307.58M",
+          "quantization_level": "BF16",
+          "context_length": 2048,
+          "embedding_length": 768,
+          "runner": "ggml"
+        },
+        "capabilities": [
+          "embedding"
+        ]
+      },
+      {
+        "name": "qwen3.8:latest",
+        "model": "qwen3.8:latest",
+        "modified_at": "2026-10-23T20:40:52.05225243+05:30",
+        "size": 18174721847,
+        "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+        "details": {
+          "parent_model": "",
+          "format": "safetensors",
+          "family": "",
+          "families": null,
+          "parameter_size": "",
+          "quantization_level": "nvfp4",
+          "runner": "mlx"
+        },
+        "capabilities": [
+          "completion",
+          "vision",
+          "tools",
+          "thinking"
+        ]
+      }
+    ],
+    "version": {
+      "version": "0.40.9"
+    },
+    "settings": {
+      "provider": "ollama",
+      "baseUrl": "http://localhost:11434",
+      "chat": "qwen3.8:latest",
+      "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+      "embedding": "embeddinggemma:300m",
+      "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+      "embeddingDimensions": 768,
+      "options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0
+      },
+      "think": false,
+      "keep_alive": "30m",
+      "timeout_ms": 180000,
+      "max_attempts": 3,
+      "document_prefix": "title: none | text: ",
+      "query_prefix": "task: search result | query: "
+    }
+  }
+}
