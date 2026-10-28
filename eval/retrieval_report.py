@@ -26,7 +26,15 @@ def verify_profile(result):
     records, split, mapping = inputs()
     refs = {r["id"]: r for r in records}
     name, subset = result["name"], result["subset"]
-    if result["config"] != configuration(name) or result["repetitions"] != 3:
+    expected = configuration(name)
+    if set(expected["application_file_hashes"]) != set(
+        result["config"]["application_file_hashes"]
+    ):
+        raise ValueError("Profile application hash coverage mismatch")
+    # Audit historical implementation against its recorded Git revision below.
+    # All non-code settings must still equal the frozen experiment definition.
+    expected["application_file_hashes"] = result["config"]["application_file_hashes"]
+    if result["config"] != expected or result["repetitions"] != 3:
         raise ValueError("Profile configuration/repetition mismatch")
     for key, path in [
         ("mapping_sha256", CHUNK_DIRECTORY / "heading-1400-280-mapping.json"),

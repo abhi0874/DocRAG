@@ -88,7 +88,15 @@ def configuration(provider=None):
     return config
 
 
-def run(golden, output, experiment=None, retrieval_experiment=None):
+def run(
+    golden,
+    output,
+    experiment=None,
+    retrieval_experiment=None,
+    reranking_experiment=None,
+):
+    if reranking_experiment and output.exists():
+        raise ValueError("Preserve completed reranking measurement")
     config = configuration()
     if experiment:
         from eval.chunking_experiments import config_for
@@ -102,6 +110,14 @@ def run(golden, output, experiment=None, retrieval_experiment=None):
         experiment = "heading-1400-280"
         config = retrieval_configuration(retrieval_experiment)
     is_local = config.get("provider") == "ollama"
+    if reranking_experiment:
+        from eval.reranking_experiments import configuration as reranking_configuration
+
+        if experiment not in (None, "heading-1400-280"):
+            raise ValueError("Reranking requires frozen Step 3 chunks")
+        experiment, retrieval_experiment = "heading-1400-280", "control"
+        config = reranking_configuration(reranking_experiment)
+        is_local = True
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
     config["corpus_hash"] = corpus["corpus_hash"]
@@ -191,6 +207,8 @@ def run(golden, output, experiment=None, retrieval_experiment=None):
         ]
     if retrieval_experiment:
         evaluator_files += ["eval/retrieval_experiments.py"]
+    if reranking_experiment:
+        evaluator_files += ["eval/reranking_experiments.py"]
     fingerprints = {p: sha256((ROOT / p).read_bytes()) for p in evaluator_files}
     rows = []
     cache_stats = Counter()
@@ -206,6 +224,11 @@ def run(golden, output, experiment=None, retrieval_experiment=None):
             }
         )
         ranked = response["ranked"]
+        if (
+            reranking_experiment
+            and response["selection"]["trace"]["status"] == "fallback"
+        ):
+            raise ValueError("Unexpected reranker fallback in measured evaluation")
         for chunk in ranked:
             mapping = chunk_map[chunk["id"]]
             if (
@@ -294,6 +317,8 @@ def run(golden, output, experiment=None, retrieval_experiment=None):
         )
         if retrieval_experiment:
             row["retrieval_timing"] = response["timing"]
+        if reranking_experiment:
+            row["reranking_selection"] = response["selection"]
         rows.append(row)
         cache_stats.update(row["cache"])
         print(
@@ -367,6 +392,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--chunking-experiment")
     parser.add_argument("--retrieval-experiment")
+    parser.add_argument("--reranking-experiment", choices=["control", "top10", "top20"])
     args = parser.parse_args()
     try:
         run(
@@ -374,6 +400,7 @@ def main():
             args.out.resolve(),
             args.chunking_experiment,
             args.retrieval_experiment,
+            args.reranking_experiment,
         )
     except Exception as exc:
         # Known adapter failures are already sanitized; arbitrary DB errors are not.

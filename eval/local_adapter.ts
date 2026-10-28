@@ -3,6 +3,8 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from '
 import { performance } from 'node:perf_hooks'
 import { localChat, localEmbeddings, ollamaRequest, verifyLocalModels, validateEmbeddingVectors } from '../lib/ollama'
 import { localSettings } from '../lib/provider-config'
+import { selectContext } from '../lib/select-context'
+import { closeRerankers } from '../lib/reranker-client'
 const input = JSON.parse(readFileSync(0, 'utf8'))
 const directory = '.local/ollama-cache/runtime'
 mkdirSync(directory, {recursive: true})
@@ -59,9 +61,11 @@ async function main() {
       for (let repetition = 0; repetition < input.repetitions; repetition++) {
         for (const request of input.requests) {
           let timing
-          const ranked = await hybridSearch(request.question, request.documentId, 10, input.config.retrieval,
+          const selection = input.config.reranking ? await selectContext(request.question, request.documentId,
+            10, input.config.reranking, input.config.retrieval, value => {timing = value}) : undefined
+          const ranked = selection?.ranked ?? await hybridSearch(request.question, request.documentId, input.topK ?? 10, input.config.retrieval,
             value => {timing = value})
-          rows.push({id: request.id, repetition, ranked, timing})
+          rows.push({id: request.id, repetition, ranked, timing, selection})
         }
       }
       return {rows, cache_condition: input.uncachedRetrieval ? 'fresh query embeddings; warm persistent SQL pool after first query' : 'evaluation cache enabled'}
@@ -85,14 +89,18 @@ async function main() {
     }
     const start = performance.now()
     let timing
-    const ranked = await hybridSearch(input.question, input.documentId, 10, input.config.retrieval,
+    const selection = input.config.reranking ? await selectContext(input.question, input.documentId,
+      10, input.config.reranking, input.config.retrieval, value => {timing = value}) : undefined
+    const ranked = selection?.ranked ?? await hybridSearch(input.question, input.documentId, input.topK ?? 10, input.config.retrieval,
       value => {timing = value})
     const retrievalMs = performance.now() - start
-    if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats, timing}
+    if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats, timing, selection}
     const retrieved = ranked.slice(0, 6)
     const instructions = `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${buildContext(retrieved)}`
     const messages = [{id: 'evaluation', role: 'user' as const, parts: [{type: 'text' as const, text: input.question}]}]
-    const path = `${directory}/answer-${hash({provider: 'ollama', settings: localSettings(), instructions, messages, config: input.config})}.json`
+    const cacheInput = {provider: 'ollama', settings: localSettings(), instructions, messages, config: input.config,
+      ...(selection ? {candidates: selection.candidates, selected: ranked, reranking: selection.trace.status} : {})}
+    const path = `${directory}/answer-${hash(cacheInput)}.json`
     const generationStart = performance.now()
     let answer
     if (existsSync(path)) {
@@ -107,9 +115,9 @@ async function main() {
       answer = {text: result.text, usage: result.usage, finish_reason: result.finishReason, original_generation_latency_ms: performance.now() - generationStart, generated_at: new Date().toISOString()}
       save(path, answer)
     }
-    return {ranked, answer, timing, cache: stats, embedding_usage: embeddingUsage, retrieval_latency_ms: retrievalMs,
+    return {ranked, answer, timing, selection, cache: stats, embedding_usage: embeddingUsage, retrieval_latency_ms: retrievalMs,
       generation_latency_ms: performance.now() - generationStart, total_latency_ms: performance.now() - start, pacing_ms: 0}
-  } finally {await pool.end()}
+  } finally {closeRerankers(); await pool.end()}
 }
 main().then(result => process.stdout.write(JSON.stringify(result))).catch(error => {
   let detail = error instanceof Error ? error.message : 'Unknown local error'

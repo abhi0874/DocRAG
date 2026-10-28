@@ -1,23 +1,18 @@
 """Retrieval-only comparison must reject unrelated changes and quality losses."""
 
-import copy
 import json
 import subprocess
 
 import pytest
 
 from eval.corpus import ROOT
-from eval.retrieval_experiments import configuration
 from eval.retrieval_gate import compatible, gate
 
 
 def pair():
     baseline = json.loads((ROOT / "eval/results/chunking-selected.json").read_text())
-    candidate = copy.deepcopy(baseline)
-    candidate["config"].update(configuration("control"))
-    candidate["git_revision"] = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
-    ).strip()
+    # Historical gate tests use the measured Step 4 revision.
+    candidate = json.loads((ROOT / "eval/results/retrieval-selected.json").read_text())
     return baseline, candidate
 
 
