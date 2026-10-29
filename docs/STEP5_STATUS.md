@@ -1,3 +1,27 @@
+# Recovery checkpoint — 2026-10-29
+
+Step 5 remains incomplete, but the production build blocker is resolved.
+Current verification: lint PASS; 134 Python +70 TypeScript =204 tests PASS;
+production build PASS. Production HTTP disabled/enabled/missing-runtime/timeout
+checks previously passed, including worker shutdown. Final profile verification
+passes source, rank, metric, selection and committed-code checks. Dataset validation,
+historical Step2 gate, all Step2–4 artifact preservation, Gemini20 cache pairs/151
+vectors, original local151 vectors and selected162 chunks pass. Secret scan passes.
+
+The full100 run was interrupted after16 completed questions; no final result file
+exists. Compatible cached responses remain. On resume, PostgreSQL was stopped and
+was restarted successfully (no data reset). Installed desktop Ollama0.40.11 occupies
+port11434. The preserved benchmark0.40.9 binary checksum still matches. macOS refused
+the quit request with `User cancelled (-128)`; no direct process termination was
+performed. A user question is pending: authorize stopping verified PID1425, or quit
+Ollama from its menu-bar icon. Recheck the PID before acting on later authorization.
+
+Remaining: restore pinned runtime, resume all100, distinguish mixed cached/fresh
+timings, run separate case diagnostics, promote/validate measured results, run Step5
+gate and cached replay, complete final audit/docs. Do not start Step6. No push.
+
+The preceding failure report below is retained as historical evidence.
+
 # Step 5 — NOT COMPLETE (2026-10-28)
 
 Repository: https://github.com/abhi0874/DocRAG

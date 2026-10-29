@@ -717,3 +717,19 @@ The integrity command compares every Step2–4 result, corpus and annotation to
 commit4ba666c, verifies preserved Gemini/local vectors and scans tracked plus
 nonignored files for private values without printing them. It writes only a new
 Step5 receipt.
+
+Final evidence verification and compatible cached replay:
+
+```sh
+.venv/bin/python -m eval.reranking_report --profiles-only
+.venv/bin/python -m eval.reranking_report
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/reranking-repeat-raw.json --reranking-experiment control
+.venv/bin/python -m eval.verify_results --diagnostic --baseline eval/results/reranking-selected-raw.json --current eval/results/reranking-repeat-raw.json
+```
+
+The report recomputes source/ranking metrics, checks committed code and exact
+split coverage, verifies selection chronology, and compares all disabled-mode
+ranked passages with Step4. The replay uses identical configuration/context cache
+keys; cached timings are not fresh inference timings. If an interrupted run is
+resumed, retain its private log and report cache counts and fresh-only latency
+separately. Do not compare a mixed-cache total directly as an optimization gain.
