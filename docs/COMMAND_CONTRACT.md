@@ -741,3 +741,13 @@ paused to prevent relaunch. The benchmark server uses the checksum-verified0.40.
 binary. After all model checks, stop only that benchmark process and resume the
 same verified desktop supervisor. This is temporary process control, not a model
 or global application installation change. Never blindly reuse recorded PIDs.
+
+Final production smoke can preserve the first recovery receipt using:
+
+```sh
+.venv/bin/python -m eval.reranking_smoke --out eval/results/reranking-final/api-smoke-final.json
+```
+
+The cleanup unit tests use only pytest-created temporary folders, including dummy
+model/cache files and a sibling preservation marker. The real Python environment,
+model weights and database are never deleted for testing.

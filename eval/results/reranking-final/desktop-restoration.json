@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "benchmark_server_stopped": true,
+  "desktop_supervisor_resumed": true,
+  "desktop_version": "0.40.11",
+  "models_deleted": false,
+  "application_modified": false
+}

@@ -1,0 +1,173 @@
+{
+  "rows": [
+    {
+      "device": "cpu",
+      "observations": [
+        {
+          "id": 0,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 6.997791999310721,
+          "initialization_ms": 1514.8425829975167,
+          "truncated": 0,
+          "peak_rss_bytes": 543145984,
+          "mps_allocated_bytes": null
+        },
+        {
+          "id": 1,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 3.0757919994357508,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 543162368,
+          "mps_allocated_bytes": null
+        },
+        {
+          "id": 2,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 3.141332999803126,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 543162368,
+          "mps_allocated_bytes": null
+        },
+        {
+          "id": 3,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 3.048583002964733,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 543195136,
+          "mps_allocated_bytes": null
+        },
+        {
+          "id": 4,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 3.0650000007881317,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 543195136,
+          "mps_allocated_bytes": null
+        },
+        {
+          "id": 5,
+          "scores": [
+            8.500706672668457,
+            -11.227237701416016
+          ],
+          "device": "cpu",
+          "inference_ms": 3.1724170003144536,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 543195136,
+          "mps_allocated_bytes": null
+        }
+      ],
+      "process_wall_ms": 1840.4509579995647
+    },
+    {
+      "device": "mps",
+      "observations": [
+        {
+          "id": 0,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 195.31329199890024,
+          "initialization_ms": 1584.2664580013661,
+          "truncated": 0,
+          "peak_rss_bytes": 625328128,
+          "mps_allocated_bytes": 91168512
+        },
+        {
+          "id": 1,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 5.774666999059264,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 625393664,
+          "mps_allocated_bytes": 91168512
+        },
+        {
+          "id": 2,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 5.798957998194965,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 625393664,
+          "mps_allocated_bytes": 91168512
+        },
+        {
+          "id": 3,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 5.33437500052969,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 625393664,
+          "mps_allocated_bytes": 91168512
+        },
+        {
+          "id": 4,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 3.631333998782793,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 625393664,
+          "mps_allocated_bytes": 91168512
+        },
+        {
+          "id": 5,
+          "scores": [
+            8.500707626342773,
+            -11.227237701416016
+          ],
+          "device": "mps",
+          "inference_ms": 3.0562499996449333,
+          "initialization_ms": 0,
+          "truncated": 0,
+          "peak_rss_bytes": 625393664,
+          "mps_allocated_bytes": 91168512
+        }
+      ],
+      "process_wall_ms": 2176.278708000609
+    }
+  ],
+  "conditions": "One worker per device; first inference cold, five warm; offline local files, no inference network, two short passages."
+}

@@ -1,0 +1,325 @@
+{
+  "status": "PASS",
+  "profiles": {
+    "development": {
+      "control": {
+        "quality": {
+          "recall@3": 0.9270833333333334,
+          "recall@5": 0.9583333333333334,
+          "recall@10": 1.0,
+          "mrr": 0.9756944444444444,
+          "coverage": 1.0,
+          "multi_hop_recall@5": 0.8333333333333334
+        },
+        "latency": {
+          "hybrid_ms": {
+            "p50": 19.810499999999934,
+            "p95": 20.81478330000009
+          },
+          "selection_ms": {
+            "p50": 19.816146000000117,
+            "p95": 20.82254580000003
+          },
+          "reranking_ms": {
+            "p50": 0.0,
+            "p95": 0.0
+          }
+        },
+        "observations": 180,
+        "questions": 60,
+        "unanswerable_questions": 12,
+        "actual_candidate_counts": [
+          10
+        ],
+        "fallback_count": 0
+      },
+      "top10": {
+        "quality": {
+          "recall@3": 0.9479166666666666,
+          "recall@5": 0.96875,
+          "recall@10": 1.0,
+          "mrr": 0.9340277777777778,
+          "coverage": 1.0,
+          "multi_hop_recall@5": 0.875
+        },
+        "latency": {
+          "hybrid_ms": {
+            "p50": 27.81718700000056,
+            "p95": 28.763280950001512
+          },
+          "selection_ms": {
+            "p50": 142.54416649999985,
+            "p95": 159.34351074999938
+          },
+          "reranking_ms": {
+            "p50": 114.65343750000011,
+            "p95": 131.434468750003
+          }
+        },
+        "observations": 180,
+        "questions": 60,
+        "unanswerable_questions": 12,
+        "actual_candidate_counts": [
+          10
+        ],
+        "fallback_count": 0
+      },
+      "top20": {
+        "quality": {
+          "recall@3": 0.9479166666666666,
+          "recall@5": 0.96875,
+          "recall@10": 1.0,
+          "mrr": 0.9236111111111112,
+          "coverage": 1.0,
+          "multi_hop_recall@5": 0.875
+        },
+        "latency": {
+          "hybrid_ms": {
+            "p50": 27.770583500000612,
+            "p95": 28.598277049999794
+          },
+          "selection_ms": {
+            "p50": 165.41933300000073,
+            "p95": 186.7829086499988
+          },
+          "reranking_ms": {
+            "p50": 137.39704200000142,
+            "p95": 158.74249194999874
+          }
+        },
+        "observations": 180,
+        "questions": 60,
+        "unanswerable_questions": 12,
+        "actual_candidate_counts": [
+          12
+        ],
+        "fallback_count": 0
+      }
+    },
+    "holdout": {
+      "quality": {
+        "recall@3": 0.984375,
+        "recall@5": 1.0,
+        "recall@10": 1.0,
+        "mrr": 0.96875,
+        "coverage": 1.0,
+        "multi_hop_recall@5": 1.0
+      },
+      "latency": {
+        "hybrid_ms": {
+          "p50": 20.071187500000065,
+          "p95": 20.86336665
+        },
+        "selection_ms": {
+          "p50": 20.081395499999985,
+          "p95": 20.865944050000145
+        },
+        "reranking_ms": {
+          "p50": 0.0,
+          "p95": 0.0
+        }
+      },
+      "observations": 120,
+      "questions": 40,
+      "unanswerable_questions": 8,
+      "actual_candidate_counts": [
+        10
+      ],
+      "fallback_count": 0
+    },
+    "selected": "control"
+  },
+  "gate": {
+    "status": "PASS",
+    "compatibility": {
+      "reranking": {
+        "enabled": false,
+        "candidates": 10,
+        "device": "cpu",
+        "timeoutMs": 15000,
+        "model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+        "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a"
+      },
+      "threshold": "strict decimal drop >0.02"
+    },
+    "decreases": {
+      "recall@5": "0.000",
+      "faithfulness": "0"
+    }
+  },
+  "disabled_exact_matches": 100,
+  "quality": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 269,
+    "citation_denominator": 269,
+    "faithfulness": 1,
+    "correctness": 0.99,
+    "p50_latency_ms": 5277.7874795,
+    "p95_latency_ms": 12102.8084482,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6684.27,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1717.95,
+    "judge_tokens_per_query": 4938.38,
+    "retrieval_p50_latency_ms": 33.5998335,
+    "retrieval_p95_latency_ms": 41.63567740000001,
+    "generation_p50_latency_ms": 5241.5173125,
+    "generation_p95_latency_ms": 12066.2289393
+  },
+  "negative_gates": {
+    "recall@5": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)"
+    },
+    "faithfulness": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+    }
+  },
+  "latency": {
+    "retrieval_latency_ms": {
+      "p50": 33.5998335,
+      "p95": 41.63567740000001
+    },
+    "generation_latency_ms": {
+      "p50": 5241.5173125,
+      "p95": 12066.2289393
+    },
+    "total_latency_ms": {
+      "p50": 5277.7874795,
+      "p95": 12102.8084482
+    }
+  },
+  "cache_statistics": {
+    "embedding_hits": 17,
+    "embedding_misses": 83,
+    "answer_hits": 17,
+    "answer_misses": 83,
+    "judge_hits": 16,
+    "judge_misses": 84
+  },
+  "fresh_answer_subset": {
+    "count": 83,
+    "question_ids": [
+      "fastapi-018",
+      "fastapi-019",
+      "fastapi-020",
+      "fastapi-021",
+      "fastapi-022",
+      "fastapi-023",
+      "fastapi-024",
+      "fastapi-025",
+      "fastapi-026",
+      "fastapi-027",
+      "fastapi-028",
+      "fastapi-029",
+      "fastapi-030",
+      "fastapi-031",
+      "fastapi-032",
+      "fastapi-033",
+      "fastapi-034",
+      "fastapi-035",
+      "fastapi-036",
+      "fastapi-037",
+      "fastapi-038",
+      "fastapi-039",
+      "fastapi-040",
+      "fastapi-041",
+      "fastapi-042",
+      "fastapi-043",
+      "fastapi-044",
+      "fastapi-045",
+      "fastapi-046",
+      "fastapi-047",
+      "fastapi-048",
+      "fastapi-049",
+      "fastapi-050",
+      "postgresql-001",
+      "postgresql-002",
+      "postgresql-003",
+      "postgresql-004",
+      "postgresql-005",
+      "postgresql-006",
+      "postgresql-007",
+      "postgresql-008",
+      "postgresql-009",
+      "postgresql-010",
+      "postgresql-011",
+      "postgresql-012",
+      "postgresql-013",
+      "postgresql-014",
+      "postgresql-015",
+      "postgresql-016",
+      "postgresql-017",
+      "postgresql-018",
+      "postgresql-019",
+      "postgresql-020",
+      "postgresql-021",
+      "postgresql-022",
+      "postgresql-023",
+      "postgresql-024",
+      "postgresql-025",
+      "postgresql-026",
+      "postgresql-027",
+      "postgresql-028",
+      "postgresql-029",
+      "postgresql-030",
+      "postgresql-031",
+      "postgresql-032",
+      "postgresql-033",
+      "postgresql-034",
+      "postgresql-035",
+      "postgresql-036",
+      "postgresql-037",
+      "postgresql-038",
+      "postgresql-039",
+      "postgresql-040",
+      "postgresql-041",
+      "postgresql-042",
+      "postgresql-043",
+      "postgresql-044",
+      "postgresql-045",
+      "postgresql-046",
+      "postgresql-047",
+      "postgresql-048",
+      "postgresql-049",
+      "postgresql-050"
+    ],
+    "step4_same_questions": {
+      "retrieval_latency_ms": {
+        "p50": 51.690875000000005,
+        "p95": 61.19692079999998
+      },
+      "generation_latency_ms": {
+        "p50": 6067.117666,
+        "p95": 12966.499628499985
+      },
+      "total_latency_ms": {
+        "p50": 6116.519249999999,
+        "p95": 13018.012308299987
+      }
+    },
+    "step5_fresh": {
+      "retrieval_latency_ms": {
+        "p50": 37.322416000000004,
+        "p95": 41.69535420000002
+      },
+      "generation_latency_ms": {
+        "p50": 5855.795542,
+        "p95": 12461.244871399997
+      },
+      "total_latency_ms": {
+        "p50": 5931.755875,
+        "p95": 12502.170853599997
+      }
+    }
+  },
+  "latency_disclosure": "Interrupted run resumed with exact compatible caches; report overall observed timings and fresh-answer subset separately. Matched baseline questions are a descriptive comparison, not proof of a speedup."
+}
