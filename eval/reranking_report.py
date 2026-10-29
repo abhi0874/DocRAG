@@ -193,6 +193,30 @@ def main():
                 "p95": percentile(values, 0.95),
             }
         result["cache_statistics"] = current["cache_statistics"]
+        fresh = [r for r in current["questions"] if r["cache"]["answer_misses"]]
+        matched = [original[r["id"]] for r in fresh]
+        result["fresh_answer_subset"] = {
+            "count": len(fresh),
+            "question_ids": [r["id"] for r in fresh],
+        }
+        for label, rows in (("step4_same_questions", matched), ("step5_fresh", fresh)):
+            result["fresh_answer_subset"][label] = {}
+            for field in (
+                "retrieval_latency_ms",
+                "generation_latency_ms",
+                "total_latency_ms",
+            ):
+                values = [r[field] for r in rows]
+                result["fresh_answer_subset"][label][field] = (
+                    {"p50": percentile(values, 0.5), "p95": percentile(values, 0.95)}
+                    if values
+                    else None
+                )
+        result["latency_disclosure"] = (
+            "Interrupted run resumed with exact compatible caches; report overall "
+            "observed timings and fresh-answer subset separately. Matched baseline "
+            "questions are a descriptive comparison, not proof of a speedup."
+        )
         save(DIRECTORY / "verified-report.json", result)
     print(json.dumps(result, indent=2))
 

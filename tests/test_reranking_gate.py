@@ -1,5 +1,6 @@
 import copy
 import json
+import subprocess
 
 import pytest
 
@@ -12,11 +13,32 @@ def pair():
     baseline = json.loads((ROOT / "eval/results/retrieval-selected.json").read_text())
     candidate = copy.deepcopy(baseline)
     candidate["config"].update(configuration("top10"))
+    candidate["git_revision"] = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
     return baseline, candidate
 
 
 def test_declared_reranking_only():
     assert compatible(*pair())["reranking"]["enabled"]
+
+
+def test_reject_undeclared_chat_context_change(monkeypatch):
+    baseline, candidate = pair()
+    original = subprocess.check_output
+
+    def changed(args, **kwargs):
+        value = original(args, **kwargs)
+        if args[-1] == candidate["git_revision"] + ":app/api/chat/route.ts":
+            return value.replace(
+                "selectContext(question, documentId, 6)",
+                "selectContext(question, documentId, 3)",
+            )
+        return value
+
+    monkeypatch.setattr(subprocess, "check_output", changed)
+    with pytest.raises(ValueError, match="chat integration"):
+        compatible(baseline, candidate)
 
 
 @pytest.mark.parametrize(

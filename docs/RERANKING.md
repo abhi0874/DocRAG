@@ -116,3 +116,49 @@ its pinned environment and provide the repository's Python worker/setup modules;
 these are server runtime requirements, not files delivered to a visitor's browser.
 The eventual free hosting platform is not verified here. Missing optional runtime
 on that host uses original hybrid search; it is not described as reranking.
+
+## Clean candidate comparison and frozen decision
+
+The final evidence is under `eval/results/reranking-final/`; the original
+`reranking/` matrix remains preserved as preliminary because earlier builds and
+source edits overlapped it. The final matrix used committed stable application
+code, fresh query embeddings and three repetitions with persistent SQL/worker
+processes. No simultaneous build or model benchmark ran. The existing60/40 split
+and selection rule were reused unchanged; this is not an unseen benchmark.
+
+| Development result (60 questions,180 observations/config) | Hybrid control | MiniLM top10 | MiniLM up to20 |
+|---|---:|---:|---:|
+| Actual candidate count | 10 | 10 | 12 |
+| Recall@3 | .9270833333333334 | .9479166666666666 | .9479166666666666 |
+| Recall@5 | .9583333333333334 | .96875 | .96875 |
+| Recall@10 | 1 | 1 | 1 |
+| MRR | .9756944444444444 | .9340277777777778 | .9236111111111112 |
+| Multi-hop Recall@5 | .8333333333333334 | .875 | .875 |
+| Selection p50 ms | 19.816146 | 142.5441665 | 165.419333 |
+| Selection p95 ms | 20.8225458 | 159.34351075 | 186.78290865 |
+
+Control was retained because both rerankers lost MRR under the predeclared
+no-Recall@5-or-MRR-loss rule. No tuning followed holdout. Control's40-question
+holdout (120 observations) had Recall@3 .984375, Recall@5/10 1, MRR .96875.
+There were12 unanswerable development and8 unanswerable holdout questions;
+they contribute timing but are excluded from retrieval-recall means. Their answer
+behavior is evaluated separately; retrieved scores alone cannot prove a good refusal.
+
+Warm reranking excludes the first model initialization:179 observations/config.
+Top10 warm p50/p95:114.652750/131.2215494ms; up-to20:137.374375/158.4795039ms.
+Cold worker request time:1633.008875/1689.425333ms respectively, of which model
+initialization was1465.675125/1495.555834ms. These are process-cold measurements,
+not cold disk-cache experiments. Peak worker RSS782,876,672/885,063,680bytes.
+No candidate pairs were truncated. Existing RRF limits remained12vector+12keyword;
+all larger measured pools actually had12 candidates, so20 must not be claimed.
+
+Recovery CPU/MPS toy verification repeated six inferences/device with the existing
+weights. CPU initialization1473.3805ms, first7.269666ms, five-warm median3.154208ms,
+peak RSS542,621,696bytes. MPS initialization1500.728375ms, first143.427208ms,
+five-warm median3.880959ms, peak RSS624,902,144bytes. CPU remained selected. This
+two-short-passage comparison does not establish a universal CPU/GPU speed ranking.
+
+The first all100 answer run was interrupted after16 complete questions. Recovery
+uses compatible cached responses, verifies model/runtime identities, and keeps
+cached versus fresh timings explicit. Final full-run numbers must come from the
+validated selected artifact; development retrieval scores are not all100 answer scores.

@@ -3,9 +3,11 @@
 import argparse
 import copy
 import json
+import subprocess
 from pathlib import Path
 
 from eval.check_regression import check
+from eval.corpus import ROOT
 from eval.reranking_experiments import FILES, MATRIX, configuration
 from eval.verify_results import verify
 
@@ -21,6 +23,37 @@ def compatible(baseline, candidate):
         raise ValueError("Unrelated configuration or file coverage changed")
     if any(ah[p] != bh[p] for p in ah if p != "app/api/chat/route.ts"):
         raise ValueError("Unrelated model, prompt, chunking or retrieval changed")
+
+    def route(result):
+        return subprocess.check_output(
+            ["git", "show", f"{result['git_revision']}:app/api/chat/route.ts"],
+            cwd=ROOT,
+            text=True,
+        )
+
+    # Permit exactly the declared selection call and observable status headers.
+    expected = (
+        route(baseline)
+        .replace(
+            "import { hybridSearch } from '@/lib/rag'",
+            "import { selectContext } from '@/lib/select-context'",
+        )
+        .replace(
+            "  const retrieved = await hybridSearch(question, documentId, 6)",
+            "  const selection = await selectContext(question, documentId, 6)\n"
+            "  const retrieved = selection.ranked",
+        )
+        .replace(
+            "  return createUIMessageStreamResponse({ stream })",
+            "  return createUIMessageStreamResponse({ stream, headers: {\n"
+            "    'X-DocRAG-Reranker-Status': selection.trace.status,\n"
+            "    ...(selection.trace.reason ? "
+            "{'X-DocRAG-Reranker-Reason': selection.trace.reason} : {}),\n"
+            "  } })",
+        )
+    )
+    if route(candidate) != expected:
+        raise ValueError("Unrelated chat integration change")
     # verify() independently binds every file hash to the measured Git revision.
     # The only old application file allowed to differ is the explicit integration.
     return {"reranking": declared, "threshold": "strict decimal drop >0.02"}

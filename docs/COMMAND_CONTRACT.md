@@ -733,3 +733,11 @@ ranked passages with Step4. The replay uses identical configuration/context cach
 keys; cached timings are not fresh inference timings. If an interrupted run is
 resumed, retain its private log and report cache counts and fresh-only latency
 separately. Do not compare a mixed-cache total directly as an optimization gain.
+
+If desktop Ollama automatically restarts its newer server, stop only verified
+owned processes with explicit user authorization. In the2026-10-29 recovery the
+user authorized stopping the desktop server; its app supervisor was temporarily
+paused to prevent relaunch. The benchmark server uses the checksum-verified0.40.9
+binary. After all model checks, stop only that benchmark process and resume the
+same verified desktop supervisor. This is temporary process control, not a model
+or global application installation change. Never blindly reuse recorded PIDs.

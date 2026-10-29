@@ -1,5 +1,6 @@
 """Real production HTTP checks; no Gemini calls or model-file mutations."""
 
+import argparse
 import json
 import os
 import re
@@ -169,11 +170,14 @@ def run_mode(mode):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", default="eval/results/reranking-final/api-smoke.json")
+    args = parser.parse_args()
     rows = [run_mode(mode) for mode in ("disabled", "enabled", "missing", "timeout")]
     baseline = rows[0]["source_ids"]
     assert all(r["source_ids"] == baseline for r in rows if r["mode"] != "enabled")
     result = {"status": "PASS", "rows": rows, "paid_api_charges_inr": 0}
-    save(ROOT / "eval/results/reranking-final/api-smoke.json", result)
+    save(ROOT / args.out, result)
     print(json.dumps(result), flush=True)
 
 
