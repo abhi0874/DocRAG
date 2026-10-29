@@ -1,4 +1,4 @@
-# Step 5 local reranking — work in progress
+# Step 5 local reranking — verified, disabled by default
 
 The independent Step 4 audit passed before implementation: correct clean checkout
 at 4ba666c, all seven commits preserved, 162 tests, lint/build, golden-set/source
@@ -30,8 +30,8 @@ No additional global package or inference service is installed.
 
 ## Remove the optional software later
 
-1. Stop any DocRAG Next.js server with Ctrl+C. This must stop its managed reranker
-   worker too; the completed integration will verify that lifecycle.
+1. Stop any DocRAG Next.js server with Ctrl+C. Production checks verify that stopping the server also stops its managed
+   reranker worker.
 2. In Terminal, enter the existing checkout and run:
 
    ```sh
@@ -53,7 +53,7 @@ expected; optional reranking must fall back to hybrid retrieval, not crash Q&A.
 
 The database, core `.venv`, Ollama app and existing Qwen/EmbeddingGemma models are
 separate and are not removed by this cleanup. Actual CPU/MPS latency, memory use,
-default selection and API integration remain to be measured and verified.
+default selection and API integration are recorded below and in STEP5_COMPLETE.md.
 
 ## Implementation and initial measurements
 
@@ -162,3 +162,28 @@ The first all100 answer run was interrupted after16 complete questions. Recovery
 uses compatible cached responses, verifies model/runtime identities, and keeps
 cached versus fresh timings explicit. Final full-run numbers must come from the
 validated selected artifact; development retrieval scores are not all100 answer scores.
+
+## Final 100-question result and answer limitations
+
+The selected disabled configuration matched Step 4: Recall@3 = .95, Recall@5 = .975,
+Recall@10 = 1, MRR = .9729166666666667, automated citation accuracy 269/269, faithfulness 1,
+correctness .99 (98 complete, 2 partial). The 83 fresh-answer subset and all observed
+cache timings are reported separately in STEP5_COMPLETE.md and verified-report.json.
+All 100 disabled rankings matched Step 4; exact cached replay reproduced every
+context, answer and judgment. Strict regression and synthetic-negative gates pass.
+
+Neither reranking pool repaired the two incomplete cases. Chunk 106 already supplies
+the omitted savepoint detail. For the join/constraint question, foreign-key chunks
+128/126/123 are in the 12-candidate pool, but none reaches the final six under the
+tested reranker. A separate control diagnostic generated a correct foreign-key
+fact absent from selected context and scored faithfulness .5. That grounding failure
+is retained, not described as a successful fix. Automated full 100-question scores do not
+guarantee perfect answers. Four targeted questions/configuration are diagnostic,
+not a replacement 100-question benchmark for each rejected candidate.
+
+Final production API checks pass for enabled/disabled/missing-runtime/timeout modes,
+with source identities/citations intact and managed workers stopped. Cleanup tests
+remove only owned temporary fixtures and preserve sibling data; actual weights
+remain installed. Uninstalling the 1.2 GiB optional folder removes its environment,
+weights and library caches. Small experiment reports and private run logs outside
+that folder are retained evaluation records, not additional model installations.
