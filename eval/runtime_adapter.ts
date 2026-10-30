@@ -120,7 +120,7 @@ async function main() {
     } else {
       const pacingBeforeGeneration = pacingMs
       const generationStart = performance.now()
-      const stream = await startRagAnswer(messages, retrieved)
+      const stream = await startRagAnswer(messages, retrieved, 'step5-v1')
       const {text, usage, finishReason} = await consumeAnswer(stream)
       generationMs = performance.now() - generationStart - (pacingMs - pacingBeforeGeneration)
       if (!text.trim()) throw new Error('Empty generated answer')

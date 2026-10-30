@@ -751,3 +751,46 @@ Final production smoke can preserve the first recovery receipt using:
 The cleanup unit tests use only pytest-created temporary folders, including dummy
 model/cache files and a sibling preservation marker. The real Python environment,
 model weights and database are never deleted for testing.
+
+## Step 6 grounded answers and public response cache
+
+Use the same checkout and pinned local runtime. The Step 5 audit passed before
+implementation. No Step 2–5 artifacts may be overwritten. The optional reranker
+remains disabled. Candidate evaluation explicitly selects a prompt version:
+
+```sh
+make lint
+make test
+make build-fe
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/prompting/grounded-v1-raw.json --prompting-experiment grounded-v1
+.venv/bin/python -m eval.promote_local --source eval/results/prompting/grounded-v1-raw.json --out eval/results/prompting/grounded-v1.json
+```
+
+The original `step5-v1` prompt is retained byte-for-byte. Historical evaluator
+commands explicitly select it, so old cache identities cannot return a different
+prompt's answers. The new experiment fingerprints the prompt, metadata, citation,
+stream and cache code; production response caching is off during quality runs.
+Existing evaluation caches can resume interruptions with full prompt/configuration
+identity; cache conditions must still be disclosed. All generation uses local
+models. Do not enable Gemini billing or run live Gemini evaluations here.
+
+For an eligible production experiment, launch with `RESPONSE_CACHE_ENABLED=true`
+and the existing heading-1400-280 public evaluation database environment. Eligibility
+is checked against server-owned hashes of both public documents AND public questions.
+Unrecognized documents, arbitrary questions and multi-turn histories always bypass
+storage. The switch defaults off. `RAG_PROMPT_VERSION=step5-v1|grounded-v1` selects
+one of the two declared prompts. These are server-launch settings, never client
+access permissions. A restart clears the in-process cache.
+
+Step 6 additional checks (outputs are preserved):
+
+```sh
+.venv/bin/python -m eval.cache_http --out eval/results/prompting/cache-http.json
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json
+```
+
+The cache smoke variant uses `--smoke --out .local/step6-cache-smoke.json`.
+The HTTP experiment owns only its loopback Next.js process on port 8004. Cache
+measurements are sequential and must not overlap evaluation inference or builds.
+An older answer's citation now selects that message's own saved evidence, so its
+source number cannot silently target the most recent answer's source list.

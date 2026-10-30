@@ -51,8 +51,9 @@ async function main() {
     return {text: result.message.content, usage: {totalTokens: result.prompt_eval_count + result.eval_count, inputTokens: result.prompt_eval_count, outputTokens: result.eval_count}, latency_ms: performance.now() - start, finish_reason: result.done_reason}
   }
   if (!['answer', 'retrieve', 'profile', 'plans'].includes(input.action)) throw new Error('Unknown local evaluation action')
-  const {hybridSearch, buildContext, RAG_INSTRUCTIONS} = await import('../lib/rag')
+  const {hybridSearch} = await import('../lib/rag')
   const {startRagAnswer} = await import('../lib/rag-answer')
+  const {answerInstructions} = await import('../lib/rag-prompt')
   const {consumeAnswer} = await import('./consume-answer')
   const {pool} = await import('../lib/db')
   try {
@@ -95,8 +96,15 @@ async function main() {
       value => {timing = value})
     const retrievalMs = performance.now() - start
     if (input.action === 'retrieve') return {ranked, retrieval_latency_ms: retrievalMs, cache: stats, timing, selection}
-    const retrieved = ranked.slice(0, 6)
-    const instructions = `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${buildContext(retrieved)}`
+    let retrieved = ranked.slice(0, 6)
+    const version = input.config.prompting_experiment ?? 'step5-v1'
+    if (input.config.prompting_experiment) {
+      const {documentSnapshot, withEvidenceMetadata} = await import('../lib/evidence')
+      const snapshot = await documentSnapshot(input.documentId)
+      if (!snapshot) throw new Error('Evaluation document unavailable')
+      retrieved = withEvidenceMetadata(retrieved, snapshot)
+    }
+    const instructions = answerInstructions(retrieved, version)
     const messages = [{id: 'evaluation', role: 'user' as const, parts: [{type: 'text' as const, text: input.question}]}]
     const cacheInput = {provider: 'ollama', settings: localSettings(), instructions, messages, config: input.config,
       ...(selection ? {candidates: selection.candidates, selected: ranked, reranking: selection.trace.status} : {})}
@@ -109,7 +117,7 @@ async function main() {
       stats.answer_hits++
     } else {
       stats.answer_misses++
-      const stream = await startRagAnswer(messages, retrieved)
+      const stream = await startRagAnswer(messages, retrieved, version)
       const result = await consumeAnswer(stream)
       if (result.finishReason !== 'stop' || !result.text.trim()) throw new Error('Incomplete local answer')
       answer = {text: result.text, usage: result.usage, finish_reason: result.finishReason, original_generation_latency_ms: performance.now() - generationStart, generated_at: new Date().toISOString()}

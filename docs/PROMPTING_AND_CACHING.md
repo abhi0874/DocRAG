@@ -17,6 +17,6 @@ Compare step5-v1 and one grounded-v1 candidate with the same 100 questions, pinn
 
 ## Planned cache boundary
 
-Default off. Only single-turn requests over a server-maintained, exact content-hash allowlist of the public evaluation corpus are eligible. Client flags cannot declare a document public. Private uploads, conversation history and providers without a verified immutable model digest bypass storage. A bounded in-process TTL/LRU cache avoids external services. Document snapshots and selected evidence are rechecked; completed valid streams only. Source-ID validity does not prove semantic citation support. Authentication and private cache ownership integration remain Step 7 work.
+Default off. Only single-turn requests over a server-maintained, exact content-hash allowlist of the public evaluation corpus and its 100 public question hashes are eligible. Arbitrary questions bypass caching even on those documents, preventing user-provided private question text from entering shared answers. Client flags cannot declare a document public. Private uploads, conversation history and providers without a verified immutable model digest bypass storage. A bounded in-process TTL/LRU cache avoids external services. Document snapshots and selected evidence are rechecked; completed valid streams only. Source-ID validity does not prove semantic citation support. Authentication and private cache ownership integration remain Step 7 work.
 
 Implementation and final measurements are pending. No Step 7 work or GitHub push.

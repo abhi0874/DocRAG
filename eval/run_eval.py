@@ -94,8 +94,9 @@ def run(
     experiment=None,
     retrieval_experiment=None,
     reranking_experiment=None,
+    prompting_experiment=None,
 ):
-    if reranking_experiment and output.exists():
+    if (reranking_experiment or prompting_experiment) and output.exists():
         raise ValueError("Preserve completed reranking measurement")
     config = configuration()
     if experiment:
@@ -117,6 +118,16 @@ def run(
             raise ValueError("Reranking requires frozen Step 3 chunks")
         experiment, retrieval_experiment = "heading-1400-280", "control"
         config = reranking_configuration(reranking_experiment)
+        is_local = True
+    if prompting_experiment:
+        from eval.prompting_experiments import configuration as prompting_configuration
+
+        experiment, retrieval_experiment, reranking_experiment = (
+            "heading-1400-280",
+            "control",
+            "control",
+        )
+        config = prompting_configuration(prompting_experiment)
         is_local = True
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
@@ -209,6 +220,8 @@ def run(
         evaluator_files += ["eval/retrieval_experiments.py"]
     if reranking_experiment:
         evaluator_files += ["eval/reranking_experiments.py"]
+    if prompting_experiment:
+        evaluator_files += ["eval/prompting_experiments.py"]
     fingerprints = {p: sha256((ROOT / p).read_bytes()) for p in evaluator_files}
     rows = []
     cache_stats = Counter()
@@ -393,6 +406,7 @@ def main():
     parser.add_argument("--chunking-experiment")
     parser.add_argument("--retrieval-experiment")
     parser.add_argument("--reranking-experiment", choices=["control", "top10", "top20"])
+    parser.add_argument("--prompting-experiment", choices=["step5-v1", "grounded-v1"])
     args = parser.parse_args()
     try:
         run(
@@ -401,6 +415,7 @@ def main():
             args.chunking_experiment,
             args.retrieval_experiment,
             args.reranking_experiment,
+            args.prompting_experiment,
         )
     except Exception as exc:
         # Known adapter failures are already sanitized; arbitrary DB errors are not.
