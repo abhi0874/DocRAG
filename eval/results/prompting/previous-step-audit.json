@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "audited_revision": "8172c03",
+  "date": "2026-10-29",
+  "tests": {
+    "python": 138,
+    "typescript": 70
+  },
+  "commands_exit_zero": [
+    "make lint",
+    "make test",
+    "make build-fe",
+    "eval.validate_dataset --require-review",
+    "eval.reranking_gate",
+    "eval.reranking_report",
+    "eval.reranking_integrity",
+    "eval.reranking_smoke --out .local/step6-prior-api.json",
+    "scripts.reranker_probe --out .local/step6-prior-probe.json"
+  ],
+  "remote_development_branch_absent": true,
+  "runtime_disclosure": "Audit API smoke used installed 0.40.11 with matching model digests. Controlled Step 6 experiments use preserved 0.40.9."
+}

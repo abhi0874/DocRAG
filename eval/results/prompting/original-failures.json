@@ -1,0 +1,1259 @@
+[
+  {
+    "id": "postgresql-005",
+    "type": "easy",
+    "name": "control",
+    "question": "What does ROLLBACK TO a savepoint discard and preserve?",
+    "reference_answer": "It discards changes after the savepoint while retaining changes made before it; the savepoint remains defined.",
+    "complete_hybrid_pool": [
+      {
+        "id": 106,
+        "content": "asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest. After defining a savepoint with SAVEPOINT, you can if needed roll back to the savepoint with ROLLBACK TO. All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.\nAfter rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources. Keep in mind that either releasing or rolling back to a savepoint will automatically release all savepoints that were defined after it.\nAll this is happening within the transaction block, so none of it is visible to other database sessions. When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account.",
+        "pageNumber": 1,
+        "chunkIndex": 4,
+        "vectorScore": 0.6483671648830623,
+        "keywordScore": null,
+        "rrfScore": 0.01639344262295082,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 107,
+        "content": "actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account. We could do it using savepoints like this:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nSAVEPOINT my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\n-- oops ... forget that and use Wally's account\nROLLBACK TO my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Wally';\nCOMMIT;\nThis example is, of course, oversimplified, but there's a lot of control possible in a transaction block through the use of savepoints. Moreover, ROLLBACK TO is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again.",
+        "pageNumber": 1,
+        "chunkIndex": 5,
+        "vectorScore": 0.6168648372211956,
+        "keywordScore": null,
+        "rrfScore": 0.016129032258064516,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 105,
+        "content": "so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\n-- etc etc\nCOMMIT;\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.\nPostgreSQL actually treats every SQL statement as being executed within a transaction. If you do not issue a BEGIN command, then each individual statement has an implicit BEGIN and (if successful) COMMIT wrapped around it. A group of statements surrounded by BEGIN and COMMIT is sometimes called a transaction block.\nNote\nSome client libraries issue BEGIN and COMMIT commands automatically, so that you might get the effect of transaction blocks without asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest.",
+        "pageNumber": 1,
+        "chunkIndex": 3,
+        "vectorScore": 0.4005503177806832,
+        "keywordScore": null,
+        "rrfScore": 0.015873015873015872,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 130,
+        "content": "and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything. (The essential difference between these two choices is that NO ACTION allows the check to be deferred until later in the transaction, whereas RESTRICT does not.) CASCADE specifies that when a referenced row is deleted, row(s) referencing it should be automatically deleted as well. There are two other options: SET NULL and SET DEFAULT. These cause the referencing column(s) in the referencing row(s) to be set to nulls or their default values, respectively, when the referenced row is deleted. Note that these do not excuse you from observing any constraints. For example, if an action specifies SET DEFAULT but the default value would not satisfy the foreign key constraint, the operation will fail.\nThe appropriate choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate.",
+        "pageNumber": 2,
+        "chunkIndex": 28,
+        "vectorScore": 0.3407902324670692,
+        "keywordScore": null,
+        "rrfScore": 0.015625,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 103,
+        "content": "The details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a transaction gives us this guarantee. A transaction is said to be atomic: from the point of view of other transactions, it either happens completely or not at all.\nWe also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob, we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.",
+        "pageNumber": 1,
+        "chunkIndex": 1,
+        "vectorScore": 0.3209719231061803,
+        "keywordScore": null,
+        "rrfScore": 0.015384615384615385,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 119,
+        "content": "UNIQUE, EXCLUDE, or FOREIGN KEY constraints to express cross-row and cross-table restrictions.\nIf what you desire is a one-time check against other rows at row insertion, rather than a continuously-maintained consistency guarantee, a custom trigger can be used to implement that. (This approach avoids the dump/restore problem because pg_dump does not reinstall triggers until after restoring data, so that the check will not be enforced during a dump/restore.)\nNote\nPostgreSQL assumes that CHECK constraints' conditions are immutable, that is, they will always give the same result for the same input row. This assumption is what justifies examining CHECK constraints only when rows are inserted or updated, and not at other times. (The warning above about not referencing other table data is really a special case of this restriction.)\nAn example of a common way to break this assumption is to reference a user-defined function in a CHECK expression, and then change the behavior of that function. PostgreSQL does not disallow that, but it will not notice if there are rows in the table that now violate the CHECK constraint. That would cause a subsequent database dump and restore to fail. The recommended way to handle such a change is to drop the constraint (using ALTER TABLE), adjust the function definition, and re-add the constraint, thereby rechecking it against all table rows.",
+        "pageNumber": 2,
+        "chunkIndex": 17,
+        "vectorScore": 0.30138008602738897,
+        "keywordScore": null,
+        "rrfScore": 0.015151515151515152,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 131,
+        "content": "choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate. If the two tables represent independent objects, then RESTRICT or NO ACTION is more appropriate; an application that actually wants to delete both objects would then have to be explicit about this and run two delete commands. In the above example, order items are part of an order, and it is convenient if they are deleted automatically if an order is deleted. But products and orders are different things, and so making a deletion of a product automatically cause the deletion of some order items could be considered problematic. The actions SET NULL or SET DEFAULT can be appropriate if a foreign-key relationship represents optional information. For example, if the products table contained a reference to a product manager, and the product manager entry gets deleted, then setting the product's product manager to null or a default might be useful.\nThe actions SET NULL and SET DEFAULT can take a column list to specify which columns to set. Normally, all columns of the foreign-key constraint are set; setting only a subset is useful in some special cases.",
+        "pageNumber": 2,
+        "chunkIndex": 29,
+        "vectorScore": 0.2916197267657439,
+        "keywordScore": null,
+        "rrfScore": 0.014925373134328358,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 129,
+        "content": "of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?\nTo illustrate this, let's implement the following policy on the many-to-many relationship example above: when someone wants to remove a product that is still referenced by an order (via order_items), we disallow it. If someone removes an order, the order items are removed as well:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products ON DELETE RESTRICT,\norder_id integer REFERENCES orders ON DELETE CASCADE,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nRestricting and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything.",
+        "pageNumber": 2,
+        "chunkIndex": 27,
+        "vectorScore": 0.286471924588922,
+        "keywordScore": null,
+        "rrfScore": 0.014705882352941176,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 102,
+        "content": "3.4. Transactions #\nTransactions are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.\nFor example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL commands for this might look like:\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nUPDATE branches SET balance = balance - 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\nUPDATE branches SET balance = balance + 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');\nThe details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen.",
+        "pageNumber": 1,
+        "chunkIndex": 0,
+        "vectorScore": 0.28606949109046154,
+        "keywordScore": null,
+        "rrfScore": 0.014492753623188406,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 104,
+        "content": "any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.\nAnother important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands.",
+        "pageNumber": 1,
+        "chunkIndex": 2,
+        "vectorScore": 0.2850715389890396,
+        "keywordScore": null,
+        "rrfScore": 0.014285714285714285,
+        "source_id": "postgresql.tutorial-transactions"
+      },
+      {
+        "id": 133,
+        "content": "for SET NULL and SET DEFAULT. In this case, CASCADE means that the updated values of the referenced column(s) should be copied into the referencing row(s).\nNormally, a referencing row need not satisfy the foreign key constraint if any of its referencing columns are null. If MATCH FULL is added to the foreign key declaration, a referencing row escapes satisfying the constraint only if all its referencing columns are null (so a mix of null and non-null values is guaranteed to fail a MATCH FULL constraint). If you don't want referencing rows to be able to avoid satisfying the foreign key constraint, declare the referencing column(s) as NOT NULL.\nA foreign key must reference columns that either are a primary key or form a unique constraint, or are columns from a non-partial unique index. This means that the referenced columns always have an index to allow efficient lookups on whether a referencing row has a match. Since a DELETE of a row from the referenced table or an UPDATE of a referenced column will require a scan of the referencing table for rows matching the old value, it is often a good idea to index the referencing columns too. Because this is not always needed, and there are many choices available on how to index, the declaration of a foreign key constraint does not automatically create an index on the referencing columns.",
+        "pageNumber": 2,
+        "chunkIndex": 31,
+        "vectorScore": 0.28310730209626955,
+        "keywordScore": null,
+        "rrfScore": 0.014084507042253521,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 118,
+        "content": "> discounted_price)\n);\nIt should be noted that a check constraint is satisfied if the check expression evaluates to true or the null value. Since most expressions will evaluate to the null value if any operand is null, they will not prevent null values in the constrained columns. To ensure that a column does not contain null values, the not-null constraint described in the next section can be used.\nNote\nPostgreSQL does not support CHECK constraints that reference table data other than the new or updated row being checked. While a CHECK constraint that violates this rule may appear to work in simple tests, it cannot guarantee that the database will not reach a state in which the constraint condition is false (due to subsequent changes of the other row(s) involved). This would cause a database dump and restore to fail. The restore could fail even when the complete database state is consistent with the constraint, due to rows not being loaded in an order that will satisfy the constraint. If possible, use UNIQUE, EXCLUDE, or FOREIGN KEY constraints to express cross-row and cross-table restrictions.\nIf what you desire is a one-time check against other rows at row insertion, rather than a continuously-maintained consistency guarantee, a custom trigger can be used to implement that.",
+        "pageNumber": 2,
+        "chunkIndex": 16,
+        "vectorScore": 0.2664574841533591,
+        "keywordScore": null,
+        "rrfScore": 0.013888888888888888,
+        "source_id": "postgresql.ddl-constraints"
+      }
+    ],
+    "response": {
+      "ranked": [
+        {
+          "id": 106,
+          "content": "asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest. After defining a savepoint with SAVEPOINT, you can if needed roll back to the savepoint with ROLLBACK TO. All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.\nAfter rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources. Keep in mind that either releasing or rolling back to a savepoint will automatically release all savepoints that were defined after it.\nAll this is happening within the transaction block, so none of it is visible to other database sessions. When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account.",
+          "pageNumber": 1,
+          "chunkIndex": 4,
+          "vectorScore": 0.6483671648830623,
+          "keywordScore": null,
+          "rrfScore": 0.01639344262295082,
+          "source_id": "postgresql.tutorial-transactions"
+        },
+        {
+          "id": 107,
+          "content": "actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account. We could do it using savepoints like this:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nSAVEPOINT my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\n-- oops ... forget that and use Wally's account\nROLLBACK TO my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Wally';\nCOMMIT;\nThis example is, of course, oversimplified, but there's a lot of control possible in a transaction block through the use of savepoints. Moreover, ROLLBACK TO is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again.",
+          "pageNumber": 1,
+          "chunkIndex": 5,
+          "vectorScore": 0.6168648372211956,
+          "keywordScore": null,
+          "rrfScore": 0.016129032258064516,
+          "source_id": "postgresql.tutorial-transactions"
+        },
+        {
+          "id": 105,
+          "content": "so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\n-- etc etc\nCOMMIT;\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.\nPostgreSQL actually treats every SQL statement as being executed within a transaction. If you do not issue a BEGIN command, then each individual statement has an implicit BEGIN and (if successful) COMMIT wrapped around it. A group of statements surrounded by BEGIN and COMMIT is sometimes called a transaction block.\nNote\nSome client libraries issue BEGIN and COMMIT commands automatically, so that you might get the effect of transaction blocks without asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest.",
+          "pageNumber": 1,
+          "chunkIndex": 3,
+          "vectorScore": 0.4005503177806832,
+          "keywordScore": null,
+          "rrfScore": 0.015873015873015872,
+          "source_id": "postgresql.tutorial-transactions"
+        },
+        {
+          "id": 130,
+          "content": "and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything. (The essential difference between these two choices is that NO ACTION allows the check to be deferred until later in the transaction, whereas RESTRICT does not.) CASCADE specifies that when a referenced row is deleted, row(s) referencing it should be automatically deleted as well. There are two other options: SET NULL and SET DEFAULT. These cause the referencing column(s) in the referencing row(s) to be set to nulls or their default values, respectively, when the referenced row is deleted. Note that these do not excuse you from observing any constraints. For example, if an action specifies SET DEFAULT but the default value would not satisfy the foreign key constraint, the operation will fail.\nThe appropriate choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate.",
+          "pageNumber": 2,
+          "chunkIndex": 28,
+          "vectorScore": 0.3407902324670692,
+          "keywordScore": null,
+          "rrfScore": 0.015625,
+          "source_id": "postgresql.ddl-constraints"
+        },
+        {
+          "id": 103,
+          "content": "The details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a transaction gives us this guarantee. A transaction is said to be atomic: from the point of view of other transactions, it either happens completely or not at all.\nWe also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob, we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.",
+          "pageNumber": 1,
+          "chunkIndex": 1,
+          "vectorScore": 0.3209719231061803,
+          "keywordScore": null,
+          "rrfScore": 0.015384615384615385,
+          "source_id": "postgresql.tutorial-transactions"
+        },
+        {
+          "id": 119,
+          "content": "UNIQUE, EXCLUDE, or FOREIGN KEY constraints to express cross-row and cross-table restrictions.\nIf what you desire is a one-time check against other rows at row insertion, rather than a continuously-maintained consistency guarantee, a custom trigger can be used to implement that. (This approach avoids the dump/restore problem because pg_dump does not reinstall triggers until after restoring data, so that the check will not be enforced during a dump/restore.)\nNote\nPostgreSQL assumes that CHECK constraints' conditions are immutable, that is, they will always give the same result for the same input row. This assumption is what justifies examining CHECK constraints only when rows are inserted or updated, and not at other times. (The warning above about not referencing other table data is really a special case of this restriction.)\nAn example of a common way to break this assumption is to reference a user-defined function in a CHECK expression, and then change the behavior of that function. PostgreSQL does not disallow that, but it will not notice if there are rows in the table that now violate the CHECK constraint. That would cause a subsequent database dump and restore to fail. The recommended way to handle such a change is to drop the constraint (using ALTER TABLE), adjust the function definition, and re-add the constraint, thereby rechecking it against all table rows.",
+          "pageNumber": 2,
+          "chunkIndex": 17,
+          "vectorScore": 0.30138008602738897,
+          "keywordScore": null,
+          "rrfScore": 0.015151515151515152,
+          "source_id": "postgresql.ddl-constraints"
+        },
+        {
+          "id": 131,
+          "content": "choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate. If the two tables represent independent objects, then RESTRICT or NO ACTION is more appropriate; an application that actually wants to delete both objects would then have to be explicit about this and run two delete commands. In the above example, order items are part of an order, and it is convenient if they are deleted automatically if an order is deleted. But products and orders are different things, and so making a deletion of a product automatically cause the deletion of some order items could be considered problematic. The actions SET NULL or SET DEFAULT can be appropriate if a foreign-key relationship represents optional information. For example, if the products table contained a reference to a product manager, and the product manager entry gets deleted, then setting the product's product manager to null or a default might be useful.\nThe actions SET NULL and SET DEFAULT can take a column list to specify which columns to set. Normally, all columns of the foreign-key constraint are set; setting only a subset is useful in some special cases.",
+          "pageNumber": 2,
+          "chunkIndex": 29,
+          "vectorScore": 0.2916197267657439,
+          "keywordScore": null,
+          "rrfScore": 0.014925373134328358,
+          "source_id": "postgresql.ddl-constraints"
+        },
+        {
+          "id": 129,
+          "content": "of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?\nTo illustrate this, let's implement the following policy on the many-to-many relationship example above: when someone wants to remove a product that is still referenced by an order (via order_items), we disallow it. If someone removes an order, the order items are removed as well:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products ON DELETE RESTRICT,\norder_id integer REFERENCES orders ON DELETE CASCADE,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nRestricting and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything.",
+          "pageNumber": 2,
+          "chunkIndex": 27,
+          "vectorScore": 0.286471924588922,
+          "keywordScore": null,
+          "rrfScore": 0.014705882352941176,
+          "source_id": "postgresql.ddl-constraints"
+        },
+        {
+          "id": 102,
+          "content": "3.4. Transactions #\nTransactions are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.\nFor example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL commands for this might look like:\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nUPDATE branches SET balance = balance - 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\nUPDATE branches SET balance = balance + 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');\nThe details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen.",
+          "pageNumber": 1,
+          "chunkIndex": 0,
+          "vectorScore": 0.28606949109046154,
+          "keywordScore": null,
+          "rrfScore": 0.014492753623188406,
+          "source_id": "postgresql.tutorial-transactions"
+        },
+        {
+          "id": 104,
+          "content": "any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.\nAnother important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands.",
+          "pageNumber": 1,
+          "chunkIndex": 2,
+          "vectorScore": 0.2850715389890396,
+          "keywordScore": null,
+          "rrfScore": 0.014285714285714285,
+          "source_id": "postgresql.tutorial-transactions"
+        }
+      ],
+      "answer": {
+        "text": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+        "usage": {
+          "inputTokens": 1778,
+          "inputTokenDetails": {},
+          "outputTokens": 44,
+          "outputTokenDetails": {
+            "textTokens": 44,
+            "reasoningTokens": 0
+          },
+          "totalTokens": 1822
+        },
+        "finish_reason": "stop",
+        "original_generation_latency_ms": 10068.06425,
+        "generated_at": "2026-10-29T14:14:00.318Z"
+      },
+      "timing": {
+        "embedding_ms": 28.89254200000002,
+        "vector_ms": 9.30841700000002,
+        "keyword_ms": 9.054040999999984,
+        "database_wall_ms": 9.380209000000008,
+        "fusion_ms": 0.0801659999999913,
+        "total_ms": 38.49654100000001,
+        "vector_count": 12,
+        "keyword_count": 0,
+        "combined_ms": null
+      },
+      "selection": {
+        "ranked": [
+          {
+            "id": 106,
+            "content": "asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest. After defining a savepoint with SAVEPOINT, you can if needed roll back to the savepoint with ROLLBACK TO. All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.\nAfter rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources. Keep in mind that either releasing or rolling back to a savepoint will automatically release all savepoints that were defined after it.\nAll this is happening within the transaction block, so none of it is visible to other database sessions. When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account.",
+            "pageNumber": 1,
+            "chunkIndex": 4,
+            "vectorScore": 0.6483671648830623,
+            "keywordScore": null,
+            "rrfScore": 0.01639344262295082
+          },
+          {
+            "id": 107,
+            "content": "actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account. We could do it using savepoints like this:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nSAVEPOINT my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\n-- oops ... forget that and use Wally's account\nROLLBACK TO my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Wally';\nCOMMIT;\nThis example is, of course, oversimplified, but there's a lot of control possible in a transaction block through the use of savepoints. Moreover, ROLLBACK TO is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again.",
+            "pageNumber": 1,
+            "chunkIndex": 5,
+            "vectorScore": 0.6168648372211956,
+            "keywordScore": null,
+            "rrfScore": 0.016129032258064516
+          },
+          {
+            "id": 105,
+            "content": "so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\n-- etc etc\nCOMMIT;\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.\nPostgreSQL actually treats every SQL statement as being executed within a transaction. If you do not issue a BEGIN command, then each individual statement has an implicit BEGIN and (if successful) COMMIT wrapped around it. A group of statements surrounded by BEGIN and COMMIT is sometimes called a transaction block.\nNote\nSome client libraries issue BEGIN and COMMIT commands automatically, so that you might get the effect of transaction blocks without asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest.",
+            "pageNumber": 1,
+            "chunkIndex": 3,
+            "vectorScore": 0.4005503177806832,
+            "keywordScore": null,
+            "rrfScore": 0.015873015873015872
+          },
+          {
+            "id": 130,
+            "content": "and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything. (The essential difference between these two choices is that NO ACTION allows the check to be deferred until later in the transaction, whereas RESTRICT does not.) CASCADE specifies that when a referenced row is deleted, row(s) referencing it should be automatically deleted as well. There are two other options: SET NULL and SET DEFAULT. These cause the referencing column(s) in the referencing row(s) to be set to nulls or their default values, respectively, when the referenced row is deleted. Note that these do not excuse you from observing any constraints. For example, if an action specifies SET DEFAULT but the default value would not satisfy the foreign key constraint, the operation will fail.\nThe appropriate choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate.",
+            "pageNumber": 2,
+            "chunkIndex": 28,
+            "vectorScore": 0.3407902324670692,
+            "keywordScore": null,
+            "rrfScore": 0.015625
+          },
+          {
+            "id": 103,
+            "content": "The details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a transaction gives us this guarantee. A transaction is said to be atomic: from the point of view of other transactions, it either happens completely or not at all.\nWe also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob, we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.",
+            "pageNumber": 1,
+            "chunkIndex": 1,
+            "vectorScore": 0.3209719231061803,
+            "keywordScore": null,
+            "rrfScore": 0.015384615384615385
+          },
+          {
+            "id": 119,
+            "content": "UNIQUE, EXCLUDE, or FOREIGN KEY constraints to express cross-row and cross-table restrictions.\nIf what you desire is a one-time check against other rows at row insertion, rather than a continuously-maintained consistency guarantee, a custom trigger can be used to implement that. (This approach avoids the dump/restore problem because pg_dump does not reinstall triggers until after restoring data, so that the check will not be enforced during a dump/restore.)\nNote\nPostgreSQL assumes that CHECK constraints' conditions are immutable, that is, they will always give the same result for the same input row. This assumption is what justifies examining CHECK constraints only when rows are inserted or updated, and not at other times. (The warning above about not referencing other table data is really a special case of this restriction.)\nAn example of a common way to break this assumption is to reference a user-defined function in a CHECK expression, and then change the behavior of that function. PostgreSQL does not disallow that, but it will not notice if there are rows in the table that now violate the CHECK constraint. That would cause a subsequent database dump and restore to fail. The recommended way to handle such a change is to drop the constraint (using ALTER TABLE), adjust the function definition, and re-add the constraint, thereby rechecking it against all table rows.",
+            "pageNumber": 2,
+            "chunkIndex": 17,
+            "vectorScore": 0.30138008602738897,
+            "keywordScore": null,
+            "rrfScore": 0.015151515151515152
+          },
+          {
+            "id": 131,
+            "content": "choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate. If the two tables represent independent objects, then RESTRICT or NO ACTION is more appropriate; an application that actually wants to delete both objects would then have to be explicit about this and run two delete commands. In the above example, order items are part of an order, and it is convenient if they are deleted automatically if an order is deleted. But products and orders are different things, and so making a deletion of a product automatically cause the deletion of some order items could be considered problematic. The actions SET NULL or SET DEFAULT can be appropriate if a foreign-key relationship represents optional information. For example, if the products table contained a reference to a product manager, and the product manager entry gets deleted, then setting the product's product manager to null or a default might be useful.\nThe actions SET NULL and SET DEFAULT can take a column list to specify which columns to set. Normally, all columns of the foreign-key constraint are set; setting only a subset is useful in some special cases.",
+            "pageNumber": 2,
+            "chunkIndex": 29,
+            "vectorScore": 0.2916197267657439,
+            "keywordScore": null,
+            "rrfScore": 0.014925373134328358
+          },
+          {
+            "id": 129,
+            "content": "of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?\nTo illustrate this, let's implement the following policy on the many-to-many relationship example above: when someone wants to remove a product that is still referenced by an order (via order_items), we disallow it. If someone removes an order, the order items are removed as well:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products ON DELETE RESTRICT,\norder_id integer REFERENCES orders ON DELETE CASCADE,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nRestricting and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything.",
+            "pageNumber": 2,
+            "chunkIndex": 27,
+            "vectorScore": 0.286471924588922,
+            "keywordScore": null,
+            "rrfScore": 0.014705882352941176
+          },
+          {
+            "id": 102,
+            "content": "3.4. Transactions #\nTransactions are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.\nFor example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL commands for this might look like:\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nUPDATE branches SET balance = balance - 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\nUPDATE branches SET balance = balance + 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');\nThe details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen.",
+            "pageNumber": 1,
+            "chunkIndex": 0,
+            "vectorScore": 0.28606949109046154,
+            "keywordScore": null,
+            "rrfScore": 0.014492753623188406
+          },
+          {
+            "id": 104,
+            "content": "any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.\nAnother important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands.",
+            "pageNumber": 1,
+            "chunkIndex": 2,
+            "vectorScore": 0.2850715389890396,
+            "keywordScore": null,
+            "rrfScore": 0.014285714285714285
+          }
+        ],
+        "trace": {
+          "status": "disabled",
+          "candidates": 10,
+          "elapsed_ms": 0
+        },
+        "candidates": [
+          {
+            "id": 106,
+            "content": "asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest. After defining a savepoint with SAVEPOINT, you can if needed roll back to the savepoint with ROLLBACK TO. All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.\nAfter rolling back to a savepoint, it continues to be defined, so you can roll back to it several times. Conversely, if you are sure you won't need to roll back to a particular savepoint again, it can be released, so the system can free some resources. Keep in mind that either releasing or rolling back to a savepoint will automatically release all savepoints that were defined after it.\nAll this is happening within the transaction block, so none of it is visible to other database sessions. When and if you commit the transaction block, the committed actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account.",
+            "pageNumber": 1,
+            "chunkIndex": 4,
+            "vectorScore": 0.6483671648830623,
+            "keywordScore": null,
+            "rrfScore": 0.01639344262295082
+          },
+          {
+            "id": 107,
+            "content": "actions become visible as a unit to other sessions, while the rolled-back actions never become visible at all.\nRemembering the bank database, suppose we debit $100.00 from Alice's account, and credit Bob's account, only to find later that we should have credited Wally's account. We could do it using savepoints like this:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nSAVEPOINT my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\n-- oops ... forget that and use Wally's account\nROLLBACK TO my_savepoint;\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Wally';\nCOMMIT;\nThis example is, of course, oversimplified, but there's a lot of control possible in a transaction block through the use of savepoints. Moreover, ROLLBACK TO is the only way to regain control of a transaction block that was put in aborted state by the system due to an error, short of rolling it back completely and starting again.",
+            "pageNumber": 1,
+            "chunkIndex": 5,
+            "vectorScore": 0.6168648372211956,
+            "keywordScore": null,
+            "rrfScore": 0.016129032258064516
+          },
+          {
+            "id": 105,
+            "content": "so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands. So our banking transaction would actually look like:\nBEGIN;\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\n-- etc etc\nCOMMIT;\nIf, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative), we can issue the command ROLLBACK instead of COMMIT, and all our updates so far will be canceled.\nPostgreSQL actually treats every SQL statement as being executed within a transaction. If you do not issue a BEGIN command, then each individual statement has an implicit BEGIN and (if successful) COMMIT wrapped around it. A group of statements surrounded by BEGIN and COMMIT is sometimes called a transaction block.\nNote\nSome client libraries issue BEGIN and COMMIT commands automatically, so that you might get the effect of transaction blocks without asking. Check the documentation for the interface you are using.\nIt's possible to control the statements in a transaction in a more granular fashion through the use of savepoints. Savepoints allow you to selectively discard parts of the transaction, while committing the rest.",
+            "pageNumber": 1,
+            "chunkIndex": 3,
+            "vectorScore": 0.4005503177806832,
+            "keywordScore": null,
+            "rrfScore": 0.015873015873015872
+          },
+          {
+            "id": 130,
+            "content": "and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything. (The essential difference between these two choices is that NO ACTION allows the check to be deferred until later in the transaction, whereas RESTRICT does not.) CASCADE specifies that when a referenced row is deleted, row(s) referencing it should be automatically deleted as well. There are two other options: SET NULL and SET DEFAULT. These cause the referencing column(s) in the referencing row(s) to be set to nulls or their default values, respectively, when the referenced row is deleted. Note that these do not excuse you from observing any constraints. For example, if an action specifies SET DEFAULT but the default value would not satisfy the foreign key constraint, the operation will fail.\nThe appropriate choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate.",
+            "pageNumber": 2,
+            "chunkIndex": 28,
+            "vectorScore": 0.3407902324670692,
+            "keywordScore": null,
+            "rrfScore": 0.015625
+          },
+          {
+            "id": 103,
+            "content": "The details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a transaction gives us this guarantee. A transaction is said to be atomic: from the point of view of other transactions, it either happens completely or not at all.\nWe also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob, we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.",
+            "pageNumber": 1,
+            "chunkIndex": 1,
+            "vectorScore": 0.3209719231061803,
+            "keywordScore": null,
+            "rrfScore": 0.015384615384615385
+          },
+          {
+            "id": 119,
+            "content": "UNIQUE, EXCLUDE, or FOREIGN KEY constraints to express cross-row and cross-table restrictions.\nIf what you desire is a one-time check against other rows at row insertion, rather than a continuously-maintained consistency guarantee, a custom trigger can be used to implement that. (This approach avoids the dump/restore problem because pg_dump does not reinstall triggers until after restoring data, so that the check will not be enforced during a dump/restore.)\nNote\nPostgreSQL assumes that CHECK constraints' conditions are immutable, that is, they will always give the same result for the same input row. This assumption is what justifies examining CHECK constraints only when rows are inserted or updated, and not at other times. (The warning above about not referencing other table data is really a special case of this restriction.)\nAn example of a common way to break this assumption is to reference a user-defined function in a CHECK expression, and then change the behavior of that function. PostgreSQL does not disallow that, but it will not notice if there are rows in the table that now violate the CHECK constraint. That would cause a subsequent database dump and restore to fail. The recommended way to handle such a change is to drop the constraint (using ALTER TABLE), adjust the function definition, and re-add the constraint, thereby rechecking it against all table rows.",
+            "pageNumber": 2,
+            "chunkIndex": 17,
+            "vectorScore": 0.30138008602738897,
+            "keywordScore": null,
+            "rrfScore": 0.015151515151515152
+          },
+          {
+            "id": 131,
+            "content": "choice of ON DELETE action depends on what kinds of objects the related tables represent. When the referencing table represents something that is a component of what is represented by the referenced table and cannot exist independently, then CASCADE could be appropriate. If the two tables represent independent objects, then RESTRICT or NO ACTION is more appropriate; an application that actually wants to delete both objects would then have to be explicit about this and run two delete commands. In the above example, order items are part of an order, and it is convenient if they are deleted automatically if an order is deleted. But products and orders are different things, and so making a deletion of a product automatically cause the deletion of some order items could be considered problematic. The actions SET NULL or SET DEFAULT can be appropriate if a foreign-key relationship represents optional information. For example, if the products table contained a reference to a product manager, and the product manager entry gets deleted, then setting the product's product manager to null or a default might be useful.\nThe actions SET NULL and SET DEFAULT can take a column list to specify which columns to set. Normally, all columns of the foreign-key constraint are set; setting only a subset is useful in some special cases.",
+            "pageNumber": 2,
+            "chunkIndex": 29,
+            "vectorScore": 0.2916197267657439,
+            "keywordScore": null,
+            "rrfScore": 0.014925373134328358
+          },
+          {
+            "id": 129,
+            "content": "of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?\nTo illustrate this, let's implement the following policy on the many-to-many relationship example above: when someone wants to remove a product that is still referenced by an order (via order_items), we disallow it. If someone removes an order, the order items are removed as well:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products ON DELETE RESTRICT,\norder_id integer REFERENCES orders ON DELETE CASCADE,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nRestricting and cascading deletes are the two most common options. RESTRICT prevents deletion of a referenced row. NO ACTION means that if any referencing rows still exist when the constraint is checked, an error is raised; this is the default behavior if you do not specify anything.",
+            "pageNumber": 2,
+            "chunkIndex": 27,
+            "vectorScore": 0.286471924588922,
+            "keywordScore": null,
+            "rrfScore": 0.014705882352941176
+          },
+          {
+            "id": 102,
+            "content": "3.4. Transactions #\nTransactions are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.\nFor example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL commands for this might look like:\nUPDATE accounts SET balance = balance - 100.00\nWHERE name = 'Alice';\nUPDATE branches SET balance = balance - 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');\nUPDATE accounts SET balance = balance + 100.00\nWHERE name = 'Bob';\nUPDATE branches SET balance = balance + 100.00\nWHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');\nThe details of these commands are not important here; the important point is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen.",
+            "pageNumber": 1,
+            "chunkIndex": 0,
+            "vectorScore": 0.28606949109046154,
+            "keywordScore": null,
+            "rrfScore": 0.014492753623188406
+          },
+          {
+            "id": 104,
+            "content": "any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is reported complete.\nAnother important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the transaction completes, whereupon all the updates become visible simultaneously.\nIn PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with BEGIN and COMMIT commands.",
+            "pageNumber": 1,
+            "chunkIndex": 2,
+            "vectorScore": 0.2850715389890396,
+            "keywordScore": null,
+            "rrfScore": 0.014285714285714285
+          }
+        ],
+        "hybrid_ms": 38.59725,
+        "selection_ms": 38.66262499999999
+      },
+      "cache": {
+        "embedding_hits": 0,
+        "embedding_misses": 1,
+        "answer_hits": 0,
+        "answer_misses": 1
+      },
+      "embedding_usage": {
+        "totalTokens": 21
+      },
+      "retrieval_latency_ms": 38.714167,
+      "generation_latency_ms": 10068.574875,
+      "total_latency_ms": 10107.4175,
+      "pacing_ms": 0
+    },
+    "judgment": {
+      "judgment": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer is faithful to the retrieved context, which explicitly states that changes between the savepoint and the rollback are discarded while earlier changes are kept. However, the answer is materially incomplete regarding correctness because it omits the fact that the savepoint remains defined after the rollback, a key detail present in the reference answer and the source text.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states: 'All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.' This directly supports the claim in the answer."
+          }
+        ]
+      },
+      "usage": {
+        "totalTokens": 3947,
+        "inputTokens": 3755,
+        "outputTokens": 192
+      },
+      "attempt_usage": [
+        {
+          "totalTokens": 3947,
+          "inputTokens": 3755,
+          "outputTokens": 192
+        }
+      ],
+      "original_latency_ms": 12098.03375,
+      "cache_key": "eff6b64312677d49c347fe61ef50f6cb5e5d38c7fc7356e9d81bd3793d513d0f",
+      "validation_retries": 0,
+      "invalid_attempt_errors": []
+    },
+    "judge_cache_hit": false,
+    "config": {
+      "query_mode": "single-turn chat, selected document",
+      "chunk_size_code_units": 1400,
+      "chunk_overlap_code_units": 280,
+      "embedding_model": "embeddinggemma:300m",
+      "embedding_dimensions": 768,
+      "answer_model": "qwen3.8:latest",
+      "judge_model": "qwen3.8:latest",
+      "vector_candidates": 12,
+      "keyword_candidates": 12,
+      "rrf_k": 60,
+      "diagnostic_retrieval_top_k": 10,
+      "answer_top_k": 6,
+      "answer_options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0
+      },
+      "judge_options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0,
+        "format": "json",
+        "think": false,
+        "rubric": "v1-local-independent-dimensions",
+        "rubric_sha256": "c11f7bf979491602e9d2da1dafa2f2145b2e7f15e562172986573af1000d1918"
+      },
+      "minimum_model_interval_ms": 0,
+      "cache_policy": "ollama-v1; separate local responses; SQL always rerun",
+      "application_file_hashes": {
+        "lib/rag.ts": "dfa90816cd632b3e2adf84ad88a4c149eab7f0c1dff388bf379c34916f6265fc",
+        "lib/rag-answer.ts": "8c7f51cfb57ad28f2920a57be22908b76bed271e40ff2418eff36dbc7b93eca9",
+        "app/api/chat/route.ts": "7b22f26308e2ffa671c0db99aba8c469120cfc2d3cb335249fc162734449f314",
+        "lib/model-config.json": "c17cacfdf6a63fff08b211f9ec81cd2423ae6c9e8210042d2637f725d4f43c52",
+        "pnpm-lock.yaml": "dc90ec31d799ac598b7aa7ec71d6e79dd204b5785987c70dfb3b388b4e26e6c5",
+        "lib/ollama.ts": "3dd1c9871f4c492205d940c2fd566c14d6d75bd97206b007727afa725fe80194",
+        "lib/provider-config.ts": "e1cd6d326f76c65afce0f45334ab0969e9b163de37184a8e03b5c4d474ecf2df",
+        "lib/local-model-config.json": "b93bffc78289c4798ff8109c1e38d8304b88532709c8d8554af61f502f8b9f38",
+        "lib/db/index.ts": "c6d8af47040964543a40602aff5b8f947835e6194ab89d4c418194b818daff86",
+        "lib/db/schema.ts": "5d408671753ef6e6e4ebeeab9416ed5fb62cd5a823a81c4013683d725fd16885",
+        "lib/retrieval.ts": "3b165757a18f945cc2b843f405cc504ece949203b218cc15775c322bb8c29fd2",
+        "lib/retrieval-config.ts": "c459dda9894b4a36076149d05f2bbaa8fd69ec44e1c7dbe48d4518b0d1db5093",
+        "lib/rank-fusion.ts": "7212d887892bf4f5a6ba65417a30827d75bd567c748922b763405ec305bf616c",
+        "lib/retrieval-default.json": "221ab8083c2f1141d02b7108d9283c5b7e73c6430266e559846556fd1e60c806",
+        "lib/reranker-config.ts": "c31b14a3dacb2e68d722b1b8b96a9e84784c95c992ddd5d759216582f31e9ec7",
+        "lib/reranker-client.ts": "724562ddadb1812821d8c55f2099be289a4953eab2393f6bb8a0aabae7020c9e",
+        "lib/rerank.ts": "c7172807558f281c14411c2bdec5028bfca824cabf78f6906bd7053eafa8edc8",
+        "lib/select-context.ts": "e80a5ea8a08d82e02ca93473a37ea05784206dbc5b86ed5a7aa6fcc9a2022588",
+        "lib/reranker-model.json": "784d7f323815b06a00032c9cd44a9ae5485afda26dc70a80acde5b759b2b16d4",
+        "scripts/reranker_worker.py": "a2f51ec0bd59578745bc21fa734d5ee3f2cbd03f996e251e8d5274dcb7d2cf74",
+        "scripts/reranker_setup.py": "4f13ff4657846ad9f0b5fc0ecca6225f3615cfc4b8abd99be5478a56acba650b",
+        "requirements-reranker.txt": "e49ef89d7c7d801de9e4cfcff75499c55baca829eb2873e5e08b3244d9473853",
+        "app/api/evaluations/route.ts": "548fa3201d6d5722fbe4a240603e159160bd891b713479fed3818bccdeb1f8ab"
+      },
+      "provider": "ollama",
+      "local_settings": {
+        "provider": "ollama",
+        "baseUrl": "http://localhost:11434",
+        "chat": "qwen3.8:latest",
+        "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+        "embedding": "embeddinggemma:300m",
+        "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+        "embeddingDimensions": 768,
+        "options": {
+          "num_ctx": 32768,
+          "num_predict": 2048,
+          "temperature": 0,
+          "seed": 42,
+          "top_k": 20,
+          "top_p": 0.95,
+          "min_p": 0,
+          "repeat_penalty": 1,
+          "presence_penalty": 0
+        },
+        "think": false,
+        "keep_alive": "30m",
+        "timeout_ms": 180000,
+        "max_attempts": 3,
+        "document_prefix": "title: none | text: ",
+        "query_prefix": "task: search result | query: "
+      },
+      "chunking_experiment": "heading-1400-280",
+      "chunking": {
+        "algorithm": "heading-v1",
+        "size": 1400,
+        "overlap": 280
+      },
+      "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+      "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+      "calibration_cases_sha256": "a9becb9842c4fba0ae9a2ca267d376fbb18b13024297bdcd6d8008a7dfc851a6",
+      "calibration_criteria_sha256": "d90c02b6c620e92486b92cff199e11d586b70d6ce5d13b4f61a56c22d527544e",
+      "retrieval_experiment": "control",
+      "retrieval": {
+        "mode": "hybrid",
+        "execution": "parallel",
+        "vectorCandidates": 12,
+        "keywordCandidates": 12,
+        "rrfK": 60,
+        "keywordMode": "and",
+        "tieBreak": "legacy"
+      },
+      "reranking_experiment": "control",
+      "reranking": {
+        "enabled": false,
+        "candidates": 10,
+        "device": "cpu",
+        "timeoutMs": 15000,
+        "model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+        "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a"
+      }
+    }
+  },
+  {
+    "id": "postgresql-037",
+    "type": "multi_hop",
+    "name": "control",
+    "question": "Why can an inner join omit a weather row for an unknown city, and what constraint can prevent future non-null city references to nonexistent cities?",
+    "reference_answer": "An inner join drops rows without a matching city. A foreign key referencing a suitable primary or unique city key can prevent non-null references to nonexistent cities.",
+    "complete_hybrid_pool": [
+      {
+        "id": 160,
+        "content": "records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join. (The joins we have seen so far are inner joins.) The command looks like this:\nSELECT *\nFROM weather LEFT OUTER JOIN cities ON weather.city = cities.name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nHayward | 37 | 54 | | 1994-11-29 | |\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(3 rows)\nThis query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once, whereas the table on the right will only have those rows output that match some row of the left table. When outputting a left-table row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join.",
+        "pageNumber": 6,
+        "chunkIndex": 58,
+        "vectorScore": 0.6540781844328237,
+        "keywordScore": null,
+        "rrfScore": 0.01639344262295082,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 159,
+        "content": "weather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.\nJoin queries of the kind seen thus far can also be written in this form:\nSELECT *\nFROM weather, cities\nWHERE city = name;\nThis syntax pre-dates the JOIN/ON syntax, which was introduced in SQL-92. The tables are simply listed in the FROM clause, and the comparison expression is added to the WHERE clause. The results from this older implicit syntax and the newer explicit JOIN/ON syntax are identical. But for a reader of the query, the explicit syntax makes its meaning easier to understand: The join condition is introduced by its own key word whereas previously the condition was mixed into the WHERE clause together with other conditions.\nNow we will figure out how we can get the Hayward records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join.",
+        "pageNumber": 6,
+        "chunkIndex": 57,
+        "vectorScore": 0.6465056749280896,
+        "keywordScore": null,
+        "rrfScore": 0.016129032258064516,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 158,
+        "content": "| 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table. We will see shortly how this can be fixed.\nThere are two columns containing the city name. This is correct because the lists of columns from the weather and cities tables are concatenated. In practice this is undesirable, though, so you will probably want to list the output columns explicitly rather than using *:\nSELECT city, temp_lo, temp_hi, prcp, date, location\nFROM weather JOIN cities ON city = name;\nSince the columns all had different names, the parser automatically found which table they belong to. If there were duplicate column names in the two tables you'd need to qualify the column names to show which one you meant, as in:\nSELECT weather.city, weather.temp_lo, weather.temp_hi,\nweather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.",
+        "pageNumber": 6,
+        "chunkIndex": 56,
+        "vectorScore": 0.6204544675621084,
+        "keywordScore": null,
+        "rrfScore": 0.015873015873015872,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 161,
+        "content": "row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join. As an example, suppose we wish to find all the weather records that are in the temperature range of other weather records. So we need to compare the temp_lo and temp_hi columns of each weather row to the temp_lo and temp_hi columns of all other weather rows. We can do this with the following query:\nSELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high,\nw2.city, w2.temp_lo AS low, w2.temp_hi AS high\nFROM weather w1 JOIN weather w2\nON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;\ncity | low | high | city | low | high\n---------------+-----+------+---------------+-----+------\nSan Francisco | 43 | 57 | San Francisco | 46 | 50\nHayward | 37 | 54 | San Francisco | 46 | 50\n(2 rows)\nHere we have relabeled the weather table as w1 and w2 to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model.",
+        "pageNumber": 6,
+        "chunkIndex": 59,
+        "vectorScore": 0.6097975555001963,
+        "keywordScore": null,
+        "rrfScore": 0.015625,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 157,
+        "content": "2.6. Joins Between Tables #\nThus far, our queries have only accessed one table at a time. Queries can access multiple tables at once, or access the same table in such a way that multiple rows of the table are being processed at the same time. Queries that access multiple tables (or multiple instances of the same table) at one time are called join queries. They combine rows from one table with rows from a second table, with an expression specifying which rows are to be paired. For example, to return all the weather records together with the location of the associated city, the database needs to compare the city column of each row of the weather table with the name column of all rows in the cities table, and select the pairs of rows where these values match.[4] This would be accomplished by the following query:\nSELECT * FROM weather JOIN cities ON city = name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table.",
+        "pageNumber": 6,
+        "chunkIndex": 55,
+        "vectorScore": 0.5909182009374562,
+        "keywordScore": null,
+        "rrfScore": 0.015384615384615385,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 162,
+        "content": "the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.",
+        "pageNumber": 6,
+        "chunkIndex": 60,
+        "vectorScore": 0.5439618229866028,
+        "keywordScore": null,
+        "rrfScore": 0.015151515151515152,
+        "source_id": "postgresql.tutorial-join"
+      },
+      {
+        "id": 154,
+        "content": "FROM weather);\ncity\n---------------\nSan Francisco\n(1 row)\nThis is OK because the subquery is an independent computation that computes its own aggregate separately from what is happening in the outer query.\nAggregates are also very useful in combination with GROUP BY clauses. For example, we can get the number of readings and the maximum low temperature observed in each city with:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 2 | 46\n(2 rows)\nwhich gives us one output row per city. Each aggregate result is computed over the table rows matching that city. We can filter these grouped rows using HAVING:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city\nHAVING max(temp_lo) < 40;\ncity | count | max\n---------+-------+-----\nHayward | 1 | 37\n(1 row)\nwhich gives us the same results for only the cities that have all temp_lo values below 40. Finally, if we only care about cities whose names begin with \u201cS\u201d, we might do:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nWHERE city LIKE 'S%' -- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses.",
+        "pageNumber": 5,
+        "chunkIndex": 52,
+        "vectorScore": 0.5022110342979431,
+        "keywordScore": null,
+        "rrfScore": 0.014925373134328358,
+        "source_id": "postgresql.tutorial-agg"
+      },
+      {
+        "id": 156,
+        "content": "stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.\nAnother way to select the rows that go into an aggregate computation is to use FILTER, which is a per-aggregate option:\nSELECT city, count(*) FILTER (WHERE temp_lo < 45), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 1 | 46\n(2 rows)\nFILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to. Here, the count aggregate counts only rows with temp_lo below 45; but the max aggregate is still applied to all rows, so it still finds the reading of 46.",
+        "pageNumber": 5,
+        "chunkIndex": 54,
+        "vectorScore": 0.49932770425031126,
+        "keywordScore": null,
+        "rrfScore": 0.014705882352941176,
+        "source_id": "postgresql.tutorial-agg"
+      },
+      {
+        "id": 155,
+        "content": "-- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses. The fundamental difference between WHERE and HAVING is this: WHERE selects input rows before groups and aggregates are computed (thus, it controls which rows go into the aggregate computation), whereas HAVING selects group rows after groups and aggregates are computed. Thus, the WHERE clause must not contain aggregate functions; it makes no sense to try to use an aggregate to determine which rows will be inputs to the aggregates. On the other hand, the HAVING clause always contains aggregate functions. (Strictly speaking, you are allowed to write a HAVING clause that doesn't use aggregates, but it's seldom useful. The same condition could be used more efficiently at the WHERE stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.",
+        "pageNumber": 5,
+        "chunkIndex": 53,
+        "vectorScore": 0.43524874414526726,
+        "keywordScore": null,
+        "rrfScore": 0.014492753623188406,
+        "source_id": "postgresql.tutorial-agg"
+      },
+      {
+        "id": 128,
+        "content": "name text,\n...\n);\nA top-level node would have NULL parent_id, while non-NULL parent_id entries would be constrained to reference valid rows of the table.\nA table can have more than one foreign key constraint. This is used to implement many-to-many relationships between tables. Say you have tables about products and orders, but now you want to allow one order to contain possibly many products (which the structure above did not allow). You could use this table structure:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products,\norder_id integer REFERENCES orders,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nNotice that the primary key overlaps with the foreign keys in the last table.\nWe know that the foreign keys disallow creation of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?",
+        "pageNumber": 2,
+        "chunkIndex": 26,
+        "vectorScore": 0.4193947988207476,
+        "keywordScore": null,
+        "rrfScore": 0.014285714285714285,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 126,
+        "content": "5.4.5. Foreign Keys #\nA foreign key constraint specifies that the values in a column (or a group of columns) must match the values appearing in some row of another table. We say this maintains the referential integrity between two related tables.\nSay you have the product table that we have used several times already:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nLet's also assume you have a table storing orders of those products. We want to ensure that the orders table only contains orders of products that actually exist. So we define a foreign key constraint in the orders table that references the products table:\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nproduct_no integer REFERENCES products (product_no),\nquantity integer\n);\nNow it is impossible to create orders with non-NULL product_no entries that do not appear in the products table.\nWe say that in this situation the orders table is the referencing table and the products table is the referenced table. Similarly, there are referencing and referenced columns.\nYou can also shorten the above command to:\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nproduct_no integer REFERENCES products,\nquantity integer\n);\nbecause in absence of a column list the primary key of the referenced table is used as the referenced column(s).",
+        "pageNumber": 2,
+        "chunkIndex": 24,
+        "vectorScore": 0.4116945687441401,
+        "keywordScore": null,
+        "rrfScore": 0.014084507042253521,
+        "source_id": "postgresql.ddl-constraints"
+      },
+      {
+        "id": 123,
+        "content": "automatically create a unique B-tree index on the column or group of columns listed in the constraint. A uniqueness restriction covering only some rows cannot be written as a unique constraint, but it is possible to enforce such a restriction by creating a unique partial index.\nIn general, a unique constraint is violated if there is more than one row in the table where the values of all of the columns included in the constraint are equal. By default, two null values are not considered equal in this comparison. That means even in the presence of a unique constraint it is possible to store duplicate rows that contain a null value in at least one of the constrained columns. This behavior can be changed by adding the clause NULLS NOT DISTINCT, like\nCREATE TABLE products (\nproduct_no integer UNIQUE NULLS NOT DISTINCT,\nname text,\nprice numeric\n);\nor\nCREATE TABLE products (\nproduct_no integer,\nname text,\nprice numeric,\nUNIQUE NULLS NOT DISTINCT (product_no)\n);\nThe default behavior can be specified explicitly using NULLS DISTINCT. The default null treatment in unique constraints is implementation-defined according to the SQL standard, and other implementations have a different behavior. So be careful when developing applications that are intended to be portable.",
+        "pageNumber": 2,
+        "chunkIndex": 21,
+        "vectorScore": 0.41065781776057664,
+        "keywordScore": null,
+        "rrfScore": 0.013888888888888888,
+        "source_id": "postgresql.ddl-constraints"
+      }
+    ],
+    "response": {
+      "ranked": [
+        {
+          "id": 160,
+          "content": "records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join. (The joins we have seen so far are inner joins.) The command looks like this:\nSELECT *\nFROM weather LEFT OUTER JOIN cities ON weather.city = cities.name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nHayward | 37 | 54 | | 1994-11-29 | |\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(3 rows)\nThis query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once, whereas the table on the right will only have those rows output that match some row of the left table. When outputting a left-table row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join.",
+          "pageNumber": 6,
+          "chunkIndex": 58,
+          "vectorScore": 0.6540781844328237,
+          "keywordScore": null,
+          "rrfScore": 0.01639344262295082,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 159,
+          "content": "weather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.\nJoin queries of the kind seen thus far can also be written in this form:\nSELECT *\nFROM weather, cities\nWHERE city = name;\nThis syntax pre-dates the JOIN/ON syntax, which was introduced in SQL-92. The tables are simply listed in the FROM clause, and the comparison expression is added to the WHERE clause. The results from this older implicit syntax and the newer explicit JOIN/ON syntax are identical. But for a reader of the query, the explicit syntax makes its meaning easier to understand: The join condition is introduced by its own key word whereas previously the condition was mixed into the WHERE clause together with other conditions.\nNow we will figure out how we can get the Hayward records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join.",
+          "pageNumber": 6,
+          "chunkIndex": 57,
+          "vectorScore": 0.6465056749280896,
+          "keywordScore": null,
+          "rrfScore": 0.016129032258064516,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 158,
+          "content": "| 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table. We will see shortly how this can be fixed.\nThere are two columns containing the city name. This is correct because the lists of columns from the weather and cities tables are concatenated. In practice this is undesirable, though, so you will probably want to list the output columns explicitly rather than using *:\nSELECT city, temp_lo, temp_hi, prcp, date, location\nFROM weather JOIN cities ON city = name;\nSince the columns all had different names, the parser automatically found which table they belong to. If there were duplicate column names in the two tables you'd need to qualify the column names to show which one you meant, as in:\nSELECT weather.city, weather.temp_lo, weather.temp_hi,\nweather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.",
+          "pageNumber": 6,
+          "chunkIndex": 56,
+          "vectorScore": 0.6204544675621084,
+          "keywordScore": null,
+          "rrfScore": 0.015873015873015872,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 161,
+          "content": "row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join. As an example, suppose we wish to find all the weather records that are in the temperature range of other weather records. So we need to compare the temp_lo and temp_hi columns of each weather row to the temp_lo and temp_hi columns of all other weather rows. We can do this with the following query:\nSELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high,\nw2.city, w2.temp_lo AS low, w2.temp_hi AS high\nFROM weather w1 JOIN weather w2\nON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;\ncity | low | high | city | low | high\n---------------+-----+------+---------------+-----+------\nSan Francisco | 43 | 57 | San Francisco | 46 | 50\nHayward | 37 | 54 | San Francisco | 46 | 50\n(2 rows)\nHere we have relabeled the weather table as w1 and w2 to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model.",
+          "pageNumber": 6,
+          "chunkIndex": 59,
+          "vectorScore": 0.6097975555001963,
+          "keywordScore": null,
+          "rrfScore": 0.015625,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 157,
+          "content": "2.6. Joins Between Tables #\nThus far, our queries have only accessed one table at a time. Queries can access multiple tables at once, or access the same table in such a way that multiple rows of the table are being processed at the same time. Queries that access multiple tables (or multiple instances of the same table) at one time are called join queries. They combine rows from one table with rows from a second table, with an expression specifying which rows are to be paired. For example, to return all the weather records together with the location of the associated city, the database needs to compare the city column of each row of the weather table with the name column of all rows in the cities table, and select the pairs of rows where these values match.[4] This would be accomplished by the following query:\nSELECT * FROM weather JOIN cities ON city = name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table.",
+          "pageNumber": 6,
+          "chunkIndex": 55,
+          "vectorScore": 0.5909182009374562,
+          "keywordScore": null,
+          "rrfScore": 0.015384615384615385,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 162,
+          "content": "the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.",
+          "pageNumber": 6,
+          "chunkIndex": 60,
+          "vectorScore": 0.5439618229866028,
+          "keywordScore": null,
+          "rrfScore": 0.015151515151515152,
+          "source_id": "postgresql.tutorial-join"
+        },
+        {
+          "id": 154,
+          "content": "FROM weather);\ncity\n---------------\nSan Francisco\n(1 row)\nThis is OK because the subquery is an independent computation that computes its own aggregate separately from what is happening in the outer query.\nAggregates are also very useful in combination with GROUP BY clauses. For example, we can get the number of readings and the maximum low temperature observed in each city with:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 2 | 46\n(2 rows)\nwhich gives us one output row per city. Each aggregate result is computed over the table rows matching that city. We can filter these grouped rows using HAVING:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city\nHAVING max(temp_lo) < 40;\ncity | count | max\n---------+-------+-----\nHayward | 1 | 37\n(1 row)\nwhich gives us the same results for only the cities that have all temp_lo values below 40. Finally, if we only care about cities whose names begin with \u201cS\u201d, we might do:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nWHERE city LIKE 'S%' -- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses.",
+          "pageNumber": 5,
+          "chunkIndex": 52,
+          "vectorScore": 0.5022110342979431,
+          "keywordScore": null,
+          "rrfScore": 0.014925373134328358,
+          "source_id": "postgresql.tutorial-agg"
+        },
+        {
+          "id": 156,
+          "content": "stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.\nAnother way to select the rows that go into an aggregate computation is to use FILTER, which is a per-aggregate option:\nSELECT city, count(*) FILTER (WHERE temp_lo < 45), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 1 | 46\n(2 rows)\nFILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to. Here, the count aggregate counts only rows with temp_lo below 45; but the max aggregate is still applied to all rows, so it still finds the reading of 46.",
+          "pageNumber": 5,
+          "chunkIndex": 54,
+          "vectorScore": 0.49932770425031126,
+          "keywordScore": null,
+          "rrfScore": 0.014705882352941176,
+          "source_id": "postgresql.tutorial-agg"
+        },
+        {
+          "id": 155,
+          "content": "-- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses. The fundamental difference between WHERE and HAVING is this: WHERE selects input rows before groups and aggregates are computed (thus, it controls which rows go into the aggregate computation), whereas HAVING selects group rows after groups and aggregates are computed. Thus, the WHERE clause must not contain aggregate functions; it makes no sense to try to use an aggregate to determine which rows will be inputs to the aggregates. On the other hand, the HAVING clause always contains aggregate functions. (Strictly speaking, you are allowed to write a HAVING clause that doesn't use aggregates, but it's seldom useful. The same condition could be used more efficiently at the WHERE stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.",
+          "pageNumber": 5,
+          "chunkIndex": 53,
+          "vectorScore": 0.43524874414526726,
+          "keywordScore": null,
+          "rrfScore": 0.014492753623188406,
+          "source_id": "postgresql.tutorial-agg"
+        },
+        {
+          "id": 128,
+          "content": "name text,\n...\n);\nA top-level node would have NULL parent_id, while non-NULL parent_id entries would be constrained to reference valid rows of the table.\nA table can have more than one foreign key constraint. This is used to implement many-to-many relationships between tables. Say you have tables about products and orders, but now you want to allow one order to contain possibly many products (which the structure above did not allow). You could use this table structure:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products,\norder_id integer REFERENCES orders,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nNotice that the primary key overlaps with the foreign keys in the last table.\nWe know that the foreign keys disallow creation of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?",
+          "pageNumber": 2,
+          "chunkIndex": 26,
+          "vectorScore": 0.4193947988207476,
+          "keywordScore": null,
+          "rrfScore": 0.014285714285714285,
+          "source_id": "postgresql.ddl-constraints"
+        }
+      ],
+      "answer": {
+        "text": "An inner join omits a weather row for an unknown city (such as Hayward) because there is no matching entry in the `cities` table, causing the join to ignore the unmatched rows in the `weather` table [3][5]. To prevent future non-null city references to nonexistent cities, one can use a **foreign key constraint** (specifically, a foreign key on the `weather.city` column referencing `cities.name`), which enforces referential integrity. However, the provided context excerpts do not explicitly mention foreign key constraints or referential integrity; they only describe the behavior of inner joins and suggest using outer joins to include unmatched rows [1][2]. Therefore, while the first part of the question is answered by the text, the specific constraint mechanism is not detailed in the provided excerpts.",
+        "usage": {
+          "inputTokens": 1915,
+          "inputTokenDetails": {},
+          "outputTokens": 163,
+          "outputTokenDetails": {
+            "textTokens": 163,
+            "reasoningTokens": 0
+          },
+          "totalTokens": 2078
+        },
+        "finish_reason": "stop",
+        "original_generation_latency_ms": 8077.070084000001,
+        "generated_at": "2026-10-29T14:14:51.713Z"
+      },
+      "timing": {
+        "embedding_ms": 29.90825000000001,
+        "vector_ms": 10.616667000000007,
+        "keyword_ms": 10.347583000000014,
+        "database_wall_ms": 10.688666999999981,
+        "fusion_ms": 0.08716699999996536,
+        "total_ms": 40.82808300000002,
+        "vector_count": 12,
+        "keyword_count": 0,
+        "combined_ms": null
+      },
+      "selection": {
+        "ranked": [
+          {
+            "id": 160,
+            "content": "records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join. (The joins we have seen so far are inner joins.) The command looks like this:\nSELECT *\nFROM weather LEFT OUTER JOIN cities ON weather.city = cities.name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nHayward | 37 | 54 | | 1994-11-29 | |\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(3 rows)\nThis query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once, whereas the table on the right will only have those rows output that match some row of the left table. When outputting a left-table row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join.",
+            "pageNumber": 6,
+            "chunkIndex": 58,
+            "vectorScore": 0.6540781844328237,
+            "keywordScore": null,
+            "rrfScore": 0.01639344262295082
+          },
+          {
+            "id": 159,
+            "content": "weather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.\nJoin queries of the kind seen thus far can also be written in this form:\nSELECT *\nFROM weather, cities\nWHERE city = name;\nThis syntax pre-dates the JOIN/ON syntax, which was introduced in SQL-92. The tables are simply listed in the FROM clause, and the comparison expression is added to the WHERE clause. The results from this older implicit syntax and the newer explicit JOIN/ON syntax are identical. But for a reader of the query, the explicit syntax makes its meaning easier to understand: The join condition is introduced by its own key word whereas previously the condition was mixed into the WHERE clause together with other conditions.\nNow we will figure out how we can get the Hayward records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join.",
+            "pageNumber": 6,
+            "chunkIndex": 57,
+            "vectorScore": 0.6465056749280896,
+            "keywordScore": null,
+            "rrfScore": 0.016129032258064516
+          },
+          {
+            "id": 158,
+            "content": "| 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table. We will see shortly how this can be fixed.\nThere are two columns containing the city name. This is correct because the lists of columns from the weather and cities tables are concatenated. In practice this is undesirable, though, so you will probably want to list the output columns explicitly rather than using *:\nSELECT city, temp_lo, temp_hi, prcp, date, location\nFROM weather JOIN cities ON city = name;\nSince the columns all had different names, the parser automatically found which table they belong to. If there were duplicate column names in the two tables you'd need to qualify the column names to show which one you meant, as in:\nSELECT weather.city, weather.temp_lo, weather.temp_hi,\nweather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.",
+            "pageNumber": 6,
+            "chunkIndex": 56,
+            "vectorScore": 0.6204544675621084,
+            "keywordScore": null,
+            "rrfScore": 0.015873015873015872
+          },
+          {
+            "id": 161,
+            "content": "row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join. As an example, suppose we wish to find all the weather records that are in the temperature range of other weather records. So we need to compare the temp_lo and temp_hi columns of each weather row to the temp_lo and temp_hi columns of all other weather rows. We can do this with the following query:\nSELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high,\nw2.city, w2.temp_lo AS low, w2.temp_hi AS high\nFROM weather w1 JOIN weather w2\nON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;\ncity | low | high | city | low | high\n---------------+-----+------+---------------+-----+------\nSan Francisco | 43 | 57 | San Francisco | 46 | 50\nHayward | 37 | 54 | San Francisco | 46 | 50\n(2 rows)\nHere we have relabeled the weather table as w1 and w2 to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model.",
+            "pageNumber": 6,
+            "chunkIndex": 59,
+            "vectorScore": 0.6097975555001963,
+            "keywordScore": null,
+            "rrfScore": 0.015625
+          },
+          {
+            "id": 157,
+            "content": "2.6. Joins Between Tables #\nThus far, our queries have only accessed one table at a time. Queries can access multiple tables at once, or access the same table in such a way that multiple rows of the table are being processed at the same time. Queries that access multiple tables (or multiple instances of the same table) at one time are called join queries. They combine rows from one table with rows from a second table, with an expression specifying which rows are to be paired. For example, to return all the weather records together with the location of the associated city, the database needs to compare the city column of each row of the weather table with the name column of all rows in the cities table, and select the pairs of rows where these values match.[4] This would be accomplished by the following query:\nSELECT * FROM weather JOIN cities ON city = name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table.",
+            "pageNumber": 6,
+            "chunkIndex": 55,
+            "vectorScore": 0.5909182009374562,
+            "keywordScore": null,
+            "rrfScore": 0.015384615384615385
+          },
+          {
+            "id": 162,
+            "content": "the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.",
+            "pageNumber": 6,
+            "chunkIndex": 60,
+            "vectorScore": 0.5439618229866028,
+            "keywordScore": null,
+            "rrfScore": 0.015151515151515152
+          },
+          {
+            "id": 154,
+            "content": "FROM weather);\ncity\n---------------\nSan Francisco\n(1 row)\nThis is OK because the subquery is an independent computation that computes its own aggregate separately from what is happening in the outer query.\nAggregates are also very useful in combination with GROUP BY clauses. For example, we can get the number of readings and the maximum low temperature observed in each city with:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 2 | 46\n(2 rows)\nwhich gives us one output row per city. Each aggregate result is computed over the table rows matching that city. We can filter these grouped rows using HAVING:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city\nHAVING max(temp_lo) < 40;\ncity | count | max\n---------+-------+-----\nHayward | 1 | 37\n(1 row)\nwhich gives us the same results for only the cities that have all temp_lo values below 40. Finally, if we only care about cities whose names begin with \u201cS\u201d, we might do:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nWHERE city LIKE 'S%' -- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses.",
+            "pageNumber": 5,
+            "chunkIndex": 52,
+            "vectorScore": 0.5022110342979431,
+            "keywordScore": null,
+            "rrfScore": 0.014925373134328358
+          },
+          {
+            "id": 156,
+            "content": "stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.\nAnother way to select the rows that go into an aggregate computation is to use FILTER, which is a per-aggregate option:\nSELECT city, count(*) FILTER (WHERE temp_lo < 45), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 1 | 46\n(2 rows)\nFILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to. Here, the count aggregate counts only rows with temp_lo below 45; but the max aggregate is still applied to all rows, so it still finds the reading of 46.",
+            "pageNumber": 5,
+            "chunkIndex": 54,
+            "vectorScore": 0.49932770425031126,
+            "keywordScore": null,
+            "rrfScore": 0.014705882352941176
+          },
+          {
+            "id": 155,
+            "content": "-- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses. The fundamental difference between WHERE and HAVING is this: WHERE selects input rows before groups and aggregates are computed (thus, it controls which rows go into the aggregate computation), whereas HAVING selects group rows after groups and aggregates are computed. Thus, the WHERE clause must not contain aggregate functions; it makes no sense to try to use an aggregate to determine which rows will be inputs to the aggregates. On the other hand, the HAVING clause always contains aggregate functions. (Strictly speaking, you are allowed to write a HAVING clause that doesn't use aggregates, but it's seldom useful. The same condition could be used more efficiently at the WHERE stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.",
+            "pageNumber": 5,
+            "chunkIndex": 53,
+            "vectorScore": 0.43524874414526726,
+            "keywordScore": null,
+            "rrfScore": 0.014492753623188406
+          },
+          {
+            "id": 128,
+            "content": "name text,\n...\n);\nA top-level node would have NULL parent_id, while non-NULL parent_id entries would be constrained to reference valid rows of the table.\nA table can have more than one foreign key constraint. This is used to implement many-to-many relationships between tables. Say you have tables about products and orders, but now you want to allow one order to contain possibly many products (which the structure above did not allow). You could use this table structure:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products,\norder_id integer REFERENCES orders,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nNotice that the primary key overlaps with the foreign keys in the last table.\nWe know that the foreign keys disallow creation of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?",
+            "pageNumber": 2,
+            "chunkIndex": 26,
+            "vectorScore": 0.4193947988207476,
+            "keywordScore": null,
+            "rrfScore": 0.014285714285714285
+          }
+        ],
+        "trace": {
+          "status": "disabled",
+          "candidates": 10,
+          "elapsed_ms": 0
+        },
+        "candidates": [
+          {
+            "id": 160,
+            "content": "records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join. (The joins we have seen so far are inner joins.) The command looks like this:\nSELECT *\nFROM weather LEFT OUTER JOIN cities ON weather.city = cities.name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nHayward | 37 | 54 | | 1994-11-29 | |\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(3 rows)\nThis query is called a left outer join because the table mentioned on the left of the join operator will have each of its rows in the output at least once, whereas the table on the right will only have those rows output that match some row of the left table. When outputting a left-table row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join.",
+            "pageNumber": 6,
+            "chunkIndex": 58,
+            "vectorScore": 0.6540781844328237,
+            "keywordScore": null,
+            "rrfScore": 0.01639344262295082
+          },
+          {
+            "id": 159,
+            "content": "weather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.\nJoin queries of the kind seen thus far can also be written in this form:\nSELECT *\nFROM weather, cities\nWHERE city = name;\nThis syntax pre-dates the JOIN/ON syntax, which was introduced in SQL-92. The tables are simply listed in the FROM clause, and the comparison expression is added to the WHERE clause. The results from this older implicit syntax and the newer explicit JOIN/ON syntax are identical. But for a reader of the query, the explicit syntax makes its meaning easier to understand: The join condition is introduced by its own key word whereas previously the condition was mixed into the WHERE clause together with other conditions.\nNow we will figure out how we can get the Hayward records back in. What we want the query to do is to scan the weather table and for each row to find the matching cities row(s). If no matching row is found we want some \u201cempty values\u201d to be substituted for the cities table's columns. This kind of query is called an outer join.",
+            "pageNumber": 6,
+            "chunkIndex": 57,
+            "vectorScore": 0.6465056749280896,
+            "keywordScore": null,
+            "rrfScore": 0.016129032258064516
+          },
+          {
+            "id": 158,
+            "content": "| 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table. We will see shortly how this can be fixed.\nThere are two columns containing the city name. This is correct because the lists of columns from the weather and cities tables are concatenated. In practice this is undesirable, though, so you will probably want to list the output columns explicitly rather than using *:\nSELECT city, temp_lo, temp_hi, prcp, date, location\nFROM weather JOIN cities ON city = name;\nSince the columns all had different names, the parser automatically found which table they belong to. If there were duplicate column names in the two tables you'd need to qualify the column names to show which one you meant, as in:\nSELECT weather.city, weather.temp_lo, weather.temp_hi,\nweather.prcp, weather.date, cities.location\nFROM weather JOIN cities ON weather.city = cities.name;\nIt is widely considered good style to qualify all column names in a join query, so that the query won't fail if a duplicate column name is later added to one of the tables.",
+            "pageNumber": 6,
+            "chunkIndex": 56,
+            "vectorScore": 0.6204544675621084,
+            "keywordScore": null,
+            "rrfScore": 0.015873015873015872
+          },
+          {
+            "id": 161,
+            "content": "row for which there is no right-table match, empty (null) values are substituted for the right-table columns.\nExercise: There are also right outer joins and full outer joins. Try to find out what those do.\nWe can also join a table against itself. This is called a self join. As an example, suppose we wish to find all the weather records that are in the temperature range of other weather records. So we need to compare the temp_lo and temp_hi columns of each weather row to the temp_lo and temp_hi columns of all other weather rows. We can do this with the following query:\nSELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high,\nw2.city, w2.temp_lo AS low, w2.temp_hi AS high\nFROM weather w1 JOIN weather w2\nON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;\ncity | low | high | city | low | high\n---------------+-----+------+---------------+-----+------\nSan Francisco | 43 | 57 | San Francisco | 46 | 50\nHayward | 37 | 54 | San Francisco | 46 | 50\n(2 rows)\nHere we have relabeled the weather table as w1 and w2 to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model.",
+            "pageNumber": 6,
+            "chunkIndex": 59,
+            "vectorScore": 0.6097975555001963,
+            "keywordScore": null,
+            "rrfScore": 0.015625
+          },
+          {
+            "id": 157,
+            "content": "2.6. Joins Between Tables #\nThus far, our queries have only accessed one table at a time. Queries can access multiple tables at once, or access the same table in such a way that multiple rows of the table are being processed at the same time. Queries that access multiple tables (or multiple instances of the same table) at one time are called join queries. They combine rows from one table with rows from a second table, with an expression specifying which rows are to be paired. For example, to return all the weather records together with the location of the associated city, the database needs to compare the city column of each row of the weather table with the name column of all rows in the cities table, and select the pairs of rows where these values match.[4] This would be accomplished by the following query:\nSELECT * FROM weather JOIN cities ON city = name;\ncity | temp_lo | temp_hi | prcp | date | name | location\n---------------+---------+---------+------+------------+---------------+-----------\nSan Francisco | 46 | 50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)\nSan Francisco | 43 | 57 | 0 | 1994-11-29 | San Francisco | (-194,53)\n(2 rows)\nObserve two things about the result set:\nThere is no result row for the city of Hayward. This is because there is no matching entry in the cities table for Hayward, so the join ignores the unmatched rows in the weather table.",
+            "pageNumber": 6,
+            "chunkIndex": 55,
+            "vectorScore": 0.5909182009374562,
+            "keywordScore": null,
+            "rrfScore": 0.015384615384615385
+          },
+          {
+            "id": 162,
+            "content": "the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:\nSELECT *\nFROM weather w JOIN cities c ON w.city = c.name;\nYou will encounter this style of abbreviating quite frequently.\n[4] This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.",
+            "pageNumber": 6,
+            "chunkIndex": 60,
+            "vectorScore": 0.5439618229866028,
+            "keywordScore": null,
+            "rrfScore": 0.015151515151515152
+          },
+          {
+            "id": 154,
+            "content": "FROM weather);\ncity\n---------------\nSan Francisco\n(1 row)\nThis is OK because the subquery is an independent computation that computes its own aggregate separately from what is happening in the outer query.\nAggregates are also very useful in combination with GROUP BY clauses. For example, we can get the number of readings and the maximum low temperature observed in each city with:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 2 | 46\n(2 rows)\nwhich gives us one output row per city. Each aggregate result is computed over the table rows matching that city. We can filter these grouped rows using HAVING:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nGROUP BY city\nHAVING max(temp_lo) < 40;\ncity | count | max\n---------+-------+-----\nHayward | 1 | 37\n(1 row)\nwhich gives us the same results for only the cities that have all temp_lo values below 40. Finally, if we only care about cities whose names begin with \u201cS\u201d, we might do:\nSELECT city, count(*), max(temp_lo)\nFROM weather\nWHERE city LIKE 'S%' -- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses.",
+            "pageNumber": 5,
+            "chunkIndex": 52,
+            "vectorScore": 0.5022110342979431,
+            "keywordScore": null,
+            "rrfScore": 0.014925373134328358
+          },
+          {
+            "id": 156,
+            "content": "stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.\nAnother way to select the rows that go into an aggregate computation is to use FILTER, which is a per-aggregate option:\nSELECT city, count(*) FILTER (WHERE temp_lo < 45), max(temp_lo)\nFROM weather\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nHayward | 1 | 37\nSan Francisco | 1 | 46\n(2 rows)\nFILTER is much like WHERE, except that it removes rows only from the input of the particular aggregate function that it is attached to. Here, the count aggregate counts only rows with temp_lo below 45; but the max aggregate is still applied to all rows, so it still finds the reading of 46.",
+            "pageNumber": 5,
+            "chunkIndex": 54,
+            "vectorScore": 0.49932770425031126,
+            "keywordScore": null,
+            "rrfScore": 0.014705882352941176
+          },
+          {
+            "id": 155,
+            "content": "-- (1)\nGROUP BY city;\ncity | count | max\n---------------+-------+-----\nSan Francisco | 2 | 46\n(1 row)\n(1)\nThe LIKE operator does pattern matching and is explained in Section 9.7.\nIt is important to understand the interaction between aggregates and SQL's WHERE and HAVING clauses. The fundamental difference between WHERE and HAVING is this: WHERE selects input rows before groups and aggregates are computed (thus, it controls which rows go into the aggregate computation), whereas HAVING selects group rows after groups and aggregates are computed. Thus, the WHERE clause must not contain aggregate functions; it makes no sense to try to use an aggregate to determine which rows will be inputs to the aggregates. On the other hand, the HAVING clause always contains aggregate functions. (Strictly speaking, you are allowed to write a HAVING clause that doesn't use aggregates, but it's seldom useful. The same condition could be used more efficiently at the WHERE stage.)\nIn the previous example, we can apply the city name restriction in WHERE, since it needs no aggregate. This is more efficient than adding the restriction to HAVING, because we avoid doing the grouping and aggregate calculations for all rows that fail the WHERE check.",
+            "pageNumber": 5,
+            "chunkIndex": 53,
+            "vectorScore": 0.43524874414526726,
+            "keywordScore": null,
+            "rrfScore": 0.014492753623188406
+          },
+          {
+            "id": 128,
+            "content": "name text,\n...\n);\nA top-level node would have NULL parent_id, while non-NULL parent_id entries would be constrained to reference valid rows of the table.\nA table can have more than one foreign key constraint. This is used to implement many-to-many relationships between tables. Say you have tables about products and orders, but now you want to allow one order to contain possibly many products (which the structure above did not allow). You could use this table structure:\nCREATE TABLE products (\nproduct_no integer PRIMARY KEY,\nname text,\nprice numeric\n);\nCREATE TABLE orders (\norder_id integer PRIMARY KEY,\nshipping_address text,\n...\n);\nCREATE TABLE order_items (\nproduct_no integer REFERENCES products,\norder_id integer REFERENCES orders,\nquantity integer,\nPRIMARY KEY (product_no, order_id)\n);\nNotice that the primary key overlaps with the foreign keys in the last table.\nWe know that the foreign keys disallow creation of orders that do not relate to any products. But what if a product is removed after an order is created that references it? SQL allows you to handle that as well. Intuitively, we have a few options:\nDisallow deleting a referenced product\nDelete the orders as well\nSomething else?",
+            "pageNumber": 2,
+            "chunkIndex": 26,
+            "vectorScore": 0.4193947988207476,
+            "keywordScore": null,
+            "rrfScore": 0.014285714285714285
+          }
+        ],
+        "hybrid_ms": 40.93008299999997,
+        "selection_ms": 41.00616600000001
+      },
+      "cache": {
+        "embedding_hits": 0,
+        "embedding_misses": 1,
+        "answer_hits": 0,
+        "answer_misses": 1
+      },
+      "embedding_usage": {
+        "totalTokens": 38
+      },
+      "retrieval_latency_ms": 41.05991700000001,
+      "generation_latency_ms": 8077.530167000001,
+      "total_latency_ms": 8118.806125,
+      "pacing_ms": 0
+    },
+    "judgment": {
+      "judgment": {
+        "faithfulness": 0.5,
+        "correctness": 1,
+        "rationale": "The answer correctly explains that inner joins omit unmatched rows (supported by retrieved context) and correctly identifies foreign key constraints as the mechanism to prevent non-null references to nonexistent cities (supported by reference documents, though not explicitly in retrieved context). Faithfulness is 0.5 because the claim about foreign keys is not supported by the retrieved context, which only discusses join behavior. Correctness is 1 because the answer is accurate and complete relative to the reference answer and source documents.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 3 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 5 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 1 describes outer joins as the solution to include unmatched rows, implying inner joins exclude them, supporting the claim about inner join behavior."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 2 discusses join syntax and the need to get Hayward records back, supporting the context of inner join behavior and the need for outer joins."
+          }
+        ]
+      },
+      "usage": {
+        "totalTokens": 8944,
+        "inputTokens": 8570,
+        "outputTokens": 374
+      },
+      "attempt_usage": [
+        {
+          "totalTokens": 8944,
+          "inputTokens": 8570,
+          "outputTokens": 374
+        }
+      ],
+      "original_latency_ms": 28192.7325,
+      "cache_key": "fa19115288b5f146d4e32757f63d4bcf893b1ed4cb18c58e898f231caae3caae",
+      "validation_retries": 0,
+      "invalid_attempt_errors": []
+    },
+    "judge_cache_hit": false,
+    "config": {
+      "query_mode": "single-turn chat, selected document",
+      "chunk_size_code_units": 1400,
+      "chunk_overlap_code_units": 280,
+      "embedding_model": "embeddinggemma:300m",
+      "embedding_dimensions": 768,
+      "answer_model": "qwen3.8:latest",
+      "judge_model": "qwen3.8:latest",
+      "vector_candidates": 12,
+      "keyword_candidates": 12,
+      "rrf_k": 60,
+      "diagnostic_retrieval_top_k": 10,
+      "answer_top_k": 6,
+      "answer_options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0
+      },
+      "judge_options": {
+        "num_ctx": 32768,
+        "num_predict": 2048,
+        "temperature": 0,
+        "seed": 42,
+        "top_k": 20,
+        "top_p": 0.95,
+        "min_p": 0,
+        "repeat_penalty": 1,
+        "presence_penalty": 0,
+        "format": "json",
+        "think": false,
+        "rubric": "v1-local-independent-dimensions",
+        "rubric_sha256": "c11f7bf979491602e9d2da1dafa2f2145b2e7f15e562172986573af1000d1918"
+      },
+      "minimum_model_interval_ms": 0,
+      "cache_policy": "ollama-v1; separate local responses; SQL always rerun",
+      "application_file_hashes": {
+        "lib/rag.ts": "dfa90816cd632b3e2adf84ad88a4c149eab7f0c1dff388bf379c34916f6265fc",
+        "lib/rag-answer.ts": "8c7f51cfb57ad28f2920a57be22908b76bed271e40ff2418eff36dbc7b93eca9",
+        "app/api/chat/route.ts": "7b22f26308e2ffa671c0db99aba8c469120cfc2d3cb335249fc162734449f314",
+        "lib/model-config.json": "c17cacfdf6a63fff08b211f9ec81cd2423ae6c9e8210042d2637f725d4f43c52",
+        "pnpm-lock.yaml": "dc90ec31d799ac598b7aa7ec71d6e79dd204b5785987c70dfb3b388b4e26e6c5",
+        "lib/ollama.ts": "3dd1c9871f4c492205d940c2fd566c14d6d75bd97206b007727afa725fe80194",
+        "lib/provider-config.ts": "e1cd6d326f76c65afce0f45334ab0969e9b163de37184a8e03b5c4d474ecf2df",
+        "lib/local-model-config.json": "b93bffc78289c4798ff8109c1e38d8304b88532709c8d8554af61f502f8b9f38",
+        "lib/db/index.ts": "c6d8af47040964543a40602aff5b8f947835e6194ab89d4c418194b818daff86",
+        "lib/db/schema.ts": "5d408671753ef6e6e4ebeeab9416ed5fb62cd5a823a81c4013683d725fd16885",
+        "lib/retrieval.ts": "3b165757a18f945cc2b843f405cc504ece949203b218cc15775c322bb8c29fd2",
+        "lib/retrieval-config.ts": "c459dda9894b4a36076149d05f2bbaa8fd69ec44e1c7dbe48d4518b0d1db5093",
+        "lib/rank-fusion.ts": "7212d887892bf4f5a6ba65417a30827d75bd567c748922b763405ec305bf616c",
+        "lib/retrieval-default.json": "221ab8083c2f1141d02b7108d9283c5b7e73c6430266e559846556fd1e60c806",
+        "lib/reranker-config.ts": "c31b14a3dacb2e68d722b1b8b96a9e84784c95c992ddd5d759216582f31e9ec7",
+        "lib/reranker-client.ts": "724562ddadb1812821d8c55f2099be289a4953eab2393f6bb8a0aabae7020c9e",
+        "lib/rerank.ts": "c7172807558f281c14411c2bdec5028bfca824cabf78f6906bd7053eafa8edc8",
+        "lib/select-context.ts": "e80a5ea8a08d82e02ca93473a37ea05784206dbc5b86ed5a7aa6fcc9a2022588",
+        "lib/reranker-model.json": "784d7f323815b06a00032c9cd44a9ae5485afda26dc70a80acde5b759b2b16d4",
+        "scripts/reranker_worker.py": "a2f51ec0bd59578745bc21fa734d5ee3f2cbd03f996e251e8d5274dcb7d2cf74",
+        "scripts/reranker_setup.py": "4f13ff4657846ad9f0b5fc0ecca6225f3615cfc4b8abd99be5478a56acba650b",
+        "requirements-reranker.txt": "e49ef89d7c7d801de9e4cfcff75499c55baca829eb2873e5e08b3244d9473853",
+        "app/api/evaluations/route.ts": "548fa3201d6d5722fbe4a240603e159160bd891b713479fed3818bccdeb1f8ab"
+      },
+      "provider": "ollama",
+      "local_settings": {
+        "provider": "ollama",
+        "baseUrl": "http://localhost:11434",
+        "chat": "qwen3.8:latest",
+        "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+        "embedding": "embeddinggemma:300m",
+        "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+        "embeddingDimensions": 768,
+        "options": {
+          "num_ctx": 32768,
+          "num_predict": 2048,
+          "temperature": 0,
+          "seed": 42,
+          "top_k": 20,
+          "top_p": 0.95,
+          "min_p": 0,
+          "repeat_penalty": 1,
+          "presence_penalty": 0
+        },
+        "think": false,
+        "keep_alive": "30m",
+        "timeout_ms": 180000,
+        "max_attempts": 3,
+        "document_prefix": "title: none | text: ",
+        "query_prefix": "task: search result | query: "
+      },
+      "chunking_experiment": "heading-1400-280",
+      "chunking": {
+        "algorithm": "heading-v1",
+        "size": 1400,
+        "overlap": 280
+      },
+      "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+      "dataset_sha256": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+      "calibration_cases_sha256": "a9becb9842c4fba0ae9a2ca267d376fbb18b13024297bdcd6d8008a7dfc851a6",
+      "calibration_criteria_sha256": "d90c02b6c620e92486b92cff199e11d586b70d6ce5d13b4f61a56c22d527544e",
+      "retrieval_experiment": "control",
+      "retrieval": {
+        "mode": "hybrid",
+        "execution": "parallel",
+        "vectorCandidates": 12,
+        "keywordCandidates": 12,
+        "rrfK": 60,
+        "keywordMode": "and",
+        "tieBreak": "legacy"
+      },
+      "reranking_experiment": "control",
+      "reranking": {
+        "enabled": false,
+        "candidates": 10,
+        "device": "cpu",
+        "timeoutMs": 15000,
+        "model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+        "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a"
+      }
+    }
+  }
+]
