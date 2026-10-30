@@ -37,7 +37,12 @@ export async function POST(req: Request) {
   const abort = new AbortController()
   const signal = AbortSignal.any([req.signal, abort.signal])
   let completedAnswer: CachedAnswer | undefined
-  const release = () => {if (owner && key) responseCache.release(key)}
+  let released = false
+  const release = () => {
+    if (released) return
+    released = true
+    if (owner && key) responseCache.release(key)
+  }
   const stream = createUIMessageStream<RagUIMessage>({
     onError: () => {release(); return 'The answer could not be completed. Please retry.'},
     execute: async ({writer}) => {
@@ -76,7 +81,7 @@ export async function POST(req: Request) {
         if (part.done) {
           // Commit only after the HTTP response body drains, not merely model completion.
           try {
-            if (owner && key && scope && completedAnswer && !signal.aborted) {
+            if (owner && !released && key && scope && completedAnswer && !signal.aborted) {
               const after = await documentSnapshot(documentId)
               if (!signal.aborted && after?.hash === snapshot.hash && publicCacheScope(after, messages) === scope)
                 responseCache.set(key, scope, documentId, completedAnswer)

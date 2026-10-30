@@ -74,3 +74,10 @@ it('late cancellation after model completion but before HTTP EOF does not store'
  await r.body!.cancel();expect(responseCache.size).toBe(0)
  expect((await read()).status).toBe('MISS')
 })
+
+it('releases a cancelled cache owner exactly once across abort and stream cleanup',async()=>{
+ const release=vi.spyOn(responseCache,'release')
+ vi.mocked(startRagAnswer).mockImplementation(async()=>({stream:new ReadableStream({start(c){c.enqueue({type:'start'})}})} as Awaited<ReturnType<typeof startRagAnswer>>))
+ const r=await POST(request());await r.body!.cancel();await new Promise(resolve=>setTimeout(resolve,0))
+ expect(release).toHaveBeenCalledTimes(1);release.mockRestore()
+})
