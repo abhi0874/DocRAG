@@ -1,3 +1,4 @@
+import { responseCache } from '@/lib/response-cache'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { chunks, documents, evaluations } from '@/lib/db/schema'
@@ -16,5 +17,6 @@ export async function DELETE(
   await db.delete(evaluations).where(eq(evaluations.documentId, documentId))
   await db.delete(documents).where(eq(documents.id, documentId))
 
+  responseCache.invalidateDocument(documentId)
   return Response.json({ ok: true })
 }

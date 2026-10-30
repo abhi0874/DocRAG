@@ -3,10 +3,11 @@ import { desc } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { evaluations } from '@/lib/db/schema'
 import {
-  buildContext,
   CHAT_MODEL,
-  RAG_INSTRUCTIONS,
 } from '@/lib/rag'
+import { answerInstructions } from '@/lib/rag-prompt'
+import { documentSnapshot, withEvidenceMetadata } from '@/lib/evidence'
+import { validateCitations } from '@/lib/citations'
 import { selectContext } from '@/lib/select-context'
 
 export const maxDuration = 120
@@ -33,14 +34,15 @@ export async function POST(req: Request) {
 
   // Retrieve context for the RAG answer
   const selection = await selectContext(question, documentId, 6)
-  const retrieved = selection.ranked
-  const context = buildContext(retrieved)
+  const snapshot = await documentSnapshot(documentId)
+  if (!snapshot) return Response.json({error: 'Document unavailable'}, {status: 404})
+  const retrieved = withEvidenceMetadata(selection.ranked, snapshot)
 
   // Run both answers in parallel: with retrieval vs. without
   const [ragResult, noRagResult] = await Promise.all([
     generateText({
       model: CHAT_MODEL,
-      instructions: `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${context}`,
+      instructions: answerInstructions(retrieved),
       prompt: question,
     }),
     generateText({
@@ -62,5 +64,5 @@ export async function POST(req: Request) {
     })
     .returning()
 
-  return Response.json({...saved, reranking: selection.trace})
+  return Response.json({...saved, reranking: selection.trace, citationValidation: validateCitations(ragResult.text, retrieved.length)})
 }

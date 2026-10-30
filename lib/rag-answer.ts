@@ -1,12 +1,14 @@
 import { convertToModelMessages, streamText } from 'ai'
-import { buildContext, CHAT_MODEL, RAG_INSTRUCTIONS, type RetrievedChunk } from './rag'
+import { CHAT_MODEL, type RetrievedChunk } from './rag'
+import { answerInstructions, type PromptVersion } from './rag-prompt'
 import type { RagUIMessage } from './types'
 
-/** Shared unchanged chat generation call, also exercised by the evaluation adapter. */
-export async function startRagAnswer(messages: RagUIMessage[], retrieved: RetrievedChunk[]) {
+/** Shared generation call for streaming chat and evaluation. */
+export async function startRagAnswer(messages: RagUIMessage[], retrieved: RetrievedChunk[], version?: PromptVersion, signal?: AbortSignal) {
   return streamText({
     model: CHAT_MODEL,
-    instructions: `${RAG_INSTRUCTIONS}\n\nContext excerpts:\n\n${buildContext(retrieved)}`,
+    instructions: answerInstructions(retrieved, version),
+    ...(signal ? {abortSignal: signal} : {}),
     messages: await convertToModelMessages(messages),
   })
 }

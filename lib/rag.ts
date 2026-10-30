@@ -18,6 +18,11 @@ export type { TextChunk } from './chunking'
 
 export interface RetrievedChunk {
   id: number
+  documentId?: number
+  title?: string
+  sourceId?: string
+  sectionTitle?: string
+  sourceUrl?: string
   content: string
   pageNumber: number
   chunkIndex: number

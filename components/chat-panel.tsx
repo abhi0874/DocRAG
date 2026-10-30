@@ -11,14 +11,16 @@ interface ChatPanelProps {
   disabled: boolean
   documentTitle: string | null
   onSend: (text: string) => void
-  onCitationClick: (index: number) => void
+  onCitationClick: (index: number, messageId: string) => void
 }
 
 /** Render assistant text, turning [n] citations into clickable chips. */
 function CitedText({
   text,
   onCitationClick,
+  sourceCount,
 }: {
+  sourceCount: number
   text: string
   onCitationClick: (index: number) => void
 }) {
@@ -27,7 +29,7 @@ function CitedText({
     <>
       {parts.map((part, i) => {
         const match = part.match(/^\[(\d+)\]$/)
-        if (match) {
+        if (match && Number(match[1]) >= 1 && Number(match[1]) <= sourceCount) {
           const n = Number(match[1])
           return (
             <button
@@ -122,13 +124,18 @@ export function ChatPanel({
                       <p key={i} className="whitespace-pre-wrap">
                         {message.role === 'assistant' ? (
                           <CitedText
+                            sourceCount={message.parts.find(p => p.type === 'data-sources')?.data.sources.length ?? 0}
                             text={part.text}
-                            onCitationClick={onCitationClick}
+                            onCitationClick={index => onCitationClick(index, message.id)}
                           />
                         ) : (
                           part.text
                         )}
                       </p>
+                    ) : part.type === 'data-cache' && part.data.status === 'HIT' ? (
+                      <p key={i} className="mt-2 text-xs text-muted-foreground">Previously generated answer</p>
+                    ) : part.type === 'data-validation' && !part.data.valid ? (
+                      <p key={i} className="mt-2 text-xs">Some source references could not be verified. Check the excerpts before relying on this answer.</p>
                     ) : null,
                   )}
                 </div>

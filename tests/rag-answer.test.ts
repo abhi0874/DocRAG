@@ -9,7 +9,7 @@ it('preserves the original chat prompt, model, converted messages and SDK defaul
   const messages = [{ id: 'question', role: 'user' as const, parts: [{ type: 'text' as const, text: 'Question?' }] }]
   const converted = [{ role: 'user' as const, content: 'Question?' }]
   vi.mocked(convertToModelMessages).mockResolvedValue(converted)
-  await startRagAnswer(messages, [{id: 1, content: 'Evidence.', pageNumber: 3, chunkIndex: 2, vectorScore: 1, keywordScore: null, rrfScore: 1/61}])
+  await startRagAnswer(messages, [{id: 1, content: 'Evidence.', pageNumber: 3, chunkIndex: 2, vectorScore: 1, keywordScore: null, rrfScore: 1/61}], 'step5-v1')
   expect(convertToModelMessages).toHaveBeenCalledWith(messages)
   expect(streamText).toHaveBeenCalledWith({
     model: CHAT_MODEL,

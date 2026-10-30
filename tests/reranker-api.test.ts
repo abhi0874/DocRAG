@@ -1,9 +1,11 @@
 import { expect, it, vi } from 'vitest'
 vi.mock('@/lib/select-context', () => ({selectContext: vi.fn()}))
+vi.mock('@/lib/evidence', () => ({documentSnapshot: vi.fn(async () => ({hash: 'test'})), withEvidenceMetadata: (r: unknown) => r}))
+vi.mock('@/lib/public-cache-policy', () => ({publicCacheScope: () => null}))
 vi.mock('@/lib/rag-answer', () => ({startRagAnswer: vi.fn()}))
 vi.mock('ai', () => ({
   createUIMessageStream: vi.fn(({execute}) => {void execute({writer: {write: vi.fn(), merge: vi.fn()}}); return new ReadableStream({start(c) {c.close()}})}),
-  createUIMessageStreamResponse: vi.fn(({headers}) => new Response(null, {headers})),
+  createUIMessageStreamResponse: vi.fn(({headers}) => new Response(new ReadableStream({start(c) {c.close()}}), {headers})),
   toUIMessageStream: vi.fn(() => new ReadableStream()),
 }))
 import { POST } from '@/app/api/chat/route'
@@ -20,7 +22,7 @@ it.each(['reranked', 'fallback', 'disabled'] as const)('chat uses selected evide
   const response = await POST(new Request('http://localhost/api/chat', {method: 'POST',
     body: JSON.stringify({documentId: 42, messages})}))
   expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6)
-  expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked)
+  expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked, 'grounded-v1', expect.any(AbortSignal))
   expect(response.headers.get('X-DocRAG-Reranker-Status')).toBe(status)
   if (status === 'fallback') expect(response.headers.get('X-DocRAG-Reranker-Reason')).toBe('timeout')
 })

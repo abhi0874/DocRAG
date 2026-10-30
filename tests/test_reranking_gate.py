@@ -1,4 +1,3 @@
-import copy
 import json
 import subprocess
 
@@ -11,11 +10,10 @@ from eval.reranking_gate import compatible, gate
 
 def pair():
     baseline = json.loads((ROOT / "eval/results/retrieval-selected.json").read_text())
-    candidate = copy.deepcopy(baseline)
-    candidate["config"].update(configuration("top10"))
-    candidate["git_revision"] = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
-    ).strip()
+    # The Step 5 gate must test Step 5 code, not later prompting changes.
+    candidate = json.loads((ROOT / "eval/results/reranking-selected.json").read_text())
+    candidate["config"]["reranking_experiment"] = "top10"
+    candidate["config"]["reranking"] = configuration("top10")["reranking"]
     return baseline, candidate
 
 
@@ -79,3 +77,10 @@ def test_exact_regression_boundary(monkeypatch, metric, drop, passes):
     else:
         with pytest.raises(ValueError, match="Regression"):
             gate(baseline, candidate)
+
+
+def test_step5_gate_rejects_current_prompt_changes():
+    baseline, candidate = pair()
+    candidate["config"].update(configuration("top10"))
+    with pytest.raises(ValueError, match="Unrelated"):
+        compatible(baseline, candidate)

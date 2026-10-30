@@ -86,7 +86,7 @@ export async function POST(req: Request) {
 
     return Response.json(ready)
   } catch (error) {
-    console.error('[v0] Document ingestion failed:', error)
+    console.error('Document ingestion failed')
     const raw = error instanceof Error ? error.message : ''
     const message =
       raw.includes('API key') || raw.includes('API_KEY') || raw.includes('401') || raw.includes('403')

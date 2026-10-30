@@ -17,6 +17,7 @@ export function Workspace() {
     fetcher,
   )
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const [sourceMessageId, setSourceMessageId] = useState<string | null>(null)
   const [activeSource, setActiveSource] = useState<number | null>(null)
 
   const { messages, sendMessage, status, setMessages } = useChat<RagUIMessage>(
@@ -32,7 +33,7 @@ export function Workspace() {
   const latestSources: SourceChunk[] = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i]
-      if (message.role !== 'assistant') continue
+      if (message.role !== 'assistant' || (sourceMessageId && message.id !== sourceMessageId)) continue
       for (const part of message.parts) {
         if (part.type === 'data-sources') {
           return part.data.sources
@@ -40,12 +41,13 @@ export function Workspace() {
       }
     }
     return []
-  }, [messages])
+  }, [messages, sourceMessageId])
 
   function handleSelect(id: number) {
     if (id !== selectedId) {
       setSelectedId(id)
       setMessages([])
+      setSourceMessageId(null)
       setActiveSource(null)
     }
   }
@@ -53,6 +55,7 @@ export function Workspace() {
   function handleSend(text: string) {
     if (!selectedId) return
     setActiveSource(null)
+    setSourceMessageId(null)
     sendMessage({ text }, { body: { documentId: selectedId } })
   }
 
@@ -74,7 +77,7 @@ export function Workspace() {
           disabled={!selectedId}
           documentTitle={selectedDoc?.title ?? null}
           onSend={handleSend}
-          onCitationClick={setActiveSource}
+          onCitationClick={(index, messageId) => {setSourceMessageId(messageId); setActiveSource(index)}}
         />
       </main>
 
