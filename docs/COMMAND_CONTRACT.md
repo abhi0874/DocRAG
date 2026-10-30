@@ -794,3 +794,18 @@ The HTTP experiment owns only its loopback Next.js process on port 8004. Cache
 measurements are sequential and must not overlap evaluation inference or builds.
 An older answer's citation now selects that message's own saved evidence, so its
 source number cannot silently target the most recent answer's source list.
+
+Additional Step 6 evidence and safety checks:
+
+```sh
+.venv/bin/python -m eval.grounding_diagnostics
+.venv/bin/python -m eval.cache_invalidation
+```
+
+The diagnostics use six fixed public synthetic evidence cases with the actual
+shared generation function and unchanged automated judge. The invalidation check
+first stores a public answer, temporarily updates one public fixture chunk, checks
+that the next request bypasses the cache, and restores the exact original content
+in `finally`. It saves an ignored recovery receipt before mutation. No original
+row is deleted. Run preservation checks immediately afterward. Do not run this
+mutation test concurrently with quality or latency measurements.

@@ -20,3 +20,14 @@ Compare step5-v1 and one grounded-v1 candidate with the same 100 questions, pinn
 Default off. Only single-turn requests over a server-maintained, exact content-hash allowlist of the public evaluation corpus and its 100 public question hashes are eligible. Arbitrary questions bypass caching even on those documents, preventing user-provided private question text from entering shared answers. Client flags cannot declare a document public. Private uploads, conversation history and providers without a verified immutable model digest bypass storage. A bounded in-process TTL/LRU cache avoids external services. Document snapshots and selected evidence are rechecked; completed valid streams only. Source-ID validity does not prove semantic citation support. Authentication and private cache ownership integration remain Step 7 work.
 
 Implementation and final measurements are pending. No Step 7 work or GitHub push.
+
+## Implementation checkpoint
+
+The first smoke test produced one genuine MISS and two HITs with identical answers
+and source IDs. A static review then found that committing at model completion
+could precede HTTP stream completion. The initial control evaluation was stopped
+after a partial run; its private log and evaluation caches are retained. Cache
+commit now waits for HTTP-body EOF with a fresh document snapshot, and a late
+cancellation regression test covers this edge. No incomplete run is reported as
+a completed benchmark. The changed application hash intentionally prevents reuse
+of the old partial-run cache under the new configuration.

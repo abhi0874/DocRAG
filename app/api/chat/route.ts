@@ -3,7 +3,7 @@ import { selectContext } from '@/lib/select-context'
 import { startRagAnswer } from '@/lib/rag-answer'
 import { documentSnapshot, withEvidenceMetadata } from '@/lib/evidence'
 import { answerInstructions, promptVersion } from '@/lib/rag-prompt'
-import { responseCache, responseKey } from '@/lib/response-cache'
+import { responseCache, responseKey, type CachedAnswer } from '@/lib/response-cache'
 import { publicCacheScope, cacheModelIdentity } from '@/lib/public-cache-policy'
 import { retrievalDefault } from '@/lib/retrieval-config'
 import { rerankerConfig } from '@/lib/reranker-config'
@@ -36,6 +36,7 @@ export async function POST(req: Request) {
   const status = hit ? 'HIT' : !key ? 'BYPASS' : owner ? 'MISS' : 'BYPASS_BUSY'
   const abort = new AbortController()
   const signal = AbortSignal.any([req.signal, abort.signal])
+  let completedAnswer: CachedAnswer | undefined
   const release = () => {if (owner && key) responseCache.release(key)}
   const stream = createUIMessageStream<RagUIMessage>({
     onError: () => {release(); return 'The answer could not be completed. Please retry.'},
@@ -54,11 +55,8 @@ export async function POST(req: Request) {
       try {
         const result = await startRagAnswer(messages, retrieved, version, signal)
         const observed = validatedStream(result.stream, retrieved.length, signal, async answer => {
-          if (!owner || !key || !scope) return
-          const after = await documentSnapshot(documentId)
-          if (!signal.aborted && after?.hash === snapshot.hash && publicCacheScope(after, messages) === scope)
-            responseCache.set(key, scope, documentId, answer)
-        }, result => writer.write({type: 'data-validation', data: result}), release)
+          completedAnswer = answer
+        }, result => writer.write({type: 'data-validation', data: result}), () => {if (!completedAnswer) release()})
         writer.merge(toUIMessageStream({stream: observed}))
       } catch (error) {release(); throw error}
     },
@@ -69,11 +67,32 @@ export async function POST(req: Request) {
     ...(selection.trace.reason ? {'X-DocRAG-Reranker-Reason': selection.trace.reason} : {}),
   }})
   const reader = response.body!.getReader()
+  let cancelled = false
   return new Response(new ReadableStream({
     async pull(controller) {
-      try {const part = await reader.read(); if (part.done) controller.close(); else controller.enqueue(part.value)}
+      try {
+        const part = await reader.read()
+        if (cancelled) return
+        if (part.done) {
+          // Commit only after the HTTP response body drains, not merely model completion.
+          try {
+            if (owner && key && scope && completedAnswer && !signal.aborted) {
+              const after = await documentSnapshot(documentId)
+              if (!signal.aborted && after?.hash === snapshot.hash && publicCacheScope(after, messages) === scope)
+                responseCache.set(key, scope, documentId, completedAnswer)
+            }
+          } finally {release()}
+          controller.close()
+        } else controller.enqueue(part.value)
+      }
       catch (error) {abort.abort(); release(); controller.error(error)}
     },
-    async cancel() {abort.abort(); release(); await reader.cancel()},
+    async cancel() {
+      cancelled = true; abort.abort(); release()
+      // Abort inference, then drain the SDK's terminal/error frames for cleanup.
+      // Cancelling its nested SSE transforms directly can leave rejected promises.
+      try {while (!(await reader.read()).done) { /* Disconnected client: discard terminal frames. */ }}
+      catch { /* The aborted upstream stream is expected to reject. No result is cached. */ }
+    },
   }), {status: response.status, headers: response.headers})
 }
