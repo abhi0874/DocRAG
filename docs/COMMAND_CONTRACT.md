@@ -809,3 +809,18 @@ that the next request bypasses the cache, and restores the exact original conten
 in `finally`. It saves an ignored recovery receipt before mutation. No original
 row is deleted. Run preservation checks immediately afterward. Do not run this
 mutation test concurrently with quality or latency measurements.
+
+Matched model-cold and model-warm measurements run after all other model work:
+
+```sh
+.venv/bin/python -m eval.cache_cold
+.venv/bin/python -m eval.prompting_report
+```
+
+The cold check unloads only the already installed generation model from memory
+using the preserved Ollama CLI; no model file is deleted. It verifies absence
+from `/api/ps`, makes one uncached request, then repeats it while resident.
+It does not claim cold filesystem caches. The report recomputes both complete
+100-question runs and subset rates, checks exact ranked evidence, applies the
+frozen selection rule and unchanged gates, and compares historical artifacts
+byte-for-byte against Step 5 commit 8172c03.

@@ -15,11 +15,77 @@ Original failures are saved with their evidence in eval/results/prompting/origin
 
 Compare step5-v1 and one grounded-v1 candidate with the same 100 questions, pinned runtime/models, 162 chunks, hybrid ranks, six passages and unchanged judge rubric. Freeze the candidate before full evaluation. The existing 60/40 split is reused, not unseen data. Select on the 60 development questions: no loss of faithfulness, citation support or correctness, no increase in incorrect refusals or unsupported claims, and inspect known failures. The 40 holdout questions provide a final check; do not retune against them. If the candidate has a clear quality regression, retain step5-v1. Evaluate public-cache behavior separately through real HTTP; never credit caching with better answer quality.
 
-## Planned cache boundary
+## Implemented cache boundary
 
 Default off. Only single-turn requests over a server-maintained, exact content-hash allowlist of the public evaluation corpus and its 100 public question hashes are eligible. Arbitrary questions bypass caching even on those documents, preventing user-provided private question text from entering shared answers. Client flags cannot declare a document public. Private uploads, conversation history and providers without a verified immutable model digest bypass storage. A bounded in-process TTL/LRU cache avoids external services. Document snapshots and selected evidence are rechecked; completed valid streams only. Source-ID validity does not prove semantic citation support. Authentication and private cache ownership integration remain Step 7 work.
 
-Implementation and final measurements are pending. No Step 7 work or GitHub push.
+Final comparative measurements are pending. No Step 7 work or GitHub push.
+
+## Prompt, evidence and citation contract
+
+`lib/rag-prompt.ts` retains `step5-v1` and adds the frozen `grounded-v1`
+candidate. The candidate requires explicit treatment of subquestions, conditions,
+exceptions and unchanged facts. Missing evidence calls for an explicit gap;
+conflicting passages call for an explanation of the disagreement. Retrieved text
+and conversation history are treated as untrusted data. Prompt instructions alone
+do not guarantee resistance to every injection or unsupported claim.
+
+The candidate serializes the same six passages as ordered JSON. Each includes
+its citation number, document ID, chunk ID, title, section, source identifier,
+page, URL when present, and text. Metadata comes from the selected document's
+database snapshot. Missing values remain absent/null; no links or page numbers
+are fabricated. Retrieval ordering, chunking and embedding configuration are
+unchanged. JSON escaping preserves data boundaries but is not a security proof.
+
+`lib/citations.ts` checks numeric references against the actual context, rejects
+empty responses and redundant adjacent citations, and explicitly reports
+`semanticSupport: not-verified`. Semantic support is measured separately by the
+unchanged automated judge. A response with valid reference numbers can still
+contain an unsupported claim. Live answers display a notice for invalid citation
+structure and are not cached; the application does not claim to automatically
+block every semantically incorrect answer.
+
+The chat stream carries the actual source metadata. Clicking an older message's
+citation selects that message's saved sources rather than the newest answer's
+sources. A cache hit is labelled “Previously generated answer.”
+
+## Cache implementation and streaming lifecycle
+
+`lib/response-cache.ts` implements an in-process least-recently-used cache:
+128 entries, an approximate 8 MiB payload bound, and a five-minute lifetime.
+It has no persistent store or additional service. Entries expire on reads and
+writes; restarting a server clears its cache. Multiple server processes have
+independent caches.
+
+The SHA-256 key covers the trimmed question, full relevant history, public scope,
+document ID and content snapshot hash, selected context and its order, retrieval
+and reranker settings, verified model digests and runtime, generation parameters,
+and prompt version plus actual instructions. Case and punctuation are preserved.
+Every request still performs retrieval and document checks. Hits avoid answer
+generation, not query embedding or database work.
+
+Only a successfully completed model stream with valid citation structure becomes
+eligible for storage. Storage occurs after the HTTP body reaches its end and a
+fresh document snapshot still matches. Failed, truncated, cancelled or invalid
+responses are excluded. Cancellation aborts generation and drains terminal SDK
+frames without treating them as a completed answer. An idempotent release prevents
+cleanup from releasing another request's cache-writer slot. Concurrent duplicate
+requests may generate separately, but only one owns the cache write; they are not
+advertised as coalesced requests.
+
+A changed public fixture no longer matches the server allowlist, so requests
+bypass caching. Deletion explicitly invalidates that document's entries, while
+subsequent lookup returns not found. A private upload is ineligible from creation.
+There is no new document-replacement API; a content change is covered by the
+snapshot hash and the real database mutation check. Prompt, model, context and
+settings changes create different keys.
+
+`RESPONSE_CACHE_ENABLED` defaults to false. Even when true, private documents,
+unrecognized public questions, multi-turn requests and unverified providers do
+not enter this shared cache. This verifies exclusion from the cache, not general
+application authorization. Before any broader deployment, Step 7 must establish
+server-verified ownership/access scopes and enforce them consistently for both
+document retrieval and caching. That authentication work is not implemented here.
 
 ## Implementation checkpoint
 
