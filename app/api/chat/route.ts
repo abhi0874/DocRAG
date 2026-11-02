@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   // A concurrent edit must not turn a previously eligible snapshot into a stale hit.
   const current = key ? await documentSnapshot(documentId) : snapshot
   if (!current || current.hash !== snapshot.hash) return Response.json({error: 'Document changed; retry'}, {status: 409})
-  const hit = key && scope ? responseCache.get(key, scope) : undefined
+  const hit = key && scope ? responseCache.get(key, scope, answer => validateCitations(answer.text, retrieved.length).valid) : undefined
   const owner = !!(key && !hit && responseCache.acquire(key))
   const status = hit ? 'HIT' : !key ? 'BYPASS' : owner ? 'MISS' : 'BYPASS_BUSY'
   const abort = new AbortController()

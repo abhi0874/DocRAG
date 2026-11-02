@@ -1,3 +1,4 @@
+import type { validateCitations } from './citations'
 import type { UIMessage } from 'ai'
 
 export interface SourceChunk {
@@ -19,7 +20,7 @@ export type RagUIMessage = UIMessage<
   never,
   {
     cache: {status: string; tokensAvoided: number | null}
-    validation: {valid: boolean; semanticSupport: 'not-verified'; invalid: number[]; adjacentDuplicates: boolean}
+    validation: ReturnType<typeof validateCitations>
     sources: {
       sources: SourceChunk[]
     }

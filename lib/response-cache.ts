@@ -36,11 +36,12 @@ export class ResponseCache {
     const entry = this.entries.get(key)
     if (entry) {this.bytes -= entry.bytes; this.entries.delete(key)}
   }
-  get(key: string, scope: string) {
+  get(key: string, scope: string, accept?: (answer: CachedAnswer) => boolean) {
     const entry = this.entries.get(key)
     if (!entry) return undefined
     if (entry.expires <= this.now()) {this.remove(key); return undefined}
     if (entry.scope !== scope) return undefined
+    if (accept && !accept(entry.answer)) {this.remove(key); return undefined}
     this.entries.delete(key); this.entries.set(key, entry)
     return {...entry.answer}
   }

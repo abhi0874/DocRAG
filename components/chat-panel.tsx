@@ -2,6 +2,7 @@
 
 import { CornerDownLeft, Loader2, MessageSquareText } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
+import { citationReferences } from '@/lib/citations'
 import type { RagUIMessage } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -24,29 +25,22 @@ function CitedText({
   text: string
   onCitationClick: (index: number) => void
 }) {
-  const parts = text.split(/(\[\d+\])/g)
-  return (
-    <>
-      {parts.map((part, i) => {
-        const match = part.match(/^\[(\d+)\]$/)
-        if (match && Number(match[1]) >= 1 && Number(match[1]) <= sourceCount) {
-          const n = Number(match[1])
-          return (
-            <button
-              key={i}
-              type="button"
-              onClick={() => onCitationClick(n - 1)}
-              className="mx-0.5 inline-flex size-5 items-center justify-center rounded bg-primary/15 align-text-top font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/30"
-              aria-label={`Show source ${n}`}
-            >
-              {n}
-            </button>
-          )
-        }
-        return <Fragment key={i}>{part}</Fragment>
-      })}
-    </>
-  )
+  const references = citationReferences(text, sourceCount).filter(ref => ref.valid)
+  return <>
+    {references.map((ref, index) => {
+      const before = text.slice(references[index - 1]?.end ?? 0, ref.start)
+      const number = ref.number!
+      return <Fragment key={ref.start}>
+        {before}<button
+          type="button"
+          onClick={() => onCitationClick(number - 1)}
+          className="mx-0.5 inline-flex size-5 items-center justify-center rounded bg-primary/15 align-text-top font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/30"
+          aria-label={`Show source ${number}`}
+        >{number}</button>
+      </Fragment>
+    })}
+    {text.slice(references.at(-1)?.end ?? 0)}
+  </>
 }
 
 export function ChatPanel({

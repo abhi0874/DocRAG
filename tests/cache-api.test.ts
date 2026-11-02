@@ -87,3 +87,45 @@ it('releases a cancelled cache owner exactly once across abort and stream cleanu
  const r=await POST(request());await r.body!.cancel();await new Promise(resolve=>setTimeout(resolve,0))
  expect(release).toHaveBeenCalledTimes(1);release.mockRestore()
 })
+
+it.each([
+  ['The value is 3, according to source [-1].', 'invalid-references'],
+  ['First [1]. Second [1.0].', 'invalid-references'],
+  ['The value is 3.', 'missing-references'],
+])('rejects the completed stream on both eligible requests: %s', async (answer, kind) => {
+  vi.mocked(startRagAnswer).mockImplementation(async () => output(answer))
+  for (let i = 0; i < 2; i++) {
+    const {status, body} = await read()
+    expect(status).toBe('MISS')
+    expect(body).toContain(answer)
+    expect(body).toContain(`"kind":"${kind}"`)
+    expect(body).toContain('"valid":false')
+    expect(responseCache.size).toBe(0)
+  }
+  expect(startRagAnswer).toHaveBeenCalledTimes(2)
+})
+
+it('replays a completed uncited public refusal', async () => {
+  vi.mocked(startRagAnswer).mockImplementation(async () => output('I cannot determine that from the supplied documents.'))
+  expect((await read()).status).toBe('MISS')
+  const replay = await read()
+  expect(replay.status).toBe('HIT')
+  expect(replay.body).toContain('"kind":"uncited-refusal"')
+  expect(startRagAnswer).toHaveBeenCalledTimes(1)
+})
+
+it('evicts only the invalid historical entry before streaming any replay bytes', async () => {
+  const set = vi.spyOn(responseCache, 'set')
+  try {
+    await read()
+    const [key, scope] = set.mock.calls[0]
+    responseCache.set(key, scope, docId, {text: 'Bad source [-1].', tokens: 30})
+    responseCache.set('unrelated', scope, docId, {text: 'Other [1].', tokens: 1})
+    const retry = await read()
+    expect(retry.status).toBe('MISS')
+    expect(retry.body).not.toContain('Bad source')
+    expect(responseCache.get('unrelated', scope)?.text).toBe('Other [1].')
+    expect((await read()).status).toBe('HIT')
+    expect(startRagAnswer).toHaveBeenCalledTimes(2)
+  } finally { set.mockRestore() }
+})
