@@ -46,10 +46,11 @@ export async function POST(req: Request) {
   const stream = createUIMessageStream<RagUIMessage>({
     onError: () => {release(); return 'The answer could not be completed. Please retry.'},
     execute: async ({writer}) => {
+      // Establish the assistant message ID before the client receives its data.
+      writer.write({type: 'start'})
       writer.write({type: 'data-sources', data: {sources: retrieved}})
       writer.write({type: 'data-cache', data: {status, tokensAvoided: hit?.tokens ?? null}})
       if (hit) {
-        writer.write({type: 'start'})
         writer.write({type: 'text-start', id: 'cached-answer'})
         writer.write({type: 'text-delta', id: 'cached-answer', delta: hit.text})
         writer.write({type: 'text-end', id: 'cached-answer'})
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
         const observed = validatedStream(result.stream, retrieved.length, signal, async answer => {
           completedAnswer = answer
         }, result => writer.write({type: 'data-validation', data: result}), () => {if (!completedAnswer) release()})
-        writer.merge(toUIMessageStream({stream: observed}))
+        writer.merge(toUIMessageStream({stream: observed, sendStart: false}))
       } catch (error) {release(); throw error}
     },
   })

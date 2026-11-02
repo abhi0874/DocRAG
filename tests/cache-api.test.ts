@@ -32,6 +32,12 @@ afterEach(()=>{vi.unstubAllEnvs();responseCache.invalidateDocument(docId)})
 async function read() {const r=await POST(request());const body=await r.text();return {status:r.headers.get('X-DocRAG-Cache'),body}}
 it('real UI protocol miss then hit avoids a second model generation and preserves sources',async()=>{
  const a=await read(),b=await read();expect(a.status).toBe('MISS');expect(b.status).toBe('HIT')
+ for (const body of [a.body, b.body]) {
+   const events = body.split('\n').filter(line => line.startsWith('data: {'))
+     .map(line => JSON.parse(line.slice(6)))
+   expect(events[0]).toMatchObject({type: 'start', messageId: expect.any(String)})
+   expect(events.filter(event => event.type === 'start')).toHaveLength(1)
+ }
  expect(startRagAnswer).toHaveBeenCalledTimes(1);expect(b.body).toContain('data-sources');expect(b.body).toContain('tokensAvoided":30');expect(b.body).toContain('[DONE]')
 })
 it('changed document and prompt cannot return a stale hit',async()=>{
