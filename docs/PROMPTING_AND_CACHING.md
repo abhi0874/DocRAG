@@ -229,3 +229,39 @@ six passages, including page 1 / chunk #2 for the integer conversion. See
 A final rerun of the optional candidate also passed all six diagnostic
 correctness, faithfulness and structural checks. Its corrected forged-reference
 answer cites only [1]. `candidate-final-diagnostics.json` retains that run.
+
+## Step 6 citation and replay correction
+
+The audit supplied one retrieved passage and scripted the model to say
+“The value is 3, according to source [-1].” The former parser collected only
+digit-only markers. It recorded zero citations, marked the text valid and stored it.
+The second identical request returned a HIT. The old read path streamed the entry
+before reporting its validation result.
+
+The UI and validator now share one parser. A source number uses an ASCII positive
+integer in square brackets, from [1] through the number of passages sent to the
+model. Separate adjacent markers such as [1][2] are supported. Adjacent repeats
+such as [1] [1], signs, zero, leading zeroes, decimals, ranges and lists inside
+one marker are invalid. One valid marker cannot cancel another invalid one.
+Numeric-looking bracketed tokens are examined even without the word “source”.
+An explicit attribution such as “source []” or “source [unknown]” is an invalid
+attempt. Empty markers after claims also fail, while ordinary empty-array and
+assignment literals stay text. Ordinary bracket labels, numeric inline Markdown links, fenced and
+backtick code, and explicitly labeled quoted literals stay text in the UI.
+The chat renders plain text and citation buttons, not a general Markdown viewer.
+
+A citation-free answer is eligible only for a narrow whole-answer refusal such
+as “I could not find this in the document” or “I cannot determine that from the
+supplied documents.” Additional uncited factual sentences do not qualify. Other
+free-form refusals can also fall outside this conservative rule. They are still
+shown and may require a fresh generation on retry. Structural validation does
+not establish that a cited passage supports every claim.
+
+The stream validates its accumulated final text. A write requires a completed,
+valid, uninterrupted answer and the same eligible public snapshot at HTTP EOF.
+On lookup the server validates the cached text against this request’s retrieved
+source count before sending headers or text. Failure removes only that key and
+runs ordinary miss handling. The process-local public cache remains off by
+default. Evaluation caches, private uploads and conversation histories are
+outside this repair. Streaming clients can see invalid text before the final
+warning. The answer is neither rewritten nor silently cached.

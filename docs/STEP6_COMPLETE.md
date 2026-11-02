@@ -140,3 +140,42 @@ dab4dfa Record final real API, browser, cache and runtime verification
 ```
 
 The closing documentation commit contains this report. Desktop Ollama 0.40.11 owns the local port again. Both model digests match.
+
+## Citation repair and independent re-audit (November 3, 2026)
+
+The November 2 audit reopened Step 6. The saved one-source chat-handler test
+was rerun unchanged before and after the repair. Before the repair it exited 1:
+the validator found no markers in “according to source [-1]”, returned valid,
+and the second request replayed the first generation. After the repair it
+exited 0: validation reported an invalid token, both requests missed, both
+called the model, and the cache held zero entries. The test used a deterministic
+model and did not access private documents.
+
+| Verification | Observed result |
+| --- | --- |
+| Lint, complete tests, production build | Each exited 0. Ruff, ESLint and TypeScript passed. 152 Python and 135 TypeScript tests passed (287 total, zero failed). An initial lint failure in the citation renderer was corrected before rerunning the full sequence. |
+| Focused parser, cache, route and stream suites | Exit 0, 60 passed. These cover malformed, unknown, mixed, duplicate and missing citations, uncited refusals, Markdown/code literals, entry-specific stale eviction, public scope, cancellation, failure and incomplete generation. |
+| Production HTTP with scripted chat, real retrieval | Exit 0. Two invalid requests: MISS/MISS, two generations. Valid [1]: MISS/HIT, one generation. Uncited refusal: MISS/HIT, one generation. The script asserted the full final text, validation, source IDs and the terminal event. The one-source route test independently asserted no invalid entry was stored. |
+| Browser with the same local fixture | Invalid answer: one assistant message, one warning, zero clickable citation buttons. Valid answer: one assistant message on fresh and replayed requests, one replay label on repeat, working source 1 button. The private local screenshot is .local/citation-repair-browser.png. |
+| Real local Ollama chat, public cache | Exit 0, six eligible misses followed by twelve hits, equal answers and source IDs on repeat. Twelve uncached requests bypassed the cache. The run reported 18,964 avoided tokens. This functional run used desktop Ollama 0.40.11 with both pinned model digests. Historical benchmark timings remain from 0.40.9. |
+| Changed document and streaming modes | Exit 0. Public fixture MISS → HIT → BYPASS, then original content hash verified. Existing restored backup archived locally. Disabled, enabled, missing-worker and timeout modes all passed the HTTP source and shutdown checks. |
+| Local cold/warm check | Exit 0, six paired questions bypassed caching under both model residency conditions. The measurement used the desktop runtime. |
+| Golden dataset, prompt replay and gates | Exit 0. 100 reviewed questions. All 200 rendered prompts matched the measured prompt bytes. Both gates passed against Step 5. Selected Recall@5 decrease 0.000, faithfulness decrease 0.005, threshold 0.02. All 13 focused gate/report tests passed, including negative controls. |
+| Saved-answer replay | Both 100-record runs checked against their actual final context counts. All selected answers passed: 80 cited and 20 uncited refusals. All twelve saved synthetic diagnostics passed the new structural check. The alternative prompt's postgresql-042 included uncited background statements and would now be excluded from production caching. |
+| Preservation | Exit 0. 118 historical files, 20 original Gemini cache pairs, 151 Gemini vectors, 151 original local vectors and 162 selected chunks verified. No differences in the historical results, corpus, golden questions or database schema relative to a2f2328. Secret scan passed. |
+
+The checks use the commands in the citation repair section of COMMAND_CONTRACT.md.
+The existing generation, retrieval and judge pipelines ran with production
+caching off when the saved quality results were produced. This repair changes
+final structural validation and replay eligibility. It does not change the inputs,
+ranked passages, model answers or judge scores in those historical runs. Their
+metrics remain historical. The validator checks reference structure, and a cited
+answer can still contain an unsupported factual claim. A free-form uncited
+refusal outside the explicitly recognized forms is shown but bypasses storage.
+
+Implementation commits 3c2202f and e06f957 update lib/citations.ts, lib/response-cache.ts,
+lib/types.ts, app/api/chat/route.ts, components/chat-panel.tsx, tests/citations.test.ts
+and tests/cache-api.test.ts. Verification commits 975d063 and 8c27ee6 add
+eval/citation_cache_http.py and eval/recheck_citations.ts. Documentation changes
+are confined to this report, PROMPTING_AND_CACHING.md and COMMAND_CONTRACT.md.
+All work is local on feat/production-rag. Step 7 has not started. Paid charges ₹0.

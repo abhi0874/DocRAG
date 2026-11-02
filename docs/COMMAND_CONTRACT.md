@@ -885,3 +885,51 @@ Final HTTP receipts after the browser protocol correction:
 .venv/bin/python -m eval.cache_cold --prompt-version step5-v1 --out eval/results/prompting/final-cold-warm.json
 .venv/bin/python -m eval.reranking_smoke --out eval/results/prompting/final-streaming-modes.json
 ```
+
+### Step 6 citation repair and prerequisite re-audit
+
+From the repository root, run the normal lint, test and build targets first.
+The following commands use public data. Use fresh output paths for each run.
+
+```sh
+make lint
+make test
+make build-fe
+pnpm exec vitest run tests/citations.test.ts tests/cache-api.test.ts tests/response-cache.test.ts tests/validated-stream.test.ts
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/step5-v1.json
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json
+.venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py
+.venv/bin/python -m eval.prompting_report --out .local/citation-repair-report.json
+.venv/bin/python -m eval.prompt_bytes
+node --import tsx eval/recheck_citations.ts
+.venv/bin/python -m eval.citation_cache_http
+.venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out .local/citation-repair-live.json
+.venv/bin/python -m eval.reranking_smoke --out .local/citation-repair-streaming.json
+.venv/bin/python -m eval.cache_invalidation --prompt-version step5-v1 --out .local/citation-repair-invalidation.json
+.venv/bin/python -m eval.reranking_integrity
+git diff --exit-code a2f2328 -- eval/results eval/corpus eval/golden_set.jsonl db
+git diff --check
+```
+
+The HTTP fixture starts a loopback model adapter and the production Next.js server.
+It forwards model identity and embedding requests to the installed local Ollama.
+Only its chat response is scripted, so invalid, valid and refusal outputs are
+reproducible. The separate cache and streaming smoke runs use actual Ollama chat.
+Run the three server-based probes sequentially. To repeat invalidation, first
+inspect the previous backup in .local, confirm restored is true, verify its
+content hash against the current public row, and archive the restored receipt
+at a new path. Stop if recovery is incomplete. Never overwrite a recovery file.
+
+For the browser check, select the FastAPI document, ask the first golden question,
+then reload, reselect and repeat. Verify one assistant answer in each chat, one
+replay label on the hit, and a working source button. The repair also tested a
+scripted negative source in that UI and observed one warning and zero citation
+buttons. The historical generation and judging pipeline runs with response caching
+off. Recheck both saved sets of 100 final answers and their six diagnostics each
+using the production validator. Retain the original answer quality, timestamps,
+runtime identity, judge results and evidence hashes.
+
+The cold/warm check also passed in this repair:
+`.venv/bin/python -m eval.cache_cold --prompt-version step5-v1 --out .local/citation-repair-cold-warm.json`.
+This exercises six pairs without overwriting the earlier benchmark.
