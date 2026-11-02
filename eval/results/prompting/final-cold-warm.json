@@ -1,0 +1,465 @@
+{
+  "status": "PASS",
+  "prompt_version": "step5-v1",
+  "rows": [
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 5812.733416998526,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18544479960,
+          "size_vram": 18544479960
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 990.1645420031855,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"` [1].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 7636.764915994718,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. This occurs because `skip` is explicitly set to 20 in the URL, while `limit` uses its default value of 10 [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18598711000,
+          "size_vram": 18598711000
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 2136.670250009047,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 5195.342624996556,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18583224044,
+          "size_vram": 18583224044
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 427.4200829968322,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 9194.880875002127,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing inconsistent states such as debiting one account without crediting another [2]. Additionally, the intermediate states between steps are not visible to other concurrent transactions; updates made by an open transaction remain invisible until the transaction completes, at which point all updates become visible simultaneously [1][4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          4
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18617896664,
+          "size_vram": 18617896664
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 3378.907791993697,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing inconsistent states such as debiting one account without crediting another [2][4]. Additionally, atomicity implies that the intermediate states of the transaction are invisible to other concurrent transactions until the transaction is successfully completed [1][4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          4,
+          1,
+          4
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 7140.663083002437,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18615750360,
+          "size_vram": 18615750360
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 1100.2982089994475,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 6094.779083010508,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18601049836,
+          "size_vram": 18601049836
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 431.07408299692906,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    }
+  ],
+  "timing": {
+    "model-cold": {
+      "n": 6,
+      "p50_ms": 6617.721083006472,
+      "p95_ms": 8805.351885250275
+    },
+    "model-warm": {
+      "n": 6,
+      "p50_ms": 1045.2313755013165,
+      "p95_ms": 3068.3484064975346
+    }
+  },
+  "conditions": "Six public questions, model unloaded before each cold call; paired warm call follows immediately. Production response cache off throughout. OS page cache is not flushed. Resident sizes are Ollama snapshots, not total-system peak memory.",
+  "paid_api_charges_inr": 0
+}

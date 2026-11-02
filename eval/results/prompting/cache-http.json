@@ -1,0 +1,1003 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "id": "fastapi-001",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 6108.685541999876,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` enables automatic request parsing, converting the path segment into a Python `int` [1].\n\nThis behavior is part of FastAPI's data validation and type handling, where declaring the parameter as `int` ensures the function receives the correctly typed value [3].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 8312.483041998348,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the query string.\n\nThis behavior occurs because query parameters can have default values, and if a specific parameter like `limit` is omitted from the URL, the system uses the default value defined in the code [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 6652.620542001387,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 13031.220999997458,
+      "answer": "In the PostgreSQL tutorial, the term \"atomic\" for a transaction means that the operation is all-or-nothing. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing scenarios where one part of a multi-step update (such as a debit) succeeds while another (such as a credit) fails [2].\n\nAdditionally, atomicity relates to the visibility of changes during concurrent execution. Updates made by an open transaction are invisible to other transactions until the transaction is completed, at which point all updates become visible simultaneously [1]. This prevents other transactions from seeing incomplete changes, such as a debit without a corresponding credit [1].\n\nIn PostgreSQL, this atomic behavior is implemented by surrounding SQL commands with `BEGIN` and `COMMIT` commands [3]. If a transaction is not explicitly started with `BEGIN`, each individual SQL statement is treated as its own atomic transaction with an implicit `BEGIN` and `COMMIT` [3]. Users can also use `ROLLBACK` to cancel all updates made so far in a transaction if they decide not to commit [3]. Furthermore, savepoints allow for more granular control, enabling users to selectively discard parts of a transaction while committing the rest, though the overall transaction block remains atomic to other sessions [3][5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          1,
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 12224.421999999322,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves any changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning the rolled-back actions never become visible to other database sessions, while committed actions become visible as a unit [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to allow the system to free up resources [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "MISS",
+      "prompt": "grounded-v1",
+      "latency_ms": 9754.748416999064,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and the assumption that conditions are immutable [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 37.04683300020406,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` enables automatic request parsing, converting the path segment into a Python `int` [1].\n\nThis behavior is part of FastAPI's data validation and type handling, where declaring the parameter as `int` ensures the function receives the correctly typed value [3].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1451,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.97174999938579,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the query string.\n\nThis behavior occurs because query parameters can have default values, and if a specific parameter like `limit` is omitted from the URL, the system uses the default value defined in the code [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2211,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 35.17795899824705,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1820,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.415542002534494,
+      "answer": "In the PostgreSQL tutorial, the term \"atomic\" for a transaction means that the operation is all-or-nothing. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing scenarios where one part of a multi-step update (such as a debit) succeeds while another (such as a credit) fails [2].\n\nAdditionally, atomicity relates to the visibility of changes during concurrent execution. Updates made by an open transaction are invisible to other transactions until the transaction is completed, at which point all updates become visible simultaneously [1]. This prevents other transactions from seeing incomplete changes, such as a debit without a corresponding credit [1].\n\nIn PostgreSQL, this atomic behavior is implemented by surrounding SQL commands with `BEGIN` and `COMMIT` commands [3]. If a transaction is not explicitly started with `BEGIN`, each individual SQL statement is treated as its own atomic transaction with an implicit `BEGIN` and `COMMIT` [3]. Users can also use `ROLLBACK` to cancel all updates made so far in a transaction if they decide not to commit [3]. Furthermore, savepoints allow for more granular control, enabling users to selectively discard parts of a transaction while committing the rest, though the overall transaction block remains atomic to other sessions [3][5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          1,
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2466,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.01037499861559,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves any changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning the rolled-back actions never become visible to other database sessions, while committed actions become visible as a unit [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to allow the system to free up resources [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2438,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.5069160030107,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and the assumption that conditions are immutable [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2299,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.796791995177045,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` enables automatic request parsing, converting the path segment into a Python `int` [1].\n\nThis behavior is part of FastAPI's data validation and type handling, where declaring the parameter as `int` ensures the function receives the correctly typed value [3].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1451,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.24687500228174,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the query string.\n\nThis behavior occurs because query parameters can have default values, and if a specific parameter like `limit` is omitted from the URL, the system uses the default value defined in the code [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2211,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 34.48562500125263,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1820,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 33.674749996862374,
+      "answer": "In the PostgreSQL tutorial, the term \"atomic\" for a transaction means that the operation is all-or-nothing. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing scenarios where one part of a multi-step update (such as a debit) succeeds while another (such as a credit) fails [2].\n\nAdditionally, atomicity relates to the visibility of changes during concurrent execution. Updates made by an open transaction are invisible to other transactions until the transaction is completed, at which point all updates become visible simultaneously [1]. This prevents other transactions from seeing incomplete changes, such as a debit without a corresponding credit [1].\n\nIn PostgreSQL, this atomic behavior is implemented by surrounding SQL commands with `BEGIN` and `COMMIT` commands [3]. If a transaction is not explicitly started with `BEGIN`, each individual SQL statement is treated as its own atomic transaction with an implicit `BEGIN` and `COMMIT` [3]. Users can also use `ROLLBACK` to cancel all updates made so far in a transaction if they decide not to commit [3]. Furthermore, savepoints allow for more granular control, enabling users to selectively discard parts of a transaction while committing the rest, though the overall transaction block remains atomic to other sessions [3][5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          1,
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2466,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 33.072375001211185,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves any changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning the rolled-back actions never become visible to other database sessions, while committed actions become visible as a unit [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to allow the system to free up resources [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2438,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "HIT",
+      "prompt": "grounded-v1",
+      "latency_ms": 33.263416997215245,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and the assumption that conditions are immutable [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 2299,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3116.6712089980138,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` enables automatic request parsing, converting the path segment into a Python `int` [1].\n\nThis behavior is part of FastAPI's data validation and type handling, where declaring the parameter as `int` ensures the input is parsed and validated as an integer [3][5].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3972.5489589982317,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the URL.\n\nThis behavior occurs because query parameters can have default values, and if a specific parameter like `limit` is omitted from the URL, the system uses the default value assigned in the code [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3223.5217920024297,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 7385.730000001786,
+      "answer": "In the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation from the perspective of other transactions: it either happens completely or not at all [2][4]. This property ensures that if a system failure or error occurs partway through the operation, none of the individual steps executed so far will take effect, preventing inconsistent states such as one account being debited without the corresponding credit [2][4].\n\nAdditionally, atomicity relates to visibility: the intermediate states or updates made by an open transaction are invisible to other concurrent transactions until the transaction is completed, at which point all updates become visible simultaneously [1][3]. This guarantees that other transactions do not see incomplete changes, such as a debit without its matching credit [1].\n\nWhile the core definition of atomicity is all-or-nothing, the tutorial notes that PostgreSQL allows for more granular control within a transaction block using savepoints, which allow users to selectively discard parts of the transaction while committing the rest [3][5]. However, the overall transaction block still maintains its atomic nature regarding external visibility, where committed actions become visible as a unit and rolled-back actions never become visible [5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          4,
+          2,
+          4,
+          1,
+          3,
+          1,
+          3,
+          5,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 6552.937165994081,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves all changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following details apply to this process:\n*   **Visibility:** Because this occurs within a transaction block, these changes are not visible to other database sessions until the transaction is committed [1].\n*   **Savepoint State:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** If you release a savepoint or roll back to it, any savepoints that were defined *after* that specific savepoint are automatically released [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 5406.126791000133,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and assumptions about immutability [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 7238.224000000628,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` enables automatic request parsing, converting the path segment into a Python `int` [1].\n\nThis behavior is part of FastAPI's data validation and type handling:\n*   **Type Declaration:** Declaring `item_id: int` using standard Python type annotations tells FastAPI to treat the parameter as an integer [3].\n*   **Automatic Parsing:** With this type declaration, FastAPI automatically parses the incoming request data, ensuring the function receives a Python `int` [1].\n*   **Validation:** If the provided value cannot be parsed as an integer (e.g., `/items/foo` or `/items/4.2`), FastAPI returns an HTTP error indicating that the input is not a valid integer [5].\n\nIn contrast, if no type is declared (e.g., `item_id` without `: int`), the value is passed as a string, such as `\"foo\"` for `/items/foo` [2].",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          1,
+          5,
+          2
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3927.1884999980102,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the URL.\n\nThis behavior occurs because query parameters can have default values, and if a specific parameter like `limit` is omitted from the URL, the system uses the default value defined in the code [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3211.1515830038115,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 8380.981417001749,
+      "answer": "In the PostgreSQL tutorial, the term \"atomic\" for a transaction means that the operation is all-or-nothing. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing scenarios where one part of a multi-step update (such as a debit) succeeds while another (such as a credit) fails [2].\n\nAdditionally, atomicity relates to the visibility of changes during concurrent execution. Updates made by an open transaction are invisible to other transactions until the transaction is completed, at which point all updates become visible simultaneously [1]. This prevents other transactions from seeing incomplete changes, such as a debit without a corresponding credit [1].\n\nIn PostgreSQL, this atomic behavior is implemented by surrounding SQL commands with `BEGIN` and `COMMIT` commands [3]. If a transaction is not explicitly started with `BEGIN`, each individual SQL statement is treated as its own atomic transaction with an implicit `BEGIN` and `COMMIT` [3]. Users can also use `ROLLBACK` to cancel all updates made so far in a transaction if they decide not to commit [3]. Furthermore, savepoints allow for more granular control, enabling users to selectively discard parts of a transaction while committing the rest, though the overall transaction block remains atomic to other sessions [3][5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          1,
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 6677.01658399892,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves all changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following details apply to this process:\n*   **Visibility:** These operations occur within the transaction block, meaning the discarded and preserved changes are not visible to other database sessions until the transaction is committed [1].\n*   **Savepoint State:** After rolling back to a savepoint, that savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** If you release a savepoint or roll back to it, any savepoints that were defined *after* that specific savepoint are automatically released [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 5271.339291000913,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and the assumption that conditions are immutable [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    }
+  ],
+  "arbitrary_question": {
+    "id": "fastapi-001",
+    "cache": "BYPASS",
+    "prompt": "grounded-v1",
+    "latency_ms": 12511.75766599772,
+    "answer": "Based on the provided excerpts, the \"unspecified secret\" refers to a **plaintext password** associated with a user. The excerpts establish the following regarding this secret:\n\n*   **Risk of Exposure:** If an API endpoint uses the same model for input and output (e.g., `UserIn`), the API will return the plaintext password in the response to the client [6].\n*   **Security Warning:** The documentation explicitly warns that one should never store a plain password or send it in a response unless all caveats are understood, as this could inadvertently send user passwords to every client if the model is reused in other path operations [6].\n*   **Mitigation Strategy:** To prevent the secret from being exposed, developers should define a separate output model (e.g., `UserOut`) that excludes the password field [3].\n*   **Filtering Mechanism:** By declaring the `response_model` parameter in the path operation decorator to use the output model that omits the password, FastAPI (using Pydantic) automatically filters out the password and any other data not declared in that output model [1][3][4].\n*   **Additional Filtering:** The `response_model_exclude_unset` parameter can also be used to ensure that only values explicitly set are returned, further controlling what data is exposed [1].\n\nThe excerpts do not establish information about other types of secrets (such as API keys, encryption keys, or database credentials), only the specific context of user passwords in the provided FastAPI examples.",
+    "source_ids": [
+      68,
+      45,
+      48,
+      49,
+      71,
+      47
+    ],
+    "validation": {
+      "valid": true,
+      "numbers": [
+        6,
+        6,
+        3,
+        1,
+        3,
+        4,
+        1
+      ],
+      "invalid": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "changed_prompt": {
+    "id": "fastapi-001",
+    "cache": "MISS",
+    "prompt": "step5-v1",
+    "latency_ms": 3219.2420409992337,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"` [1].",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "numbers": [
+        1
+      ],
+      "invalid": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "hits": 12,
+  "misses": 6,
+  "eligible_hit_rate": 0.6666666666666666,
+  "model_generations_avoided": 12,
+  "tokens_avoided": 25370,
+  "timing": {
+    "first-miss": {
+      "n": 6,
+      "p50_ms": 9033.615729498706,
+      "p95_ms": 12829.521249997924
+    },
+    "repeat-hit": {
+      "n": 6,
+      "p50_ms": 34.73933300119825,
+      "p95_ms": 36.57961449971481
+    },
+    "repeat-hit-2": {
+      "n": 6,
+      "p50_ms": 33.96081249957206,
+      "p95_ms": 34.71900024669594
+    },
+    "uncached-first": {
+      "n": 6,
+      "p50_ms": 4689.3378749991825,
+      "p95_ms": 7177.5317914998595
+    },
+    "uncached-warm": {
+      "n": 6,
+      "p50_ms": 5974.177937499917,
+      "p95_ms": 8095.292062751469
+    }
+  },
+  "conditions": "Sequential matched public questions. First-miss means empty application cache, not cold OS/GPU. Uncached-first starts a new Node process; model may already be warm. Includes fresh query embeddings, SQL and HTTP transfer. Prompt-version server restart also clears memory; separate unit tests isolate key invalidation.",
+  "paid_api_charges_inr": 0
+}

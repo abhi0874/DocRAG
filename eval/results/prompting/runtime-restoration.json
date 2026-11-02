@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "completed_utc": "2026-11-02T11:00:12.745596+00:00",
+  "benchmark_version": "0.40.9",
+  "desktop_version": "0.40.11",
+  "desktop_listener_verified": true,
+  "desktop_supervisor_resumed": true,
+  "model_digests": {
+    "qwen3.8:latest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+    "embeddinggemma:300m": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1"
+  }
+}

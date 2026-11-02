@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "prompt": "step5-v1",
+  "first_question": "fastapi-001",
+  "fresh_assistant_entries": 1,
+  "fresh_replay_labels": 0,
+  "repeat_assistant_entries": 1,
+  "repeat_replay_labels": 1,
+  "repeat_source_list_identical": true,
+  "followup_question": "fastapi-006",
+  "followup_sources_differ": true,
+  "older_citation_restored_original_six": true,
+  "first_evidence": "page 1 / chunk #2, Data conversion",
+  "screenshot": "browser-cache-hit.jpg",
+  "corrected_problem": "Metadata preceding the stream start had created an extra assistant entry."
+}

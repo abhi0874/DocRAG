@@ -1,0 +1,522 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 7343.893332996231,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` triggers automatic request parsing, converting the path segment into a Python `int` [1][3].\n\n[1][3]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          1,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18580885208,
+          "size_vram": 18580885208
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 1931.0852079943288,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` triggers automatic request parsing, converting the path segment into a Python `int` [1][3].\n\n[1][3]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          1,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 13397.222499996133,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the URL.\n\nThis behavior is based on the example where the function is defined as `async def read_item(skip: int = 0, limit: int = 10)`, establishing `limit=10` as the default [1][3].\n\n**Note on other examples:**\nThe supplied excerpts also show a different function signature where `limit` is defined as `limit: int | None = None` [2][4]. In that specific case, if the URL were `?skip=20`, the `limit` value would be `None` rather than 10. However, the specific URL `?skip=20` is explicitly discussed in the context of the `skip=0, limit=10` default example [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18657163196,
+          "size_vram": 18657163196
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 4853.860957999132,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are:\n\n*   **skip**: 20, because this value is explicitly set in the URL.\n*   **limit**: 10, because this is the default value defined in the function signature (`limit: int = 10`) when no value is provided in the query string.\n\nThis behavior is based on the default values established for the `/items/` endpoint, where `skip` defaults to 0 and `limit` defaults to 10 [3]. When a specific value is provided for `skip` in the URL, it overrides the default, while `limit` retains its default value since it was not included in the query [3].\n\n[3]",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          3,
+          3,
+          3
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 8485.17158300092,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18615750360,
+          "size_vram": 18615750360
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 3147.4542089999886,
+      "answer": "The supplied excerpts do not establish the requested information.\n\nThe provided evidence covers topics such as installing custom exception handlers [1], the use of `async def` versus `def` in dependencies [2], importing and using `Depends` [3], importing Pydantic's `BaseModel` [4], the definition of \"Dependency Injection\" [5], and simple usage of path operation functions [6]. None of these excerpts contain information regarding Uvicorn commands, worker process configuration, or deployment settings.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 14339.90541700041,
+      "answer": "In the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation: from the perspective of other transactions, it either happens completely or not at all [2][4]. This property ensures that if a system failure or error occurs partway through the operation, none of the individual steps executed so far will take effect, preventing inconsistent states such as one account being debited without the corresponding credit [2][4].\n\nAdditionally, atomicity relates to visibility: the intermediate states or updates made by an open transaction are invisible to other concurrent transactions until the transaction is successfully completed, at which point all updates become visible simultaneously [1][3]. This guarantees that other transactions do not see incomplete changes, such as a debit without its matching credit [1].\n\nWhile the core definition of atomicity is all-or-nothing, the tutorial notes that PostgreSQL allows for more granular control within a transaction block using savepoints, which allow users to selectively discard parts of the transaction while committing the rest [3][5]. However, the overall transaction block still maintains its atomic nature regarding external visibility, where committed actions become visible as a unit and rolled-back actions never become visible [5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          4,
+          2,
+          4,
+          1,
+          3,
+          1,
+          3,
+          5,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18663278316,
+          "size_vram": 18663278316
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 10972.236749999865,
+      "answer": "In the PostgreSQL tutorial, the term \"atomic\" for a transaction means that the operation is all-or-nothing. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect, preventing scenarios where one part of a multi-step update (such as a debit) succeeds while another (such as a credit) fails [2].\n\nAdditionally, atomicity relates to the visibility of changes: updates made by an open transaction are invisible to other concurrent transactions until the transaction is completed, at which point all updates become visible simultaneously [1]. This prevents other transactions from seeing incomplete changes, such as a debit without a corresponding credit [1].\n\nIn PostgreSQL, this atomic behavior is implemented by surrounding SQL commands with `BEGIN` and `COMMIT` commands [3]. If the transaction is not committed, a `ROLLBACK` command can be issued to cancel all updates made so far [3]. Furthermore, PostgreSQL treats every individual SQL statement as being executed within a transaction by default, wrapping it in an implicit `BEGIN` and `COMMIT` if no explicit transaction block is started [3].\n\nSavepoints allow for more granular control within a transaction block, enabling users to selectively discard parts of the transaction while committing the rest [3]. For example, using `ROLLBACK TO` a savepoint discards changes made after that savepoint but keeps earlier changes, and these operations remain invisible to other sessions until the entire transaction block is committed [5].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          2,
+          2,
+          1,
+          1,
+          3,
+          3,
+          3,
+          3,
+          5
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 14290.953707997687,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves all changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning none of the changes are visible to other database sessions until the transaction is committed [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to free up system resources [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18655039192,
+          "size_vram": 18655039192
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 8418.821667000884,
+      "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves any changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a specific savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning the rolled-back actions never become visible to other database sessions, while committed actions become visible as a unit [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a savepoint again, you can release it to free up system resources [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 12484.174917000928,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and the assumption that conditions are immutable [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-cold",
+      "resident_before": [
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ],
+      "resident_after": [
+        {
+          "name": "qwen3.8:latest",
+          "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+          "size": 18639321356,
+          "size_vram": 18639321356
+        },
+        {
+          "name": "embeddinggemma:300m",
+          "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+          "size": 685642874,
+          "size_vram": 685642874
+        }
+      ]
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "grounded-v1",
+      "latency_ms": 5471.593541995389,
+      "answer": "The supplied excerpts do not establish the recommended `autovacuum_vacuum_scale_factor` value for a high-churn PostgreSQL table.\n\nThe provided evidence covers the following topics:\n*   **Check Constraints:** Behavior regarding null values, restrictions on referencing other table data, and assumptions about immutability [1][3].\n*   **Not-Null Constraints:** Syntax, efficiency compared to check constraints, and the inverse NULL constraint [2][4].\n*   **Aggregate Functions:** Usage of `max`, `min`, etc., and restrictions on using them in `WHERE` clauses [5].\n*   **Foreign Keys:** Actions like `ON DELETE CASCADE` and `SET NULL`, including column list specifications [6].\n\nNone of these excerpts contain information regarding autovacuum parameters, `autovacuum_vacuum_scale_factor`, or tuning recommendations for high-churn tables.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "numbers": [
+          1,
+          3,
+          2,
+          4,
+          5,
+          6
+        ],
+        "invalid": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "model-warm"
+    }
+  ],
+  "timing": {
+    "model-cold": {
+      "n": 6,
+      "p50_ms": 12940.69870849853,
+      "p95_ms": 14327.667489749729
+    },
+    "model-warm": {
+      "n": 6,
+      "p50_ms": 5162.7272499972605,
+      "p95_ms": 10333.88297925012
+    }
+  },
+  "conditions": "Six public questions, model unloaded before each cold call; paired warm call follows immediately. Production response cache off throughout. OS page cache is not flushed. Resident sizes are Ollama snapshots, not total-system peak memory.",
+  "paid_api_charges_inr": 0
+}

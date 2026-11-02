@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "before": {
+    "id": "fastapi-001",
+    "cache": "MISS",
+    "prompt": "grounded-v1",
+    "latency_ms": 4456.435209001938,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` triggers automatic request parsing, converting the path segment into a Python `int` [1][3].\n\n[1][3]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "numbers": [
+        1,
+        3,
+        1,
+        3
+      ],
+      "invalid": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "repeat": {
+    "id": "fastapi-001",
+    "cache": "HIT",
+    "prompt": "grounded-v1",
+    "latency_ms": 37.85237499687355,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` triggers automatic request parsing, converting the path segment into a Python `int` [1][3].\n\n[1][3]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "numbers": [
+        1,
+        3,
+        1,
+        3
+      ],
+      "invalid": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": 1425
+  },
+  "after_content_update": {
+    "id": "fastapi-001",
+    "cache": "BYPASS",
+    "prompt": "grounded-v1",
+    "latency_ms": 4421.695832999831,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration triggers automatic request parsing, converting the path segment into a Python `int` [1].",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "numbers": [
+        1
+      ],
+      "invalid": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "original_content_restored": true,
+  "interpretation": "Changed content is no longer allowlisted, so caching is bypassed; no stale HIT. No original row was deleted.",
+  "git_revision": "5e1e20f27d7da5ff3e6dc852b250da42c0b68a82"
+}
