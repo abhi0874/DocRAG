@@ -762,6 +762,8 @@ remains disabled. Candidate evaluation explicitly selects a prompt version:
 make lint
 make test
 make build-fe
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/prompting/step5-v1-raw.json --prompting-experiment step5-v1
+.venv/bin/python -m eval.promote_local --source eval/results/prompting/step5-v1-raw.json --out eval/results/prompting/step5-v1.json
 AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/prompting/grounded-v1-raw.json --prompting-experiment grounded-v1
 .venv/bin/python -m eval.promote_local --source eval/results/prompting/grounded-v1-raw.json --out eval/results/prompting/grounded-v1.json
 ```
@@ -786,6 +788,7 @@ Step 6 additional checks (outputs are preserved):
 
 ```sh
 .venv/bin/python -m eval.cache_http --out eval/results/prompting/cache-http.json
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/step5-v1.json
 .venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json
 ```
 
@@ -824,3 +827,61 @@ It does not claim cold filesystem caches. The report recomputes both complete
 100-question runs and subset rates, checks exact ranked evidence, applies the
 frozen selection rule and unchanged gates, and compares historical artifacts
 byte-for-byte against Step 5 commit 8172c03.
+
+Final compatibility and preservation checks reuse the existing tools, with a new
+output location for the production reranker smoke test:
+
+```sh
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m eval.reranking_smoke --out eval/results/prompting/final-reranker-api.json
+.venv/bin/python -m eval.reranking_integrity
+.venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py
+git diff --check
+```
+
+`eval.reranking_integrity` recomputes the existing deterministic Step 5 receipt;
+its bytes must remain identical, verified afterward by `eval.prompting_report`.
+It checks the preserved Gemini cache/vector data, original local vectors, selected
+162 chunks, historical files, and tracked/nonignored files for private values.
+The Step 6 gate tests exercise both exact 0.02 decreases and excessive decreases,
+plus rejected model/runtime/rubric/evidence changes. The report also runs negative
+checks against the established gate; neither thresholds nor rubrics are relaxed.
+
+Do not start a second evaluation while the first is running. For interrupted
+runs, inspect the owned processes and existing outputs before restarting. Keep
+the prior log, use a new ignored log, and disclose actual cache hit/miss counts.
+The November 1 candidate continuation log is
+`.local/step6-candidate-resumed-nov01.log`. Starting the existing database uses
+`make up`; it does not reset the cluster. Builds need access to the existing
+Google Fonts downloads. A network-denied font fetch is not repaired by disabling
+type checking or build validation.
+
+The selection policy retained `step5-v1`. The following commands measure that
+prompt explicitly and preserve the separate candidate measurements.
+
+```sh
+.venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out eval/results/prompting/selected-cache-http.json
+.venv/bin/python -m eval.cache_cold --prompt-version step5-v1 --out eval/results/prompting/selected-cold-warm.json
+.venv/bin/python -m eval.grounding_diagnostics --prompt-version step5-v1 --out eval/results/prompting/selected-diagnostics.json
+```
+
+When reproducing a measurement, supply a new output path to preserve the
+existing receipt. Run measurements sequentially on the pinned local runtime.
+
+The final source-reference check was added after the frozen comparison. Reuse
+the comparison code from its verified commit and the current public snapshots.
+
+```sh
+.venv/bin/python -m eval.prompt_bytes
+.venv/bin/python -m eval.grounding_diagnostics --prompt-version step5-v1 --out eval/results/prompting/selected-final-diagnostics.json
+.venv/bin/python -m eval.cache_invalidation --prompt-version step5-v1 --out eval/results/prompting/selected-invalidation.json
+.venv/bin/python -m eval.reranking_smoke --out eval/results/prompting/final-reranker-verified.json
+```
+
+Final HTTP receipts after the browser protocol correction:
+
+```sh
+.venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out eval/results/prompting/final-cache-http.json
+.venv/bin/python -m eval.cache_cold --prompt-version step5-v1 --out eval/results/prompting/final-cold-warm.json
+.venv/bin/python -m eval.reranking_smoke --out eval/results/prompting/final-streaming-modes.json
+```

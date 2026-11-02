@@ -1,4 +1,4 @@
-# Step 6 — work in progress
+# Step 6 — grounded answers, citations and public response caching
 
 ## Previous-step audit and original behavior
 
@@ -19,7 +19,7 @@ Compare step5-v1 and one grounded-v1 candidate with the same 100 questions, pinn
 
 Default off. Only single-turn requests over a server-maintained, exact content-hash allowlist of the public evaluation corpus and its 100 public question hashes are eligible. Arbitrary questions bypass caching even on those documents, preventing user-provided private question text from entering shared answers. Client flags cannot declare a document public. Private uploads, conversation history and providers without a verified immutable model digest bypass storage. A bounded in-process TTL/LRU cache avoids external services. Document snapshots and selected evidence are rechecked; completed valid streams only. Source-ID validity does not prove semantic citation support. Authentication and private cache ownership integration remain Step 7 work.
 
-Final comparative measurements are pending. No Step 7 work or GitHub push.
+The selected prompt is `step5-v1`. The complete measurements and remaining limitations appear below.
 
 ## Prompt, evidence and citation contract
 
@@ -97,3 +97,135 @@ commit now waits for HTTP-body EOF with a fresh document snapshot, and a late
 cancellation regression test covers this edge. No incomplete run is reported as
 a completed benchmark. The changed application hash intentionally prevents reuse
 of the old partial-run cache under the new configuration.
+
+## Completed original-prompt control
+
+The fresh Step 6 control is saved as `eval/results/prompting/step5-v1-raw.json`
+and its verified derivative `step5-v1.json`. It used 100 fresh answers and 100
+fresh judgments, with no production response caching. The historical Step 5 run
+used 17 cached answers and 16 cached judgments; its timing is not a matched
+uncached control.
+
+| Measurement | Historical Step 5 | Fresh `step5-v1` control |
+| --- | ---: | ---: |
+| Recall@3 | 0.95 | 0.95 |
+| Recall@5 | 0.975 | 0.975 |
+| Recall@10 | 1.0 | 1.0 |
+| MRR | 0.9729166666666667 | 0.9729166666666667 |
+| Automated citation accuracy | 1.0 (269/269) | 1.0 (273/273) |
+| Automated faithfulness | 1.0 | 0.995 |
+| Automated correctness | 0.99 | 0.99 |
+
+The fresh control's 20 unanswerable questions all received appropriate full
+refusals under the unchanged automated labels. None of the 80 answerable
+questions received an incorrect full refusal. One of 100 answers included an
+unsupported substantive claim. Answerable-only faithfulness is 0.99375 and
+correctness is 0.9875. Unanswerable-only faithfulness and correctness are both
+1.0; citation accuracy is undefined because these correct uncited refusals
+contribute zero attempted citations. These are automated measurements, not
+independently human-validated accuracy.
+
+`postgresql-005` again omitted that the savepoint remains defined (F=1, C=0.5).
+`postgresql-037` explained the inner join correctly but supplied a foreign-key
+constraint from outside the six retrieved passages, then acknowledged that the
+excerpts did not establish it (F=0.5, C=0.5). Acknowledging a missing source after
+making the unsupported claim does not make that claim grounded. This reproduces
+the earlier unsupported-claim diagnostic, despite all attempted citations being
+judged supported.
+
+The unchanged regression gate passes for this control: Recall@5 decrease 0.000,
+faithfulness decrease 0.005. The full candidate comparison and selection appear below.
+
+## Final quality results
+
+| Metric | Step 5 historical | Step 6 selected `step5-v1` | Candidate `grounded-v1` |
+| --- | ---: | ---: | ---: |
+| Recall@3 / @5 / @10 | 0.95 / 0.975 / 1.0 | 0.95 / 0.975 / 1.0 | 0.95 / 0.975 / 1.0 |
+| MRR | 0.9729166666666667 | 0.9729166666666667 | 0.9729166666666667 |
+| Citation support | 269/269 | 273/273 | 674/674 |
+| Faithfulness | 1.0 | 0.995 | 1.0 |
+| Correctness | 0.99 | 0.99 | 0.985 |
+
+The frozen development rule retained the original prompt because candidate
+correctness fell from 0.9833333333333333 to 0.975 across 60 development
+questions. Both prompts scored 1.0 on the three automated quality measures on
+the 40-question holdout. The candidate fixed the savepoint omission and
+declined the missing constraint on the join question. It also hedged on the
+FastAPI dependency check and declined an unsupported transaction subquestion.
+The original control supplied details absent from the retrieved passages on
+both `postgresql-031` and `postgresql-037`. The judge flagged only the latter.
+The four paired answers, their judgments, and all rates are recorded in
+`eval/results/prompting/verified-report.json` and `PROMPTING_EXPERIMENT_LOG.md`.
+
+On the 80 answerable questions the selected prompt scored 0.99375 faithfulness
+and 0.9875 correctness. The candidate scored 1.0 and 0.98125 respectively.
+Both prompts correctly refused all 20 unanswerable questions, with no incorrect
+full refusals among the 80 answerable questions. The automated unsupported-answer
+rates were 1/100 and 0/100 respectively. Both unanswerable subsets scored 1.0 on
+faithfulness and correctness. The candidate often explained unrelated background
+facts, which added citations and length without making its refusals more useful.
+
+## Source-local reference ambiguity
+
+Before the final citation fix, the selected prompt ignored an embedded request
+to change the answer to an attacker-selected marker. In a separate forged
+citation probe it also ignored the request to cite [999], but refused to state
+the plainly supplied COMMIT fact. The candidate answered the fact but repeated
+[999] in its explanation. Its structural validation failed even though the judge
+accepted the semantic answer. Both original diagnostic receipts are preserved.
+
+The shared instruction builder now distinguishes document-local bracket numbers
+from assigned evidence citations when the passage text contains numbers outside
+the assigned range. It retains the full original passage. Exact instructions
+are part of the cache key. All six final selected-prompt probes scored F=1/C=1,
+passed structural validation and omitted the requested override marker.
+The repaired forged-citation answer was “The COMMIT command commits a transaction
+[1].” The six synthetic cases exercise specific behaviors. They do not establish
+comprehensive injection resistance.
+
+The byte equivalence check loaded the measured function from commit `ecbabe1`,
+verified each public document snapshot, and compared all 100 rendered prompts for
+each version with the current function. All 200 matched exactly. The final
+instructions therefore preserve the two measured golden runs while fixing the
+separate source-reference case. The per-question hashes are recorded in
+`eval/results/prompting/final-prompt-equivalence.json`.
+
+## Selected public-cache measurements
+
+Six distinct public questions were sent three times each to the real Next.js API.
+The first six requests missed. All twelve repeats hit and replayed identical
+answer text and source IDs. The eligible hit rate was 12/18 (66.67%). Hits
+avoided 12 answer generations and 19,018 model-reported tokens. Each hit still
+performed retrieval. Arbitrary questions bypassed the cache. Paid API charges
+were ₹0.
+
+| HTTP condition | Requests | p50 | p95 |
+| --- | ---: | ---: | ---: |
+| Generation model unloaded before request, cache off | 6 | 6,617.72 ms | 8,805.35 ms |
+| Same question repeated with model resident, cache off | 6 | 1,045.23 ms | 3,068.35 ms |
+| Eligible first request, empty response cache | 6 | 4,124.18 ms | 6,334.43 ms |
+| Eligible cached repeats, pooled | 12 | 32.36 ms | 35.35 ms |
+
+The cold/warm pairs used one production server. Each cold call verified Qwen
+was absent from the runtime before generation, then immediately repeated the
+question while Qwen was resident. OS page caches were left intact. Ollama
+reported 18,544,479,960 bytes resident for Qwen and 685,642,874 for the embedding
+model after the first cold call. These are model residency snapshots. They
+do not measure peak process memory, energy consumption or a monetary saving.
+The separate HTTP sequence and its two warm groups are in `final-cache-http.json`.
+The selected prompt's cold/warm rows are in `final-cold-warm.json`.
+Both artifacts live under `eval/results/prompting/`. The corresponding original
+candidate receipts are preserved separately. The measured sample is six public
+questions on one Mac and one server process.
+
+
+Browser verification used the real production chat. A fresh FastAPI question
+produced one assistant entry and no replay label. Its repeat produced one entry,
+one “Previously generated answer” label, and the same six sources. A follow-up
+produced different sources. Clicking the original citation restored its original
+six passages, including page 1 / chunk #2 for the integer conversion. See
+`eval/results/prompting/browser-cache-hit.jpg`.
+
+A final rerun of the optional candidate also passed all six diagnostic
+correctness, faithfulness and structural checks. Its corrected forged-reference
+answer cites only [1]. `candidate-final-diagnostics.json` retains that run.

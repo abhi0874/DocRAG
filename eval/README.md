@@ -225,3 +225,10 @@ Paid API inference charges are zero for this loopback-only path; electricity and
 hardware costs are not included. Timings remain observed current-run timings,
 with original generation durations separately retained. Cached repeatability is
 not fresh-generation determinism. Self-judging and the small corpus remain limits.
+
+Step 6 compares two versioned prompts against the frozen Step 5 records. The
+[experiment log](../docs/PROMPTING_EXPERIMENT_LOG.md) records the selection,
+paired regressions and negative diagnostics. The
+[cache and prompting report](../docs/PROMPTING_AND_CACHING.md) explains the HTTP
+measurements and the public-only eligibility rule. The
+[command contract](../docs/COMMAND_CONTRACT.md) contains the reproduction commands.
