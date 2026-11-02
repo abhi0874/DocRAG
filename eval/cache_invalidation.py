@@ -1,5 +1,6 @@
 """Reversible public-fixture content update; original row restored in finally."""
 
+import argparse
 import json
 import subprocess
 
@@ -10,7 +11,15 @@ from eval.retrieval_experiments import save
 
 
 def main():
-    output = ROOT / "eval/results/prompting/cache-invalidation.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--out", default="eval/results/prompting/cache-invalidation.json"
+    )
+    parser.add_argument(
+        "--prompt-version", choices=["step5-v1", "grounded-v1"], default="grounded-v1"
+    )
+    args = parser.parse_args()
+    output = ROOT / args.out
     if output.exists():
         raise ValueError("Preserve cache invalidation receipt")
     record = json.loads((ROOT / "eval/golden_set.jsonl").read_text().splitlines()[0])
@@ -19,6 +28,13 @@ def main():
             "SELECT id, content FROM chunks WHERE document_id=3 ORDER BY id LIMIT 1"
         ).fetchone()
     backup = ROOT / ".local/step6-invalidation-backup.json"
+    if args.prompt_version != "grounded-v1":
+        if (
+            backup.exists()
+            and json.loads(backup.read_text()).get("restored") is not True
+        ):
+            raise ValueError("Original fixture recovery is required before a new test")
+        backup = ROOT / ".local/step6-invalidation-step5-v1-backup.json"
     if backup.exists():
         raise ValueError("An earlier fixture backup requires inspection before testing")
     backup.write_text(
@@ -27,7 +43,7 @@ def main():
     changed = False
     result = {}
     try:
-        with server(True):
+        with server(True, args.prompt_version):
             first = ask(record)
             hit = ask(record)
             assert first["cache"] == "MISS" and hit["cache"] == "HIT"

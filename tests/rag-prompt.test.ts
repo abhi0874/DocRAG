@@ -11,3 +11,12 @@ it('retains metadata and treats source instructions as escaped evidence data',()
 it('fails on unknown prompt versions rather than silently changing the cache key',()=>{
  vi.stubEnv('RAG_PROMPT_VERSION','unknown');expect(()=>promptVersion()).toThrow();vi.unstubAllEnvs()
 })
+
+it('retains a document footnote literally while distinguishing it from assigned citations', () => {
+  const cited = [{...sources[0], content: 'COMMIT ends the transaction. See note [42].'}]
+  for (const version of ['step5-v1', 'grounded-v1'] as const) {
+    expect(answerInstructions(cited, version)).toContain('See note [42]')
+    expect(answerInstructions(cited, version)).toContain('assigned citation numbers 1 through 1')
+    expect(answerInstructions(sources, version)).not.toContain('End of excerpts.')
+  }
+})

@@ -69,7 +69,8 @@ def rates(rows):
         "partially_correct_ids": [r["id"] for r in rows if r["correctness"] == 0.5],
         "interpretation": (
             "Derived from unchanged automated substantive_claims/F/C labels. "
-            "On unanswerable questions, a correct and faithful refusal may also describe background evidence. "
+            "On unanswerable questions, a correct and faithful refusal may also "
+            "describe background evidence. "
             "Scores are not independent human validation."
         ),
     }
