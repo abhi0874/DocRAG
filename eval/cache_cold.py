@@ -1,5 +1,6 @@
 """Measure generation-model cold residency separately from warm/no-cache HTTP."""
 
+import argparse
 import json
 import subprocess
 import urllib.request
@@ -21,7 +22,13 @@ def resident():
 
 
 def main():
-    path = ROOT / "eval/results/prompting/cache-cold-warm.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", default="eval/results/prompting/cache-cold-warm.json")
+    parser.add_argument(
+        "--prompt-version", choices=["step5-v1", "grounded-v1"], default="grounded-v1"
+    )
+    args = parser.parse_args()
+    path = ROOT / args.out
     if path.exists():
         raise ValueError("Preserve cold/warm measurements")
     model = json.loads((ROOT / "lib/local-model-config.json").read_text())["chat"]
@@ -32,7 +39,7 @@ def main():
         )
     }
     rows = []
-    with server(False):
+    with server(False, args.prompt_version):
         for qid in SAMPLE:
             subprocess.run(
                 [str(ROOT / ".local/ollama-runtime-0.40.9/ollama"), "stop", model],
@@ -65,6 +72,7 @@ def main():
         path,
         {
             "status": "PASS",
+            "prompt_version": args.prompt_version,
             "rows": rows,
             "timing": {
                 c: timings([r for r in rows if r["condition"] == c])

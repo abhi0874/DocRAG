@@ -131,6 +131,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", default="eval/results/prompting/cache-http.json")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument(
+        "--prompt-version", choices=["step5-v1", "grounded-v1"], default="grounded-v1"
+    )
     args = parser.parse_args()
     output = ROOT / args.out
     if output.exists():
@@ -143,7 +146,7 @@ def main():
     }
     sample = [records[q] for q in (SAMPLE[:1] if args.smoke else SAMPLE)]
     rows = []
-    with server(True):
+    with server(True, args.prompt_version):
         for condition in ("first-miss", "repeat-hit", "repeat-hit-2"):
             for record in sample:
                 row = {**ask(record), "condition": condition}
@@ -173,7 +176,7 @@ def main():
         )
         assert bypass["cache"] == "BYPASS"
     if not args.smoke:
-        with server(False):
+        with server(False, args.prompt_version):
             for condition in ("uncached-first", "uncached-warm"):
                 for record in sample:
                     row = {**ask(record), "condition": condition}
@@ -182,11 +185,14 @@ def main():
                     print(
                         record["id"], condition, round(row["latency_ms"], 2), flush=True
                     )
-        with server(True, "step5-v1"):
+        other_version = (
+            "step5-v1" if args.prompt_version == "grounded-v1" else "grounded-v1"
+        )
+        with server(True, other_version):
             changed_prompt = ask(sample[0])
             assert (
                 changed_prompt["cache"] == "MISS"
-                and changed_prompt["prompt"] == "step5-v1"
+                and changed_prompt["prompt"] == other_version
             )
     else:
         changed_prompt = None
@@ -196,6 +202,7 @@ def main():
         output,
         {
             "status": "PASS",
+            "prompt_version": args.prompt_version,
             "rows": rows,
             "arbitrary_question": bypass,
             "changed_prompt": changed_prompt,

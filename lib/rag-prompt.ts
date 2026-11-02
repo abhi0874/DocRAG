@@ -2,7 +2,7 @@ import { buildContext, RAG_INSTRUCTIONS, type RetrievedChunk } from './rag'
 
 export type PromptVersion = 'step5-v1' | 'grounded-v1'
 export function promptVersion(): PromptVersion {
-  const value = process.env.RAG_PROMPT_VERSION ?? 'grounded-v1'
+  const value = process.env.RAG_PROMPT_VERSION ?? 'step5-v1'
   if (value !== 'step5-v1' && value !== 'grounded-v1') throw new Error('Invalid RAG prompt version')
   return value
 }

@@ -1,5 +1,6 @@
 """Fixed evidence-handling probes, separate from the unchanged golden benchmark."""
 
+import argparse
 import json
 import os
 import subprocess
@@ -81,7 +82,15 @@ CASES = [
 
 
 def main():
-    output = ROOT / "eval/results/prompting/grounding-diagnostics.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--out", default="eval/results/prompting/grounding-diagnostics.json"
+    )
+    parser.add_argument(
+        "--prompt-version", choices=["step5-v1", "grounded-v1"], default="grounded-v1"
+    )
+    args = parser.parse_args()
+    output = ROOT / args.out
     if output.exists():
         raise ValueError("Preserve completed diagnostics")
     env = os.environ.copy()
@@ -91,7 +100,7 @@ def main():
         OLLAMA_DATABASE_URL=experiment_url("heading-1400-280"),
     )
     env.pop("GOOGLE_GENERATIVE_AI_API_KEY", None)
-    config = configuration("grounded-v1")
+    config = configuration(args.prompt_version)
     rows = []
     for name, question, texts, reference, kind in CASES:
         context = [
@@ -120,7 +129,11 @@ def main():
             cwd=ROOT,
             env=env,
             input=json.dumps(
-                {"question": question, "context": context, "version": "grounded-v1"}
+                {
+                    "question": question,
+                    "context": context,
+                    "version": args.prompt_version,
+                }
             ),
             text=True,
             capture_output=True,

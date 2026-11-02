@@ -22,7 +22,7 @@ it.each(['reranked', 'fallback', 'disabled'] as const)('chat uses selected evide
   const response = await POST(new Request('http://localhost/api/chat', {method: 'POST',
     body: JSON.stringify({documentId: 42, messages})}))
   expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6)
-  expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked, 'grounded-v1', expect.any(AbortSignal))
+  expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked, 'step5-v1', expect.any(AbortSignal))
   expect(response.headers.get('X-DocRAG-Reranker-Status')).toBe(status)
   if (status === 'fallback') expect(response.headers.get('X-DocRAG-Reranker-Reason')).toBe('timeout')
 })

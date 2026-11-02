@@ -36,7 +36,7 @@ it('real UI protocol miss then hit avoids a second model generation and preserve
 })
 it('changed document and prompt cannot return a stale hit',async()=>{
  await read();versionHash='replacement';expect((await read()).status).toBe('BYPASS')
- versionHash=manifest.documents[0].hash;vi.stubEnv('RAG_PROMPT_VERSION','step5-v1');expect((await read()).status).toBe('MISS')
+ versionHash=manifest.documents[0].hash;vi.stubEnv('RAG_PROMPT_VERSION','grounded-v1');expect((await read()).status).toBe('MISS')
  expect(startRagAnswer).toHaveBeenCalledTimes(3)
 })
 it('deleted document invalidates stored entries',async()=>{
