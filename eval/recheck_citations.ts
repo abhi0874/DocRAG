@@ -18,6 +18,7 @@ for (const version of ['step5-v1', 'grounded-v1']) {
     if (!result.valid) rejected.push(row.id)
   }
   console.log(JSON.stringify({version, checked: rows.length, counts, rejected}))
+  if (version === 'step5-v1' && rejected.length) throw new Error('Selected answers failed citation replay')
 }
 
 for (const name of ['selected', 'candidate']) {
