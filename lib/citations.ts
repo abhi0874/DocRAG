@@ -47,7 +47,10 @@ export function citationReferences(text: string, sourceCount: number): Reference
     const attributed = /\b(?:sources?|citations?|references?|excerpts?)\s*[:#]?\s*["“']?$/i.test(prefix)
     const quotedExample = /\b(?:literal|example|token|string|syntax)\s+["“']$/i.test(prefix)
     if (quotedExample && /["”']/.test(text[tokens.lastIndex] ?? '')) continue
-    if (!attributed && !/^\s*[+\-−]?\s*\d/.test(body)) continue
+    // A bare [] after prose is an empty marker. Keep ordinary data literals
+    // such as “the empty array []” and “values = []” as text.
+    const emptyMarker = !body.trim() && !/(?:\b(?:array|list|brackets)|=)\s*$/i.test(prefix)
+    if (!attributed && !emptyMarker && !/^\s*[+\-−]?\s*\d/.test(body)) continue
     const numeric = /^-?\d+$/.test(body) ? Number(body) : null
     const valid = match[4] === ']' && /^[1-9]\d*$/.test(body) &&
       numeric !== null && Number.isSafeInteger(numeric) && numeric <= sourceCount

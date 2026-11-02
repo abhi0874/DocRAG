@@ -7,6 +7,10 @@ it.each(['[-1]', '[0]', '[2]', '[999]', '[+1]', '[1.0]', '[1abc]', '[1-2]', '[1,
       valid: false, kind: 'invalid-references', invalidTokens: [token],
     })
   })
+it('does not let a valid citation hide a later empty attribution', () => {
+  expect(validateCitations('First [1]. The second claim [].', 1).invalidTokens).toEqual(['[]'])
+  expect(validateCitations('The default list is represented by the empty array [] [1].', 1).valid).toBe(true)
+})
 it('accepts separate valid sources and rejects adjacent duplicates', () => {
   expect(validateCitations('It begins here [1][2]. The ending is unknown.', 2).kind).toBe('cited')
   expect(validateCitations('Fact [1] [1].', 1)).toMatchObject({valid: false, adjacentDuplicates: true})
