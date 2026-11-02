@@ -9,6 +9,7 @@ import { DELETE as remove } from '@/app/api/documents/[id]/route'
 import { db } from '@/lib/db'
 import { chunkPages } from '@/lib/rag'
 import { extractText, getDocumentProxy } from 'unpdf'
+import { responseCache } from '@/lib/response-cache'
 
 it('rejects an upload without a file', async () => {
   const response = await upload(new Request('http://localhost/api/documents', { method: 'POST', body: new FormData() }))
@@ -44,4 +45,19 @@ it('rejects a noninteger deletion id before database access', async () => {
   const response = await remove(new Request('http://localhost'), {params: Promise.resolve({id: 'abc'})})
   expect(response.status).toBe(400)
   expect(db.delete).not.toHaveBeenCalled()
+})
+it('successful deletion invalidates only the selected document cache', async () => {
+  responseCache.set('deleted-document', 'public', 901, {text: 'Old answer', tokens: 1})
+  responseCache.set('other-document', 'public', 902, {text: 'Other answer', tokens: 1})
+  vi.mocked(db.delete).mockReturnValue({where: vi.fn(async () => undefined)} as never)
+  try {
+    const response = await remove(new Request('http://localhost'), {params: Promise.resolve({id: '901'})})
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ok: true})
+    expect(responseCache.get('deleted-document', 'public')).toBeUndefined()
+    expect(responseCache.get('other-document', 'public')?.text).toBe('Other answer')
+  } finally {
+    responseCache.invalidateDocument(901)
+    responseCache.invalidateDocument(902)
+  }
 })

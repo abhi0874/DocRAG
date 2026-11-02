@@ -15,15 +15,24 @@ from eval.verify_results import verify
 DIRECTORY = ROOT / "eval/results/prompting"
 
 
+def subset_quality(rows):
+    """Quality-only summary; retrieval recall is undefined for absent answers."""
+    supported = sum(r["citation_supported"] for r in rows)
+    attempted = sum(r["citation_denominator"] for r in rows)
+    return {
+        "questions": len(rows),
+        "faithfulness": sum(r["faithfulness"] for r in rows) / len(rows),
+        "correctness": sum(r["correctness"] for r in rows) / len(rows),
+        "citation_supported": supported,
+        "citation_denominator": attempted,
+        "citation_accuracy": supported / attempted if attempted else None,
+    }
+
+
 def rates(rows):
     answerable = [r for r in rows if r["type"] != "unanswerable"]
     absent = [r for r in rows if r["type"] == "unanswerable"]
-    appropriate = sum(
-        r["correctness"] == 1
-        and r["faithfulness"] == 1
-        and not r["judge_detail"]["substantive_claims"]
-        for r in absent
-    )
+    appropriate = sum(r["correctness"] == 1 and r["faithfulness"] == 1 for r in absent)
     wrong_refusal = sum(
         not r["judge_detail"]["substantive_claims"] and r["correctness"] == 0
         for r in answerable
@@ -39,6 +48,12 @@ def rates(rows):
             "denominator": len(absent),
             "rate": appropriate / len(absent),
         },
+        "refusals_with_background_claims": sum(
+            r["judge_detail"]["substantive_claims"]
+            and r["correctness"] == 1
+            and r["faithfulness"] == 1
+            for r in absent
+        ),
         "incorrect_full_refusal": {
             "numerator": wrong_refusal,
             "denominator": len(answerable),
@@ -49,12 +64,12 @@ def rates(rows):
             "denominator": len(rows),
             "rate": unsupported / len(rows),
         },
-        "answerable_quality": aggregate(answerable),
-        "unanswerable_quality": aggregate(absent),
+        "answerable_quality": subset_quality(answerable),
+        "unanswerable_quality": subset_quality(absent),
         "partially_correct_ids": [r["id"] for r in rows if r["correctness"] == 0.5],
         "interpretation": (
             "Derived from unchanged automated substantive_claims/F/C labels. "
-            "Partial refusals with factual content are not full refusals. "
+            "On unanswerable questions, a correct and faithful refusal may also describe background evidence. "
             "Scores are not independent human validation."
         ),
     }
@@ -143,8 +158,13 @@ def main():
     for a, b in zip(control["questions"], candidate["questions"], strict=True):
         if a["id"] != b["id"]:
             raise ValueError("Paired question mismatch")
-        if any(
-            a[k] != b[k] for k in ("faithfulness", "correctness", "citation_accuracy")
+        if (a["faithfulness"], a["correctness"]) != (
+            b["faithfulness"],
+            b["correctness"],
+        ) or (
+            a["citation_accuracy"] is not None
+            and b["citation_accuracy"] is not None
+            and a["citation_accuracy"] != b["citation_accuracy"]
         ):
             paired.append(
                 {
