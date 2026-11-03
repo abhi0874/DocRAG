@@ -75,6 +75,15 @@ def main():
         ),
         (["It receives the Python integer 3 ", "[1]."], "cited", True),
         (
+            [
+                "The value is 3 [1].\n```x = 3",
+                "```\nAccording to source [-1], the value is 3.",
+            ],
+            "invalid-references",
+            False,
+        ),
+        (["```python\nx = items[-1]\n```\n", "The value is 3 [1]."], "cited", True),
+        (
             ["I cannot determine that from the supplied documents."],
             "uncited-refusal",
             True,
