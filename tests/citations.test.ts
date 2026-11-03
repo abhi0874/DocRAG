@@ -29,3 +29,43 @@ it('keeps literal text, numeric Markdown links and code separate from clickable 
   expect(validateCitations(text, 2).valid).toBe(true)
   expect(validateCitations('According to source "[-1]", the result is 3 [1].', 1).valid).toBe(false)
 })
+
+// Complete code never supplies a citation. Assert offsets as well as validity:
+// the browser uses these same offsets for its source buttons.
+it.each([
+  'Use `items[-1]`.',
+  'Use ``a `[-1]` example``.',
+  '```x = items[-1]```',
+  '   ```python\nx = items[-1]\n  ```` \t',
+  '````sql\nSELECT \'[-1]\';\n```\n````',
+  '~~~sql\nSELECT \'[-1]\';\n~~~~ \t',
+  '- Example:\n  ```python\n  x = items[-1]\n  ```',
+  '    SELECT \'[-1]\';',
+])('continues validating prose after complete technical code: %s', code => {
+  for (const nl of ['\n', '\r\n', '\r']) {
+    const answer = ['First fact [1].', '', code, 'Second fact [2].'].join('\n').replaceAll('\n', nl)
+    expect(validateCitations(answer, 2)).toMatchObject({valid: true, numbers: [1, 2]})
+    const refs = citationReferences(answer, 2)
+    expect(refs.map(ref => answer.slice(ref.start, ref.end))).toEqual(['[1]', '[2]'])
+    for (const invalid of ['[-1]', '[999]']) {
+      expect(validateCitations(answer + ' According to source ' + invalid, 2)).toMatchObject({
+        valid: false, invalidTokens: [invalid],
+      })
+    }
+  }
+})
+
+it.each([
+  'Unclosed `inline', 'Mismatched ``inline```', '```sql\nSELECT 1',
+  '~~~sql\nSELECT 1\n```', '````sql\nSELECT 1\n```',
+  '```sql\nSELECT 1\n``` more', '```sql\nSELECT 1\n    ```',
+  '`unclosed\n\nnew paragraph`',
+])('withholds cache eligibility for incomplete delimiters: %s', markdown => {
+  expect(validateCitations('Fact [1].\n' + markdown, 1)).toMatchObject({valid: false, kind: 'ambiguous-code'})
+})
+
+it('keeps escaped delimiters literal and checks explicit source attributions styled as code', () => {
+  expect(validateCitations('A literal \\` and a valid source [1].', 1).valid).toBe(true)
+  expect(validateCitations('Fact [1]. \\`According to source [-1].', 1).invalidTokens).toEqual(['[-1]'])
+  expect(validateCitations('Fact [1]. According to source `[-1]`.', 1).invalidTokens).toEqual(['[-1]'])
+})

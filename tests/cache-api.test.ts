@@ -90,6 +90,9 @@ it('releases a cancelled cache owner exactly once across abort and stream cleanu
 
 it.each([
   ['The value is 3, according to source [-1].', 'invalid-references'],
+  ['The value is 3 [1].\n```x = 3```\nAccording to source [-1], the value is 3.', 'invalid-references'],
+  ['The value is 3 [1].\n`x = 3`\nAccording to source [-1], the value is 3.', 'invalid-references'],
+  ['Fact [1].\n~~~sql\nSELECT 1', 'ambiguous-code'],
   ['First [1]. Second [1.0].', 'invalid-references'],
   ['The value is 3.', 'missing-references'],
 ])('rejects the completed stream on both eligible requests: %s', async (answer, kind) => {
@@ -97,7 +100,9 @@ it.each([
   for (let i = 0; i < 2; i++) {
     const {status, body} = await read()
     expect(status).toBe('MISS')
-    expect(body).toContain(answer)
+    const events = body.split('\n').filter(line => line.startsWith('data: {'))
+      .map(line => JSON.parse(line.slice(6)))
+    expect(events.filter(event => event.type === 'text-delta').map(event => event.delta).join('')).toBe(answer)
     expect(body).toContain(`"kind":"${kind}"`)
     expect(body).toContain('"valid":false')
     expect(responseCache.size).toBe(0)
@@ -114,16 +119,31 @@ it('replays a completed uncited public refusal', async () => {
   expect(startRagAnswer).toHaveBeenCalledTimes(1)
 })
 
-it('evicts only the invalid historical entry before streaming any replay bytes', async () => {
+it('stores and replays legitimate code without turning its literals into citations', async () => {
+  const answer = '```python\nvalue = items[-1]\n```\nThe value is 3 [1].'
+  vi.mocked(startRagAnswer).mockImplementation(async () => output(answer))
+  expect((await read()).status).toBe('MISS')
+  const replay = await read()
+  expect(replay.status).toBe('HIT')
+  expect(replay.body).toContain('"valid":true')
+  expect(replay.body).toContain('data-sources')
+  const events = replay.body.split('\n').filter(line => line.startsWith('data: {'))
+    .map(line => JSON.parse(line.slice(6)))
+  expect(events.filter(event => event.type === 'text-delta').map(event => event.delta).join('')).toBe(answer)
+  expect(startRagAnswer).toHaveBeenCalledTimes(1)
+  expect(responseCache.size).toBe(1)
+})
+
+it.each(['Bad source [-1].', 'The value is 3 [1].\n```x = 3```\nAccording to source [-1], the value is 3.'])('evicts only the invalid historical entry before streaming any replay bytes: %s', async bad => {
   const set = vi.spyOn(responseCache, 'set')
   try {
     await read()
     const [key, scope] = set.mock.calls[0]
-    responseCache.set(key, scope, docId, {text: 'Bad source [-1].', tokens: 30})
+    responseCache.set(key, scope, docId, {text: bad, tokens: 30})
     responseCache.set('unrelated', scope, docId, {text: 'Other [1].', tokens: 1})
     const retry = await read()
     expect(retry.status).toBe('MISS')
-    expect(retry.body).not.toContain('Bad source')
+    expect(retry.body).not.toContain('[-1]')
     expect(responseCache.get('unrelated', scope)?.text).toBe('Other [1].')
     expect((await read()).status).toBe('HIT')
     expect(startRagAnswer).toHaveBeenCalledTimes(2)
