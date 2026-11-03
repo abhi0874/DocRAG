@@ -265,3 +265,31 @@ runs ordinary miss handling. The process-local public cache remains off by
 default. Evaluation caches, private uploads and conversation histories are
 outside this repair. Streaming clients can see invalid text before the final
 warning. The answer is neither rewritten nor silently cached.
+
+### Code-boundary repair
+
+The second audit found that a line such as `` ```x = 3``` `` was incorrectly
+treated as an opening fence. The former regular expression searched only later
+lines for a closing fence, then skipped to the end of the answer if none existed.
+That hid a subsequent `According to source [-1]` even when [1] appeared earlier.
+
+`lib/citation-code.ts` now separates code from prose before reference extraction.
+It follows the relevant [CommonMark code rules](https://spec.commonmark.org/0.31.2/):
+inline spans close with an exactly matching backtick run; fences are line-oriented,
+indented at most three spaces relative to their container, and close with the same
+character and at least the opening length. A backtick fence's info string cannot
+contain backticks. Tilde fences, trailing closing whitespace, indented code,
+ordinary list-item code and LF/CRLF/CR line endings are covered. Matching code is
+masked with equal-length placeholders, preserving source-button offsets in the
+unaltered answer. Explicit prose attribution such as `source \`[-1]\`` is still
+validated, while `items[-1]` inside genuine code remains a literal.
+
+Unclosed or mismatched delimiters return `ambiguous-code`, which is invalid for
+storage and replay even if an earlier [1] is valid. This is intentionally stricter
+than CommonMark's literal fallback for unmatched inline delimiters. The scanner
+is a bounded citation policy, not a complete Markdown renderer: exotic nested
+containers and block quotes may conservatively lose cache eligibility. The UI
+continues to display code delimiters as plain text. Both UI and server share the
+same code masking; only valid references become buttons. No new dependency,
+answer rewrite, prompt change or cache namespace reset is needed. Existing
+read-time validation evicts each invalid historical entry individually.

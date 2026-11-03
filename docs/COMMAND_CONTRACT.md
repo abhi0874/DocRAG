@@ -933,3 +933,40 @@ runtime identity, judge results and evidence hashes.
 The cold/warm check also passed in this repair:
 `.venv/bin/python -m eval.cache_cold --prompt-version step5-v1 --out .local/citation-repair-cold-warm.json`.
 This exercises six pairs without overwriting the earlier benchmark.
+
+### Second citation repair: Markdown delimiters
+
+Use the same citation-repair sequence above with fresh `.local/markdown-repair-*.json`
+outputs. Add `tests/closed-code-attribution.test.ts` to the focused Vitest command;
+this is the exact saved two-case prerequisite reproduction, copied unchanged.
+Compare it with `cmp .local/step7-closed-code-attribution.test.txt tests/closed-code-attribution.test.ts`.
+The original single negative-source reproduction can be run temporarily from
+`tests/` and removed afterward; its behavior is also covered permanently by
+`tests/cache-api.test.ts`. Never edit saved reproductions to obtain a pass.
+
+The HTTP fixture now covers five answers, including the exact inline triple-tick
+failure split across model frames and a valid Python block with an index literal.
+The browser probe must check both of these, a repeated invalid request, a valid
+MISS/HIT pair, one assistant message per chat, no button for the negative literal,
+and a working positive source button. Source [1] before the invalid attribution
+remains clickable; the invalid answer receives a final warning and no replay label.
+
+If services were stopped between sessions, first run `make db-status` and check
+Ollama's loopback `/api/version`. For this schema-frozen repair, start the already
+owned cluster without rerunning setup SQL:
+
+```sh
+.venv/bin/python - <<'PY'
+from scripts.native_db import owned_cluster, run, DATA, STATE, SOCKET, PORT
+owned_cluster()
+run('pg_ctl', '-D', DATA, '-l', STATE / 'postgres.log', '-o',
+    f'-h 127.0.0.1 -p {PORT} -k {SOCKET}', '-w', 'start')
+PY
+```
+
+Only run that start command when status reports the existing server is stopped.
+The already preserved `.local/ollama-runtime-0.40.9/ollama serve` can supply the
+local model service when port 11434 is unused. It does not install or pull models.
+Confirm both pinned digests before model checks. Do not run live Gemini calls.
+The Gemini contract tests and `eval.reranking_integrity` cover its preservation.
+The historical-artifact diff for this second repair uses `8e3e8f9` as its anchor.

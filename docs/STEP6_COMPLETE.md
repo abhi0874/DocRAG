@@ -179,3 +179,158 @@ and tests/cache-api.test.ts. Verification commits 975d063 and 8c27ee6 add
 eval/citation_cache_http.py and eval/recheck_citations.ts. Documentation changes
 are confined to this report, PROMPTING_AND_CACHING.md and COMMAND_CONTRACT.md.
 All work is local on feat/production-rag. Step 7 has not started. Paid charges ₹0.
+
+## Second citation repair: Markdown boundaries (November 3, 2026)
+
+The unchanged prerequisite test reproduced the second bug at `8e3e8f9`.
+Its exact answer was:
+
+~~~~text
+The value is 3 [1].
+```x = 3```
+According to source [-1], the value is 3.
+~~~~
+
+Before repair, the first line supplied [1]. The old scanner classified the next
+line's initial three backticks as a fence without validating its info string.
+It searched subsequent lines for a closing fence; finding none, it advanced to
+end-of-answer and never visited [-1]. Extracted numbers were [1], validity was
+true, requests were MISS/HIT, generation count was one, and one entry was stored.
+The basic negative case and single-backtick control already passed.
+
+The new line-aware scanner rejects that fence interpretation because its info
+string contains backticks. It instead recognizes a complete inline span, resumes
+prose scanning afterward, extracts [1,-1], and returns invalid-references. Both
+requests now MISS, generation count is two, and stored-entry count is zero.
+The exact original test is permanently preserved, byte-for-byte, as
+`tests/closed-code-attribution.test.ts`.
+
+The implementation separates code masking from citation grammar. Genuine code
+keeps its literal bracket text; masked offsets still point into the unchanged
+answer. Fence character, length, indentation, closing whitespace, line endings,
+inline delimiter matching and escaping are checked explicitly. Incomplete code
+returns ambiguous-code and cannot be stored or replayed. See
+`PROMPTING_AND_CACHING.md` for the CommonMark rules and conservative policy.
+No Markdown dependency was needed: the UI renders plain text plus source buttons.
+
+Existing whole-stream validation guards writes after HTTP completion. The same
+parser validates cache reads before replay; the regression pre-seeds the exact
+bad answer, verifies an individual eviction while another key survives, then
+verifies normal MISS/HIT behavior for its valid replacement. Existing tests for
+cancelled, partial and failed streams, private scope and history bypass remain.
+The cache is still optional and defaults OFF. No cache purge or version reset was
+used to obtain these results.
+
+The saved selected run passes all 100 answers (80 cited, 20 refusals); all twelve
+saved diagnostic answers pass structural replay. The candidate retains its one
+previously reported rejection, postgresql-042 (uncited background claims).
+There are no additional rejected candidate answers. During development, a
+list-indented Python fence in fastapi-039 exposed an overly strict first draft;
+relative list indentation corrected it, with a permanent valid-code test.
+The frozen quality metrics and answer texts were not changed or remeasured.
+
+Verification initially found both local services stopped. Two prompt replay
+attempts exited 1 before that diagnosis; `make db-status` exited 2 and reported
+no running server, and the Ollama health request exited 7. The existing owned
+PostgreSQL cluster was started directly with pg_ctl, without setup SQL. The
+preserved Ollama 0.40.9 runtime was started with the existing Qwen and embedding
+models; both digests matched. A whitespace check also found one extra terminal
+blank line, which was removed. The entire applicable verification sequence was
+then restarted. No test expectation or threshold was weakened.
+
+### Final command results
+
+All commands ran from the existing repository root. The runner receipt and full
+logs are ignored under `.local/markdown-verify-*`; these are fresh functional
+checks, not a new 100-question quality or latency benchmark.
+
+| Command | Exit |
+| --- | ---: |
+| `make lint` | 0 |
+| `make test` | 0 |
+| `make build-fe` | 0 |
+| `pnpm exec vitest run tests/closed-code-attribution.test.ts tests/citations.test.ts tests/cache-api.test.ts tests/response-cache.test.ts tests/validated-stream.test.ts` | 0 |
+| `.venv/bin/python -m eval.validate_dataset --require-review` | 0 |
+| `.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/step5-v1.json` | 0 |
+| `.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json` | 0 |
+| `.venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py` | 0 |
+| `.venv/bin/python -m eval.prompt_bytes` | 0 |
+| `node --import tsx eval/recheck_citations.ts` | 0 |
+| `.venv/bin/python -m eval.citation_cache_http` | 0 |
+| `.venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out .local/markdown-repair-live.json` | 0 |
+| `.venv/bin/python -m eval.reranking_smoke --out .local/markdown-repair-streaming.json` | 0 |
+| `PYTHONPATH=. .venv/bin/python .local/markdown-invalidation.py --prompt-version step5-v1 --out .local/markdown-repair-invalidation.json` | 0 |
+| `.venv/bin/python -m eval.reranking_integrity` | 0 |
+| `.venv/bin/python -m eval.prompting_report --out .local/markdown-repair-report.json` | 0 |
+| `pnpm exec vitest run tests/temporary-negative-reproduction.test.ts tests/closed-code-attribution.test.ts` | 0 |
+| `cmp .local/step7-closed-code-attribution.test.txt tests/closed-code-attribution.test.ts` | 0 |
+| `git diff --exit-code 8e3e8f9 -- eval/results eval/corpus eval/golden_set.jsonl db` | 0 |
+| `git diff --check` | 0 |
+| `git ls-files '.env*'` and `git check-ignore .env` | 0 |
+| `make db-status (after startup)` | 0 |
+| `curl --fail --silent http://127.0.0.1:11434/api/version` | 0 |
+| `curl --fail --silent http://127.0.0.1:11434/api/tags` | 0 |
+| `PYTHONPATH=. .venv/bin/python .local/markdown-browser.py (UI fixture, stopped normally)` | 0 |
+
+| Check | Final result |
+| --- | --- |
+| Full test suite | 152 Python + 159 TypeScript = 311 passed, zero failed; 24 more permanent TypeScript cases than the prior repair. |
+| Focused suites | 84 passed; 37 parser, 22 actual handler, 16 cache, 7 stream, 2 unchanged prerequisite cases. Separate original/basic + two prerequisite replay: 3 passed. |
+| Lint and build | Ruff, format, ESLint, TypeScript and production build passed. Existing Node module.register deprecation notices are nonfatal. |
+| Scripted production HTTP | Five cases pass: negative and triple-tick answers MISS/MISS with two calls each; plain valid, Python code and refusal MISS/HIT with one call each. Source metadata and exact final text preserved across model frames. |
+| Real local-model HTTP | Six MISS, twelve HIT, twelve uncached bypasses, changed-prompt MISS; 18,964 avoided tokens reported by the functional probe. |
+| Streaming | Disabled, enabled, missing-model and timeout modes pass, including provenance and worker shutdown. Reranking is enabled only in its isolated test process; application default stays false. |
+| Browser | Two invalid requests: one assistant, one [1] button, zero [-1] buttons, one warning, zero replay labels each; fixture confirms two generations. Valid Python MISS then HIT: one assistant, one [1] button, zero warnings, one replay label only on HIT. Source click displays the expected FastAPI integer-conversion excerpt. |
+| Public content invalidation | MISS/HIT/BYPASS; original public chunk content restored and hash verified. Prior restored backup archived before the probe. |
+| Dataset, gates and prompts | 100 reviewed questions, both saved gates PASS, 13 gate/report tests PASS including negative controls, 200/200 effective prompt bytes identical. |
+| Preservation | 118 historical files, 20 Gemini cache pairs, 151 Gemini vectors, 151 original local vectors, 162 selected chunks; private-value scan PASS. Historical artifact/schema diff empty. Gemini integration contract tests PASS without paid provider inference. |
+
+The browser screenshots are `.local/markdown-browser-invalid.png` and
+`.local/markdown-browser-replay.png`. Browser assertions used the production UI
+with deterministic chat text and actual local embeddings/retrieval. They do not
+represent model factual-accuracy measurements. The separate HTTP/streaming runs
+used actual local Qwen generation on the preserved 0.40.9 runtime.
+
+Command adaptations: fresh output names preserve earlier receipts; the exact
+saved prerequisite was promoted unchanged to a permanent test. The original
+basic reproduction used a temporary test path removed after execution. The
+invalidation wrapper verifies the previous restored receipt against the live row,
+archives it at `.local/step6-invalidation-step5-v1-before-markdown-repair.json`,
+then invokes the existing documented invalidation command. No recovery file was
+overwritten before restoration was verified. Service startup is documented in
+the command contract. Full quality inference and cold/warm timing were not rerun:
+this deterministic validation change leaves measured prompts, answers and metrics
+unchanged; saved-answer replay and both regression gates were rerun instead.
+
+Known limits: structural citation validity is not factual truth. Invalid streamed
+text may be visible before the final warning; it is preserved, not rewritten.
+Conservative incomplete-formatting rejection can cause extra model calls, and
+exotic Markdown containers are not a complete renderer contract. The UI continues
+to show Markdown delimiters literally. No new claim of perfect answer accuracy
+or online deployment is made by this repair.
+
+Implementation commit: `3e22982` (scanner, grammar integration, unit/handler tests,
+and unchanged prerequisite). HTTP verification commit: `eba3c7f`. Documentation
+changes are limited to STEP6_COMPLETE.md, PROMPTING_AND_CACHING.md and
+COMMAND_CONTRACT.md. Existing repair commits remain ancestors. No authentication,
+schema, selected prompt, model, retrieval, historical label or dependency changes.
+No GitHub push; paid API charges ₹0. Step 7 remains unstarted.
+
+Confirmation 1 — Markdown and citations: PASS.
+Confirmation 2 — Cache and real API: PASS.
+Confirmation 3 — Full verification: PASS.
+
+Optional checks you can make yourself:
+
+1. Open the invalid-answer screenshot: [1] is clickable, [-1] is text, and the
+   warning is visible beneath the single assistant answer.
+2. Open the replay screenshot: the Python indexing literal stays text, [1] is
+   clickable, and only one “Previously generated answer” label appears.
+3. Open `tests/closed-code-attribution.test.ts` to compare the unchanged failing
+   example with the before/after results above.
+
+Cleanup: the owned browser fixture exited 0. The temporary Ollama server was
+stopped by its verified PID and exited 0; `make stop` exited 0 and stopped only
+this checkout's PostgreSQL cluster. Both services were stopped before this turn,
+so their initial state is restored. All models, database contents, screenshots
+and earlier receipts remain on disk. No required repair tasks remain.
