@@ -1,7 +1,18 @@
 overrides:
-  hono: 4.12.25
+  postcss: 8.5.32
+  "brace-expansion@>=4": 5.0.12
+  "nanoid@3": 3.3.18
+  browserslist: 4.29.5
+  baseline-browser-mapping: 2.11.35
+  source-map-js: 1.2.2
 allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
   msw: true
+minimumReleaseAgeExclude:
+  - '@vitest/coverage-v8@5.1.0'
+  - '@vitest/mocker@5.1.0'
+  - '@vitest/spy@5.1.0'
+  - vitest@5.1.0
+  - baseline-browser-mapping@2.11.35
