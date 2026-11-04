@@ -217,6 +217,36 @@ def main():
             )
             assert json.loads(session[2])["user"]["id"] == account["id"]
         a, b = cookies
+        with psycopg.connect(target) as conn:
+            conn.execute(
+                "UPDATE request_limits SET count=30, "
+                "reset_at=clock_timestamp()+interval '5 minutes' "
+                "WHERE key='auth:anonymous-global'"
+            )
+        for address in ["203.0.113.10", "198.51.100.20"]:
+            limited = expect(
+                "auth quota cannot be reset by forwarded IP",
+                request(
+                    "/api/auth/sign-in/email",
+                    "POST",
+                    {},
+                    headers={"X-Forwarded-For": address},
+                ),
+                429,
+            )
+            assert int(limited[1]["Retry-After"]) > 0
+        recover("auth", "anonymous-global")
+        cross_origin = expect(
+            "credentialed CORS is not enabled",
+            request(
+                "/api/auth/get-session",
+                cookie=a,
+                headers={"Origin": "https://evil.example"},
+            ),
+            200,
+        )
+        assert cross_origin[1].get("Access-Control-Allow-Origin") is None
+        assert cross_origin[1].get("Access-Control-Allow-Credentials") is None
         expect(
             "bad password",
             request(

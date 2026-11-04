@@ -970,3 +970,142 @@ local model service when port 11434 is unused. It does not install or pull model
 Confirm both pinned digests before model checks. Do not run live Gemini calls.
 The Gemini contract tests and `eval.reranking_integrity` cover its preservation.
 The historical-artifact diff for this second repair uses `8e3e8f9` as its anchor.
+
+## Step 7 — authentication and security
+
+Use the existing checkout and `feat/production-rag`. No push or deployment.
+The Step 6 prerequisite audit ran first; the new commands below use its repaired
+citation parser and frozen corpus. Python is `.venv/bin/python`, Node is the
+existing local toolchain, and pnpm is pinned to 11.25.0. Use the same pnpm binary
+for installation and execution: a different sandbox PATH can trigger pnpm's
+module-layout migration prompt. Do not delete dependencies to bypass that prompt.
+
+### Schema and local accounts
+
+```sh
+pnpm exec drizzle-kit generate --name authentication_and_access
+.venv/bin/python -m scripts.security_setup --fresh-test
+.venv/bin/python -m scripts.security_setup --apply-selected
+.venv/bin/python -m scripts.security_setup --apply-configured
+.venv/bin/python -m scripts.security_app create-account
+.venv/bin/python -m scripts.security_app run
+```
+
+The checked-in generated migration is applied by `security_setup`; generation
+should report no schema changes after it is checked in. `--fresh-test` creates a
+new guarded database, copies the selected public corpus, applies the migration
+three times and creates two random accounts in ignored mode-0600 storage. It never
+reuses or deletes an existing test database. `--apply-selected` targets only the
+owned selected local corpus. `--apply-configured` targets only the configured
+native `docrag_dev` application database. Both require the successful isolated
+receipt and verify that all existing application rows are unchanged. Unknown
+legacy ownership stays inaccessible; only manifest-proven public data is exposed.
+
+The application helper chooses the free local corpus and model provider explicitly.
+The account helper asks for a password privately; do not pass it on the command
+line. The server requires `BETTER_AUTH_SECRET` and the exact origin configuration
+from `SECURITY.md`. No test-auth bypass exists. No real account is automatically
+created for the owner; use the private helper when ready.
+
+### Automated security and existing regression verification
+
+```sh
+make lint
+make test
+make build-fe
+.venv/bin/python -m scripts.security_http
+.venv/bin/python -m scripts.security_audit
+.venv/bin/python -m eval.validate_dataset --require-review
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/step5-v1.json
+.venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json
+.venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py tests/test_security_gate.py
+.venv/bin/python -m eval.prompt_bytes
+node --import tsx eval/recheck_citations.ts
+.venv/bin/python -m eval.citation_cache_http
+.venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out .local/step7-cache-http-new.json
+.venv/bin/python -m eval.reranking_smoke --out .local/step7-streaming-new.json
+.venv/bin/python -m scripts.security_invalidation --prompt-version step5-v1 --out .local/step7-invalidation-new.json
+.venv/bin/python -m eval.reranking_integrity --out .local/step7-preservation-new.json
+.venv/bin/python -m eval.prompting_report --out .local/step7-historical-new.json
+```
+
+`security_http` starts production Next.js on loopback port 8005 using only the
+latest isolated test database and existing local model server. It invokes real
+SQL retrieval/concurrent quotas and actual HTTPS cookie generation in Node.
+Tests use public sample text. It verifies atomic invalid-upload failure, owner
+read/download/delete/evaluations, two-user denials, private-cache bypass, session
+expiry/logout replay, validation, SQL-injection strings and HTTP 429/recovery.
+It stops the test server on exit; no original user documents are deleted.
+
+The HTTP cache/reranker helpers now supply the exact Origin and local HTTP config
+required by the application. This changes their request envelope, not prompts,
+models or assertions. `security_invalidation` archives only a verified restored
+old receipt before the existing reversible public-content probe. Run it after
+other evaluations finish, because the probe temporarily changes a public chunk
+and restores it in `finally`.
+
+### Full 100-question evaluation and security declaration
+
+Use the preserved Ollama 0.40.9 runtime on its original port 11434; a different
+port is correctly rejected by the frozen benchmark. Neither model digest changes.
+
+```sh
+AI_PROVIDER=ollama .venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --out eval/results/security/step7-raw.json --prompting-experiment step5-v1
+.venv/bin/python -m eval.promote_local --source eval/results/security/step7-raw.json --out eval/results/security/step7.json
+.venv/bin/python -m eval.security_gate --baseline eval/results/prompting/step5-v1.json --candidate eval/results/security/step7.json
+```
+
+Use a new output path for another completed measurement; never overwrite a
+historical result. Partial interrupted generations are reused only through the
+existing model/prompt cache. SQL retrieval always runs again. The Step 7 gate
+permits an explicit list of necessary security/dependency implementation changes,
+requires unchanged configuration and identical ranked evidence for all 100 cases,
+and calls the unchanged 0.02 regression threshold. Prompt-only Step 6 gates still
+run against the saved Step 6 artifacts. Their test fixture now explicitly uses
+that frozen candidate rather than misclassifying current auth changes as a
+prompt-only change. New negative controls reject model, prompt, evidence,
+partial-dataset and just-over-threshold changes.
+
+### Audit commands and interpretation
+
+```sh
+pnpm audit --json
+.venv/bin/python -m pip_audit --format json
+.venv/bin/python -m pip_audit -r requirements-reranker.txt --no-deps --disable-pip --format json
+.venv/bin/python -m pip_audit --path .local/reranker-minilm/env/lib/python3.14/site-packages --format json
+```
+
+The last command covers the actual installed reranker tools, including pip, not
+only model requirements. Verify that this directory exists and that at least 30
+packages were scanned; an empty path can misleadingly return exit 0. This
+checkout's reranker environment is Python 3.14.6. Its pip installer was separately
+patched with its own `env/bin/python -m pip install pip==26.2`; the frozen model
+requirements and model digest were not modified. Repeat that installer update
+after recreating the optional environment with an older bundled pip.
+
+JavaScript raw audit currently exits 1 for two reviewed moderate tooling
+advisories. It is not suppressed or called zero-findings. The audit wrapper records
+raw codes, fails on any new finding/error, checks installed Python package counts,
+and verifies that the optional Drizzle CLI/esbuild peer is absent from the actual
+production server traces. See `SECURITY.md` and `security/dependency-audit.json`.
+
+### Complete repeatable verification
+
+```sh
+.venv/bin/python -m scripts.verify_security --run-id step7-final-UNIQUE
+```
+
+Choose a new alphanumeric/hyphen run name. This runs all 24 command groups above,
+including a fresh database, entire unit suite, real HTTP tests, old citation/cache
+regressions, reversible invalidation, another full 100-question evaluation,
+unchanged gates, preservation and dependency audits. It writes each command,
+actual exit code and log under `.local/security-verify-<run-id>`, stops on failure,
+and never overwrites another run. After a fix, run from the beginning with a new
+name. Browser verification is separate and must be performed on the actual build:
+A sign-in/upload/chat/citation/follow-up/sign-out, B isolated library/direct-ID
+denial, public valid cache replay and final sign-out. The screenshots and receipt
+are `.local/step7-browser-*.png` and `.local/step7-browser-receipt.json`.
+
+Finally run the existing Git provenance/secret-preservation checks, create only
+local logical commits, inspect the final diff/status and verify no branch push.
+Do not proceed to Step 8 until the final Step 7 report is complete.

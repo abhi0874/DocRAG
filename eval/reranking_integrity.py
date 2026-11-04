@@ -100,6 +100,15 @@ def main():
         "schema_changes": "none",
     }
     if args.out:
+        assets = ROOT / ".next/static"
+        if not assets.is_dir():
+            raise ValueError("Production build required for public-asset secret scan")
+        for asset in assets.rglob("*"):
+            if asset.is_file() and any(
+                value in asset.read_bytes() for value in secrets
+            ):
+                raise ValueError("Private value found in public build assets")
+        result["public_asset_secret_scan"] = "PASS"
         result["schema_changes"] = (
             "Legacy data unchanged; Step 7 additive ownership/auth tables are separate"
         )

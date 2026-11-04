@@ -1,0 +1,1597 @@
+{
+  "javascript_before": {
+    "counts": {
+      "info": 0,
+      "low": 7,
+      "moderate": 45,
+      "high": 36,
+      "critical": 9
+    },
+    "findings": [
+      {
+        "package": "postcss",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-qx2v-qp2m-jg93",
+        "vulnerable_versions": "<8.5.10",
+        "fixed_versions": ">=8.5.10",
+        "installed": [
+          "8.4.31",
+          "8.5.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss",
+          ".>shadcn>postcss"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+        "vulnerable_versions": ">=3.0.0 <5.0.7",
+        "fixed_versions": ">=5.0.7",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "body-parser",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-v422-hmwv-36x6",
+        "vulnerable_versions": ">=2.0.0 <2.3.0",
+        "fixed_versions": ">=2.3.0",
+        "installed": [
+          "2.2.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>body-parser"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-xgm2-5f3f-mvvc",
+        "vulnerable_versions": ">=4.3.3 <4.12.27",
+        "fixed_versions": ">=4.12.27",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-hvrm-45r6-mjfj",
+        "vulnerable_versions": ">=4.11.8 <4.12.27",
+        "fixed_versions": ">=4.12.27",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-w62v-xxxg-mg59",
+        "vulnerable_versions": ">=4.0.0 <4.12.27",
+        "fixed_versions": ">=4.12.27",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-v2hh-gcrm-f6hx",
+        "vulnerable_versions": ">=3.0.0 <=3.1.3",
+        "fixed_versions": ">=3.1.4",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "sharp",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-f88m-g3jw-g9cj",
+        "vulnerable_versions": "<0.35.0",
+        "fixed_versions": ">=0.35.0",
+        "installed": [
+          "0.34.5"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>sharp"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-6gpp-xcg3-4w24",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-m99w-x7hq-7vfj",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-89xv-2m56-2m9x",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-68g3-v927-f742",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-4633-3j49-mh5q",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-4c39-4ccg-62r3",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-p9j2-gv94-2wf4",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-q8wf-6r8g-63ch",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-955p-x3mx-jcvp",
+        "vulnerable_versions": ">=16.0.0 <16.2.11",
+        "fixed_versions": ">=16.2.11",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "postcss",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+        "vulnerable_versions": "<=8.5.11",
+        "fixed_versions": ">=8.5.12",
+        "installed": [
+          "8.4.31",
+          "8.5.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss",
+          ".>shadcn>postcss"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+        "vulnerable_versions": ">=4.0.0 <5.0.8",
+        "fixed_versions": ">=5.0.8",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "postcss",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-fxqj-rqcc-2cmp",
+        "vulnerable_versions": "<=8.5.22",
+        "fixed_versions": ">=8.5.23",
+        "installed": [
+          "8.4.31",
+          "8.5.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss",
+          ".>shadcn>postcss"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-7p8r-x3mc-p8w7",
+        "vulnerable_versions": ">=3.0.0 <3.1.5",
+        "fixed_versions": ">=3.1.5",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-mwp4-54f8-5fhr",
+        "vulnerable_versions": "<=10.3.0",
+        "fixed_versions": ">=10.3.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-4xrf-jv44-h6hh",
+        "vulnerable_versions": ">=10.1.1 <=10.2.1",
+        "fixed_versions": ">=10.2.2",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-22jq-vg5j-6vgg",
+        "vulnerable_versions": ">=10.1.1 <=10.2.0",
+        "fixed_versions": ">=10.2.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-8j4g-w8fx-2239",
+        "vulnerable_versions": "<4.12.34",
+        "fixed_versions": ">=4.12.34",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+        "vulnerable_versions": ">=4.0.0 <5.0.9",
+        "fixed_versions": ">=5.0.9",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-f23p-vx2j-j53r",
+        "vulnerable_versions": ">=3.8.0 <4.12.34",
+        "fixed_versions": ">=4.12.34",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-79qm-7rj5-m7r9",
+        "vulnerable_versions": ">=4.7.0 <4.12.34",
+        "fixed_versions": ">=4.12.34",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-54fx-42gc-7vw4",
+        "vulnerable_versions": ">=4.12.0 <4.12.34",
+        "fixed_versions": ">=4.12.34",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "nanoid",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-28wg-ghj8-5hjv",
+        "vulnerable_versions": "<3.3.16",
+        "fixed_versions": ">=3.3.16",
+        "installed": [
+          "3.3.11"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss>nanoid"
+        ]
+      },
+      {
+        "package": "@hono/node-server",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-frvp-7c67-39w9",
+        "vulnerable_versions": "<1.19.15",
+        "fixed_versions": ">=1.19.15",
+        "installed": [
+          "1.19.14"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server"
+        ]
+      },
+      {
+        "package": "nanoid",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-2v37-7h3g-55p8",
+        "vulnerable_versions": "<3.3.18",
+        "fixed_versions": ">=3.3.18",
+        "installed": [
+          "3.3.11"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss>nanoid"
+        ]
+      },
+      {
+        "package": "postcss",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-r28c-9q8g-f849",
+        "vulnerable_versions": "<=8.5.17",
+        "fixed_versions": ">=8.5.18",
+        "installed": [
+          "8.4.31",
+          "8.5.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss",
+          ".>shadcn>postcss"
+        ]
+      },
+      {
+        "package": "vitest",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-5xrq-8626-4rwp",
+        "vulnerable_versions": "<3.2.6",
+        "fixed_versions": ">=3.2.6",
+        "installed": [
+          "3.2.4"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest"
+        ]
+      },
+      {
+        "package": "postcss-selector-parser",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-w9m9-85wc-3x92",
+        "vulnerable_versions": ">=7.1.0 <7.1.3",
+        "fixed_versions": ">=7.1.3",
+        "installed": [
+          "7.1.1"
+        ],
+        "sample_paths": [
+          ".>shadcn>postcss-selector-parser"
+        ]
+      },
+      {
+        "package": "browserslist",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx",
+        "vulnerable_versions": "<=4.28.6",
+        "fixed_versions": ">=4.28.7",
+        "installed": [
+          "4.28.1"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>styled-jsx>@babel/core>@babel/helper-compilation-targets>browserslist"
+        ]
+      },
+      {
+        "package": "browserslist",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+        "vulnerable_versions": "<=4.28.6",
+        "fixed_versions": ">=4.28.7",
+        "installed": [
+          "4.28.1"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>styled-jsx>@babel/core>@babel/helper-compilation-targets>browserslist"
+        ]
+      },
+      {
+        "package": "nanoid",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-xwg4-73v4-xw9w",
+        "vulnerable_versions": "<3.3.12",
+        "fixed_versions": ">=3.3.12",
+        "installed": [
+          "3.3.11"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss>nanoid"
+        ]
+      },
+      {
+        "package": "qs",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-x5fp-wj9c-mxmx",
+        "vulnerable_versions": ">=6.14.2 <=6.15.3",
+        "fixed_versions": ">=6.15.4",
+        "installed": [
+          "6.15.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>body-parser>qs"
+        ]
+      },
+      {
+        "package": "qs",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g",
+        "vulnerable_versions": ">=2.2.5 <6.16.0",
+        "fixed_versions": ">=6.16.0",
+        "installed": [
+          "6.15.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>body-parser>qs"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-f65p-4m7j-42xc",
+        "vulnerable_versions": ">=3.0.0 <3.1.6",
+        "fixed_versions": ">=3.1.6",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-fph4-wmhf-6fwf",
+        "vulnerable_versions": ">=3.1.2 <3.1.6",
+        "fixed_versions": ">=3.1.6",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-jqff-g426-hqxp",
+        "vulnerable_versions": ">=3.0.0 <3.1.6",
+        "fixed_versions": ">=3.1.6",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-p293-qw3h-jr36",
+        "vulnerable_versions": ">=16.0.0 <16.3.3",
+        "fixed_versions": ">=16.3.3",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "vitest",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+        "vulnerable_versions": ">=2.1.0 <4.1.11",
+        "fixed_versions": ">=4.1.11",
+        "installed": [
+          "3.2.4"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest"
+        ]
+      },
+      {
+        "package": "@vitest/mocker",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-82fw-gwwq-j7x9",
+        "vulnerable_versions": ">=2.1.0 <4.1.11",
+        "fixed_versions": ">=4.1.11",
+        "installed": [
+          "3.2.4"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest>@vitest/mocker"
+        ]
+      },
+      {
+        "package": "baseline-browser-mapping",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-w5vr-8v7q-w6rv",
+        "vulnerable_versions": ">=2.0.0 <2.11.0",
+        "fixed_versions": ">=2.11.0",
+        "installed": [
+          "2.9.19"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>baseline-browser-mapping"
+        ]
+      },
+      {
+        "package": "sharp",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-rgj7-g3m4-5g8c",
+        "vulnerable_versions": "<0.35.4",
+        "fixed_versions": ">=0.35.4",
+        "installed": [
+          "0.34.5"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>sharp"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-gqvv-2mrq-wpjv",
+        "vulnerable_versions": "<4.13.5",
+        "fixed_versions": ">=4.13.5",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-g6gw-c38x-mqfc",
+        "vulnerable_versions": "<4.13.5",
+        "fixed_versions": ">=4.13.5",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-crvj-82cr-hjcx",
+        "vulnerable_versions": "<4.13.5",
+        "fixed_versions": ">=4.13.5",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-2xp9-vwfh-vxw4",
+        "vulnerable_versions": ">=16.0.0 <16.3.3",
+        "fixed_versions": ">=16.3.3",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-4c8g-83qw-93j6",
+        "vulnerable_versions": ">=3.0.0 <3.1.3",
+        "fixed_versions": ">=3.1.3",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-qw65-cvwx-89v3",
+        "vulnerable_versions": ">=3.0.0 <3.1.7",
+        "fixed_versions": ">=3.1.7",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-rpw4-54j3-4h4q",
+        "vulnerable_versions": "<=10.5.0",
+        "fixed_versions": ">=10.5.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-2vr4-cq9g-pvrc",
+        "vulnerable_versions": ">=10.2.0 <=10.5.0",
+        "fixed_versions": ">=10.5.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-hrr3-gc8f-f4qj",
+        "vulnerable_versions": ">=3.0.0 <3.1.8",
+        "fixed_versions": ">=3.1.8",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-j6r3-76f7-8jcv",
+        "vulnerable_versions": "<=10.7.0",
+        "fixed_versions": ">=10.7.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-h3mg-xc3c-68pw",
+        "vulnerable_versions": "<=10.7.0",
+        "fixed_versions": ">=10.7.1",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+        "vulnerable_versions": ">=4.0.0 <5.0.12",
+        "fixed_versions": ">=5.0.12",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+        "vulnerable_versions": ">=4.0.0 <5.0.11",
+        "fixed_versions": ">=5.0.11",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "brace-expansion",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+        "vulnerable_versions": ">=4.0.0 <5.0.10",
+        "fixed_versions": ">=5.0.10",
+        "installed": [
+          "5.0.6"
+        ],
+        "sample_paths": [
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch>brace-expansion"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-vcvr-r3jv-pc5j",
+        "vulnerable_versions": ">=16.2.0 <16.3.6",
+        "fixed_versions": ">=16.3.6",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-hxh3-vqpv-xpqv",
+        "vulnerable_versions": "<4.13.7",
+        "fixed_versions": ">=4.13.7",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "source-map-js",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+        "vulnerable_versions": ">=1.0.0 <1.2.2",
+        "fixed_versions": ">=1.2.2",
+        "installed": [
+          "1.2.1"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>postcss>source-map-js"
+        ]
+      },
+      {
+        "package": "proxy-addr",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-jqcg-44mw-7w3h",
+        "vulnerable_versions": ">=1.1.0 <2.0.8",
+        "fixed_versions": ">=2.0.8",
+        "installed": [
+          "2.0.7"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>proxy-addr"
+        ]
+      },
+      {
+        "package": "tinypool",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-5gmw-xhrv-c9v3",
+        "vulnerable_versions": "<=2.1.0",
+        "fixed_versions": ">=2.1.1",
+        "installed": [
+          "1.1.1"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest>tinypool"
+        ]
+      },
+      {
+        "package": "tinypool",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-85c8-ppgw-ccpr",
+        "vulnerable_versions": "<2.1.2",
+        "fixed_versions": ">=2.1.2",
+        "installed": [
+          "1.1.1"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest>tinypool"
+        ]
+      },
+      {
+        "package": "sharp",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-wq5f-xc86-pv6w",
+        "vulnerable_versions": "<0.35.5",
+        "fixed_versions": ">=0.35.5",
+        "installed": [
+          "0.34.5"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next>sharp"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-6qxp-vccf-f47h",
+        "vulnerable_versions": ">=1.12.0 <1.31.0",
+        "fixed_versions": ">=1.31.0",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-4jqv-mc3x-m676",
+        "vulnerable_versions": ">=16.0.0 <16.3.8",
+        "fixed_versions": ">=16.3.8",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-39w2-rjm5-chcv",
+        "vulnerable_versions": ">=16.0.0 <16.3.8",
+        "fixed_versions": ">=16.3.8",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-f87g-xv8r-7p7x",
+        "vulnerable_versions": ">=16.0.0 <16.3.8",
+        "fixed_versions": ">=16.3.8",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-mcj8-r9mp-w47p",
+        "vulnerable_versions": ">=16.0.0 <16.3.8",
+        "fixed_versions": ">=16.3.8",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-cjq9-62q9-8jv4",
+        "vulnerable_versions": ">=16.0.0 <16.3.8",
+        "fixed_versions": ">=16.3.8",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "hono",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-5r4p-p66f-jhc7",
+        "vulnerable_versions": ">=4.12.4 <4.13.11",
+        "fixed_versions": ">=4.13.11",
+        "installed": [
+          "4.12.25"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server>hono"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-22jm-h49p-29qw",
+        "vulnerable_versions": ">=1.24.0 <1.32.0",
+        "fixed_versions": ">=1.32.0",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-6prh-2h8m-c8cw",
+        "vulnerable_versions": "<1.32.0",
+        "fixed_versions": ">=1.32.0",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-46jr-4wx8-v453",
+        "vulnerable_versions": ">=1.3.0 <1.32.0",
+        "fixed_versions": ">=1.32.0",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-rvq5-wwqv-78pq",
+        "vulnerable_versions": ">=1.6.0 <1.32.0",
+        "fixed_versions": ">=1.32.0",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "@vitest/mocker",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-qxg6-89mg-rqv8",
+        "vulnerable_versions": ">=2.1.0-beta.7 <4.1.12",
+        "fixed_versions": ">=4.1.12",
+        "installed": [
+          "3.2.4"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>vitest>@vitest/mocker"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-2464-fhr4-w9xw",
+        "vulnerable_versions": ">=16.0.0 <=16.4.0",
+        "fixed_versions": ">=16.4.1",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r",
+        "vulnerable_versions": ">=16.0.0 <=16.4.0",
+        "fixed_versions": ">=16.4.1",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "next",
+        "severity": "critical",
+        "advisory": "https://github.com/advisories/GHSA-673q-mjm6-r5xr",
+        "vulnerable_versions": ">=16.0.0 <=16.4.0",
+        "fixed_versions": ">=16.4.1",
+        "installed": [
+          "16.2.6"
+        ],
+        "sample_paths": [
+          ".>@vercel/analytics>next"
+        ]
+      },
+      {
+        "package": "ip-address",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-rxp7-6hxx-x8q5",
+        "vulnerable_versions": "<=10.7.3",
+        "fixed_versions": ">=10.7.4",
+        "installed": [
+          "10.2.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express-rate-limit>ip-address"
+        ]
+      },
+      {
+        "package": "zod",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+        "vulnerable_versions": "<4.6.6",
+        "fixed_versions": ">=4.6.6",
+        "installed": [
+          "3.25.76"
+        ],
+        "sample_paths": [
+          ".>@ai-sdk/google>@ai-sdk/provider-utils>zod"
+        ]
+      },
+      {
+        "package": "body-parser",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-27r3-jxmh-p828",
+        "vulnerable_versions": ">=2.0.0 <2.4.0",
+        "fixed_versions": ">=2.4.0",
+        "installed": [
+          "2.2.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>body-parser"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-w74x-v6f9-j3xg",
+        "vulnerable_versions": ">=3.0.0 <3.1.9",
+        "fixed_versions": ">=3.1.9",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-xhq7-xmqj-769h",
+        "vulnerable_versions": ">=3.0.0 <3.1.9",
+        "fixed_versions": ">=3.1.9",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "fast-uri",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-333x-w4r6-6crp",
+        "vulnerable_versions": ">=3.0.0 <3.1.9",
+        "fixed_versions": ">=3.1.9",
+        "installed": [
+          "3.1.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>ajv>fast-uri"
+        ]
+      },
+      {
+        "package": "postcss-selector-parser",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "vulnerable_versions": ">=7.0.0 <7.1.6",
+        "fixed_versions": ">=7.1.6",
+        "installed": [
+          "7.1.1"
+        ],
+        "sample_paths": [
+          ".>shadcn>postcss-selector-parser"
+        ]
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "severity": "high",
+        "advisory": "https://github.com/advisories/GHSA-f897-62hf-6gxq",
+        "vulnerable_versions": ">=1.10.0 <1.30.1",
+        "fixed_versions": ">=1.30.1",
+        "installed": [
+          "1.29.0"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk"
+        ]
+      },
+      {
+        "package": "deepmerge",
+        "severity": "low",
+        "advisory": "https://github.com/advisories/GHSA-gcqx-w48m-w2h4",
+        "vulnerable_versions": ">=4.2.0 <=4.3.1",
+        "fixed_versions": null,
+        "installed": [
+          "4.3.1"
+        ],
+        "sample_paths": [
+          ".>shadcn>deepmerge"
+        ]
+      },
+      {
+        "package": "@hono/node-server",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-rmxm-3fg6-px4f",
+        "vulnerable_versions": ">=1.19.10 <2.1.3",
+        "fixed_versions": ">=2.1.3",
+        "installed": [
+          "1.19.14"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>@hono/node-server"
+        ]
+      },
+      {
+        "package": "qs",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw",
+        "vulnerable_versions": ">=6.7.0 <=6.16.0",
+        "fixed_versions": ">=6.16.1",
+        "installed": [
+          "6.15.2"
+        ],
+        "sample_paths": [
+          ".>shadcn>@modelcontextprotocol/sdk>express>body-parser>qs"
+        ]
+      },
+      {
+        "package": "minimatch",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+        "vulnerable_versions": "<11.0.1",
+        "fixed_versions": ">=11.0.1",
+        "installed": [
+          "10.2.5",
+          "3.1.5",
+          "9.0.9"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>test-exclude>glob>minimatch",
+          ".>eslint>@eslint/config-array>minimatch",
+          ".>shadcn>ts-morph>@ts-morph/common>minimatch"
+        ]
+      },
+      {
+        "package": "glob",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+        "vulnerable_versions": ">=9.0.0 <=14.0.1",
+        "fixed_versions": ">=14.0.2",
+        "installed": [
+          "10.5.0"
+        ],
+        "sample_paths": [
+          ".>@vitest/coverage-v8>test-exclude>glob"
+        ]
+      }
+    ]
+  },
+  "javascript_after": {
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 2,
+      "high": 0,
+      "critical": 0
+    },
+    "findings": [
+      {
+        "package": "esbuild",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+        "vulnerable_versions": "<=0.24.2",
+        "fixed_versions": ">=0.25.0",
+        "installed": [
+          "0.18.20"
+        ],
+        "sample_paths": [
+          ".>better-auth>drizzle-kit>@esbuild-kit/esm-loader>@esbuild-kit/core-utils>esbuild"
+        ]
+      },
+      {
+        "package": "minimatch",
+        "severity": "moderate",
+        "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+        "vulnerable_versions": "<11.0.1",
+        "fixed_versions": ">=11.0.1",
+        "installed": [
+          "10.2.5",
+          "3.1.5"
+        ],
+        "sample_paths": [
+          ".>eslint-config-next>eslint-import-resolver-typescript>eslint-plugin-import>eslint-module-utils>@typescript-eslint/parser>@typescript-eslint/typescript-estree>minimatch",
+          ".>eslint>@eslint/config-array>minimatch"
+        ]
+      }
+    ]
+  },
+  "python_before": [
+    {
+      "package": "pip",
+      "version": "26.1.2",
+      "advisories": [
+        {
+          "id": "PYSEC-2026-3721",
+          "aliases": [
+            "CVE-2026-13346",
+            "GHSA-qwm4-qh6w-59xr"
+          ],
+          "fix_versions": [
+            "26.2"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3721",
+          "aliases": [
+            "CVE-2026-13346",
+            "GHSA-qwm4-qh6w-59xr"
+          ],
+          "fix_versions": [
+            "26.2.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        }
+      ]
+    },
+    {
+      "package": "pytest",
+      "version": "8.4.2",
+      "advisories": [
+        {
+          "id": "PYSEC-2026-1845",
+          "aliases": [
+            "GHSA-6w46-j5rx-g56g",
+            "CVE-2025-71176"
+          ],
+          "fix_versions": [
+            "9.0.3"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-1845",
+          "aliases": [
+            "GHSA-6w46-j5rx-g56g",
+            "CVE-2025-71176"
+          ],
+          "fix_versions": [
+            "9.0.3"
+          ],
+          "severity": "not supplied by pip-audit"
+        }
+      ]
+    },
+    {
+      "package": "python-dotenv",
+      "version": "1.2.1",
+      "advisories": [
+        {
+          "id": "PYSEC-2026-2270",
+          "aliases": [
+            "GHSA-mf9w-mj56-hr94",
+            "CVE-2026-28684"
+          ],
+          "fix_versions": [
+            "1.2.2"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-2270",
+          "aliases": [
+            "GHSA-mf9w-mj56-hr94",
+            "CVE-2026-28684"
+          ],
+          "fix_versions": [
+            "1.2.2"
+          ],
+          "severity": "not supplied by pip-audit"
+        }
+      ]
+    },
+    {
+      "package": "sqlparse",
+      "version": "0.5.3",
+      "advisories": [
+        {
+          "id": "PYSEC-2026-3697",
+          "aliases": [
+            "GHSA-f2ff-p2ww-7p4p",
+            "CVE-2026-71491"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3696",
+          "aliases": [
+            "CVE-2026-59894",
+            "GHSA-3496-9g83-7v6x"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3698",
+          "aliases": [
+            "CVE-2026-59893",
+            "GHSA-prg7-hcfm-mfcr"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3699",
+          "aliases": [
+            "CVE-2026-54284",
+            "GHSA-pwgv-4x5q-6m9f"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3698",
+          "aliases": [
+            "CVE-2026-59893",
+            "GHSA-prg7-hcfm-mfcr"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3697",
+          "aliases": [
+            "GHSA-f2ff-p2ww-7p4p",
+            "CVE-2026-71491"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3699",
+          "aliases": [
+            "CVE-2026-54284",
+            "GHSA-pwgv-4x5q-6m9f"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3696",
+          "aliases": [
+            "CVE-2026-59894",
+            "GHSA-3496-9g83-7v6x"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "PYSEC-2026-3923",
+          "aliases": [
+            "CVE-2026-84305",
+            "GHSA-cfqr-cjx5-5jcm"
+          ],
+          "fix_versions": [
+            "0.6.0"
+          ],
+          "severity": "not supplied by pip-audit"
+        },
+        {
+          "id": "GHSA-27jp-wm6q-gp25",
+          "aliases": [],
+          "fix_versions": [
+            "0.5.4"
+          ],
+          "severity": "not supplied by pip-audit"
+        }
+      ]
+    }
+  ],
+  "python_after": [],
+  "reranker_after": [],
+  "commands": [
+    {
+      "command": "pnpm audit --json",
+      "before_exit": 1,
+      "after_exit": 1
+    },
+    {
+      "command": ".venv/bin/python -m pip_audit --format json",
+      "before_exit": 1,
+      "after_exit": 0
+    },
+    {
+      "command": ".venv/bin/python -m pip_audit -r requirements-reranker.txt --no-deps --disable-pip --format json",
+      "after_exit": 0
+    }
+  ],
+  "reranker_installed_before": {
+    "packages": 42,
+    "findings": [
+      {
+        "package": "pip",
+        "version": "26.1.2",
+        "ids": [
+          "PYSEC-2026-3721"
+        ]
+      }
+    ]
+  },
+  "reranker_installed_after": {
+    "packages": 42,
+    "findings": []
+  },
+  "final_audit_policy": [
+    {
+      "name": "javascript",
+      "command": [
+        "pnpm",
+        "audit",
+        "--json"
+      ],
+      "exit_code": 1,
+      "esbuild_peer_classification": "Non-dev graph through Better Auth optional Drizzle CLI peer; absent from all production server dependency traces",
+      "assessment": "Two disclosed moderate tooling findings; see docs/SECURITY.md. Raw audit exit remains 1."
+    },
+    {
+      "name": "python",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "assessment": "No known vulnerabilities in installed environment"
+    },
+    {
+      "name": "reranker",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pip_audit",
+        "--path",
+        ".local/reranker-minilm/env/lib/python3.14/site-packages",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "assessment": "No known vulnerabilities in installed environment"
+    }
+  ]
+}
