@@ -4,7 +4,7 @@ import json
 import pytest
 
 from eval.corpus import ROOT
-from eval.security_gate import gate
+from eval.security_gate import STEP6_REPAIRS, gate
 
 
 def pair():
@@ -45,3 +45,15 @@ def test_security_declaration_rejects_unrelated_changes(monkeypatch, change):
         b["questions"].pop()
     with pytest.raises(ValueError):
         gate(a, b)
+
+
+def test_only_exact_completed_step6_repairs_are_permitted(monkeypatch):
+    a, b = pair()
+    monkeypatch.setattr("eval.security_gate.verify", lambda _: None)
+    b["config"]["application_file_hashes"].update(STEP6_REPAIRS)
+    assert gate(a, b)["status"] == "PASS"
+    for path in STEP6_REPAIRS:
+        changed = copy.deepcopy(b)
+        changed["config"]["application_file_hashes"][path] = "unverified-repair"
+        with pytest.raises(ValueError, match="Unrelated"):
+            gate(a, changed)

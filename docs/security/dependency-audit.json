@@ -1336,7 +1336,8 @@
           "fix_versions": [
             "26.2"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-qwm4-qh6w-59xr"
         },
         {
           "id": "PYSEC-2026-3721",
@@ -1347,9 +1348,11 @@
           "fix_versions": [
             "26.2.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-qwm4-qh6w-59xr"
         }
-      ]
+      ],
+      "reachability_review": "Installer/index input; no HTTP route invokes pip. Patched in both virtual environments."
     },
     {
       "package": "pytest",
@@ -1364,7 +1367,8 @@
           "fix_versions": [
             "9.0.3"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-6w46-j5rx-g56g"
         },
         {
           "id": "PYSEC-2026-1845",
@@ -1375,9 +1379,11 @@
           "fix_versions": [
             "9.0.3"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-6w46-j5rx-g56g"
         }
-      ]
+      ],
+      "reachability_review": "Local test temporary-directory handling; no production HTTP route. Patched."
     },
     {
       "package": "python-dotenv",
@@ -1392,7 +1398,8 @@
           "fix_versions": [
             "1.2.2"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-mf9w-mj56-hr94"
         },
         {
           "id": "PYSEC-2026-2270",
@@ -1403,9 +1410,11 @@
           "fix_versions": [
             "1.2.2"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-mf9w-mj56-hr94"
         }
-      ]
+      ],
+      "reachability_review": "Local operator environment-file editing; uploads cannot select these paths. Patched."
     },
     {
       "package": "sqlparse",
@@ -1420,7 +1429,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-f2ff-p2ww-7p4p"
         },
         {
           "id": "PYSEC-2026-3696",
@@ -1431,7 +1441,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-3496-9g83-7v6x"
         },
         {
           "id": "PYSEC-2026-3698",
@@ -1442,7 +1453,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-prg7-hcfm-mfcr"
         },
         {
           "id": "PYSEC-2026-3699",
@@ -1453,7 +1465,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-pwgv-4x5q-6m9f"
         },
         {
           "id": "PYSEC-2026-3698",
@@ -1464,7 +1477,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-prg7-hcfm-mfcr"
         },
         {
           "id": "PYSEC-2026-3697",
@@ -1475,7 +1489,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-f2ff-p2ww-7p4p"
         },
         {
           "id": "PYSEC-2026-3699",
@@ -1486,7 +1501,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "high",
+          "severity_source": "https://github.com/advisories/GHSA-pwgv-4x5q-6m9f"
         },
         {
           "id": "PYSEC-2026-3696",
@@ -1497,7 +1513,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-3496-9g83-7v6x"
         },
         {
           "id": "PYSEC-2026-3923",
@@ -1508,7 +1525,8 @@
           "fix_versions": [
             "0.6.0"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-cfqr-cjx5-5jcm"
         },
         {
           "id": "GHSA-27jp-wm6q-gp25",
@@ -1516,9 +1534,11 @@
           "fix_versions": [
             "0.5.4"
           ],
-          "severity": "not supplied by pip-audit"
+          "severity": "moderate",
+          "severity_source": "https://github.com/advisories/GHSA-27jp-wm6q-gp25"
         }
-      ]
+      ],
+      "reachability_review": "Local read-only SQL operator helper; the Next.js HTTP API uses bound Drizzle SQL, not sqlparse. Patched including all high findings."
     }
   ],
   "python_after": [],
@@ -1547,7 +1567,9 @@
         "version": "26.1.2",
         "ids": [
           "PYSEC-2026-3721"
-        ]
+        ],
+        "severity": "moderate",
+        "severity_source": "https://github.com/advisories/GHSA-qwm4-qh6w-59xr"
       }
     ]
   },

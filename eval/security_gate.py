@@ -24,6 +24,24 @@ ALLOWED = {
 }
 
 
+# The saved Step 6 measurement predates its verified citation repairs.
+# Only the exact implementation preserved in 8dfa483 is admissible here.
+STEP6_REPAIRS = {
+    "lib/rag-prompt.ts": (
+        "aa490d2134e13672ad2f51fdf90975cd16a04b20601cb47ff75979c885c46a65"
+    ),
+    "lib/citations.ts": (
+        "880d9631e32c99ee3cafaba7477ca47396a2e47da963d8c09644fe882e30c7e9"
+    ),
+    "lib/response-cache.ts": (
+        "1ab6291d417add2094a2997e2ddb7bc6c0f0e992b243c53ca3784fd608fc61db"
+    ),
+    "lib/types.ts": (
+        "7066e888660132a707037e648fade35c95de10933c61126b4b0d424d8e99c598"
+    ),
+}
+
+
 def gate(baseline, candidate):
     verify(baseline)
     verify(candidate)
@@ -32,7 +50,10 @@ def gate(baseline, candidate):
     if old != new or set(ah) != set(bh):
         raise ValueError("Security comparison changed benchmark configuration")
     changed = {path for path in ah if ah[path] != bh[path]}
-    if not changed <= ALLOWED:
+    preserved_repairs = {
+        path for path, digest in STEP6_REPAIRS.items() if bh.get(path) == digest
+    }
+    if not changed <= ALLOWED | preserved_repairs:
         raise ValueError("Unrelated implementation changed")
     if len(baseline["questions"]) != 100 or len(candidate["questions"]) != 100:
         raise ValueError("Full 100-question evaluation required")
@@ -51,6 +72,7 @@ def gate(baseline, candidate):
         "status": "PASS",
         "decreases": check(baseline, view),
         "declared_implementation_changes": sorted(changed),
+        "preserved_step6_repairs": sorted(changed & preserved_repairs),
         "retrieved_evidence": "identical for all 100 questions",
         "thresholds": "unchanged existing regression gate",
     }

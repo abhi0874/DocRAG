@@ -1062,7 +1062,9 @@ historical result. Partial interrupted generations are reused only through the
 existing model/prompt cache. SQL retrieval always runs again. The Step 7 gate
 permits an explicit list of necessary security/dependency implementation changes,
 requires unchanged configuration and identical ranked evidence for all 100 cases,
-and calls the unchanged 0.02 regression threshold. Prompt-only Step 6 gates still
+and calls the unchanged 0.02 regression threshold. Four prior Step 6 repairs are
+accepted only at their exact `8dfa483` file hashes; arbitrary parser, cache or
+prompt edits still fail. Prompt-only Step 6 gates still
 run against the saved Step 6 artifacts. Their test fixture now explicitly uses
 that frozen candidate rather than misclassifying current auth changes as a
 prompt-only change. New negative controls reject model, prompt, evidence,
