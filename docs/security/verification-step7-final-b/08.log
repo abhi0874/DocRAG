@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "compatibility": {
+    "prompt": "step5-v1",
+    "production_cache": false,
+    "threshold": "strict decimal drop >0.02"
+  },
+  "decreases": {
+    "recall@5": "0.000",
+    "faithfulness": "0.005"
+  }
+}

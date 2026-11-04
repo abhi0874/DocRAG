@@ -1,0 +1,18 @@
+.venv/bin/python -m pytest -q
+........................................................................ [ 44%]
+........................................................................ [ 88%]
+..................                                                       [100%]
+162 passed in 25.33s
+pnpm test
+$ vitest run
+
+ RUN  v5.1.0 /Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent
+
+(node:52666) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ Test Files  20 passed (20)
+      Tests  182 passed (182)
+   Start at  16:12:52
+   Duration  560ms (import 79%, tests 11%, transform 8%, worker 1%)
+

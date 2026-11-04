@@ -1,0 +1,30 @@
+fastapi-001 first-miss MISS 1058.23
+fastapi-006 first-miss MISS 2200.11
+fastapi-041 first-miss MISS 301.55
+postgresql-001 first-miss MISS 2776.02
+postgresql-005 first-miss MISS 1276.25
+postgresql-041 first-miss MISS 331.83
+fastapi-001 repeat-hit HIT 34.64
+fastapi-006 repeat-hit HIT 33.17
+fastapi-041 repeat-hit HIT 34.87
+postgresql-001 repeat-hit HIT 33.7
+postgresql-005 repeat-hit HIT 33.47
+postgresql-041 repeat-hit HIT 32.43
+fastapi-001 repeat-hit-2 HIT 33.11
+fastapi-006 repeat-hit-2 HIT 33.64
+fastapi-041 repeat-hit-2 HIT 33.19
+postgresql-001 repeat-hit-2 HIT 31.96
+postgresql-005 repeat-hit-2 HIT 33.24
+postgresql-041 repeat-hit-2 HIT 33.1
+fastapi-001 uncached-first 980.63
+fastapi-006 uncached-first 2125.93
+fastapi-041 uncached-first 292.33
+postgresql-001 uncached-first 2742.03
+postgresql-005 uncached-first 1208.53
+postgresql-041 uncached-first 296.86
+fastapi-001 uncached-warm 895.9
+fastapi-006 uncached-warm 2140.13
+fastapi-041 uncached-warm 302.42
+postgresql-001 uncached-warm 2777.12
+postgresql-005 uncached-warm 1223.68
+postgresql-041 uncached-warm 291.12

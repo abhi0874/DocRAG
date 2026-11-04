@@ -1,0 +1,7 @@
+(node:52818) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"status":"PASS","checks":27,"scope":"real vector, keyword, RRF, reranker candidates, evidence and concurrent quotas"}
+(node:52849) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+PASS: actual HTTPS Secure/HttpOnly/SameSite/path cookie, eight-hour lifetime and logout replay
+PASS: 66 real HTTP checks plus real SQL retrieval/concurrent quota suite

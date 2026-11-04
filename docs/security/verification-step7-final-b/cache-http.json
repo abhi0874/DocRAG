@@ -1,0 +1,937 @@
+{
+  "status": "PASS",
+  "prompt_version": "step5-v1",
+  "rows": [
+    {
+      "id": "fastapi-001",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 1058.2307080039755,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 2200.1058750029188,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 301.54829198727384,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 2776.0215000016615,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect [2]. Additionally, the intermediate states between the steps are not visible to other concurrent transactions [4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          2,
+          2,
+          4
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 1276.2473330076318,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "MISS",
+      "prompt": "step5-v1",
+      "latency_ms": 331.8271669850219,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "first-miss"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 34.63762497995049,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1004,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.16741599701345,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1750,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 34.869750001234934,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1320,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.697000006213784,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect [2]. Additionally, the intermediate states between the steps are not visible to other concurrent transactions [4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          2,
+          2,
+          4
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1872,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.469791000243276,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1822,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 32.43125000153668,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1717,
+      "condition": "repeat-hit"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.10866700485349,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1004,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.642416005022824,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1750,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.186083019245416,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1320,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 31.964832975063473,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect [2]. Additionally, the intermediate states between the steps are not visible to other concurrent transactions [4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          2,
+          2,
+          4
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1872,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.2396249868907,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1822,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "HIT",
+      "prompt": "step5-v1",
+      "latency_ms": 33.096374972956255,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": 1717,
+      "condition": "repeat-hit-2"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 980.6346669793129,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 2125.934749987209,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 292.33016600483097,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 2742.034374998184,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect [2]. Additionally, the intermediate states between the steps are not visible to other concurrent transactions [4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          2,
+          2,
+          4
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 1208.5280829924159,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 296.8581670138519,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-first"
+    },
+    {
+      "id": "fastapi-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 895.9001660114154,
+      "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+      "source_ids": [
+        3,
+        1,
+        2,
+        71,
+        4,
+        31
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "fastapi-006",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 2140.1316660048906,
+      "answer": "For the URL `http://127.0.0.1:8000/items/?skip=20`, the parameter values are `skip=20` and `limit=10` [3]. The `skip` value is 20 because it was explicitly set in the URL, while `limit` is 10 because that is its default value [3].",
+      "source_ids": [
+        21,
+        27,
+        22,
+        26,
+        23,
+        90
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          3,
+          3
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "fastapi-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 302.4164169910364,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        75,
+        95,
+        90,
+        29,
+        86,
+        97
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-001",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 2777.1222919982392,
+      "answer": "In the context of the PostgreSQL tutorial, \"atomic\" means that a transaction is an all-or-nothing operation. From the perspective of other transactions, the transaction either happens completely or not at all [2]. This ensures that if a system failure occurs partway through the operation, none of the steps executed so far will take effect [2]. Additionally, the intermediate states between the steps are not visible to other concurrent transactions [4].",
+      "source_ids": [
+        104,
+        103,
+        105,
+        102,
+        106,
+        107
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          2,
+          2,
+          4
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-005",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 1223.6777919752058,
+      "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "source_ids": [
+        106,
+        107,
+        105,
+        130,
+        103,
+        119
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    },
+    {
+      "id": "postgresql-041",
+      "cache": "BYPASS",
+      "prompt": "step5-v1",
+      "latency_ms": 291.1178749927785,
+      "answer": "I could not find this in the document.",
+      "source_ids": [
+        118,
+        120,
+        119,
+        121,
+        153,
+        132
+      ],
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      },
+      "tokens_avoided": null,
+      "condition": "uncached-warm"
+    }
+  ],
+  "arbitrary_question": {
+    "id": "fastapi-001",
+    "cache": "BYPASS",
+    "prompt": "step5-v1",
+    "latency_ms": 7810.422791983001,
+    "answer": "Based on the provided excerpts, the \"unspecified secret\" refers to a **plaintext password** associated with a user. The excerpts establish the following regarding this secret:\n\n*   **Risk of Exposure:** If the same model is used for both input and output (e.g., `UserIn`), the API will return the plaintext password in the response [6].\n*   **Security Danger:** It is explicitly stated that one should never store or send a plain password in a response unless fully aware of the caveats, as it could expose user passwords to every client if the model is reused [6].\n*   **Mitigation Strategy:** To prevent this, developers should use separate input and output models. By defining a `response_model` (e.g., `UserOut`) that excludes the password field, FastAPI automatically filters out the password from the response, even if the function returns the full input object containing the secret [3][4].\n*   **Filtering Mechanism:** FastAPI uses Pydantic to ensure that any data not declared in the output model, such as the password, is filtered out [4].\n*   **Additional Control:** The `response_model_exclude_unset` parameter can be used to return only values that were explicitly set, further controlling what data is exposed [1].",
+    "source_ids": [
+      68,
+      45,
+      48,
+      49,
+      71,
+      47
+    ],
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        6,
+        6,
+        3,
+        4,
+        4,
+        1
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "changed_prompt": {
+    "id": "fastapi-001",
+    "cache": "MISS",
+    "prompt": "grounded-v1",
+    "latency_ms": 2475.970583007438,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3`, not the string `\"3\"`. This occurs because the type declaration `int` triggers automatic request parsing, converting the path segment into a Python `int` [1][3].\n\n[1][3]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        1,
+        3,
+        1,
+        3
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "hits": 12,
+  "misses": 6,
+  "eligible_hit_rate": 0.6666666666666666,
+  "model_generations_avoided": 12,
+  "tokens_avoided": 18970,
+  "timing": {
+    "first-miss": {
+      "n": 6,
+      "p50_ms": 1167.2390205058036,
+      "p95_ms": 2632.042593751976
+    },
+    "repeat-hit": {
+      "n": 6,
+      "p50_ms": 33.58339550322853,
+      "p95_ms": 34.81171874591382
+    },
+    "repeat-hit-2": {
+      "n": 6,
+      "p50_ms": 33.14737501204945,
+      "p95_ms": 33.541718250489794
+    },
+    "uncached-first": {
+      "n": 6,
+      "p50_ms": 1094.5813749858644,
+      "p95_ms": 2588.0094687454402
+    },
+    "uncached-warm": {
+      "n": 6,
+      "p50_ms": 1059.7889789933106,
+      "p95_ms": 2617.874635499902
+    }
+  },
+  "conditions": "Sequential matched public questions. First-miss means empty application cache, not cold OS/GPU. Uncached-first starts a new Node process; model may already be warm. Includes fresh query embeddings, SQL and HTTP transfer. Prompt-version server restart also clears memory; separate unit tests isolate key invalidation.",
+  "paid_api_charges_inr": 0
+}

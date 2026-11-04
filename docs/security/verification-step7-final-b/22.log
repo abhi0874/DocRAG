@@ -1,0 +1,4 @@
+javascript: raw exit 1; Two disclosed moderate tooling findings; see docs/SECURITY.md. Raw audit exit remains 1.
+python: raw exit 0; No known vulnerabilities in installed environment
+reranker: raw exit 0; No known vulnerabilities in installed environment
+PASS: audits obtained and risk policy checked; not a zero-findings JS audit

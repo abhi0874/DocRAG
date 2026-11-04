@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "build_revision": "9aa54a9",
+  "date": "2026-11-04",
+  "checks": [
+    "User A sign-in",
+    "owned private library",
+    "private streaming",
+    "authorized citation",
+    "follow-up without duplicate messages",
+    "PDF upload",
+    "sign-out clears private view",
+    "User B independent sign-in",
+    "User A upload absent for B",
+    "guessed A document unavailable",
+    "public cached answer badge and single message",
+    "final sign-out"
+  ],
+  "screenshots": [
+    "browser-user-a.png",
+    "browser-user-b.png",
+    "browser-public-cache.png"
+  ]
+}

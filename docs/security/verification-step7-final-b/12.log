@@ -1,0 +1,6 @@
+{"version":"step5-v1","checked":100,"counts":{"cited":80,"uncited-refusal":20},"rejected":[]}
+{"version":"grounded-v1","checked":100,"counts":{"cited":99,"missing-references":1},"rejected":["postgresql-042"]}
+selected: six saved grounding diagnostics passed structural replay
+candidate: six saved grounding diagnostics passed structural replay
+(node:53208) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)

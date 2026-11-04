@@ -1,0 +1,2 @@
+Original Gemini preservation: 20/20 pairs; cache bytes and 151 vectors unchanged.
+{"status": "PASS", "gemini_cache_pairs": 20, "gemini_vectors": 151, "original_local_vectors": 151, "selected_chunks": 162, "secret_scan": "PASS; tracked and nonignored untracked files", "schema_changes": "Legacy data unchanged; Step 7 additive ownership/auth tables are separate", "public_asset_secret_scan": "PASS"}

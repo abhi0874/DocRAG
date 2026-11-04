@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "decreases": {
+    "recall@5": "0.000",
+    "faithfulness": "0.000"
+  },
+  "declared_implementation_changes": [
+    "app/api/chat/route.ts",
+    "app/api/evaluations/route.ts",
+    "lib/citations.ts",
+    "lib/db/index.ts",
+    "lib/evidence.ts",
+    "lib/provider-config.ts",
+    "lib/public-cache-policy.ts",
+    "lib/rag-prompt.ts",
+    "lib/rag.ts",
+    "lib/response-cache.ts",
+    "lib/retrieval.ts",
+    "lib/select-context.ts",
+    "lib/types.ts",
+    "pnpm-lock.yaml"
+  ],
+  "preserved_step6_repairs": [
+    "lib/citations.ts",
+    "lib/rag-prompt.ts",
+    "lib/response-cache.ts",
+    "lib/types.ts"
+  ],
+  "retrieved_evidence": "identical for all 100 questions",
+  "thresholds": "unchanged existing regression gate"
+}

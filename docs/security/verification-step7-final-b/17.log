@@ -1,0 +1,136 @@
+1/100 fastapi-001: answer_cache=1 judge_cache=1
+2/100 fastapi-002: answer_cache=1 judge_cache=1
+3/100 fastapi-003: answer_cache=1 judge_cache=1
+4/100 fastapi-004: answer_cache=1 judge_cache=1
+5/100 fastapi-005: answer_cache=1 judge_cache=1
+6/100 fastapi-006: answer_cache=1 judge_cache=1
+7/100 fastapi-007: answer_cache=1 judge_cache=1
+8/100 fastapi-008: answer_cache=1 judge_cache=1
+9/100 fastapi-009: answer_cache=1 judge_cache=1
+10/100 fastapi-010: answer_cache=1 judge_cache=1
+11/100 fastapi-011: answer_cache=1 judge_cache=1
+12/100 fastapi-012: answer_cache=1 judge_cache=1
+13/100 fastapi-013: answer_cache=1 judge_cache=1
+14/100 fastapi-014: answer_cache=1 judge_cache=1
+15/100 fastapi-015: answer_cache=1 judge_cache=1
+16/100 fastapi-016: answer_cache=1 judge_cache=1
+17/100 fastapi-017: answer_cache=1 judge_cache=1
+18/100 fastapi-018: answer_cache=1 judge_cache=1
+19/100 fastapi-019: answer_cache=1 judge_cache=1
+20/100 fastapi-020: answer_cache=1 judge_cache=1
+21/100 fastapi-021: answer_cache=1 judge_cache=1
+22/100 fastapi-022: answer_cache=1 judge_cache=1
+23/100 fastapi-023: answer_cache=1 judge_cache=1
+24/100 fastapi-024: answer_cache=1 judge_cache=1
+25/100 fastapi-025: answer_cache=1 judge_cache=1
+26/100 fastapi-026: answer_cache=1 judge_cache=1
+27/100 fastapi-027: answer_cache=1 judge_cache=1
+28/100 fastapi-028: answer_cache=1 judge_cache=1
+29/100 fastapi-029: answer_cache=1 judge_cache=1
+30/100 fastapi-030: answer_cache=1 judge_cache=1
+31/100 fastapi-031: answer_cache=1 judge_cache=1
+32/100 fastapi-032: answer_cache=1 judge_cache=1
+33/100 fastapi-033: answer_cache=1 judge_cache=1
+34/100 fastapi-034: answer_cache=1 judge_cache=1
+35/100 fastapi-035: answer_cache=1 judge_cache=1
+36/100 fastapi-036: answer_cache=1 judge_cache=1
+37/100 fastapi-037: answer_cache=1 judge_cache=1
+38/100 fastapi-038: answer_cache=1 judge_cache=1
+39/100 fastapi-039: answer_cache=1 judge_cache=1
+40/100 fastapi-040: answer_cache=1 judge_cache=1
+41/100 fastapi-041: answer_cache=1 judge_cache=1
+42/100 fastapi-042: answer_cache=1 judge_cache=1
+43/100 fastapi-043: answer_cache=1 judge_cache=1
+44/100 fastapi-044: answer_cache=1 judge_cache=1
+45/100 fastapi-045: answer_cache=1 judge_cache=1
+46/100 fastapi-046: answer_cache=1 judge_cache=1
+47/100 fastapi-047: answer_cache=1 judge_cache=1
+48/100 fastapi-048: answer_cache=1 judge_cache=1
+49/100 fastapi-049: answer_cache=1 judge_cache=1
+50/100 fastapi-050: answer_cache=1 judge_cache=1
+51/100 postgresql-001: answer_cache=1 judge_cache=1
+52/100 postgresql-002: answer_cache=1 judge_cache=1
+53/100 postgresql-003: answer_cache=1 judge_cache=1
+54/100 postgresql-004: answer_cache=1 judge_cache=1
+55/100 postgresql-005: answer_cache=1 judge_cache=1
+56/100 postgresql-006: answer_cache=1 judge_cache=1
+57/100 postgresql-007: answer_cache=1 judge_cache=1
+58/100 postgresql-008: answer_cache=1 judge_cache=1
+59/100 postgresql-009: answer_cache=1 judge_cache=1
+60/100 postgresql-010: answer_cache=1 judge_cache=1
+61/100 postgresql-011: answer_cache=1 judge_cache=1
+62/100 postgresql-012: answer_cache=1 judge_cache=1
+63/100 postgresql-013: answer_cache=1 judge_cache=1
+64/100 postgresql-014: answer_cache=1 judge_cache=1
+65/100 postgresql-015: answer_cache=1 judge_cache=1
+66/100 postgresql-016: answer_cache=1 judge_cache=1
+67/100 postgresql-017: answer_cache=1 judge_cache=1
+68/100 postgresql-018: answer_cache=1 judge_cache=1
+69/100 postgresql-019: answer_cache=1 judge_cache=1
+70/100 postgresql-020: answer_cache=1 judge_cache=1
+71/100 postgresql-021: answer_cache=1 judge_cache=1
+72/100 postgresql-022: answer_cache=1 judge_cache=1
+73/100 postgresql-023: answer_cache=1 judge_cache=1
+74/100 postgresql-024: answer_cache=1 judge_cache=1
+75/100 postgresql-025: answer_cache=1 judge_cache=1
+76/100 postgresql-026: answer_cache=1 judge_cache=1
+77/100 postgresql-027: answer_cache=1 judge_cache=1
+78/100 postgresql-028: answer_cache=1 judge_cache=1
+79/100 postgresql-029: answer_cache=1 judge_cache=1
+80/100 postgresql-030: answer_cache=1 judge_cache=1
+81/100 postgresql-031: answer_cache=1 judge_cache=1
+82/100 postgresql-032: answer_cache=1 judge_cache=1
+83/100 postgresql-033: answer_cache=1 judge_cache=1
+84/100 postgresql-034: answer_cache=1 judge_cache=1
+85/100 postgresql-035: answer_cache=1 judge_cache=1
+86/100 postgresql-036: answer_cache=1 judge_cache=1
+87/100 postgresql-037: answer_cache=1 judge_cache=1
+88/100 postgresql-038: answer_cache=1 judge_cache=1
+89/100 postgresql-039: answer_cache=1 judge_cache=1
+90/100 postgresql-040: answer_cache=1 judge_cache=1
+91/100 postgresql-041: answer_cache=1 judge_cache=1
+92/100 postgresql-042: answer_cache=1 judge_cache=1
+93/100 postgresql-043: answer_cache=1 judge_cache=1
+94/100 postgresql-044: answer_cache=1 judge_cache=1
+95/100 postgresql-045: answer_cache=1 judge_cache=1
+96/100 postgresql-046: answer_cache=1 judge_cache=1
+97/100 postgresql-047: answer_cache=1 judge_cache=1
+98/100 postgresql-048: answer_cache=1 judge_cache=1
+99/100 postgresql-049: answer_cache=1 judge_cache=1
+100/100 postgresql-050: answer_cache=1 judge_cache=1
+{
+  "output": "/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/eval/results/security/step7-final-b/evaluation-raw.json",
+  "metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 261,
+    "citation_denominator": 261,
+    "faithfulness": 0.995,
+    "correctness": 0.99,
+    "p50_latency_ms": 21.30729149999999,
+    "p95_latency_ms": 23.068751449999976,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6675.29,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1715.98,
+    "judge_tokens_per_query": 4931.37,
+    "retrieval_p50_latency_ms": 17.277937500000007,
+    "retrieval_p95_latency_ms": 18.63673510000002,
+    "generation_p50_latency_ms": 0.055499999999995,
+    "generation_p95_latency_ms": 0.07713539999999738
+  },
+  "cache": {
+    "embedding_hits": 100,
+    "embedding_misses": 0,
+    "answer_hits": 100,
+    "answer_misses": 0,
+    "judge_hits": 100,
+    "judge_misses": 0
+  }
+}
