@@ -217,6 +217,19 @@ def main():
             )
             assert json.loads(session[2])["user"]["id"] == account["id"]
         a, b = cookies
+        expect(
+            "client cannot extend fixed session lifetime",
+            request(
+                "/api/auth/sign-in/email",
+                "POST",
+                {
+                    "email": accounts[0]["email"],
+                    "password": accounts[0]["password"],
+                    "rememberMe": False,
+                },
+            ),
+            400,
+        )
         with psycopg.connect(target) as conn:
             conn.execute(
                 "UPDATE request_limits SET count=30, "

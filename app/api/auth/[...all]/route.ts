@@ -2,7 +2,7 @@ import {z} from 'zod'
 import {getAuth} from '@/lib/auth'
 import {checkOrigin,jsonBody,safeError,HttpError} from '@/lib/security/http'
 import {consumeLimit} from '@/lib/security/limits'
-const credentials=z.object({email:z.email().max(254),password:z.string().min(1).max(128),rememberMe:z.boolean().optional()}).strict()
+const credentials=z.object({email:z.email().max(254),password:z.string().min(1).max(128)}).strict()
 export async function POST(req:Request) {
   try {
     checkOrigin(req)
