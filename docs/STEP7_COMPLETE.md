@@ -2,8 +2,8 @@
 
 Status: **STEP 7 COMPLETE**. Tasks: **20/20**. Automated verification groups: **24/24**. Browser checks: **12/12**. Tests: **344 passed, 0 failed**.
 
-Repository: https://github.com/abhi0874/DocRAG  
-Branch: `feat/production-rag`  
+Repository: https://github.com/abhi0874/DocRAG
+Branch: `feat/production-rag`
 Scope: authentication and security only; no Step 8 or publication.
 
 DocRAG now verifies identity with database-backed sessions before private access.
@@ -339,3 +339,8 @@ Changed implementation and documentation files relative to completed Step 6:
 Additional final artifacts: this report, `docs/security/verification-step7-final-b/`
 and `eval/results/security/`. Final `git diff --check` passed. The final local
 commit records these artifacts; the handoff confirms the clean working tree.
+
+Exported command logs normalize terminal carriage returns and trailing blank
+lines for Git whitespace checks. Original byte-for-byte logs remain in the ignored
+`.local/security-verify-step7-final-b/` run directory. This documentation-only
+formatting correction leaves all 179 verified source hashes unchanged.
