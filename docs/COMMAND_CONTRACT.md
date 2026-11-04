@@ -1113,3 +1113,8 @@ are `.local/step7-browser-*.png` and `.local/step7-browser-receipt.json`.
 Finally run the existing Git provenance/secret-preservation checks, create only
 local logical commits, inspect the final diff/status and verify no branch push.
 Do not proceed to Step 8 until the final Step 7 report is complete.
+
+Final security verification saves each run’s evaluation measurements under
+`eval/results/security/<run-id>/`, as required by the existing provenance
+validator. Command logs stay under `.local/security-verify-<run-id>/`. Both
+directories are exclusive to a run; an earlier run is never overwritten.

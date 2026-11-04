@@ -22,6 +22,9 @@ def main():
     directory = ROOT / ".local" / ("security-verify-" + args.run_id)
     directory.mkdir()  # Never overwrite an earlier run.
     relative = str(directory.relative_to(ROOT))
+    results = ROOT / "eval/results/security" / args.run_id
+    results.mkdir(parents=True)  # Saved measurements must live under eval/results.
+    result_relative = str(results.relative_to(ROOT))
     py = ".venv/bin/python -m "
     baseline = "eval/results/prompting/step5-v1.json"
     commands = [
@@ -49,11 +52,11 @@ def main():
         f"--out {relative}/invalidation.json",
         py + f"eval.run_eval --golden eval/golden_set.jsonl "
         "--prompting-experiment step5-v1 "
-        f"--out {relative}/evaluation-raw.json",
-        py + f"eval.promote_local --source {relative}/evaluation-raw.json "
-        f"--out {relative}/evaluation.json",
+        f"--out {result_relative}/evaluation-raw.json",
+        py + f"eval.promote_local --source {result_relative}/evaluation-raw.json "
+        f"--out {result_relative}/evaluation.json",
         py + f"eval.security_gate --baseline {baseline} "
-        f"--candidate {relative}/evaluation.json",
+        f"--candidate {result_relative}/evaluation.json",
         py + f"eval.reranking_integrity --out {relative}/preservation.json",
         py + f"eval.prompting_report --out {relative}/historical-report.json",
         py + "scripts.security_audit",
