@@ -987,8 +987,8 @@ pnpm exec drizzle-kit generate --name authentication_and_access
 .venv/bin/python -m scripts.security_setup --fresh-test
 .venv/bin/python -m scripts.security_setup --apply-selected
 .venv/bin/python -m scripts.security_setup --apply-configured
-.venv/bin/python -m scripts.security_app create-account
-.venv/bin/python -m scripts.security_app run
+.venv/bin/python -m scripts.create_account
+make run-api
 ```
 
 The checked-in generated migration is applied by `security_setup`; generation
@@ -1001,9 +1001,11 @@ native `docrag_dev` application database. Both require the successful isolated
 receipt and verify that all existing application rows are unchanged. Unknown
 legacy ownership stays inaccessible; only manifest-proven public data is exposed.
 
-The application helper chooses the free local corpus and model provider explicitly.
-The account helper asks for a password privately; do not pass it on the command
-line. The server requires `BETTER_AUTH_SECRET` and the exact origin configuration
+The account helper targets the configured application database and asks for a
+password privately; do not pass it on the command line. Keep personal uploads
+out of all frozen evaluation databases. The normal app retains its original
+Gemini default; all Step 7 inference tests explicitly use local Ollama and the
+isolated test/public-corpus databases. The server requires `BETTER_AUTH_SECRET` and the exact origin configuration
 from `SECURITY.md`. No test-auth bypass exists. No real account is automatically
 created for the owner; use the private helper when ready.
 

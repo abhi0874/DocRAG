@@ -28,13 +28,15 @@ Online operation must use an HTTPS origin and `DOCRAG_LOCAL_HTTP=false`.
 After the selected database has its migration, create an account privately:
 
 ```sh
-.venv/bin/python -m scripts.security_app create-account
-.venv/bin/python -m scripts.security_app run
+.venv/bin/python -m scripts.create_account
+make run-api
 ```
 
-These helpers explicitly select the frozen local Ollama corpus database, keeping
-model inference free. The lower-level `scripts.create_account` helper instead uses
-the provider/database configured in its environment. Enter a display name,
+The account helper uses the normal application database configured in `.env`.
+The existing application default is Gemini; the security tests and full benchmark
+explicitly use free local Ollama in isolated databases. Do not point personal
+uploads at a frozen evaluation database. No real Gemini inference was needed for
+Step 7 verification. Enter a display name,
 email and a new 12–128 character password. Password entry is hidden and is sent to
 the Node helper through standard input, never command-line arguments or logs.
 Success says `Account created`. Open the configured origin, choose **Sign in**, and
