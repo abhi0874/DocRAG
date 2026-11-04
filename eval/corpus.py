@@ -9,7 +9,7 @@ import psycopg
 from psycopg import sql
 
 from scripts.common import ROOT, database_url, load_environment
-from scripts.native_db import DATA, owned_cluster
+from scripts.native_db import DATA, owned_cluster, postgres_port
 
 CORPUS = ROOT / "eval/corpus"
 DB_NAME = "docrag_eval_v1"
@@ -49,7 +49,7 @@ def evaluation_url():
     parts = urlsplit(database_url())
     if (parts.hostname, parts.port, parts.username, parts.path, parts.query) != (
         "127.0.0.1",
-        55432,
+        int(postgres_port()),
         "docrag",
         "/docrag_dev",
         "",

@@ -1,3 +1,4 @@
+import {postgresPort} from '../lib/provider-config'
 import {writeFileSync,mkdirSync} from 'node:fs'
 import {createHash,randomUUID} from 'node:crypto'
 import {Pool} from 'pg'
@@ -8,7 +9,7 @@ import manifest from '../lib/public-cache-manifest.json'
 const value=process.env.SECURITY_DATABASE_URL
 if(!value)throw new Error('Explicit migration database required')
 const url=new URL(value)
-if(url.hostname!=='127.0.0.1'||url.port!=='55432'|| !/^\/(docrag_security_test_[a-f0-9]{12}|docrag_chunking_heading_1400_280|docrag_dev|docrag_ollama_v1)$/.test(url.pathname))throw new Error('Unapproved local migration database')
+if(url.hostname!=='127.0.0.1'||url.port!==postgresPort()|| !/^\/(docrag_security_test_[a-f0-9]{12}|docrag_chunking_heading_1400_280|docrag_dev|docrag_ollama_v1)$/.test(url.pathname))throw new Error('Unapproved local migration database')
 const pool=new Pool({connectionString:value})
 const hash=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex')
 async function main(){

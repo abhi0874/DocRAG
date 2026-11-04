@@ -13,7 +13,7 @@ from psycopg import sql
 from eval.chunking_experiments import connect_experiment, experiment_url
 from eval.corpus import ROOT
 from scripts.common import database_url, load_environment
-from scripts.native_db import owned_cluster
+from scripts.native_db import DATA, owned_cluster, postgres_port
 
 
 def main():
@@ -24,6 +24,11 @@ def main():
     args = parser.parse_args()
     owned_cluster()
     selected = experiment_url("heading-1400-280")
+    with psycopg.connect(selected) as target_check:
+        target_check.read_only = True
+        actual = target_check.execute("SHOW data_directory").fetchone()[0]
+        if os.path.realpath(actual) != str(DATA.resolve()):
+            raise ValueError("Native server ownership mismatch")
     if args.fresh_test:
         name = "docrag_security_test_" + uuid.uuid4().hex[:12]
         target = urlunsplit(urlsplit(selected)._replace(path="/" + name))
@@ -81,7 +86,7 @@ def main():
         parsed = urlsplit(target)
         if (
             parsed.hostname != "127.0.0.1"
-            or parsed.port != 55432
+            or parsed.port != int(postgres_port())
             or parsed.path not in {"/docrag_dev", "/docrag_chunking_heading_1400_280"}
         ):
             raise ValueError("Only the owned native application database is supported")

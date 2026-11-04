@@ -32,9 +32,15 @@ export function databaseConnection() {
   const allowedPath = securityTest ? url.pathname : experiment && /^(control|heading)-(1000-200|700-140|1400-280|1000-100)$/.test(experiment)
     ? `/docrag_chunking_${experiment.replaceAll('-', '_')}` : '/docrag_ollama_v1'
   if (!['postgres:', 'postgresql:'].includes(url.protocol)
-    || url.hostname !== '127.0.0.1' || url.port !== '55432'
+    || url.hostname !== '127.0.0.1' || url.port !== postgresPort()
     || url.pathname !== allowedPath || url.search || url.hash) {
     throw new Error('Local mode requires the isolated native Ollama database')
   }
+  return value
+}
+
+export function postgresPort() {
+  const value=process.env.DOCRAG_POSTGRES_PORT ?? '55432'
+  if (!/^[0-9]{4,5}$/.test(value) || Number(value)<1024 || Number(value)>65535) throw new Error('Invalid DocRAG PostgreSQL port')
   return value
 }

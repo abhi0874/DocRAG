@@ -19,7 +19,20 @@ STATE = ROOT / ".local"
 DATA = STATE / "postgres"
 SOCKET = STATE / "socket"
 MARKER = STATE / "docrag-development-cluster"
-PORT = "55432"
+
+
+def postgres_port():
+    # Explicit local configuration; never derive permission from a client URL.
+    from scripts.common import load_environment
+
+    load_environment()
+    value = os.environ.get("DOCRAG_POSTGRES_PORT", "55432")
+    if not value.isascii() or not value.isdecimal() or not 1024 <= int(value) <= 65535:
+        raise ValueError("Invalid DocRAG PostgreSQL port")
+    return value
+
+
+PORT = postgres_port()
 
 
 def run(name, *args, env=None, capture=False):

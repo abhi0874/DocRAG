@@ -1118,3 +1118,18 @@ Final security verification saves each run’s evaluation measurements under
 `eval/results/security/<run-id>/`, as required by the existing provenance
 validator. Command logs stay under `.local/security-verify-<run-id>/`. Both
 directories are exclusive to a run; an earlier run is never overwritten.
+
+## Step 8 prerequisite: project-owned database port
+
+`DOCRAG_POSTGRES_PORT` explicitly selects the native development port (default
+55432); connection URLs must match it. The existing provider path/host guards
+remain. The migration helper checks the actual server data directory before any
+DDL. This checkout uses verified-free port 55433 because another project's Docker
+container owns 55432. Never stop that container for DocRAG tests.
+
+Start only the existing owned cluster with `pg_ctl` using `scripts.native_db`
+constants and `owned_cluster()`; do not reinitialize or replay `db/init.sql` on
+existing data. Privately set the matching DATABASE_URL and explicit port. Verify
+`SHOW data_directory`, `SHOW port` and database name before writes. The existing
+24-group `scripts.verify_security --run-id step8-prerequisite-UNIQUE` remains the
+prerequisite command; use a new run directory and preserve historical artifacts.

@@ -1,6 +1,7 @@
-import {afterEach, expect, it, vi} from 'vitest'
+import {afterEach, beforeEach, expect, it, vi} from 'vitest'
 import {databaseConnection, localSettings, ollamaBaseUrl, providerName} from '../lib/provider-config'
 import {localChat, localEmbeddings, ollamaLanguageModel, validateCompletion, validateEmbeddingVectors, verifyLocalModels} from '../lib/ollama'
+beforeEach(()=>vi.stubEnv('DOCRAG_POSTGRES_PORT','55432'))
 const c = localSettings()
 const tags = {models: [{name: c.chat, digest: c.chatDigest}, {name: c.embedding, digest: c.embeddingDigest}]}
 const complete = {model: c.chat, message: {content: 'Supported answer. [1]'}, done: true, done_reason: 'stop', prompt_eval_count: 20, eval_count: 5}
@@ -87,4 +88,13 @@ it('requires an explicit matching local experiment database and preserves Gemini
   vi.stubEnv('AI_PROVIDER', 'gemini')
   vi.stubEnv('DATABASE_URL', 'mock-gemini-database')
   expect(databaseConnection()).toBe('mock-gemini-database')
+})
+
+it('accepts only the explicit server-configured database port',()=>{
+  vi.stubEnv('AI_PROVIDER','ollama'); vi.stubEnv('DOCRAG_POSTGRES_PORT','55433')
+  vi.stubEnv('OLLAMA_DATABASE_URL','postgresql://local@127.0.0.1:55432/docrag_ollama_v1')
+  expect(databaseConnection).toThrow()
+  vi.stubEnv('OLLAMA_DATABASE_URL','postgresql://local@127.0.0.1:55433/docrag_ollama_v1')
+  expect(databaseConnection()).toContain(':55433/')
+  vi.stubEnv('DOCRAG_POSTGRES_PORT','65536');expect(databaseConnection).toThrow()
 })
