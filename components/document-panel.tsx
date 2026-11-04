@@ -50,7 +50,8 @@ export function DocumentPanel({
   }
 
   async function handleDelete(id: number) {
-    await fetch(`/api/documents/${id}`, { method: 'DELETE' })
+    const response=await fetch(`/api/documents/${id}`, { method: 'DELETE' })
+    if(!response.ok){setError((await response.json()).error ?? 'Deletion failed');return}
     await mutate('/api/documents')
   }
 

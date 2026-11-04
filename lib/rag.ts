@@ -61,6 +61,7 @@ export async function hybridSearch(
   query: string, documentId: number, topK = 6,
   config: RetrievalConfig = retrievalDefault,
   observer?: (timing: RetrievalTiming) => void,
+  userId:string|null=null,
 ): Promise<RetrievedChunk[]> {
   return retrieve(query, documentId, topK, config, async () => {
   const { embedding } = providerName() === 'ollama'
@@ -76,7 +77,7 @@ export async function hybridSearch(
     },
   })
     return embedding
-  }, observer)
+  }, observer, userId)
 }
 
 /** Build the numbered context block the model cites from. */

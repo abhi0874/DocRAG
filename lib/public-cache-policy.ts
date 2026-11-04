@@ -7,7 +7,7 @@ import type { RagUIMessage } from './types'
 
 /** A browser cannot opt a private document into this fixed public corpus. */
 export function publicCacheScope(snapshot: DocumentSnapshot, messages: RagUIMessage[]) {
-  if (process.env.RESPONSE_CACHE_ENABLED !== 'true' || providerName() !== 'ollama' ||
+  if (snapshot.isPublic !== true || process.env.RESPONSE_CACHE_ENABLED !== 'true' || providerName() !== 'ollama' ||
       process.env.DOCRAG_CHUNKING_EXPERIMENT !== manifest.experiment ||
       messages.length !== 1 || messages[0].role !== 'user' ||
       messages[0].parts.length !== 1 || messages[0].parts[0].type !== 'text') return null

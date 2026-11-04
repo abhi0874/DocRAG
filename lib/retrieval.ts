@@ -1,10 +1,11 @@
 import { performance } from 'node:perf_hooks'
 import { sql } from 'drizzle-orm'
 import { db } from './db'
+import {documentScope} from './security/access'
 import { fuseRanks, type SearchRow } from './rank-fusion'
 import { validateRetrieval, type RetrievalConfig, type RetrievalTiming } from './retrieval-config'
 
-export function searchStatements(query: string, documentId: number, embedding: number[], config: RetrievalConfig) {
+export function searchStatements(query: string, documentId: number, embedding: number[], config: RetrievalConfig, userId:string|null=null) {
   validateRetrieval(config)
   const vector = `[${embedding.join(',')}]`
   const tsquery = config.keywordMode === 'and'
@@ -13,11 +14,11 @@ export function searchStatements(query: string, documentId: number, embedding: n
   const tie = config.tieBreak === 'id' ? sql`, id ASC` : sql``
   const vectorSql = sql`SELECT id, content, page_number, chunk_index,
     1 - (embedding <=> ${vector}::vector) AS score FROM chunks
-    WHERE document_id = ${documentId} AND embedding IS NOT NULL
+    WHERE document_id = ${documentId} AND ${documentScope(sql`chunks.document_id`,userId)} AND embedding IS NOT NULL
     ORDER BY embedding <=> ${vector}::vector ${tie} LIMIT ${config.vectorCandidates}`
   const keywordSql = sql`SELECT id, content, page_number, chunk_index,
     ts_rank(content_tsv, ${tsquery}) AS score FROM chunks
-    WHERE document_id = ${documentId} AND content_tsv @@ ${tsquery}
+    WHERE document_id = ${documentId} AND ${documentScope(sql`chunks.document_id`,userId)} AND content_tsv @@ ${tsquery}
     ORDER BY score DESC ${tie} LIMIT ${config.keywordCandidates}`
   const combined = sql`WITH vectors AS MATERIALIZED (${vectorSql}), keywords AS MATERIALIZED (${keywordSql})
     SELECT 'vector' AS kind, * FROM vectors UNION ALL SELECT 'keyword' AS kind, * FROM keywords`
@@ -25,7 +26,7 @@ export function searchStatements(query: string, documentId: number, embedding: n
 }
 
 export async function retrieve(query: string, documentId: number, topK: number, config: RetrievalConfig,
-  embedQuery: () => Promise<number[]>, observer?: (timing: RetrievalTiming) => void) {
+  embedQuery: () => Promise<number[]>, observer?: (timing: RetrievalTiming) => void, userId:string|null=null) {
   validateRetrieval(config)
   if (typeof query !== 'string' || query.length > 8000 || !Number.isInteger(documentId) || documentId < 1
     || !Number.isInteger(topK) || topK < 1 || topK > 50) throw new Error('Invalid retrieval request')
@@ -37,7 +38,7 @@ export async function retrieve(query: string, documentId: number, topK: number, 
   if (config.mode !== 'keyword') {
     const t = performance.now(); embedding = await embedQuery(); timing.embedding_ms = performance.now() - t
   }
-  const statements = searchStatements(query, documentId, embedding, config)
+  const statements = searchStatements(query, documentId, embedding, config, userId)
   let vector: SearchRow[] = [], keyword: SearchRow[] = []
   const databaseStart = performance.now()
   if (config.execution === 'combined' && config.mode === 'hybrid') {

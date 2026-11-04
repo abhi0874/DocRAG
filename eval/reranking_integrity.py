@@ -1,5 +1,6 @@
 """Read-only preservation checks for Step 5; never rewrite older receipts."""
 
+import argparse
 import json
 import subprocess
 
@@ -15,6 +16,9 @@ from eval.validate_dataset import validate
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", type=str)
+    args = parser.parse_args()
     verify()
     validate(ROOT / "eval/golden_set.jsonl", require_review=True)
     # Preserve every historical artifact, frozen corpus and reference label.
@@ -77,7 +81,7 @@ def main():
         v.encode()
         for k, v in dotenv_values(ROOT / ".env").items()
         if v
-        and ("KEY" in k or "DATABASE_URL" in k)
+        and ("KEY" in k or "SECRET" in k or "DATABASE_URL" in k)
         and len(v) > 12
         and "replace-" not in v
     ]
@@ -95,7 +99,11 @@ def main():
         "secret_scan": "PASS; tracked and nonignored untracked files",
         "schema_changes": "none",
     }
-    save(DIRECTORY / "preservation.json", result)
+    if args.out:
+        result["schema_changes"] = (
+            "Legacy data unchanged; Step 7 additive ownership/auth tables are separate"
+        )
+    save(ROOT / args.out if args.out else DIRECTORY / "preservation.json", result)
     print(
         json.dumps({k: v for k, v in result.items() if k != "historical_file_hashes"})
     )

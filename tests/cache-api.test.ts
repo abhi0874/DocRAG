@@ -1,3 +1,4 @@
+import './security-route-fixture'
 import {afterEach,beforeEach,expect,it,vi} from 'vitest'
 import type {TextStreamPart,ToolSet} from 'ai'
 vi.mock('@/lib/db',()=>({db:{}}))
@@ -15,7 +16,7 @@ const question='In FastAPI, what Python value does item_id: int receive for /ite
 const source={id:1,content:'It receives the Python integer 3.',pageNumber:1,chunkIndex:0,vectorScore:1,keywordScore:null,rrfScore:.02}
 let versionHash=manifest.documents[0].hash
 const docId=manifest.documents[0].id
-function request(q=question) {return new Request('http://localhost/api/chat',{method:'POST',body:JSON.stringify({documentId:docId,messages:[{id:'test',role:'user',parts:[{type:'text',text:q}]}]})})}
+function request(q=question) {return new Request('http://localhost/api/chat',{method:'POST',headers:{'Content-Type':'application/json','Origin':'http://localhost'},body:JSON.stringify({documentId:docId,messages:[{id:'test',role:'user',parts:[{type:'text',text:q}]}]})})}
 function output(text='It receives integer 3 [1].', reason='stop', error=false) {
  const parts=[{type:'start'},{type:'text-start',id:'a'},{type:'text-delta',id:'a',text},{type:'text-end',id:'a'},
    ...(error?[{type:'error',error:new Error('simulated')}]:[]),{type:'finish',finishReason:reason,totalUsage:{totalTokens:30}}] as TextStreamPart<ToolSet>[]
@@ -24,7 +25,7 @@ function output(text='It receives integer 3 [1].', reason='stop', error=false) {
 beforeEach(()=>{
  vi.clearAllMocks();versionHash=manifest.documents[0].hash;responseCache.invalidateDocument(docId)
  vi.stubEnv('AI_PROVIDER','ollama');vi.stubEnv('RESPONSE_CACHE_ENABLED','true');vi.stubEnv('DOCRAG_CHUNKING_EXPERIMENT',manifest.experiment)
- vi.mocked(documentSnapshot).mockImplementation(async()=>({document:{id:docId,title:'Public',filename:'public.pdf',status:'ready'},chunks:[{...source,metadata:null}],hash:versionHash}))
+ vi.mocked(documentSnapshot).mockImplementation(async()=>({document:{id:docId,title:'Public',filename:'public.pdf',status:'ready'},chunks:[{...source,metadata:null}],hash:versionHash,isPublic:true}))
  vi.mocked(selectContext).mockResolvedValue({ranked:[source],candidates:[source],hybrid_ms:1,selection_ms:1,trace:{status:'disabled',candidates:1,elapsed_ms:0}})
  vi.mocked(startRagAnswer).mockImplementation(async()=>output())
 })

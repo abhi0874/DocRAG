@@ -4,14 +4,17 @@ import json
 import pytest
 
 from eval.corpus import ROOT
-from eval.prompting_experiments import configuration
 from eval.prompting_gate import compatible, gate
 
 
 def pair():
     a = json.loads((ROOT / "eval/results/reranking-selected.json").read_text())
     b = copy.deepcopy(a)
-    b["config"].update(configuration("grounded-v1"))
+    # This gate covers the frozen Step 6 prompt-only change. Security changes
+    # have a separate declaration and negative controls in test_security_gate.
+    b["config"] = json.loads(
+        (ROOT / "eval/results/prompting/grounded-v1.json").read_text()
+    )["config"]
     return a, b
 
 

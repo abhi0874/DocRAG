@@ -1,5 +1,6 @@
 'use client'
 
+import {AuthStatus} from './auth-status'
 import { FileSearch } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -44,6 +45,7 @@ export function AppHeader() {
           </Link>
         </nav>
       </div>
+      <AuthStatus />
       <div className="hidden items-center gap-2 md:flex">
         <span className="rounded border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
           pgvector

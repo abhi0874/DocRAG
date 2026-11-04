@@ -9,7 +9,7 @@ import { DocumentPanel } from '@/components/document-panel'
 import { SourcesPanel } from '@/components/sources-panel'
 import type { DocumentInfo, RagUIMessage, SourceChunk } from '@/lib/types'
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json())
+const fetcher = (url: string) => fetch(url).then(async r => {if(!r.ok)throw new Error('Documents unavailable');return r.json()})
 
 export function Workspace() {
   const { data: documents, isLoading } = useSWR<DocumentInfo[]>(
@@ -22,7 +22,7 @@ export function Workspace() {
 
   const { messages, sendMessage, status, setMessages } = useChat<RagUIMessage>(
     {
-      transport: new DefaultChatTransport({ api: '/api/chat' }),
+      transport: new DefaultChatTransport({ api: '/api/chat', prepareSendMessagesRequest: ({messages,body}) => ({body:{documentId:body?.documentId,messages:messages.map(m=>({id:m.id,role:m.role,parts:[{type:'text',text:m.parts.filter(p=>p.type==='text').map(p=>p.text).join(' ')}]}))}}) }),
     },
   )
 

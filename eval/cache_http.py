@@ -34,6 +34,8 @@ def server(enabled, version="grounded-v1"):
         RERANKER_ENABLED="false",
         RESPONSE_CACHE_ENABLED="true" if enabled else "false",
         RAG_PROMPT_VERSION=version,
+        DOCRAG_APP_ORIGIN=ORIGIN,
+        DOCRAG_LOCAL_HTTP="true",
     )
     env.pop("GOOGLE_GENERATIVE_AI_API_KEY", None)
     with (ROOT / ".local/step6-cache-api.log").open("a") as log:
@@ -89,7 +91,7 @@ def ask(record, question=None):
     request = urllib.request.Request(
         ORIGIN + "/api/chat",
         data=json.dumps(payload).encode(),
-        headers={"Content-Type": "application/json"},
+        headers={"Content-Type": "application/json", "Origin": ORIGIN},
     )
     with urllib.request.urlopen(request, timeout=180) as response:
         status = response.headers["X-DocRAG-Cache"]

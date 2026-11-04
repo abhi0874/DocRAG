@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
-import { eq } from 'drizzle-orm'
+import { and, sql, eq } from 'drizzle-orm'
 import { db } from './db'
+import {documentScope} from './security/access'
 import { chunks, documents } from './db/schema'
 import type { RetrievedChunk } from './rag'
 
@@ -9,16 +10,18 @@ export interface DocumentSnapshot {
   document: {id: number; title: string; filename: string; status: string}
   chunks: {id: number; chunkIndex: number; pageNumber: number; content: string; metadata: unknown}[]
   hash: string
+  isPublic: boolean
 }
-export async function documentSnapshot(id: number): Promise<DocumentSnapshot | null> {
+export async function documentSnapshot(id: number,userId:string|null=null): Promise<DocumentSnapshot | null> {
   // One transaction gives a consistent document/content version, including during replacement.
   return db.transaction(async tx => {
-    const [document] = await tx.select({id: documents.id, title: documents.title,
-      filename: documents.filename, status: documents.status}).from(documents).where(eq(documents.id, id))
-    if (!document || document.status !== 'ready') return null
+    const [row] = await tx.select({id: documents.id, title: documents.title,
+      filename: documents.filename, status: documents.status, isPublic:sql<boolean>`EXISTS(SELECT 1 FROM document_access WHERE document_id=documents.id AND visibility='public')`}).from(documents).where(and(eq(documents.id,id),documentScope(sql`documents.id`,userId)))
+    if (!row || row.status !== 'ready') return null
+    const {isPublic,...document}=row
     const rows = await tx.select({id: chunks.id, chunkIndex: chunks.chunkIndex, pageNumber: chunks.pageNumber,
       content: chunks.content, metadata: chunks.metadata}).from(chunks).where(eq(chunks.documentId, id)).orderBy(chunks.id)
-    return {document, chunks: rows, hash: digest({document, chunks: rows})}
+    return {document, isPublic, chunks: rows, hash: digest({document, chunks: rows})}
   }, {isolationLevel: 'repeatable read', accessMode: 'read only'})
 }
 export function withEvidenceMetadata(retrieved: RetrievedChunk[], snapshot: DocumentSnapshot) {

@@ -1,97 +1,49 @@
-import { desc, eq } from 'drizzle-orm'
-import { extractText, getDocumentProxy } from 'unpdf'
-import { db } from '@/lib/db'
-import { chunks, documents } from '@/lib/db/schema'
-import { chunkPages, embedChunks } from '@/lib/rag'
-
-export const maxDuration = 120
-
-export async function GET() {
-  const docs = await db
-    .select()
-    .from(documents)
-    .orderBy(desc(documents.createdAt))
-  return Response.json(docs)
+import {desc, sql} from 'drizzle-orm'
+import {db} from '@/lib/db'
+import {chunks, documents} from '@/lib/db/schema'
+import {documentAccess,documentFiles} from '@/lib/db/security-schema'
+import {chunkPages, embedChunks} from '@/lib/rag'
+import {checkOrigin,principal,safeError,HttpError} from '@/lib/security/http'
+import {documentScope} from '@/lib/security/access'
+import {consumeLimit} from '@/lib/security/limits'
+import {readPdf,parsePdf} from '@/lib/security/pdf'
+import {acquireWork} from '@/lib/security/work'
+export const maxDuration=120
+export async function GET(req:Request){
+  try{
+    const userId=await principal(req,false);await consumeLimit('read',userId)
+    const params=new URL(req.url).searchParams
+    if([...params.keys()].some(k=>k!=='offset'))throw new HttpError(400,'Invalid pagination')
+    const offset=params.get('offset')??'0'
+    if(!/^\d{1,6}$/.test(offset))throw new HttpError(400,'Invalid pagination')
+    const rows=await db.select().from(documents).where(documentScope(sql`documents.id`,userId))
+      .orderBy(desc(documents.createdAt)).limit(100).offset(Number(offset))
+    return Response.json(rows,{headers:{'Cache-Control':'no-store'}})
+  }catch(error){return safeError(error)}
 }
-
-export async function POST(req: Request) {
-  try {
-    const formData = await req.formData()
-    const file = formData.get('file')
-
-    if (!(file instanceof File)) {
-      return Response.json({ error: 'No file provided' }, { status: 400 })
-    }
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      return Response.json({ error: 'Only PDF files are supported' }, { status: 400 })
-    }
-    if (file.size > 15 * 1024 * 1024) {
-      return Response.json({ error: 'File must be under 15MB' }, { status: 400 })
-    }
-
-    // 1. Parse the PDF into per-page text
-    const buffer = new Uint8Array(await file.arrayBuffer())
-    const pdf = await getDocumentProxy(buffer)
-    const { text: pages, totalPages } = await extractText(pdf, {
-      mergePages: false,
+export async function POST(req:Request){
+  let release:(()=>void)|undefined
+  try{
+    checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('upload',userId);release=acquireWork()
+    const {bytes,filename}=await readPdf(req)
+    const {pages,totalPages}=await parsePdf(bytes)
+    const textChunks=chunkPages(pages)
+    if(!textChunks.length)throw new HttpError(400,'No extractable text found in this PDF')
+    if(textChunks.length>500)throw new HttpError(413,'PDF has too much text')
+    // Complete external work before committing any document/chunk rows.
+    const embeddings=await embedChunks(textChunks.map(c=>c.content))
+    if(req.signal.aborted)throw new HttpError(400,'Upload cancelled')
+    const doc=await db.transaction(async tx=>{
+      const [created]=await tx.insert(documents).values({title:filename.replace(/\.pdf$/i,''),filename,
+        pageCount:totalPages,chunkCount:textChunks.length,status:'ready'}).returning()
+      await tx.insert(documentAccess).values({documentId:created.id,ownerId:userId,visibility:'private'})
+      await tx.insert(documentFiles).values({documentId:created.id,bytes})
+      const rows=textChunks.map((c,i)=>({documentId:created.id,chunkIndex:c.chunkIndex,pageNumber:c.pageNumber,
+        content:c.content,embedding:embeddings[i],metadata:c.metadata ? {...c.metadata,documentId:created.id,sourceDocument:filename,
+          sourceId:`document:${created.id}:${c.metadata.sourceId}`,sectionId:`document:${created.id}:${c.metadata.sectionId}`} : null}))
+      for(let i=0;i<rows.length;i+=50)await tx.insert(chunks).values(rows.slice(i,i+50))
+      return created
     })
-
-    // 2. Chunk with overlap, preserving page numbers
-    const textChunks = chunkPages(pages)
-    if (textChunks.length === 0) {
-      return Response.json(
-        { error: 'No extractable text found in this PDF (it may be scanned images)' },
-        { status: 400 },
-      )
-    }
-
-    // 3. Create the document record
-    const title = file.name.replace(/\.pdf$/i, '')
-    const [doc] = await db
-      .insert(documents)
-      .values({
-        title,
-        filename: file.name,
-        pageCount: totalPages,
-        chunkCount: textChunks.length,
-        status: 'processing',
-      })
-      .returning()
-
-    // 4. Embed all chunks in batches
-    const embeddings = await embedChunks(textChunks.map((c) => c.content))
-
-    // 5. Insert chunks with embeddings
-    const rows = textChunks.map((c, i) => ({
-      documentId: doc.id,
-      chunkIndex: c.chunkIndex,
-      pageNumber: c.pageNumber,
-      content: c.content,
-      metadata: c.metadata ? {...c.metadata, documentId: doc.id, sourceDocument: file.name,
-        sourceId: `document:${doc.id}:${c.metadata.sourceId}`,
-        sectionId: `document:${doc.id}:${c.metadata.sectionId}`} : null,
-      embedding: embeddings[i],
-    }))
-    const INSERT_BATCH = 50
-    for (let i = 0; i < rows.length; i += INSERT_BATCH) {
-      await db.insert(chunks).values(rows.slice(i, i + INSERT_BATCH))
-    }
-
-    // 6. Mark ready
-    const [ready] = await db
-      .update(documents)
-      .set({ status: 'ready' })
-      .where(eq(documents.id, doc.id))
-      .returning()
-
-    return Response.json(ready)
-  } catch (error) {
-    console.error('Document ingestion failed')
-    const raw = error instanceof Error ? error.message : ''
-    const message =
-      raw.includes('API key') || raw.includes('API_KEY') || raw.includes('401') || raw.includes('403')
-        ? 'Google API key is missing or invalid. Add GOOGLE_GENERATIVE_AI_API_KEY (free from aistudio.google.com) and retry.'
-        : 'Failed to process the PDF. Please try another file.'
-    return Response.json({ error: message }, { status: 500 })
-  }
+    return Response.json(doc,{status:201,headers:{'Cache-Control':'no-store'}})
+  }catch(error){return safeError(error)}finally{release?.()}
 }

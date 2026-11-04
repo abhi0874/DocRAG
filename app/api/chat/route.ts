@@ -1,3 +1,6 @@
+import {checkOrigin,principal,jsonBody,chatInput,safeError} from '@/lib/security/http'
+import {consumeLimit} from '@/lib/security/limits'
+import {acquireWork} from '@/lib/security/work'
 import { createUIMessageStream, createUIMessageStreamResponse, toUIMessageStream } from 'ai'
 import { selectContext } from '@/lib/select-context'
 import { startRagAnswer } from '@/lib/rag-answer'
@@ -14,13 +17,19 @@ import type { RagUIMessage } from '@/lib/types'
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const {messages, documentId}: {messages: RagUIMessage[]; documentId?: number} = await req.json()
+  let releaseWork:(()=>void)|undefined
+  try {
+  checkOrigin(req)
+  const userId=await principal(req,false)
+  await consumeLimit(userId ? 'chat':'public',userId)
+  const {messages,documentId}=await jsonBody(req,chatInput)
   if (!documentId) return Response.json({error: 'No document selected'}, {status: 400})
   const lastUser = [...messages].reverse().find(m => m.role === 'user')
   const question = lastUser?.parts.filter(p => p.type === 'text').map(p => p.text).join(' ') ?? ''
-  const snapshot = await documentSnapshot(documentId)
+  const snapshot = await documentSnapshot(documentId,userId)
   if (!snapshot) {responseCache.invalidateDocument(documentId); return Response.json({error: 'Document unavailable'}, {status: 404})}
-  const selection = await selectContext(question, documentId, 6)
+  releaseWork=acquireWork()
+  const selection = await selectContext(question, documentId, 6, undefined, undefined, undefined, userId)
   const retrieved = withEvidenceMetadata(selection.ranked, snapshot)
   const version = promptVersion()
   const scope = publicCacheScope(snapshot, messages)
@@ -29,8 +38,8 @@ export async function POST(req: Request) {
     model: await cacheModelIdentity(), prompt: {version, instructions: answerInstructions(retrieved, version)},
     history: messages.map(m => ({role: m.role, parts: m.parts}))}) : null
   // A concurrent edit must not turn a previously eligible snapshot into a stale hit.
-  const current = key ? await documentSnapshot(documentId) : snapshot
-  if (!current || current.hash !== snapshot.hash) return Response.json({error: 'Document changed; retry'}, {status: 409})
+  const current = key ? await documentSnapshot(documentId,userId) : snapshot
+  if (!current || current.hash !== snapshot.hash) {releaseWork();return Response.json({error: 'Document changed; retry'}, {status: 409})}
   const hit = key && scope ? responseCache.get(key, scope, answer => validateCitations(answer.text, retrieved.length).valid) : undefined
   const owner = !!(key && !hit && responseCache.acquire(key))
   const status = hit ? 'HIT' : !key ? 'BYPASS' : owner ? 'MISS' : 'BYPASS_BUSY'
@@ -41,6 +50,7 @@ export async function POST(req: Request) {
   const release = () => {
     if (released) return
     released = true
+    releaseWork?.()
     if (owner && key) responseCache.release(key)
   }
   const stream = createUIMessageStream<RagUIMessage>({
@@ -68,7 +78,7 @@ export async function POST(req: Request) {
     },
   })
   const response = createUIMessageStreamResponse({stream, headers: {
-    'X-DocRAG-Cache': status, 'X-DocRAG-Prompt': version,
+    'Cache-Control':'no-store', 'X-DocRAG-Cache': status, 'X-DocRAG-Prompt': version,
     'X-DocRAG-Reranker-Status': selection.trace.status,
     ...(selection.trace.reason ? {'X-DocRAG-Reranker-Reason': selection.trace.reason} : {}),
   }})
@@ -83,7 +93,7 @@ export async function POST(req: Request) {
           // Commit only after the HTTP response body drains, not merely model completion.
           try {
             if (owner && !released && key && scope && completedAnswer && !signal.aborted) {
-              const after = await documentSnapshot(documentId)
+              const after = await documentSnapshot(documentId,userId)
               if (!signal.aborted && after?.hash === snapshot.hash && publicCacheScope(after, messages) === scope)
                 responseCache.set(key, scope, documentId, completedAnswer)
             }
@@ -101,4 +111,5 @@ export async function POST(req: Request) {
       catch { /* The aborted upstream stream is expected to reject. No result is cached. */ }
     },
   }), {status: response.status, headers: response.headers})
+  } catch(error){releaseWork?.();return safeError(error)}
 }

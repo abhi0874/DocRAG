@@ -1,0 +1,3 @@
+import {defineConfig} from 'drizzle-kit'
+// Additive security tables only. Existing application tables stay in db/init.sql.
+export default defineConfig({dialect:'postgresql',schema:'./lib/db/security-schema.ts',out:'./db/security-migrations'})

@@ -46,12 +46,13 @@ it('rejects invalid IDs and adjacent duplicate citations without claiming suppor
 })
 describe('public cache eligibility', () => {
   const messages = [{id:'m', role:'user' as const, parts:[{type:'text' as const,text:'In FastAPI, what Python value does item_id: int receive for /items/3?'}]}]
-  const snapshot = {document:{id:manifest.documents[0]?.id},hash:manifest.documents[0]?.hash} as DocumentSnapshot
+  const snapshot = {isPublic:true,document:{id:manifest.documents[0]?.id},hash:manifest.documents[0]?.hash} as DocumentSnapshot
   it('defaults off and never trusts client ownership flags', () => {
     expect(publicCacheScope(snapshot,messages)).toBeNull()
     vi.stubEnv('RESPONSE_CACHE_ENABLED','true');vi.stubEnv('AI_PROVIDER','ollama');vi.stubEnv('DOCRAG_CHUNKING_EXPERIMENT',manifest.experiment)
     expect(publicCacheScope(snapshot,messages)).toBe(manifest.scope)
     expect(publicCacheScope({...snapshot,hash:'private'},messages)).toBeNull()
+    expect(publicCacheScope({...snapshot,isPublic:false},messages)).toBeNull()
     expect(publicCacheScope(snapshot,[...messages,...messages])).toBeNull()
     expect(publicCacheScope(snapshot,[{...messages[0],parts:[{type:'text',text:'Private question about me'}]}])).toBeNull()
     vi.stubEnv('AI_PROVIDER','gemini');expect(publicCacheScope(snapshot,messages)).toBeNull()

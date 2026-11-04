@@ -26,6 +26,8 @@ def run_mode(mode):
     env = os.environ.copy()
     env.update(
         AI_PROVIDER="ollama",
+        DOCRAG_APP_ORIGIN="http://127.0.0.1:8003",
+        DOCRAG_LOCAL_HTTP="true",
         DOCRAG_CHUNKING_EXPERIMENT="heading-1400-280",
         OLLAMA_DATABASE_URL=experiment_url("heading-1400-280"),
         RERANKER_ENABLED="false" if mode == "disabled" else "true",
@@ -82,7 +84,7 @@ def run_mode(mode):
             request = urllib.request.Request(
                 origin + "/api/chat",
                 method="POST",
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "Origin": origin},
                 data=json.dumps(
                     {
                         "documentId": doc["id"],

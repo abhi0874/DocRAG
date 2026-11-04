@@ -1,3 +1,4 @@
+import './security-route-fixture'
 import { expect, it, vi } from 'vitest'
 vi.mock('@/lib/select-context', () => ({selectContext: vi.fn()}))
 vi.mock('@/lib/evidence', () => ({documentSnapshot: vi.fn(async () => ({hash: 'test'})), withEvidenceMetadata: (r: unknown) => r}))
@@ -19,9 +20,9 @@ it.each(['reranked', 'fallback', 'disabled'] as const)('chat uses selected evide
     selection_ms: 2, trace: {status, candidates: 1, elapsed_ms: 1, ...(status === 'fallback' ? {reason: 'timeout'} : {})}})
   vi.mocked(startRagAnswer).mockResolvedValue({stream: new ReadableStream()} as never)
   const messages = [{id: 'm', role: 'user', parts: [{type: 'text', text: 'question'}]}]
-  const response = await POST(new Request('http://localhost/api/chat', {method: 'POST',
+  const response = await POST(new Request('http://localhost/api/chat', {method: 'POST',headers:{'Content-Type':'application/json','Origin':'http://localhost'},
     body: JSON.stringify({documentId: 42, messages})}))
-  expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6)
+  expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6, undefined, undefined, undefined, 'unit-user')
   expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked, 'step5-v1', expect.any(AbortSignal))
   expect(response.headers.get('X-DocRAG-Reranker-Status')).toBe(status)
   if (status === 'fallback') expect(response.headers.get('X-DocRAG-Reranker-Reason')).toBe('timeout')
