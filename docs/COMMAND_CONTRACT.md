@@ -1133,3 +1133,34 @@ existing data. Privately set the matching DATABASE_URL and explicit port. Verify
 `SHOW data_directory`, `SHOW port` and database name before writes. The existing
 24-group `scripts.verify_security --run-id step8-prerequisite-UNIQUE` remains the
 prerequisite command; use a new run directory and preserve historical artifacts.
+
+### Pre-instrumentation HTTP timing sample
+
+The Step 8 prerequisite collected 5 warmups and 30 sequential GET requests to
+`/api/documents` using `scripts.security_http.configuration`, its production
+`server` context manager and `request` helper. Every response was HTTP 200 with
+exactly the two public documents. Durations use `time.perf_counter`; p50/p95 use
+`eval.metrics.percentile`. The raw observations are retained in
+`.local/step8-overhead-baseline.json`. This ran concurrently with local evaluation,
+so it is an observational baseline, not an isolated causal estimate. Reproduce
+with the same isolated test database and no provider inference:
+
+```sh
+.venv/bin/python - <<'PYTHON'
+import time, statistics
+from scripts.security_http import configuration, server, request
+from eval.metrics import percentile
+_, env = configuration()
+values = []
+with server(env):
+    for index in range(35):
+        start = time.perf_counter()
+        status, _, _ = request('/api/documents')
+        duration = (time.perf_counter() - start) * 1000
+        assert status == 200
+        if index >= 5:
+            values.append(duration)
+print({'n': len(values), 'mean_ms': statistics.mean(values),
+       'p50_ms': percentile(values, .5), 'p95_ms': percentile(values, .95)})
+PYTHON
+```

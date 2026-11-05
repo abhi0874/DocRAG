@@ -1,0 +1,806 @@
+{
+  "sources": [
+    "eval/results/prompting/step5-v1.json",
+    "eval/results/security/step7-final-b/evaluation.json"
+  ],
+  "changes": [
+    {
+      "id": "fastapi-001",
+      "answer_changed": true,
+      "old_count": 1,
+      "new_count": 1,
+      "old_generated_at": "2026-10-30T11:41:15.885Z",
+      "new_generated_at": "2026-11-03T21:21:05.200Z",
+      "old_answer_sha256": "1eb6c4f58b59738499c82c378f8e11bc20e853575c5aa889e6986ff7fdef964a",
+      "new_answer_sha256": "38b04541f012bc026bb9ca0ab659eab19180fa846865df2106c74354ac3268c6",
+      "old_cache_files": [
+        "answer-dd8ce26d63c126930cab08ee8668a4f5ba4dee9f57be76e8bdd69937dbf7b335.json"
+      ],
+      "new_cache_files": [
+        "answer-84d21cbd364f1e0e873461c933f2ef703370215db6a84375bb51b1d7fd2400e9.json"
+      ]
+    },
+    {
+      "id": "fastapi-002",
+      "answer_changed": true,
+      "old_count": 1,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:41:22.334Z",
+      "new_generated_at": "2026-11-03T21:21:24.915Z",
+      "old_answer_sha256": "1bab6ed04a4f0b4b868a4eabdb665ae08b6b5cf1edb448e767153e0f8d0c43c5",
+      "new_answer_sha256": "077c46f42807acfff4b464cae4978cec269191ae17fac6a072a0b8ded9ad1ddb",
+      "old_cache_files": [
+        "answer-43bfb7eaebfdcc0d1168c841c6fd4d04cacb8485a6d56cdcedf723889dd8cc15.json"
+      ],
+      "new_cache_files": [
+        "answer-b430b052911b6eec652e6e877a7eedbf1b2e344e20d255456f31c371b0126344.json"
+      ]
+    },
+    {
+      "id": "fastapi-005",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T11:41:58.356Z",
+      "new_generated_at": "2026-11-03T21:22:36.539Z",
+      "old_answer_sha256": "9913bfd50320b2a7a6f06c72fedeefd3253d3683a192f7fc7a87128808f3f6c1",
+      "new_answer_sha256": "9bc6a82803e36c404cfa4149bdfcc5676a6db25188bde75291f8ef4cc34f3c11",
+      "old_cache_files": [
+        "answer-03f52c03c25247467218125dd9150da4c45a5ad8f78d47098658cbd026be8c93.json"
+      ],
+      "new_cache_files": [
+        "answer-05d1b32d76314dff398e9387b9669689e20fc3e048a99e47fbf75f32f7d42adf.json"
+      ]
+    },
+    {
+      "id": "fastapi-007",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T11:42:37.001Z",
+      "new_generated_at": "2026-11-03T21:23:17.657Z",
+      "old_answer_sha256": "438f911b7b2de41ccc191446ba72e103c5d9f2c2c7d59b221efb51ed12a47409",
+      "new_answer_sha256": "fd5aaa118ecd5d094ac8f76458cbe9465138d8d33302d98283b96f6e56df134c",
+      "old_cache_files": [
+        "answer-7fe34395c05ddfc5b65c5f534899137432d72e5686e2500187b11837ff061b77.json"
+      ],
+      "new_cache_files": [
+        "answer-b39e03650db74c4bc33f4b1ce1dc61223188847c262cd89f374d883d079a4daa.json"
+      ]
+    },
+    {
+      "id": "fastapi-013",
+      "answer_changed": true,
+      "old_count": 4,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T11:44:31.974Z",
+      "new_generated_at": "2026-11-03T21:25:09.268Z",
+      "old_answer_sha256": "6e7ee567efafef4d5c271770a8688de2eaf94dc45019a4479d1125242b43a37e",
+      "new_answer_sha256": "19b1defbedf02436e96c88fb52ef4e485e40f45f9f0c96332ccf673aebb30405",
+      "old_cache_files": [
+        "answer-4ae90096a0c5a43450ef65fa7cf9ef49d988f5ff954660315ba100ccc541fd7a.json"
+      ],
+      "new_cache_files": [
+        "answer-e6e19f74c6dac082cc84d7db73f72818581a705c0115bcee94427043714fd55e.json"
+      ]
+    },
+    {
+      "id": "fastapi-015",
+      "answer_changed": true,
+      "old_count": 7,
+      "new_count": 7,
+      "old_generated_at": "2026-10-30T11:45:11.065Z",
+      "new_generated_at": "2026-11-03T21:25:48.826Z",
+      "old_answer_sha256": "f68c8e9945b76009c5827459c698acd6b060554340820a53d186904510366010",
+      "new_answer_sha256": "8247b68bd64800e1fff6c4fac1f35caaa65d73c5a139a835a2cb99e7f70927d4",
+      "old_cache_files": [
+        "answer-454d9df19f7562ed1efb60291eba175af70dffa4d36e7a763327c937898aa5e9.json"
+      ],
+      "new_cache_files": [
+        "answer-19bd9fbe9cbebeae545ff1e8cd818216e410719e85387d950916ecaf4a00fc40.json"
+      ]
+    },
+    {
+      "id": "fastapi-016",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:45:40.611Z",
+      "new_generated_at": "2026-11-03T21:26:14.562Z",
+      "old_answer_sha256": "e520fa2e3fcea7847033c148a7f2a934af51fcffb9afc92188b0657afcb8f3e6",
+      "new_answer_sha256": "8bbbd08f555b074b354f503dde717c1106f8623bcd7df3df97444c13b0b291f8",
+      "old_cache_files": [
+        "answer-3f2f2d0249d9c4100dddee2f17dbac9edb5e67cf5772dac8cdcc5c08ca58df5b.json"
+      ],
+      "new_cache_files": [
+        "answer-ea27dc3270f2c645d7fb57c9c7d2563746ae188e3348dfcb08a7dfb5a8421417.json"
+      ]
+    },
+    {
+      "id": "fastapi-017",
+      "answer_changed": true,
+      "old_count": 9,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T11:46:12.556Z",
+      "new_generated_at": "2026-11-03T21:26:43.187Z",
+      "old_answer_sha256": "3ee27c1f7362914a18b0fc449bbf895e3cd314abd579102e0882ba03f6e7a239",
+      "new_answer_sha256": "3066d88dd64fc39d7568bc1873a7a36620021400c811af72e2f25ec71e97ab42",
+      "old_cache_files": [
+        "answer-391ebf0eb2207de8c7115d587ddbbcd79fc098408ed7095904bfe558662a39b9.json"
+      ],
+      "new_cache_files": [
+        "answer-51616d49d6d5016aebf36c26f2ef0ca21e1c77b00e3e04f77496125df12c50b5.json"
+      ]
+    },
+    {
+      "id": "fastapi-019",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:47:26.151Z",
+      "new_generated_at": "2026-11-03T21:27:46.847Z",
+      "old_answer_sha256": "fec2994e69323999808e50274d29273a918b6357f374e99c912ed7610c57bb0b",
+      "new_answer_sha256": "35670ef9d0fc75143316d65a07c69fcf91d9173aa8cb497e78a8fb992d6f4e75",
+      "old_cache_files": [
+        "answer-e3e93a17f205adb9d1bd447fb3ecf7dc41f2fe8451eeafcddcce102f4951823b.json"
+      ],
+      "new_cache_files": [
+        "answer-5f9bfee9d0785019b5362b7df449e6f886889df5b1338e67103ae2ca62d8f079.json"
+      ]
+    },
+    {
+      "id": "fastapi-020",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:48:01.197Z",
+      "new_generated_at": "2026-11-03T21:28:19.857Z",
+      "old_answer_sha256": "287954e9c3e908d112dd3fec3e8649a8fac3edb265f5401cfd33ad2a54684532",
+      "new_answer_sha256": "52ad7f64452c6ee8e125ed911b5f31033ed504d7f5271a0caa82f09717be1556",
+      "old_cache_files": [
+        "answer-f3b1b7ffdff33f359517ea81ed8a9dff64c7aea4c50047dc7808561d24c777ff.json"
+      ],
+      "new_cache_files": [
+        "answer-dd744c1e9ca9f4bfcf179ab557fad4588b67ba222364fc465e1f373e87282df3.json"
+      ]
+    },
+    {
+      "id": "fastapi-021",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:48:31.226Z",
+      "new_generated_at": "2026-11-03T21:28:50.191Z",
+      "old_answer_sha256": "9e90ebcdc371ef5b2eedbc0e1275d6e92b31a7489765ae6e36aaa1138e8915d3",
+      "new_answer_sha256": "cbff63f12960f07a766b4fe453ba2f776d680ed84adaa9b9e02405c5620910fd",
+      "old_cache_files": [
+        "answer-1b2e5f41a4c3bfeaeb1e4c64a74d858606295a278a226bffb791aaf9faf2c6d8.json"
+      ],
+      "new_cache_files": [
+        "answer-e876d4dd4519acf744167a737bae00db2b09aff87b5724966b422d70f51674ba.json"
+      ]
+    },
+    {
+      "id": "fastapi-024",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T11:49:49.336Z",
+      "new_generated_at": "2026-11-03T21:30:07.888Z",
+      "old_answer_sha256": "9f30e40a1bf4be7f805022fafba11ade2d95b351265f13897e3891738cc88c04",
+      "new_answer_sha256": "e673f17b5c364e9ee6f2967cadad72d5965c16ff8de0955420110ce121b5f4d0",
+      "old_cache_files": [
+        "answer-a41190a3f98d2af20c2c01680ab12fd1554bb7fbb9a921c767c3bf667cbb7737.json"
+      ],
+      "new_cache_files": [
+        "answer-9856e26ae13e3a08d0f366fa6b5ea36dcf0f23681ebaa6f09e613a093d265147.json"
+      ]
+    },
+    {
+      "id": "fastapi-026",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T11:50:43.160Z",
+      "new_generated_at": "2026-11-03T21:31:04.018Z",
+      "old_answer_sha256": "63fccdfc47bc9a6b2ae1caea6064960a78cefd0d0467fd73d43fa69cc51c5138",
+      "new_answer_sha256": "11f1ca5a2c30876decfaa0096e745d7d85b6f8e4c9cb2a5e1cc62dec5383e111",
+      "old_cache_files": [
+        "answer-a80e204b75c53f9ce8453fba904a012b5cb2b57101375b0484c4f1c96f2207bf.json"
+      ],
+      "new_cache_files": [
+        "answer-af569f50263b4ee425ac799c36465f9e7fe170b7800ed2e5876bc4c3795c75bb.json"
+      ]
+    },
+    {
+      "id": "fastapi-029",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T11:52:12.141Z",
+      "new_generated_at": "2026-11-03T21:32:36.648Z",
+      "old_answer_sha256": "83e9ff0650ab033b55a37786541bb34c403d05612d5fb1c1661dcc3c8828ff89",
+      "new_answer_sha256": "8a8bf7820717caad3cf3ea962110a9ec131009490027f613ae19669e69f1ac65",
+      "old_cache_files": [
+        "answer-0a30afd31e4c3e3bec5ce0b895cd3e76e14064dd8d6102900eba7a655255bf18.json"
+      ],
+      "new_cache_files": [
+        "answer-c1b847243c1696b337673fed5eb7443a4a543fba50b563ac7b7a3c5a3a4f3c81.json"
+      ]
+    },
+    {
+      "id": "fastapi-032",
+      "answer_changed": true,
+      "old_count": 9,
+      "new_count": 9,
+      "old_generated_at": "2026-10-30T11:53:52.331Z",
+      "new_generated_at": "2026-11-04T09:59:46.838Z",
+      "old_answer_sha256": "07eb6e7076dff0dcc0654d7a64a8a0d11bd5bb73ccca2ea6cde5b8e619e81e5b",
+      "new_answer_sha256": "f4366eeec4a0504d8ec44254aa9fc45fb7b5ff9f3157092e629dae6a8e6e7843",
+      "old_cache_files": [
+        "answer-33012e55ba859dee962d8a26aa6a3a5725d4bfe990cfd5c04c6b1d93f1e42e70.json"
+      ],
+      "new_cache_files": [
+        "answer-681f6a6baa92835e49adbf324838293ab2cc19fe0e4e14d82bdaaf980956011b.json"
+      ]
+    },
+    {
+      "id": "fastapi-033",
+      "answer_changed": true,
+      "old_count": 6,
+      "new_count": 7,
+      "old_generated_at": "2026-10-30T11:54:35.016Z",
+      "new_generated_at": "2026-11-04T10:00:25.535Z",
+      "old_answer_sha256": "56432cda0be789d7d62f373cd8bdae22c73c137fbb09aede4de2e9179fab84ec",
+      "new_answer_sha256": "f93b3b51e4dd2f3c2ff745a64a9dbd83149df2b60f3f4ad08380357a868afe10",
+      "old_cache_files": [
+        "answer-af62bd401f9877a5f1bc2837de2a186ed614a97828dee9b1f56311bd020adacb.json"
+      ],
+      "new_cache_files": [
+        "answer-261148d10f34abea56fb6ef8ba5fc80fad2c239917fa121a52b35d8021433050.json"
+      ]
+    },
+    {
+      "id": "fastapi-034",
+      "answer_changed": true,
+      "old_count": 6,
+      "new_count": 6,
+      "old_generated_at": "2026-10-30T11:55:16.571Z",
+      "new_generated_at": "2026-11-04T10:01:02.641Z",
+      "old_answer_sha256": "f5fd46b40526e91e39ddc65342922f92c7c3c3786fa57ac0296bb32fc032c208",
+      "new_answer_sha256": "c60d62494ca0772fa6c2148b0870ca3812f979a648c1e6931e41a0f32ffac52f",
+      "old_cache_files": [
+        "answer-8260721f3f3660660de4c4cde28b04cd9af0c7c9c47f5bdf89d7785bfee1865b.json"
+      ],
+      "new_cache_files": [
+        "answer-62862153d2d842f6c7011d5907f763fef7426b4e8a55791ec19e3c96c50bff14.json"
+      ]
+    },
+    {
+      "id": "fastapi-035",
+      "answer_changed": true,
+      "old_count": 9,
+      "new_count": 9,
+      "old_generated_at": "2026-10-30T11:56:06.819Z",
+      "new_generated_at": "2026-11-04T10:01:44.932Z",
+      "old_answer_sha256": "a6ef84ecf85c434f89e3f3c38d831bea0af16472a1c9acac1a9aa2de07deeb27",
+      "new_answer_sha256": "16fa06b995eb4b8de73cc917a3c42ad3baa2e0c0b2477b29f74a599dbe9139f1",
+      "old_cache_files": [
+        "answer-477ef87f52ea8b765ac53ac5a630eba8f061833fa8bfec5aff4dc5050194681f.json"
+      ],
+      "new_cache_files": [
+        "answer-15dee0a1151e4022c4ee4ee9054cf793567308705ec319a599e5fbfe1d009019.json"
+      ]
+    },
+    {
+      "id": "fastapi-037",
+      "answer_changed": true,
+      "old_count": 10,
+      "new_count": 9,
+      "old_generated_at": "2026-10-30T11:57:44.761Z",
+      "new_generated_at": "2026-11-04T10:03:12.412Z",
+      "old_answer_sha256": "ef7348d5dd642e7e47461bdcf9163e8488c9ef1bec72ba09fec9dd5c5a5ebd31",
+      "new_answer_sha256": "5ae688e44a4e19cc316affa5fe33ece0cdbde2553218acb9e338030778722537",
+      "old_cache_files": [
+        "answer-ca5fe267ff98f7af6c26e798a7aa5c0f83134e1e128fc3cc3410c8f2646479c1.json"
+      ],
+      "new_cache_files": [
+        "answer-64fc8768cd56f1b3d27e1a1937f3c0e71b0aaaff885559fd1f25e86430280bf6.json"
+      ]
+    },
+    {
+      "id": "fastapi-038",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:58:41.840Z",
+      "new_generated_at": "2026-11-04T10:04:01.185Z",
+      "old_answer_sha256": "2a02e0709a3896e93f7db3b0a829952a0cdb1f1aaccc16d55d0dc54ecb09ca03",
+      "new_answer_sha256": "9fe80fbf8787b34bc5e33c70a7097fb44d380996a8211ad3d66940497ba54c50",
+      "old_cache_files": [
+        "answer-e071a5042ff29b2d9ac5ef5f4c9523931b02a4a2bd99eb975d47d9c67ed16338.json"
+      ],
+      "new_cache_files": [
+        "answer-a0c6f9d2e233496d2ce7844a62b492e304eb02201d5cb94f0edac94fe8cae3ad.json"
+      ]
+    },
+    {
+      "id": "fastapi-040",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 6,
+      "old_generated_at": "2026-10-30T12:00:05.901Z",
+      "new_generated_at": "2026-11-04T10:05:16.319Z",
+      "old_answer_sha256": "83f7705f16e0bdfa462177f4d482642aec3f0bfcc9499ea59fbfb198ccfa99fa",
+      "new_answer_sha256": "bd5c8c70b733a9abc8e662795d1ded8156d049ff9b54d4ab8c248da445f4a087",
+      "old_cache_files": [
+        "answer-74f5bface7be18ebfe58630ad8ee3406ed340e842e6c42e607481acbefdfa477.json"
+      ],
+      "new_cache_files": [
+        "answer-dabf1cebb2e410a47792df172deb83b8a57668c6ef9bc5e003e40ddc2827dbd7.json"
+      ]
+    },
+    {
+      "id": "postgresql-001",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T12:02:38.298Z",
+      "new_generated_at": "2026-11-04T10:07:41.561Z",
+      "old_answer_sha256": "b28e97e7bf37c70bba94535322c8ad826263bf7eb8d3da7fd522da9e3bb85970",
+      "new_answer_sha256": "0c281ae165bba3b3d6ce1993c119a1afa7cb7b94d8bc6c7413a8159ce8852eef",
+      "old_cache_files": [
+        "answer-abb17ee3d2ceafc144de30bbabe2db32b714aa787586b57f9342fce44b17eaa1.json"
+      ],
+      "new_cache_files": [
+        "answer-8cfeb649e1c0e80db974133184477f264002ce4c4938357780da2bb5919f21c0.json"
+      ]
+    },
+    {
+      "id": "postgresql-003",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T12:03:28.843Z",
+      "new_generated_at": "2026-11-04T10:08:25.640Z",
+      "old_answer_sha256": "5440fbad97d4466e832746a6877eee3860ca5c94467cac81a11fe8f6c368243a",
+      "new_answer_sha256": "0500406686141a8914d3d527a9868abf1b44c45b84b4b5c7a301f8304ed2d725",
+      "old_cache_files": [
+        "answer-af711a344d479ecbd3e61666f9743fce21d61a3e36fb4e64d24946d192e42097.json"
+      ],
+      "new_cache_files": [
+        "answer-6db53766c304f01d5944044f9ed0bdcb8037c5a87610e35f73b098d1e8bda682.json"
+      ]
+    },
+    {
+      "id": "postgresql-008",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T12:05:42.433Z",
+      "new_generated_at": "2026-11-04T10:10:28.186Z",
+      "old_answer_sha256": "53ab02e37f16d860a18e14be8398618b176e0025954059d457a643f04de52143",
+      "new_answer_sha256": "04dcc584cc88c269d8ad4f42cda5f3dd21d6c528068445f309353020fa9e164d",
+      "old_cache_files": [
+        "answer-b35a97b13eef6ca39d6d14d61c2d20d4d3027a4bf548d377d9a5bcf32776306e.json"
+      ],
+      "new_cache_files": [
+        "answer-23bda3e5f0075657194d6f07c7d3298a378f47fca0871b01c95c5944bb2e620d.json"
+      ]
+    },
+    {
+      "id": "postgresql-018",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 5,
+      "old_generated_at": "2026-10-30T12:09:33.722Z",
+      "new_generated_at": "2026-11-04T10:14:32.923Z",
+      "old_answer_sha256": "f44e847b946ab342f11650ac45f84962518ec768a8d49fd944fb8a23017c4ee8",
+      "new_answer_sha256": "8f77ca78513930c5bf1a6c99059a94e8f7caef22921a274cae85e709bc32487e",
+      "old_cache_files": [
+        "answer-4ec5610b891ed01e016eaa12ae5fbf16868339d285faace514abafd3a89f9461.json"
+      ],
+      "new_cache_files": [
+        "answer-b2708da8cf1f8d6cb65e2b9eaa4aaf67a26e882de65dc19d2c57858c99d6a089.json"
+      ]
+    },
+    {
+      "id": "postgresql-019",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 1,
+      "old_generated_at": "2026-10-30T12:10:00.487Z",
+      "new_generated_at": "2026-11-04T10:15:00.085Z",
+      "old_answer_sha256": "934e26b9c44f81ef872206ed6c38792ac62ff4c073676a5312876a5e58179eeb",
+      "new_answer_sha256": "6aebec9f71dd459c14a7c39827da16d66654c80c6337195587a08546574bea11",
+      "old_cache_files": [
+        "answer-c366cd9311f15525ebc3834d61f7212eccd871558a5e61506238d5446a27f949.json"
+      ],
+      "new_cache_files": [
+        "answer-98bd9c707970c5c0ceb70678817e65e76271c4b52001840ceef83b256b605ede.json"
+      ]
+    },
+    {
+      "id": "postgresql-021",
+      "answer_changed": true,
+      "old_count": 4,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:10:43.704Z",
+      "new_generated_at": "2026-11-04T10:15:40.902Z",
+      "old_answer_sha256": "2a8780c79aac8d90a2382484abe2524ae830db49632764712c6ce5443cad74fc",
+      "new_answer_sha256": "c685c490a05bc7202e2562f00cd0213d058895207581ecb2c3bffe1ca4c45664",
+      "old_cache_files": [
+        "answer-29a01ce29a34633cb0bda6e9387bd4ec34b179b94e224cb30c3dbab6c940d69c.json"
+      ],
+      "new_cache_files": [
+        "answer-cbd638f5a500366a59403080a6e3f115c3d79fae60e80971d77c7c8460837da3.json"
+      ]
+    },
+    {
+      "id": "postgresql-029",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T12:14:11.483Z",
+      "new_generated_at": "2026-11-04T10:19:25.736Z",
+      "old_answer_sha256": "fc8b4e2507369a861f558faaa7783981ab6c0f2d96d9f0898aa6a38b744339a2",
+      "new_answer_sha256": "7b6999f53d075e80658ab3af7ba4df163586b4226ede5f545f380ce4c6f6ce2d",
+      "old_cache_files": [
+        "answer-4004ebcf94d04ace486f668ba7daa7db32b1109f1a49bbf531038e791613030a.json"
+      ],
+      "new_cache_files": [
+        "answer-a13a1839c4cf0505291a16dea18fe59d9d5ab5a1446ea9f46199bed0602c72e9.json"
+      ]
+    },
+    {
+      "id": "postgresql-030",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T12:14:36.974Z",
+      "new_generated_at": "2026-11-04T10:19:50.708Z",
+      "old_answer_sha256": "f675a97aebbdbfa3b648e80ccac49c466394755d434711ca7c273a33a1227843",
+      "new_answer_sha256": "ab56d341f2bbfb37c65afd3ba813671b6758869ee35607cd1f3fede586d9b5fa",
+      "old_cache_files": [
+        "answer-616b4272dcbb135a3527a65f4dd2ea2e3e03adaad10cd5a6dc0a4dd8329a36f0.json"
+      ],
+      "new_cache_files": [
+        "answer-c88b70e918eb133f72a20bfc13e05430bcaf59fb9e519e5c7e432e5c278c0e6b.json"
+      ]
+    },
+    {
+      "id": "postgresql-031",
+      "answer_changed": true,
+      "old_count": 11,
+      "new_count": 11,
+      "old_generated_at": "2026-10-30T12:15:18.871Z",
+      "new_generated_at": "2026-11-04T10:20:28.403Z",
+      "old_answer_sha256": "5ee4ebb3e6ee19e80dbcc396e8cfd1564b5cd50b861a9356eb29f856e25432bc",
+      "new_answer_sha256": "caf461bc79c9e61baa3235e26f8d2b72ffe058283cdcef83c2cb99789c75ce7f",
+      "old_cache_files": [
+        "answer-f9d271c0076f9aa66cc90bfae36920bd7f565c6523dabaa7606eb5ac87cbe188.json"
+      ],
+      "new_cache_files": [
+        "answer-68f61c3822f93f3a1b99ee8f6a2d70c2b3c8553c83bdd476bdd6548bcade66b5.json"
+      ]
+    },
+    {
+      "id": "postgresql-032",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 5,
+      "old_generated_at": "2026-10-30T12:16:14.151Z",
+      "new_generated_at": "2026-11-04T10:21:22.515Z",
+      "old_answer_sha256": "7758a8065e45b53a16ce86c929e5681cd07c83f8cc729a2944164edd58d4fa27",
+      "new_answer_sha256": "c029992a55ad8725ba8549587d9afff9ffb6ad1023e69a63dde79bac8dfcef52",
+      "old_cache_files": [
+        "answer-4d42b0662c30ab7229b3ad2418fbb85ae291258e82ad4b5b6133a59ee28c6bd7.json"
+      ],
+      "new_cache_files": [
+        "answer-a6819cc3a3135eb48ae71edc2f743bd915d3db5cbdd8728bf7c5067ba76bdfbf.json"
+      ]
+    },
+    {
+      "id": "postgresql-033",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:16:53.641Z",
+      "new_generated_at": "2026-11-04T10:22:00.602Z",
+      "old_answer_sha256": "9f5794cdaa20dceb0e73cc22adc2f3274477fc821eccf1e0e1740dfa8f3d5fd4",
+      "new_answer_sha256": "bf6142415ea0bed1d9d6fa1d203d14a5e7c850890a8db4bf1b3a6a4aa2e3b44d",
+      "old_cache_files": [
+        "answer-9f83e4ac00d7e3a5663b6e72e814e99f823773ee7ef38b4326380f83968cb06a.json"
+      ],
+      "new_cache_files": [
+        "answer-f38633a5d7a002e4bb686d79071520d6102132a2b002efc6a26a7e4b4fb88375.json"
+      ]
+    },
+    {
+      "id": "postgresql-035",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T12:17:55.409Z",
+      "new_generated_at": "2026-11-04T10:22:56.158Z",
+      "old_answer_sha256": "c5802e559aba9c608c68f296be965b92d1f8963d0eb958b719506a370766c087",
+      "new_answer_sha256": "f02b8d836c3cb132a9c3426b7fc92f0ec714879ce5b85a7007054c2da12afafd",
+      "old_cache_files": [
+        "answer-463496092329f313077bcce7e8926793c232684eeaedc2746249313d0e6f41b7.json"
+      ],
+      "new_cache_files": [
+        "answer-7a97bb18c5f6c9ec94af39f894dae46d12ff6ef3eb778e508c5689c841334bb5.json"
+      ]
+    },
+    {
+      "id": "postgresql-036",
+      "answer_changed": true,
+      "old_count": 4,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:18:31.322Z",
+      "new_generated_at": "2026-11-04T10:23:30.412Z",
+      "old_answer_sha256": "13926637f37029875d8cfa3711c415a91bc80effd65d6209606d7869cb821589",
+      "new_answer_sha256": "9a5dd2d84325759a72fcbc26af9370b7663d05037811b926ccdfb54abd54928a",
+      "old_cache_files": [
+        "answer-adac4a11646deca764007c48e50ac2969c73bc02f8af58a21c25fc66ce972ef5.json"
+      ],
+      "new_cache_files": [
+        "answer-a65e3742f4bdb6620956a77c2bb3cdc509497e0803c8563466bde723003282a0.json"
+      ]
+    },
+    {
+      "id": "postgresql-038",
+      "answer_changed": true,
+      "old_count": 4,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:19:53.979Z",
+      "new_generated_at": "2026-11-04T10:24:52.647Z",
+      "old_answer_sha256": "d92faa3ad771b01bad89bfd6913b81566645bfa24ad173ff9ccde1f5726a7e3e",
+      "new_answer_sha256": "cb69e09f7dd6bfb3dcb97cfcb18e4ff045e20d03023397f5b1a268df516c5193",
+      "old_cache_files": [
+        "answer-66ad7030864c2f7bbf4755433f13f823e10473ca7d3ab580fa8d70064224e1e5.json"
+      ],
+      "new_cache_files": [
+        "answer-a4bb0111b5c106fc776cc5c52479908815b0b875913db98847f1937872d84d72.json"
+      ]
+    },
+    {
+      "id": "postgresql-039",
+      "answer_changed": true,
+      "old_count": 7,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T12:20:28.503Z",
+      "new_generated_at": "2026-11-04T10:25:21.694Z",
+      "old_answer_sha256": "24943007a9bcdad6cdff73fccfcec5faee135c7d79ff1300599f0dc5468c0255",
+      "new_answer_sha256": "590f77c114dfc1db0897c3e156dd7c94baa9bb18d94af9652ac4bbb46355bcc8",
+      "old_cache_files": [
+        "answer-7b816889b6cf1ea880dedc4d504b503ce1b36fdc8cf3fc6db86a3970554bbb4c.json"
+      ],
+      "new_cache_files": [
+        "answer-ac1fc2ba08cac3b18bc1b8928984903beabcb9c704ea3f384579a5e742f28fa4.json"
+      ]
+    },
+    {
+      "id": "postgresql-040",
+      "answer_changed": true,
+      "old_count": 4,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:21:17.670Z",
+      "new_generated_at": "2026-11-04T10:26:04.826Z",
+      "old_answer_sha256": "3c80f135e26c9ed155e97eb3456280d69e5a0e9bcce867695aaf513f23219f58",
+      "new_answer_sha256": "59b9b1f8a3e5434ea5648c4248b8823dfc60cbb04ba8c7f7a48b3040bc7e650a",
+      "old_cache_files": [
+        "answer-fcbc25002f613f2bf4cfd906d2ca3ae454b34e2ab7c5129ad069b1c50b1eba72.json"
+      ],
+      "new_cache_files": [
+        "answer-ddce472013361a229b594a6f65b637730ec9489aecc67bfb3d5c7e02c40968f0.json"
+      ]
+    }
+  ],
+  "old_supported": 273,
+  "old_denominator": 273,
+  "new_supported": 261,
+  "new_denominator": 261,
+  "changed_answers": 37,
+  "changed_count_questions": [
+    {
+      "id": "fastapi-002",
+      "answer_changed": true,
+      "old_count": 1,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:41:22.334Z",
+      "new_generated_at": "2026-11-03T21:21:24.915Z",
+      "old_answer_sha256": "1bab6ed04a4f0b4b868a4eabdb665ae08b6b5cf1edb448e767153e0f8d0c43c5",
+      "new_answer_sha256": "077c46f42807acfff4b464cae4978cec269191ae17fac6a072a0b8ded9ad1ddb",
+      "old_cache_files": [
+        "answer-43bfb7eaebfdcc0d1168c841c6fd4d04cacb8485a6d56cdcedf723889dd8cc15.json"
+      ],
+      "new_cache_files": [
+        "answer-b430b052911b6eec652e6e877a7eedbf1b2e344e20d255456f31c371b0126344.json"
+      ]
+    },
+    {
+      "id": "fastapi-017",
+      "answer_changed": true,
+      "old_count": 9,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T11:46:12.556Z",
+      "new_generated_at": "2026-11-03T21:26:43.187Z",
+      "old_answer_sha256": "3ee27c1f7362914a18b0fc449bbf895e3cd314abd579102e0882ba03f6e7a239",
+      "new_answer_sha256": "3066d88dd64fc39d7568bc1873a7a36620021400c811af72e2f25ec71e97ab42",
+      "old_cache_files": [
+        "answer-391ebf0eb2207de8c7115d587ddbbcd79fc098408ed7095904bfe558662a39b9.json"
+      ],
+      "new_cache_files": [
+        "answer-51616d49d6d5016aebf36c26f2ef0ca21e1c77b00e3e04f77496125df12c50b5.json"
+      ]
+    },
+    {
+      "id": "fastapi-019",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T11:47:26.151Z",
+      "new_generated_at": "2026-11-03T21:27:46.847Z",
+      "old_answer_sha256": "fec2994e69323999808e50274d29273a918b6357f374e99c912ed7610c57bb0b",
+      "new_answer_sha256": "35670ef9d0fc75143316d65a07c69fcf91d9173aa8cb497e78a8fb992d6f4e75",
+      "old_cache_files": [
+        "answer-e3e93a17f205adb9d1bd447fb3ecf7dc41f2fe8451eeafcddcce102f4951823b.json"
+      ],
+      "new_cache_files": [
+        "answer-5f9bfee9d0785019b5362b7df449e6f886889df5b1338e67103ae2ca62d8f079.json"
+      ]
+    },
+    {
+      "id": "fastapi-029",
+      "answer_changed": true,
+      "old_count": 2,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T11:52:12.141Z",
+      "new_generated_at": "2026-11-03T21:32:36.648Z",
+      "old_answer_sha256": "83e9ff0650ab033b55a37786541bb34c403d05612d5fb1c1661dcc3c8828ff89",
+      "new_answer_sha256": "8a8bf7820717caad3cf3ea962110a9ec131009490027f613ae19669e69f1ac65",
+      "old_cache_files": [
+        "answer-0a30afd31e4c3e3bec5ce0b895cd3e76e14064dd8d6102900eba7a655255bf18.json"
+      ],
+      "new_cache_files": [
+        "answer-c1b847243c1696b337673fed5eb7443a4a543fba50b563ac7b7a3c5a3a4f3c81.json"
+      ]
+    },
+    {
+      "id": "fastapi-033",
+      "answer_changed": true,
+      "old_count": 6,
+      "new_count": 7,
+      "old_generated_at": "2026-10-30T11:54:35.016Z",
+      "new_generated_at": "2026-11-04T10:00:25.535Z",
+      "old_answer_sha256": "56432cda0be789d7d62f373cd8bdae22c73c137fbb09aede4de2e9179fab84ec",
+      "new_answer_sha256": "f93b3b51e4dd2f3c2ff745a64a9dbd83149df2b60f3f4ad08380357a868afe10",
+      "old_cache_files": [
+        "answer-af62bd401f9877a5f1bc2837de2a186ed614a97828dee9b1f56311bd020adacb.json"
+      ],
+      "new_cache_files": [
+        "answer-261148d10f34abea56fb6ef8ba5fc80fad2c239917fa121a52b35d8021433050.json"
+      ]
+    },
+    {
+      "id": "fastapi-037",
+      "answer_changed": true,
+      "old_count": 10,
+      "new_count": 9,
+      "old_generated_at": "2026-10-30T11:57:44.761Z",
+      "new_generated_at": "2026-11-04T10:03:12.412Z",
+      "old_answer_sha256": "ef7348d5dd642e7e47461bdcf9163e8488c9ef1bec72ba09fec9dd5c5a5ebd31",
+      "new_answer_sha256": "5ae688e44a4e19cc316affa5fe33ece0cdbde2553218acb9e338030778722537",
+      "old_cache_files": [
+        "answer-ca5fe267ff98f7af6c26e798a7aa5c0f83134e1e128fc3cc3410c8f2646479c1.json"
+      ],
+      "new_cache_files": [
+        "answer-64fc8768cd56f1b3d27e1a1937f3c0e71b0aaaff885559fd1f25e86430280bf6.json"
+      ]
+    },
+    {
+      "id": "fastapi-040",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 6,
+      "old_generated_at": "2026-10-30T12:00:05.901Z",
+      "new_generated_at": "2026-11-04T10:05:16.319Z",
+      "old_answer_sha256": "83f7705f16e0bdfa462177f4d482642aec3f0bfcc9499ea59fbfb198ccfa99fa",
+      "new_answer_sha256": "bd5c8c70b733a9abc8e662795d1ded8156d049ff9b54d4ab8c248da445f4a087",
+      "old_cache_files": [
+        "answer-74f5bface7be18ebfe58630ad8ee3406ed340e842e6c42e607481acbefdfa477.json"
+      ],
+      "new_cache_files": [
+        "answer-dabf1cebb2e410a47792df172deb83b8a57668c6ef9bc5e003e40ddc2827dbd7.json"
+      ]
+    },
+    {
+      "id": "postgresql-001",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T12:02:38.298Z",
+      "new_generated_at": "2026-11-04T10:07:41.561Z",
+      "old_answer_sha256": "b28e97e7bf37c70bba94535322c8ad826263bf7eb8d3da7fd522da9e3bb85970",
+      "new_answer_sha256": "0c281ae165bba3b3d6ce1993c119a1afa7cb7b94d8bc6c7413a8159ce8852eef",
+      "old_cache_files": [
+        "answer-abb17ee3d2ceafc144de30bbabe2db32b714aa787586b57f9342fce44b17eaa1.json"
+      ],
+      "new_cache_files": [
+        "answer-8cfeb649e1c0e80db974133184477f264002ce4c4938357780da2bb5919f21c0.json"
+      ]
+    },
+    {
+      "id": "postgresql-019",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 1,
+      "old_generated_at": "2026-10-30T12:10:00.487Z",
+      "new_generated_at": "2026-11-04T10:15:00.085Z",
+      "old_answer_sha256": "934e26b9c44f81ef872206ed6c38792ac62ff4c073676a5312876a5e58179eeb",
+      "new_answer_sha256": "6aebec9f71dd459c14a7c39827da16d66654c80c6337195587a08546574bea11",
+      "old_cache_files": [
+        "answer-c366cd9311f15525ebc3834d61f7212eccd871558a5e61506238d5446a27f949.json"
+      ],
+      "new_cache_files": [
+        "answer-98bd9c707970c5c0ceb70678817e65e76271c4b52001840ceef83b256b605ede.json"
+      ]
+    },
+    {
+      "id": "postgresql-033",
+      "answer_changed": true,
+      "old_count": 5,
+      "new_count": 4,
+      "old_generated_at": "2026-10-30T12:16:53.641Z",
+      "new_generated_at": "2026-11-04T10:22:00.602Z",
+      "old_answer_sha256": "9f5794cdaa20dceb0e73cc22adc2f3274477fc821eccf1e0e1740dfa8f3d5fd4",
+      "new_answer_sha256": "bf6142415ea0bed1d9d6fa1d203d14a5e7c850890a8db4bf1b3a6a4aa2e3b44d",
+      "old_cache_files": [
+        "answer-9f83e4ac00d7e3a5663b6e72e814e99f823773ee7ef38b4326380f83968cb06a.json"
+      ],
+      "new_cache_files": [
+        "answer-f38633a5d7a002e4bb686d79071520d6102132a2b002efc6a26a7e4b4fb88375.json"
+      ]
+    },
+    {
+      "id": "postgresql-035",
+      "answer_changed": true,
+      "old_count": 3,
+      "new_count": 2,
+      "old_generated_at": "2026-10-30T12:17:55.409Z",
+      "new_generated_at": "2026-11-04T10:22:56.158Z",
+      "old_answer_sha256": "c5802e559aba9c608c68f296be965b92d1f8963d0eb958b719506a370766c087",
+      "new_answer_sha256": "f02b8d836c3cb132a9c3426b7fc92f0ec714879ce5b85a7007054c2da12afafd",
+      "old_cache_files": [
+        "answer-463496092329f313077bcce7e8926793c232684eeaedc2746249313d0e6f41b7.json"
+      ],
+      "new_cache_files": [
+        "answer-7a97bb18c5f6c9ec94af39f894dae46d12ff6ef3eb778e508c5689c841334bb5.json"
+      ]
+    },
+    {
+      "id": "postgresql-039",
+      "answer_changed": true,
+      "old_count": 7,
+      "new_count": 3,
+      "old_generated_at": "2026-10-30T12:20:28.503Z",
+      "new_generated_at": "2026-11-04T10:25:21.694Z",
+      "old_answer_sha256": "24943007a9bcdad6cdff73fccfcec5faee135c7d79ff1300599f0dc5468c0255",
+      "new_answer_sha256": "590f77c114dfc1db0897c3e156dd7c94baa9bb18d94af9652ac4bbb46355bcc8",
+      "old_cache_files": [
+        "answer-7b816889b6cf1ea880dedc4d504b503ce1b36fdc8cf3fc6db86a3970554bbb4c.json"
+      ],
+      "new_cache_files": [
+        "answer-ac1fc2ba08cac3b18bc1b8928984903beabcb9c704ea3f384579a5e742f28fa4.json"
+      ]
+    }
+  ],
+  "net_count_change": -12,
+  "same_metric_code": true,
+  "same_metric_definitions": true,
+  "same_ranked_evidence": true,
+  "prompt_equivalence": "200/200 effective prompts byte-identical; prerequisite command log 11",
+  "cache_key_code": "eval/local_adapter.ts cacheInput includes full input.config, including application_file_hashes; changed implementation hashes produce new cache namespaces",
+  "interpretation": "Different answer versions and citation occurrence counts, not a changed percentage calculation. Do not infer identical generations or independent factual correctness from unchanged aggregate scores."
+}
