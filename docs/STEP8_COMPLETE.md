@@ -1,8 +1,8 @@
 # STEP REPORT — STEP 8 FIX
 
-Repository: https://github.com/abhi0874/DocRAG  
-Branch: `feat/production-rag`  
-Verified implementation: `bf8b8337dd5c5121518ff653204d043074579eaf`  
+Repository: https://github.com/abhi0874/DocRAG
+Branch: `feat/production-rag`
+Verified implementation: `bf8b8337dd5c5121518ff653204d043074579eaf`
 Final run: `step8-final-a`, 5 November 2026 UTC; report finalized 6 November 2026.
 
 Original Step 8 tasks: **18/18**. Remediation tasks: **24/24** (the request's earlier “23” is a numbering typo; it defines Task 24). Verification groups: **27/27**, each exit **0**. Step 7 independent prerequisite: **PASS**, 24/24 groups. No Step 9 work, push or deployment. Paid API charges: **₹0**.
@@ -43,7 +43,7 @@ Executed from the existing checkout using project-local Node 24.22.1:
 .venv/bin/python -m scripts.verify_observability --run-id step8-final-a
 ```
 
-The runner exited **0**. It verified all **204** recorded source hashes stayed unchanged throughout execution. The evaluation's `working_tree_dirty_at_start: true` reflects untracked browser evidence, not undisclosed source edits. Every command and actual code below comes from [commands.json](security/step8-final/commands.json); all saved run receipts are under [step8-final](security/step8-final/complete.json). Original full logs remain ignored in `.local/observability-verify-step8-final-a/`.
+The runner exited **0**. It verified all **204** recorded source hashes stayed unchanged throughout execution. The evaluation's `working_tree_dirty_at_start: true` reflects untracked browser evidence, not undisclosed source edits. Every command and actual code below comes from [commands.json](security/step8-final/commands.json); all saved run receipts are under [step8-final](security/step8-final/complete.json). Original full logs remain ignored in `.local/observability-verify-step8-final-a/`. The committed build-log copy normalizes terminal carriage returns and trailing whitespace; its text/results are unchanged. A final artifact whitespace check caught these formatting issues after the successful application run; they were corrected and the artifact/Git checks repeated. No implementation file changed.
 
 | Group | Actual command | Exit | Observed result |
 | --- | --- | --- | --- |
@@ -245,7 +245,7 @@ Step 6 **273/273** versus Step 7 **261/261** was reconciled: **37 answer texts c
 
 ## Files, local commits and reproducibility
 
-Implementation/prerequisite changes cover **64 files** relative to Step 7; the complete list is [implementation-files.txt](security/step8-final/implementation-files.txt). Main paths: `lib/observability/`, metrics/feedback API routes and dashboard, feedback/workspace components, additive migration/schema, cancellation tests, verification/export scripts, Node version pins and documentation. New final evidence includes the two current evaluation files, browser screenshots/checklist and this report. The final documentation/evidence commit contains no application changes.
+Implementation/prerequisite changes cover **64 files** relative to Step 7; the complete list is [implementation-files.txt](security/step8-final/implementation-files.txt). Main paths: `lib/observability/`, metrics/feedback API routes and dashboard, feedback/workspace components, additive migration/schema, cancellation tests, verification/export scripts, Node version pins and documentation. New final evidence includes the two current evaluation files, browser screenshots/checklist and this report. The final documentation/evidence commit contains no application changes. An additional, non-contract comparison `git diff --check cf95976` returned 2 for one blank line at EOF in `lib/observability/answer.ts:67`. That file is byte-identical to the initial saved Step 8 implementation and the fully tested source; it is preserved. The required working-tree and staged `git diff --check` checks pass. This historical formatting warning is not an unhandled rejection or functional test failure.
 
 Local commits:
 
@@ -254,7 +254,8 @@ Local commits:
 - `0ade2d1` — pinned Node runtime and Web Streams regression.
 - `aaf77ed` — verified scoped observability and feedback implementation.
 - `bf8b833` — preserve terminal cancellation outcome during asynchronous persistence.
-- Final documentation/evidence commit — recorded by the final Git verification after this report is committed.
+- `3ba0190` — final evaluation, browser evidence and completion report.
+- Follow-up documentation formatting commit — removes Markdown trailing spaces and terminal progress whitespace; no application changes.
 
 All **452** initially recorded files remained present before report finalization (**441 unchanged, 11 intentionally edited**); original patch and hashes are retained privately. No initial work was discarded. Step 7 `cf95976` and earlier history remain ancestors. Only local commits were made; no push command or remote write occurred. Final commit verification requires a clean working tree and `git diff --check` exit 0.
 
@@ -276,12 +277,12 @@ Optional checks for you (nothing blocks completion):
 3. Open `eval/results/observability/step8-final-a/evaluation.json` and inspect a few questions, evidence and answers alongside these aggregate scores.
 4. Read the Node removal instructions in `docs/COMMAND_CONTRACT.md` before removing the project-local runtime; it is needed for subsequent runs.
 
-CONFIRMATION 1 — STREAMING AND METRICS: **PASS**.  
-CONFIRMATION 2 — FEEDBACK AND REAL APPLICATION: **PASS**.  
+CONFIRMATION 1 — STREAMING AND METRICS: **PASS**.
+CONFIRMATION 2 — FEEDBACK AND REAL APPLICATION: **PASS**.
 CONFIRMATION 3 — FULL STEP 8 VERIFICATION: **PASS**.
 
 Errors blocking verification: **none**. Pending required tasks: **none**. Known residual audit findings: **two moderate tooling advisories**, disclosed above. Working tree is checked after the final local evidence commit. GitHub push: **NONE**. Paid API charges: **₹0**. Stop after Step 8.
 
-STEP 8 COMPLETE  
-No errors found and all tasks completed.  
+STEP 8 COMPLETE
+No errors found and all tasks completed.
 Can proceed to the next step.
