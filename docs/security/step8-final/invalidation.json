@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "before": {
+    "id": "fastapi-001",
+    "cache": "MISS",
+    "prompt": "step5-v1",
+    "latency_ms": 1121.9910840009106,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        1
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "repeat": {
+    "id": "fastapi-001",
+    "cache": "HIT",
+    "prompt": "step5-v1",
+    "latency_ms": 31.87633299967274,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        1
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": 1004
+  },
+  "after_content_update": {
+    "id": "fastapi-001",
+    "cache": "BYPASS",
+    "prompt": "step5-v1",
+    "latency_ms": 2722.4966659996426,
+    "answer": "For the path `/items/3`, the parameter `item_id: int` receives the Python integer value `3` (not the string `\"3\"`). [1]",
+    "source_ids": [
+      3,
+      1,
+      2,
+      71,
+      4,
+      31
+    ],
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        1
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "tokens_avoided": null
+  },
+  "original_content_restored": true,
+  "interpretation": "Changed content is no longer allowlisted, so caching is bypassed; no stale HIT. No original row was deleted.",
+  "git_revision": "bf8b8337dd5c5121518ff653204d043074579eaf"
+}

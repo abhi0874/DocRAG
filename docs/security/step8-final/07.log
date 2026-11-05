@@ -1,0 +1,3 @@
+{"status":"PASS","checks":27,"scope":"real vector, keyword, RRF, reranker candidates, evidence and concurrent quotas"}
+PASS: actual HTTPS Secure/HttpOnly/SameSite/path cookie, eight-hour lifetime and logout replay
+PASS: 66 real HTTP checks plus real SQL retrieval/concurrent quota suite

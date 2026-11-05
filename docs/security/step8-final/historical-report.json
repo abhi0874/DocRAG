@@ -1,0 +1,1004 @@
+{
+  "status": "PASS",
+  "selected": "step5-v1",
+  "development": {
+    "selected": "step5-v1",
+    "regressions": [
+      "correctness"
+    ],
+    "control": {
+      "recall@3": 0.9270833333333334,
+      "recall@5": 0.9583333333333334,
+      "recall@10": 1.0,
+      "mrr": 0.9756944444444444,
+      "citation_accuracy": 1.0,
+      "citation_supported": 170,
+      "citation_denominator": 170,
+      "faithfulness": 0.9916666666666667,
+      "correctness": 0.9833333333333333,
+      "p50_latency_ms": 6254.0101455,
+      "p95_latency_ms": 13077.199922899994,
+      "answerable_count": 48,
+      "unanswerable_count": 12,
+      "tokens_per_query": 6761.35,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 1748.4,
+      "judge_tokens_per_query": 4984.933333333333,
+      "retrieval_p50_latency_ms": 35.290000000000006,
+      "retrieval_p95_latency_ms": 45.73656839999996,
+      "generation_p50_latency_ms": 6219.1409165000005,
+      "generation_p95_latency_ms": 13032.884689299995
+    },
+    "candidate": {
+      "recall@3": 0.9270833333333334,
+      "recall@5": 0.9583333333333334,
+      "recall@10": 1.0,
+      "mrr": 0.9756944444444444,
+      "citation_accuracy": 1.0,
+      "citation_supported": 401,
+      "citation_denominator": 401,
+      "faithfulness": 1,
+      "correctness": 0.975,
+      "p50_latency_ms": 9942.106125499999,
+      "p95_latency_ms": 16406.62376665,
+      "answerable_count": 48,
+      "unanswerable_count": 12,
+      "tokens_per_query": 7643.4,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 2288.0333333333333,
+      "judge_tokens_per_query": 5327.35,
+      "retrieval_p50_latency_ms": 38.935520499999996,
+      "retrieval_p95_latency_ms": 41.76178475000001,
+      "generation_p50_latency_ms": 9902.544521,
+      "generation_p95_latency_ms": 16360.116131249999
+    },
+    "control_rates": {
+      "answerable_count": 48,
+      "unanswerable_count": 12,
+      "appropriate_refusal": {
+        "numerator": 12,
+        "denominator": 12,
+        "rate": 1.0
+      },
+      "refusals_with_background_claims": 0,
+      "incorrect_full_refusal": {
+        "numerator": 0,
+        "denominator": 48,
+        "rate": 0.0
+      },
+      "unsupported_answer": {
+        "numerator": 1,
+        "denominator": 60,
+        "rate": 0.016666666666666666
+      },
+      "answerable_quality": {
+        "questions": 48,
+        "faithfulness": 0.9895833333333334,
+        "correctness": 0.9791666666666666,
+        "citation_supported": 170,
+        "citation_denominator": 170,
+        "citation_accuracy": 1.0
+      },
+      "unanswerable_quality": {
+        "questions": 12,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 0,
+        "citation_denominator": 0,
+        "citation_accuracy": null
+      },
+      "partially_correct_ids": [
+        "postgresql-005",
+        "postgresql-037"
+      ],
+      "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+    },
+    "candidate_rates": {
+      "answerable_count": 48,
+      "unanswerable_count": 12,
+      "appropriate_refusal": {
+        "numerator": 12,
+        "denominator": 12,
+        "rate": 1.0
+      },
+      "refusals_with_background_claims": 10,
+      "incorrect_full_refusal": {
+        "numerator": 0,
+        "denominator": 48,
+        "rate": 0.0
+      },
+      "unsupported_answer": {
+        "numerator": 0,
+        "denominator": 60,
+        "rate": 0.0
+      },
+      "answerable_quality": {
+        "questions": 48,
+        "faithfulness": 1.0,
+        "correctness": 0.96875,
+        "citation_supported": 335,
+        "citation_denominator": 335,
+        "citation_accuracy": 1.0
+      },
+      "unanswerable_quality": {
+        "questions": 12,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 66,
+        "citation_denominator": 66,
+        "citation_accuracy": 1.0
+      },
+      "partially_correct_ids": [
+        "fastapi-036",
+        "postgresql-031",
+        "postgresql-037"
+      ],
+      "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+    }
+  },
+  "holdout": {
+    "selected": "grounded-v1",
+    "regressions": [],
+    "control": {
+      "recall@3": 0.984375,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.96875,
+      "citation_accuracy": 1.0,
+      "citation_supported": 103,
+      "citation_denominator": 103,
+      "faithfulness": 1,
+      "correctness": 1,
+      "p50_latency_ms": 6017.512583,
+      "p95_latency_ms": 10203.726941999996,
+      "answerable_count": 32,
+      "unanswerable_count": 8,
+      "tokens_per_query": 6578.775,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 1675.125,
+      "judge_tokens_per_query": 4875.825,
+      "retrieval_p50_latency_ms": 35.50806250000001,
+      "retrieval_p95_latency_ms": 43.65184790000001,
+      "generation_p50_latency_ms": 5978.9651665,
+      "generation_p95_latency_ms": 10165.702113099998
+    },
+    "candidate": {
+      "recall@3": 0.984375,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.96875,
+      "citation_accuracy": 1.0,
+      "citation_supported": 273,
+      "citation_denominator": 273,
+      "faithfulness": 1,
+      "correctness": 1,
+      "p50_latency_ms": 9938.542292,
+      "p95_latency_ms": 17013.178370849993,
+      "answerable_count": 32,
+      "unanswerable_count": 8,
+      "tokens_per_query": 7515.65,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 2229.825,
+      "judge_tokens_per_query": 5258,
+      "retrieval_p50_latency_ms": 38.798563,
+      "retrieval_p95_latency_ms": 41.16462469999999,
+      "generation_p50_latency_ms": 9894.852332999999,
+      "generation_p95_latency_ms": 16970.842551449994
+    },
+    "control_rates": {
+      "answerable_count": 32,
+      "unanswerable_count": 8,
+      "appropriate_refusal": {
+        "numerator": 8,
+        "denominator": 8,
+        "rate": 1.0
+      },
+      "refusals_with_background_claims": 0,
+      "incorrect_full_refusal": {
+        "numerator": 0,
+        "denominator": 32,
+        "rate": 0.0
+      },
+      "unsupported_answer": {
+        "numerator": 0,
+        "denominator": 40,
+        "rate": 0.0
+      },
+      "answerable_quality": {
+        "questions": 32,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 103,
+        "citation_denominator": 103,
+        "citation_accuracy": 1.0
+      },
+      "unanswerable_quality": {
+        "questions": 8,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 0,
+        "citation_denominator": 0,
+        "citation_accuracy": null
+      },
+      "partially_correct_ids": [],
+      "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+    },
+    "candidate_rates": {
+      "answerable_count": 32,
+      "unanswerable_count": 8,
+      "appropriate_refusal": {
+        "numerator": 8,
+        "denominator": 8,
+        "rate": 1.0
+      },
+      "refusals_with_background_claims": 7,
+      "incorrect_full_refusal": {
+        "numerator": 0,
+        "denominator": 32,
+        "rate": 0.0
+      },
+      "unsupported_answer": {
+        "numerator": 0,
+        "denominator": 40,
+        "rate": 0.0
+      },
+      "answerable_quality": {
+        "questions": 32,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 227,
+        "citation_denominator": 227,
+        "citation_accuracy": 1.0
+      },
+      "unanswerable_quality": {
+        "questions": 8,
+        "faithfulness": 1.0,
+        "correctness": 1.0,
+        "citation_supported": 46,
+        "citation_denominator": 46,
+        "citation_accuracy": 1.0
+      },
+      "partially_correct_ids": [],
+      "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+    }
+  },
+  "baseline_metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 269,
+    "citation_denominator": 269,
+    "faithfulness": 1,
+    "correctness": 0.99,
+    "p50_latency_ms": 5277.7874795,
+    "p95_latency_ms": 12102.8084482,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6684.27,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1717.95,
+    "judge_tokens_per_query": 4938.38,
+    "retrieval_p50_latency_ms": 33.5998335,
+    "retrieval_p95_latency_ms": 41.63567740000001,
+    "generation_p50_latency_ms": 5241.5173125,
+    "generation_p95_latency_ms": 12066.2289393
+  },
+  "control_metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 273,
+    "citation_denominator": 273,
+    "faithfulness": 0.995,
+    "correctness": 0.99,
+    "p50_latency_ms": 6234.7629375,
+    "p95_latency_ms": 12407.9986952,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6688.32,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1719.09,
+    "judge_tokens_per_query": 4941.29,
+    "retrieval_p50_latency_ms": 35.329750000000004,
+    "retrieval_p95_latency_ms": 45.198645500000005,
+    "generation_p50_latency_ms": 6198.2095415,
+    "generation_p95_latency_ms": 12367.316791649997
+  },
+  "candidate_metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 674,
+    "citation_denominator": 674,
+    "faithfulness": 1,
+    "correctness": 0.985,
+    "p50_latency_ms": 9938.542292,
+    "p95_latency_ms": 16914.23156665,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 7592.3,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 2264.75,
+    "judge_tokens_per_query": 5299.61,
+    "retrieval_p50_latency_ms": 38.83502150000001,
+    "retrieval_p95_latency_ms": 41.551903499999995,
+    "generation_p50_latency_ms": 9894.852332999999,
+    "generation_p95_latency_ms": 16871.8918577
+  },
+  "control_rates": {
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "appropriate_refusal": {
+      "numerator": 20,
+      "denominator": 20,
+      "rate": 1.0
+    },
+    "refusals_with_background_claims": 0,
+    "incorrect_full_refusal": {
+      "numerator": 0,
+      "denominator": 80,
+      "rate": 0.0
+    },
+    "unsupported_answer": {
+      "numerator": 1,
+      "denominator": 100,
+      "rate": 0.01
+    },
+    "answerable_quality": {
+      "questions": 80,
+      "faithfulness": 0.99375,
+      "correctness": 0.9875,
+      "citation_supported": 273,
+      "citation_denominator": 273,
+      "citation_accuracy": 1.0
+    },
+    "unanswerable_quality": {
+      "questions": 20,
+      "faithfulness": 1.0,
+      "correctness": 1.0,
+      "citation_supported": 0,
+      "citation_denominator": 0,
+      "citation_accuracy": null
+    },
+    "partially_correct_ids": [
+      "postgresql-005",
+      "postgresql-037"
+    ],
+    "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+  },
+  "candidate_rates": {
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "appropriate_refusal": {
+      "numerator": 20,
+      "denominator": 20,
+      "rate": 1.0
+    },
+    "refusals_with_background_claims": 17,
+    "incorrect_full_refusal": {
+      "numerator": 0,
+      "denominator": 80,
+      "rate": 0.0
+    },
+    "unsupported_answer": {
+      "numerator": 0,
+      "denominator": 100,
+      "rate": 0.0
+    },
+    "answerable_quality": {
+      "questions": 80,
+      "faithfulness": 1.0,
+      "correctness": 0.98125,
+      "citation_supported": 562,
+      "citation_denominator": 562,
+      "citation_accuracy": 1.0
+    },
+    "unanswerable_quality": {
+      "questions": 20,
+      "faithfulness": 1.0,
+      "correctness": 1.0,
+      "citation_supported": 112,
+      "citation_denominator": 112,
+      "citation_accuracy": 1.0
+    },
+    "partially_correct_ids": [
+      "fastapi-036",
+      "postgresql-031",
+      "postgresql-037"
+    ],
+    "interpretation": "Derived from unchanged automated substantive_claims/F/C labels. On unanswerable questions, a correct and faithful refusal may also describe background evidence. Scores are not independent human validation."
+  },
+  "gates": {
+    "control": {
+      "status": "PASS",
+      "compatibility": {
+        "prompt": "step5-v1",
+        "production_cache": false,
+        "threshold": "strict decimal drop >0.02"
+      },
+      "decreases": {
+        "recall@5": "0.000",
+        "faithfulness": "0.005"
+      }
+    },
+    "selected": {
+      "status": "PASS",
+      "compatibility": {
+        "prompt": "step5-v1",
+        "production_cache": false,
+        "threshold": "strict decimal drop >0.02"
+      },
+      "decreases": {
+        "recall@5": "0.000",
+        "faithfulness": "0.005"
+      }
+    }
+  },
+  "negative_gates": {
+    "recall@5": "Regression: recall@5 decreased by 0.020000000001 (>0.02)",
+    "faithfulness": "Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+  },
+  "quality_changes": [
+    {
+      "id": "fastapi-036",
+      "before": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "citation_accuracy": 1.0
+      },
+      "after": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "citation_accuracy": 1.0
+      },
+      "before_answer": "Based on the provided context, FastAPI can run a shared resource check before an endpoint by using **dependencies** via `Depends()`.\n\n*   **Shared Code Execution:** You define a function (e.g., `common_parameters`) that performs the check or retrieves the resource. You then pass this function to `Depends()` in the path operation function's parameters. FastAPI automatically calls this dependency function for every request to that endpoint before executing the main endpoint logic [6].\n*   **Stopping the Request:** To stop the request if the check fails (e.g., a missing resource), you raise an `HTTPException` within the dependency or the endpoint. For example, if a resource is not found, you can raise an `HTTPException` with a status code like `404` and a detail message (e.g., \"Item not found\") [5].\n*   **Reusing Checks:** To avoid code duplication when applying this check to multiple endpoints, you can store the `Annotated` dependency in a variable (a \"type alias\") and reuse it across different path operations [1].\n\nNote: The provided excerpts do not explicitly detail a specific \"resource check\" pattern beyond using dependencies and raising `HTTPException` for errors like \"not found\" [5][6].",
+      "after_answer": "Based on the provided excerpts, the available evidence does not establish a specific mechanism for running a \"shared resource check\" that explicitly \"stops the request\" based on a missing resource condition.\n\nHowever, the excerpts do describe related mechanisms for handling shared logic and errors:\n\n1.  **Shared Logic via Dependencies:** FastAPI allows you to define shared code once and have it executed for multiple path operations by using the `Depends()` function within a dependency function (e.g., `common_parameters`) [1][2][6]. This dependency is called automatically for each request to the associated endpoints [6].\n2.  **Stopping Requests via Exceptions:** To stop a request and return an error response, you can raise an `HTTPException` within a path operation or dependency [4][5]. For example, if a resource is not found, you can raise an `HTTPException` with a status code of 404 and a detail message like \"Item not found\" [5].\n3.  **Custom Exception Handling:** You can reuse FastAPI's default exception handlers or create custom ones to process these exceptions, such as printing error messages or returning specific JSON responses [4].\n\nWhile the excerpts show how to share code via dependencies [1][2][6] and how to stop a request with an error using `HTTPException` [4][5], they do not explicitly link these two concepts into a single \"shared resource check\" pattern that halts execution specifically for missing resources. The `HTTPException` examples are shown within path operations [5], not explicitly within a shared dependency function in the provided text.",
+      "before_judge": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer correctly identifies using `Depends` to run shared logic before an endpoint and raising `HTTPException` to stop the request, which aligns with the reference answer and retrieved context. All factual claims are supported by the provided excerpts. The citations are accurate: excerpt [6] supports the execution of dependencies, excerpt [5] supports the 404 response for missing items, and excerpt [1] supports reusing dependencies via type aliases.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt [6] explicitly states that FastAPI calls the dependency function when a new request arrives, supporting the claim about shared code execution."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt [5] describes the resulting response for a non-existent item as a 404 status code with 'Item not found', supporting the claim about stopping the request with a 404 error."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt [1] demonstrates storing an `Annotated` dependency in a variable (`CommonsDep`) to reuse it across multiple endpoints, supporting the claim about avoiding code duplication."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt [5] confirms the 404 status code and 'Item not found' detail, supporting the claim about handling missing resources."
+          },
+          {
+            "occurrence": 4,
+            "supported": true,
+            "reason": "Excerpt [6] explains that FastAPI handles calling the dependency function, supporting the general claim about using dependencies for shared logic."
+          }
+        ]
+      },
+      "after_judge": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer is faithful to the retrieved context, which supports the use of `Depends` for shared logic and `HTTPException` for stopping requests, though it does not explicitly link them into a single 'resource check' pattern as the reference answer does. The answer is partially correct because it describes the mechanisms but fails to provide the direct, concise solution (declaring the check as a dependency and raising the exception within it) requested by the question, instead hedging that the context doesn't explicitly link them. The citations are valid and support the specific claims made in the text.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 shows using `Depends` with `Annotated` to share dependency logic."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 2 shows using `Depends` to share dependency logic."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 6 explains that `Depends` allows writing shared code once and FastAPI calls it for path operations."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 6 states that FastAPI takes care of calling the dependency for each request."
+          },
+          {
+            "occurrence": 4,
+            "supported": true,
+            "reason": "Excerpt 4 discusses exception handling and shows raising `HTTPException`."
+          },
+          {
+            "occurrence": 5,
+            "supported": true,
+            "reason": "Excerpt 5 shows the result of raising `HTTPException` with status 404 and detail 'Item not found'."
+          },
+          {
+            "occurrence": 6,
+            "supported": true,
+            "reason": "Excerpt 5 confirms the 404 status code and detail message for missing items."
+          },
+          {
+            "occurrence": 7,
+            "supported": true,
+            "reason": "Excerpt 4 discusses reusing default exception handlers for `HTTPException`."
+          },
+          {
+            "occurrence": 8,
+            "supported": true,
+            "reason": "Excerpt 1 supports the concept of sharing dependencies via `Annotated`."
+          },
+          {
+            "occurrence": 9,
+            "supported": true,
+            "reason": "Excerpt 2 supports the concept of sharing dependencies via `Depends`."
+          },
+          {
+            "occurrence": 10,
+            "supported": true,
+            "reason": "Excerpt 6 supports the concept of shared code via dependencies."
+          },
+          {
+            "occurrence": 11,
+            "supported": true,
+            "reason": "Excerpt 4 supports the use of `HTTPException` in the context of error handling."
+          },
+          {
+            "occurrence": 12,
+            "supported": true,
+            "reason": "Excerpt 5 supports the use of `HTTPException` for 404 errors."
+          },
+          {
+            "occurrence": 13,
+            "supported": true,
+            "reason": "Excerpt 5 supports the use of `HTTPException` for 404 errors."
+          }
+        ]
+      }
+    },
+    {
+      "id": "postgresql-005",
+      "before": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "citation_accuracy": 1.0
+      },
+      "after": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "citation_accuracy": 1.0
+      },
+      "before_answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+      "after_answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves all changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning none of the changes are visible to other database sessions until the transaction is committed [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to free up system resources [1].",
+      "before_judge": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer is faithful to the retrieved context, which explicitly states that changes between the savepoint and the rollback are discarded while earlier changes are kept. However, the answer is only partially correct because it omits a key fact present in the reference answer and source documents: that the savepoint remains defined after the rollback. The answer correctly identifies what is discarded and preserved but fails to mention the status of the savepoint itself.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states: 'All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.' This directly supports the claim in the answer."
+          }
+        ]
+      },
+      "after_judge": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer accurately reflects the reference answer and retrieved context. It correctly states that ROLLBACK TO discards changes after the savepoint, preserves earlier changes, and leaves the savepoint defined. The additional details regarding automatic release of subsequent savepoints, visibility within the transaction block, error recovery, and resource management are all explicitly supported by the retrieved excerpts. The citations are correctly mapped to the supporting text.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 1 explicitly states that changes between defining the savepoint and rolling back are discarded, while earlier changes are kept."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 1 states that after rolling back, the savepoint continues to be defined, allowing multiple rollbacks."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 1 states that releasing or rolling back to a savepoint automatically releases all savepoints defined after it."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 1 states that these operations happen within the transaction block and are not visible to other sessions until commit."
+          },
+          {
+            "occurrence": 4,
+            "supported": true,
+            "reason": "Excerpt 2 explicitly states that ROLLBACK TO is the only way to regain control of a transaction block put in an aborted state by an error, short of rolling back completely."
+          },
+          {
+            "occurrence": 5,
+            "supported": true,
+            "reason": "Excerpt 1 states that if you are sure you won't need to roll back to a savepoint again, it can be released to free system resources."
+          }
+        ]
+      }
+    },
+    {
+      "id": "postgresql-031",
+      "before": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "citation_accuracy": 1.0
+      },
+      "after": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "citation_accuracy": 1.0
+      },
+      "before_answer": "To reject NULL or nonpositive prices and ensure an all-or-nothing update workflow in PostgreSQL, you should combine **NOT NULL** and **CHECK** constraints with **Transactions**.\n\n**1. Rejecting NULL or Nonpositive Prices**\n*   **NOT NULL Constraint:** To strictly prevent NULL values, define the column with `NOT NULL`. This is more efficient than a CHECK constraint for this specific purpose [2].\n*   **CHECK Constraint:** To ensure prices are positive, use a `CHECK` constraint such as `CHECK (price > 0)` [2].\n*   **Combined Definition:** You can apply both constraints to a single column definition, for example: `price numeric NOT NULL CHECK (price > 0)` [2].\n*   **Note on NULLs in CHECK:** Be aware that a standard CHECK constraint alone does not prevent NULLs because the expression evaluates to NULL (which is treated as satisfied) if the operand is NULL [1][5]. Therefore, the explicit `NOT NULL` constraint is required to block NULLs [1][2].\n\n**2. Ensuring All-or-Nothing Updates**\n*   **Transactions:** The provided excerpts do not explicitly describe the `BEGIN`/`COMMIT`/`ROLLBACK` syntax for transactions. However, they note that PostgreSQL assumes CHECK constraints are immutable and only checked upon row insertion or update [6]. To ensure a group of updates is all-or-nothing, you must wrap the update statements in a **transaction**. If any update violates a constraint (such as the `NOT NULL` or `CHECK` rules above), the transaction can be rolled back, ensuring no partial changes are persisted.\n*   **Triggers (Alternative for Cross-Row Checks):** If your \"all-or-nothing\" logic involves complex checks against other rows that cannot be expressed via standard constraints, a custom trigger can be used for one-time checks at insertion/update time [1][6].\n\n**Summary of Implementation:**\n1.  Define the table with `price numeric NOT NULL CHECK (price > 0)` [2].\n2.  Execute your group of updates within a transaction block (e.g., `BEGIN; ... COMMIT;` or `ROLLBACK;` on error) to ensure atomicity.",
+      "after_answer": "To reject NULL or nonpositive prices in PostgreSQL, you should combine a `NOT NULL` constraint with a `CHECK` constraint.\n\n1.  **Reject NULL values:** Use a `NOT NULL` constraint on the price column. While a `CHECK` constraint can technically verify `price IS NOT NULL`, PostgreSQL treats `NOT NULL` as more efficient for this specific purpose, though it does not allow for explicit naming of the constraint [2].\n2.  **Reject nonpositive values:** Use a `CHECK` constraint to ensure the price is greater than zero (e.g., `CHECK (price > 0)`) [2][5]. It is important to note that a `CHECK` constraint alone is satisfied if the expression evaluates to `true` or `null`; therefore, it will not prevent `null` values on its own, which is why the `NOT NULL` constraint is required [1][5].\n3.  **Constraint Syntax:** These can be defined as column constraints or table constraints. For example: `price numeric NOT NULL CHECK (price > 0)` [2]. The order in which constraints are written does not necessarily determine the order in which they are checked [2].\n\nRegarding the \"all-or-nothing\" requirement for a group of updates:\nThe supplied excerpts **do not establish** how to ensure a group of updates is all-or-nothing. The provided text focuses on the definition and behavior of `CHECK` and `NOT NULL` constraints, as well as `FOREIGN KEY` actions, but does not contain information regarding transaction management, atomicity, or how to group multiple updates into a single atomic operation.",
+      "before_judge": {
+        "faithfulness": 1,
+        "correctness": 1,
+        "rationale": "The answer correctly identifies NOT NULL and CHECK constraints for data validation and transactions for atomicity, aligning with the reference answer. While the retrieved context (DDL constraints) does not explicitly detail transaction syntax (BEGIN/COMMIT), the reference documents confirm this standard PostgreSQL behavior. The answer appropriately caveats that the specific excerpts don't describe transaction syntax but correctly applies the concept based on the broader scope. All factual claims regarding constraints are supported by the retrieved context.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 2 states that an explicit not-null constraint is more efficient than a check constraint for preventing nulls."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 2 provides the syntax `price numeric NOT NULL CHECK (price > 0)` and explains the CHECK constraint usage."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 2 explicitly shows the combined definition `price numeric NOT NULL CHECK (price > 0)`."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 1 explains that a check constraint is satisfied if the expression evaluates to null, meaning it does not prevent null values."
+          },
+          {
+            "occurrence": 4,
+            "supported": true,
+            "reason": "Excerpt 5 repeats the explanation that check constraints do not prevent null values because the expression evaluates to null."
+          },
+          {
+            "occurrence": 5,
+            "supported": true,
+            "reason": "Excerpt 1 states that to ensure a column does not contain null values, the not-null constraint must be used."
+          },
+          {
+            "occurrence": 6,
+            "supported": true,
+            "reason": "Excerpt 2 confirms that the not-null constraint is required to block nulls, as check constraints alone are insufficient."
+          },
+          {
+            "occurrence": 7,
+            "supported": true,
+            "reason": "Excerpt 6 states that PostgreSQL assumes CHECK constraints are immutable and only checked upon row insertion or update."
+          },
+          {
+            "occurrence": 8,
+            "supported": true,
+            "reason": "Excerpt 1 mentions that a custom trigger can be used for one-time checks against other rows at insertion/update."
+          },
+          {
+            "occurrence": 9,
+            "supported": true,
+            "reason": "Excerpt 6 reiterates that a custom trigger can be used for one-time checks against other rows."
+          },
+          {
+            "occurrence": 10,
+            "supported": true,
+            "reason": "Excerpt 2 provides the syntax for defining the table with `price numeric NOT NULL CHECK (price > 0)`."
+          }
+        ]
+      },
+      "after_judge": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer correctly explains how to reject NULL and nonpositive prices using NOT NULL and CHECK constraints, supported by the retrieved context. However, it fails to answer the second part of the question regarding 'all-or-nothing' updates (transactions), explicitly stating that the context lacks this information. While this refusal is factually accurate regarding the *retrieved* context (which indeed lacks transaction details), the question is answerable based on the *reference* documents provided in the evaluation scope. Therefore, the answer is materially incomplete, resulting in a correctness score of 0.5. Faithfulness is 1 because all claims made are supported by the retrieved excerpts, and the refusal is justified by the absence of evidence in those specific excerpts.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 2 states that a not-null constraint is more efficient than a check constraint for nulls and that you cannot give explicit names to not-null constraints created this way."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 2 provides the syntax example `price numeric NOT NULL CHECK (price > 0)`."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 5 shows `CHECK (price > 0)` as a valid constraint definition."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 1 states that a check constraint is satisfied if the expression evaluates to true or null, and thus will not prevent null values."
+          },
+          {
+            "occurrence": 4,
+            "supported": true,
+            "reason": "Excerpt 5 repeats the note that a check constraint is satisfied if the expression evaluates to true or null, implying it does not prevent nulls on its own."
+          },
+          {
+            "occurrence": 5,
+            "supported": true,
+            "reason": "Excerpt 2 shows the combined syntax `price numeric NOT NULL CHECK (price > 0)`."
+          },
+          {
+            "occurrence": 6,
+            "supported": true,
+            "reason": "Excerpt 2 explicitly states: 'The order doesn't matter. It does not necessarily determine in which order the constraints are checked.'"
+          }
+        ]
+      }
+    },
+    {
+      "id": "postgresql-037",
+      "before": {
+        "faithfulness": 0.5,
+        "correctness": 0.5,
+        "citation_accuracy": 1.0
+      },
+      "after": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "citation_accuracy": 1.0
+      },
+      "before_answer": "An inner join omits a weather row for an unknown city (such as Hayward) because there is no matching entry in the `cities` table, causing the join to ignore the unmatched rows in the `weather` table [3][5]. To prevent future non-null city references to nonexistent cities, one can use a **foreign key constraint** (specifically, a foreign key on the `weather.city` column referencing `cities.name`), which enforces referential integrity. However, the provided context excerpts do not explicitly mention foreign key constraints or referential integrity; they only describe the behavior of inner joins and suggest using outer joins to include unmatched rows [1][2]. Therefore, while the first part of the question is answered by the text, the specific constraint mechanism is not detailed in the provided excerpts.",
+      "after_answer": "Based on the provided evidence, an inner join omits a weather row for an unknown city because the join operation ignores unmatched rows in the table that lacks a corresponding entry in the other table. Specifically, if there is no matching entry in the `cities` table for a city listed in the `weather` table (such as Hayward), the join ignores the unmatched rows in the `weather` table, resulting in no output row for that city [3][5].\n\nThe supplied excerpts do not establish what constraint can prevent future non-null city references to nonexistent cities. While the text explains how to use outer joins to include unmatched rows by substituting null values [1][2], it does not mention foreign key constraints or other database mechanisms used to enforce referential integrity or prevent such references.",
+      "before_judge": {
+        "faithfulness": 0.5,
+        "correctness": 0.5,
+        "rationale": "The answer correctly explains why inner joins omit rows (supported by retrieved context excerpts 3 and 5). However, the claim that a foreign key constraint prevents non-null references to nonexistent cities is not supported by the retrieved context, which only discusses join behavior and outer joins. The answer explicitly admits this lack of support. While the factual claim is correct based on the reference documents (which are out of scope for faithfulness), the faithfulness score is lowered because the material claim is unsupported by the retrieved context. Correctness is 0.5 because the answer fails to provide the requested constraint mechanism as a definitive answer, instead stating it is not in the context, making it materially incomplete relative to the reference answer which provides the solution.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 3 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 5 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 1 describes outer joins as the method to get unmatched records back, implying inner joins do not do this, supporting the claim that the context describes inner join behavior and suggests outer joins as the alternative."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 2 discusses the transition to outer joins to handle unmatched records, supporting the claim that the context suggests using outer joins to include unmatched rows."
+          }
+        ]
+      },
+      "after_judge": {
+        "faithfulness": 1,
+        "correctness": 0.5,
+        "rationale": "The answer correctly explains why inner joins omit rows based on the retrieved context (excerpts 3 and 5). It correctly identifies that the retrieved context does not contain information about foreign key constraints, which is the second part of the question. However, the reference answer provides the solution (foreign keys) based on the reference documents, and the question is answerable within the scope of the provided reference materials. By refusing to answer the second part because it is missing from the *retrieved* context (rather than the *reference* scope), the answer is materially incomplete. Faithfulness is 1 because all claims made are supported by the retrieved context, and the refusal is justified by the lack of evidence in that specific context.",
+        "substantive_claims": true,
+        "citation_support": [
+          {
+            "occurrence": 0,
+            "supported": true,
+            "reason": "Excerpt 3 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 1,
+            "supported": true,
+            "reason": "Excerpt 5 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+          },
+          {
+            "occurrence": 2,
+            "supported": true,
+            "reason": "Excerpt 1 explains that outer joins substitute empty values for unmatched rows, supporting the claim that the text explains how to use outer joins to include unmatched rows."
+          },
+          {
+            "occurrence": 3,
+            "supported": true,
+            "reason": "Excerpt 2 discusses the transition to outer joins to get records back, supporting the claim that the text explains how to use outer joins to include unmatched rows."
+          }
+        ]
+      }
+    }
+  ],
+  "preservation": {
+    "status": "PASS",
+    "historical_files": 118,
+    "ancestor": "8172c03"
+  },
+  "cache_conditions": {
+    "control": {
+      "embedding_hits": 0,
+      "embedding_misses": 100,
+      "answer_hits": 0,
+      "answer_misses": 100,
+      "judge_hits": 0,
+      "judge_misses": 100
+    },
+    "candidate": {
+      "embedding_hits": 5,
+      "embedding_misses": 95,
+      "answer_hits": 5,
+      "answer_misses": 95,
+      "judge_hits": 4,
+      "judge_misses": 96
+    }
+  },
+  "artifact_hashes": {
+    "step5-v1.json": "07a506cb1f4df9b54b397856292f33976792fe19c67c09dec339e1093ed9afd9",
+    "grounded-v1.json": "780cc911e0e42519dfb93819b0f6ac06ba089c245a895aab2999c685d0de3b10"
+  },
+  "known_cases": {
+    "postgresql-005": [
+      {
+        "version": "step5-v1",
+        "answer": "When you use `ROLLBACK TO` a savepoint, it discards all database changes made between the definition of that savepoint and the rollback command, while preserving changes that occurred earlier than the savepoint [1].",
+        "judgment": {
+          "faithfulness": 1,
+          "correctness": 0.5,
+          "rationale": "The answer is faithful to the retrieved context, which explicitly states that changes between the savepoint and the rollback are discarded while earlier changes are kept. However, the answer is only partially correct because it omits a key fact present in the reference answer and source documents: that the savepoint remains defined after the rollback. The answer correctly identifies what is discarded and preserved but fails to mention the status of the savepoint itself.",
+          "substantive_claims": true,
+          "citation_support": [
+            {
+              "occurrence": 0,
+              "supported": true,
+              "reason": "Excerpt 1 explicitly states: 'All the transaction's database changes between defining the savepoint and rolling back to it are discarded, but changes earlier than the savepoint are kept.' This directly supports the claim in the answer."
+            }
+          ]
+        }
+      },
+      {
+        "version": "grounded-v1",
+        "answer": "When using the `ROLLBACK TO` command on a savepoint in PostgreSQL, the system discards all database changes that occurred between the definition of that savepoint and the moment of the rollback. However, it preserves all changes that were made earlier in the transaction, prior to the savepoint being defined [1].\n\nAdditionally, the following behaviors and conditions apply:\n*   **Savepoint Status:** After rolling back to a savepoint, the savepoint remains defined, allowing you to roll back to it multiple times [1].\n*   **Automatic Release:** Releasing or rolling back to a savepoint automatically releases any savepoints that were defined after it [1].\n*   **Visibility:** These operations occur within the transaction block, meaning none of the changes are visible to other database sessions until the transaction is committed [1].\n*   **Error Recovery:** `ROLLBACK TO` is the only method to regain control of a transaction block that has been put into an aborted state by a system error, without having to roll back the entire transaction and start over [2].\n*   **Resource Management:** If you are certain you will not need to roll back to a specific savepoint again, you can release it to free up system resources [1].",
+        "judgment": {
+          "faithfulness": 1,
+          "correctness": 1,
+          "rationale": "The answer accurately reflects the reference answer and retrieved context. It correctly states that ROLLBACK TO discards changes after the savepoint, preserves earlier changes, and leaves the savepoint defined. The additional details regarding automatic release of subsequent savepoints, visibility within the transaction block, error recovery, and resource management are all explicitly supported by the retrieved excerpts. The citations are correctly mapped to the supporting text.",
+          "substantive_claims": true,
+          "citation_support": [
+            {
+              "occurrence": 0,
+              "supported": true,
+              "reason": "Excerpt 1 explicitly states that changes between defining the savepoint and rolling back are discarded, while earlier changes are kept."
+            },
+            {
+              "occurrence": 1,
+              "supported": true,
+              "reason": "Excerpt 1 states that after rolling back, the savepoint continues to be defined, allowing multiple rollbacks."
+            },
+            {
+              "occurrence": 2,
+              "supported": true,
+              "reason": "Excerpt 1 states that releasing or rolling back to a savepoint automatically releases all savepoints defined after it."
+            },
+            {
+              "occurrence": 3,
+              "supported": true,
+              "reason": "Excerpt 1 states that these operations happen within the transaction block and are not visible to other sessions until commit."
+            },
+            {
+              "occurrence": 4,
+              "supported": true,
+              "reason": "Excerpt 2 explicitly states that ROLLBACK TO is the only way to regain control of a transaction block put in an aborted state by an error, short of rolling back completely."
+            },
+            {
+              "occurrence": 5,
+              "supported": true,
+              "reason": "Excerpt 1 states that if you are sure you won't need to roll back to a savepoint again, it can be released to free system resources."
+            }
+          ]
+        }
+      }
+    ],
+    "postgresql-037": [
+      {
+        "version": "step5-v1",
+        "answer": "An inner join omits a weather row for an unknown city (such as Hayward) because there is no matching entry in the `cities` table, causing the join to ignore the unmatched rows in the `weather` table [3][5]. To prevent future non-null city references to nonexistent cities, one can use a **foreign key constraint** (specifically, a foreign key on the `weather.city` column referencing `cities.name`), which enforces referential integrity. However, the provided context excerpts do not explicitly mention foreign key constraints or referential integrity; they only describe the behavior of inner joins and suggest using outer joins to include unmatched rows [1][2]. Therefore, while the first part of the question is answered by the text, the specific constraint mechanism is not detailed in the provided excerpts.",
+        "judgment": {
+          "faithfulness": 0.5,
+          "correctness": 0.5,
+          "rationale": "The answer correctly explains why inner joins omit rows (supported by retrieved context excerpts 3 and 5). However, the claim that a foreign key constraint prevents non-null references to nonexistent cities is not supported by the retrieved context, which only discusses join behavior and outer joins. The answer explicitly admits this lack of support. While the factual claim is correct based on the reference documents (which are out of scope for faithfulness), the faithfulness score is lowered because the material claim is unsupported by the retrieved context. Correctness is 0.5 because the answer fails to provide the requested constraint mechanism as a definitive answer, instead stating it is not in the context, making it materially incomplete relative to the reference answer which provides the solution.",
+          "substantive_claims": true,
+          "citation_support": [
+            {
+              "occurrence": 0,
+              "supported": true,
+              "reason": "Excerpt 3 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+            },
+            {
+              "occurrence": 1,
+              "supported": true,
+              "reason": "Excerpt 5 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+            },
+            {
+              "occurrence": 2,
+              "supported": true,
+              "reason": "Excerpt 1 describes outer joins as the method to get unmatched records back, implying inner joins do not do this, supporting the claim that the context describes inner join behavior and suggests outer joins as the alternative."
+            },
+            {
+              "occurrence": 3,
+              "supported": true,
+              "reason": "Excerpt 2 discusses the transition to outer joins to handle unmatched records, supporting the claim that the context suggests using outer joins to include unmatched rows."
+            }
+          ]
+        }
+      },
+      {
+        "version": "grounded-v1",
+        "answer": "Based on the provided evidence, an inner join omits a weather row for an unknown city because the join operation ignores unmatched rows in the table that lacks a corresponding entry in the other table. Specifically, if there is no matching entry in the `cities` table for a city listed in the `weather` table (such as Hayward), the join ignores the unmatched rows in the `weather` table, resulting in no output row for that city [3][5].\n\nThe supplied excerpts do not establish what constraint can prevent future non-null city references to nonexistent cities. While the text explains how to use outer joins to include unmatched rows by substituting null values [1][2], it does not mention foreign key constraints or other database mechanisms used to enforce referential integrity or prevent such references.",
+        "judgment": {
+          "faithfulness": 1,
+          "correctness": 0.5,
+          "rationale": "The answer correctly explains why inner joins omit rows based on the retrieved context (excerpts 3 and 5). It correctly identifies that the retrieved context does not contain information about foreign key constraints, which is the second part of the question. However, the reference answer provides the solution (foreign keys) based on the reference documents, and the question is answerable within the scope of the provided reference materials. By refusing to answer the second part because it is missing from the *retrieved* context (rather than the *reference* scope), the answer is materially incomplete. Faithfulness is 1 because all claims made are supported by the retrieved context, and the refusal is justified by the lack of evidence in that specific context.",
+          "substantive_claims": true,
+          "citation_support": [
+            {
+              "occurrence": 0,
+              "supported": true,
+              "reason": "Excerpt 3 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+            },
+            {
+              "occurrence": 1,
+              "supported": true,
+              "reason": "Excerpt 5 explicitly states that there is no result row for Hayward because there is no matching entry in the cities table, so the join ignores unmatched rows."
+            },
+            {
+              "occurrence": 2,
+              "supported": true,
+              "reason": "Excerpt 1 explains that outer joins substitute empty values for unmatched rows, supporting the claim that the text explains how to use outer joins to include unmatched rows."
+            },
+            {
+              "occurrence": 3,
+              "supported": true,
+              "reason": "Excerpt 2 discusses the transition to outer joins to get records back, supporting the claim that the text explains how to use outer joins to include unmatched rows."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "selection_note": "Frozen one-candidate comparison on reused 60/40 split; no prompt retuning. Reject clear aggregate regressions in either subset. Inspect individual changed answers as well."
+}

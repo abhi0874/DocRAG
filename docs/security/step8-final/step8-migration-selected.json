@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "preserved": {
+    "documents": {
+      "count": 2,
+      "sha256": "a18891505434352c42f68d41de9792d8068d0985d16625c3c750a9501095a8c9"
+    },
+    "chunks": {
+      "count": 162,
+      "sha256": "b6f6bdc6f7ee5b79b541cc157ba56d54cd7477f5618892399709810e8d76dcae"
+    },
+    "evaluations": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_user": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_session": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_account": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_verification": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "document_access": {
+      "count": 2,
+      "sha256": "6470efc1c3b272c0a4e1f610b0b5e34fd99a87bc1dd611329008b5ddea4cfa5e"
+    },
+    "evaluation_access": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "document_files": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_limits": {
+      "count": 2,
+      "sha256": "7bf79398817d2f9353dea673582f67ec87dd90cf9541b9fc428eee1c19f19d96"
+    }
+  }
+}

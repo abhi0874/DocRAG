@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "python": {
+    "passed": 174,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "typescript": {
+    "passed": 219,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "focused": {
+    "passed": 53,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "unhandled_rejections": 0,
+  "source_hashes_verified": 204,
+  "repository_secret_scan": "PASS; includes new report/evidence and known private fixture passwords",
+  "report_links": "PASS"
+}

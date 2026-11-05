@@ -1,0 +1,8 @@
+.venv/bin/python -m ruff check .
+All checks passed!
+.venv/bin/python -m ruff format --check .
+83 files already formatted
+pnpm lint
+$ eslint .
+pnpm typecheck
+$ tsc --noEmit

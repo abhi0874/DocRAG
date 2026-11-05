@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "compatibility": {
+    "prompt": "grounded-v1",
+    "production_cache": false,
+    "threshold": "strict decimal drop >0.02"
+  },
+  "decreases": {
+    "recall@5": "0.000",
+    "faithfulness": "0"
+  }
+}

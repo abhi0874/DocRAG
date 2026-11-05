@@ -162,8 +162,9 @@ The current command intentionally does not accept arbitrary remote database URLs
 The sequential command-contract runner includes existing security, citation,
 cache, reranker and preservation checks, new real HTTP feedback/metrics tests,
 the full 100-question evaluation and unchanged regression thresholds. Browser
-checks are separate. Final observed counts and latency measurements belong in
-the final report after execution. The pre-instrumentation latency sample was
+checks are separate. Final observed counts and latency measurements are recorded in
+`STEP8_COMPLETE.md` and `docs/security/step8-final/`. All 27 verification groups
+passed, with 393 unit tests and a fresh 100-question evaluation. The pre-instrumentation latency sample was
 collected under a different concurrent workload; a before/after difference is
 observational and must not be claimed as a controlled causal overhead estimate.
 Metric-write durations provide a direct measurement of persistence cost.

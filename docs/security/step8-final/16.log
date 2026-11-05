@@ -1,0 +1,5 @@
+{"kind": "invalid-references", "statuses": ["MISS", "MISS"], "model_calls": 2}
+{"kind": "cited", "statuses": ["MISS", "HIT"], "model_calls": 1}
+{"kind": "invalid-references", "statuses": ["MISS", "MISS"], "model_calls": 2}
+{"kind": "cited", "statuses": ["MISS", "HIT"], "model_calls": 1}
+{"kind": "uncited-refusal", "statuses": ["MISS", "HIT"], "model_calls": 1}

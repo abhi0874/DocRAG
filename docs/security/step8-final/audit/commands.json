@@ -1,0 +1,39 @@
+[
+  {
+    "name": "javascript",
+    "command": [
+      "pnpm",
+      "audit",
+      "--json"
+    ],
+    "exit_code": 1,
+    "esbuild_peer_classification": "Non-dev graph through Better Auth optional Drizzle CLI peer; absent from all production server dependency traces",
+    "assessment": "Two disclosed moderate tooling findings; see docs/SECURITY.md. Raw audit exit remains 1."
+  },
+  {
+    "name": "python",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pip_audit",
+      "--format",
+      "json"
+    ],
+    "exit_code": 0,
+    "assessment": "No known vulnerabilities in installed environment"
+  },
+  {
+    "name": "reranker",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pip_audit",
+      "--path",
+      ".local/reranker-minilm/env/lib/python3.14/site-packages",
+      "--format",
+      "json"
+    ],
+    "exit_code": 0,
+    "assessment": "No known vulnerabilities in installed environment"
+  }
+]

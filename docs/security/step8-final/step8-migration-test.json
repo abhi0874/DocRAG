@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "database": "docrag_security_test_6a580e5222f1",
+  "repeat_migration": "idempotent",
+  "preserved": {
+    "documents": {
+      "count": 5,
+      "sha256": "dae08364f7e1e6438803ed00ca7284ae29612644109e8f06ad3c8c926742f2f9"
+    },
+    "chunks": {
+      "count": 164,
+      "sha256": "85ea8cdd0faf0f16c66a0e07e64cfebcdb7c5a6a346407165f67c390174fa8f6"
+    },
+    "evaluations": {
+      "count": 1,
+      "sha256": "7a8be598c1554774acfa0ec26bbb714b53b507b56f05ff42c16a3a5a0c3087ce"
+    },
+    "auth_user": {
+      "count": 2,
+      "sha256": "eefc329afbfbbdb3fe06f2e4570aed1610be5f215d6f979cb6a1bff940919558"
+    },
+    "auth_session": {
+      "count": 1,
+      "sha256": "e445e7466f69ab8282c1a823ae301bb45efc52a4c14e12035b75cd5ca8cfa341"
+    },
+    "auth_account": {
+      "count": 2,
+      "sha256": "fb4239fb5db467300f8d704f0949a9a8cce51a2c260559be33e69d4c76d2c3a7"
+    },
+    "auth_verification": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "document_access": {
+      "count": 4,
+      "sha256": "5f2ac3482198b84bee2d38c751e506c540bf8ff65ca3b6a460c61a2019d6d7d3"
+    },
+    "evaluation_access": {
+      "count": 1,
+      "sha256": "a5040697d89fa1c2aface6d042880f7c5fb2f600c6278a944088e8e5a787fdbb"
+    },
+    "document_files": {
+      "count": 2,
+      "sha256": "eea3162a46581508b923b0d0acf89df82ea3a2dadbe23cf95aa8c1087ff2160e"
+    },
+    "request_limits": {
+      "count": 13,
+      "sha256": "895241c2f04d60845dbf899c575dc6653f36b511e3ff95071c4cc43d00a4a8c4"
+    }
+  },
+  "migration_count": 2
+}

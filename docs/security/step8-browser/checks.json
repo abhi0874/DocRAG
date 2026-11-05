@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "method": "Observed browser interactions; manual checklist, not an automated assertion count",
+  "checks": [
+    {
+      "name": "Anonymous dashboard redirects to sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "User A signs in",
+      "status": "PASS"
+    },
+    {
+      "name": "Public chat streams real local model output",
+      "status": "PASS"
+    },
+    {
+      "name": "Exactly one assistant message per submitted question",
+      "status": "PASS"
+    },
+    {
+      "name": "Thumbs up selected and saved",
+      "status": "PASS"
+    },
+    {
+      "name": "Thumbs down updates the same vote and saved state",
+      "status": "PASS"
+    },
+    {
+      "name": "Citation button highlights matching source",
+      "status": "PASS"
+    },
+    {
+      "name": "Stop response cancels an active stream",
+      "status": "PASS"
+    },
+    {
+      "name": "Cancelled answer cannot receive feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "User A sees owned metrics and cancellation",
+      "status": "PASS"
+    },
+    {
+      "name": "Timeframe selection and Refresh update the period",
+      "status": "PASS"
+    },
+    {
+      "name": "Sign-out clears the prior chat state",
+      "status": "PASS"
+    },
+    {
+      "name": "User B signs in with an empty chat",
+      "status": "PASS"
+    },
+    {
+      "name": "User B dashboard excludes User A requests",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown token usage and cache rate display Unavailable",
+      "status": "PASS"
+    },
+    {
+      "name": "Post-fix dashboard shows cancelled error category and outcome",
+      "status": "PASS"
+    }
+  ],
+  "passed": 16,
+  "failed": 0,
+  "screenshots": [
+    "feedback.png",
+    "cancelled.png",
+    "owner-b.png",
+    "dashboard.png"
+  ],
+  "database_evidence": "../step8-final/step8-browser-sql.json",
+  "scope": "Full browser flow before bf8b833; corrected cancellation category and dashboard checked again on bf8b833 production build. User signed out afterward.",
+  "screenshot_scope": "Owner/period aggregates include setup requests and differ from the bounded HTTP-run count."
+}

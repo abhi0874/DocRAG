@@ -1,0 +1,60 @@
+{
+  "status": "complete",
+  "git_revision": "bf8b8337dd5c5121518ff653204d043074579eaf",
+  "working_tree_dirty_at_start": true,
+  "started_at": "2026-11-05T12:06:59.701037+00:00",
+  "finished_at": "2026-11-05T12:47:22.321375+00:00",
+  "run_wall_seconds": 2422.5913922500004,
+  "cache_statistics": {
+    "embedding_hits": 0,
+    "embedding_misses": 100,
+    "answer_hits": 0,
+    "answer_misses": 100,
+    "judge_hits": 0,
+    "judge_misses": 100
+  },
+  "metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 264,
+    "citation_denominator": 264,
+    "faithfulness": 1,
+    "correctness": 0.99,
+    "p50_latency_ms": 5726.8279585,
+    "p95_latency_ms": 11215.759979799996,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6679.78,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1717.14,
+    "judge_tokens_per_query": 4934.7,
+    "retrieval_p50_latency_ms": 39.50002100000003,
+    "retrieval_p95_latency_ms": 42.23594579999995,
+    "generation_p50_latency_ms": 5684.009562499999,
+    "generation_p95_latency_ms": 11171.964008299998
+  },
+  "evaluation_validation": {
+    "method": "automated-evaluation-v1",
+    "independent_human_validation": false,
+    "calibration_report_sha256": "9d13ab981f26fffb6b1e0d0ca28adfacb95411d2fb0a3f84858e2064d1f874ac",
+    "protocol_sha256": "5d357f7b64e890221cadc4772dcb6cb24fa5dcf9604e66fd08f5a0aca4f9e7b5",
+    "source_result_path": "eval/results/observability/step8-final-a/evaluation-raw.json",
+    "source_result_sha256": "c2d271832b0e2db8cfbebc9c1e7117c759693c927d17ac5305eff0151179ba2c",
+    "validated_at": "2026-11-05T12:47:23.676468+00:00",
+    "validator_git_revision": "bf8b8337dd5c5121518ff653204d043074579eaf",
+    "validator_file_hashes": {
+      "eval/automated_validation.py": "e4ac92d1d669047e466c09a3db002ef8b7f931b3f794641dd60e2006ded772b6",
+      "eval/promote_local.py": "9c9d11fe47e7c675b31268e1e4010f0319344fa4d1a720c533ce2eb1df6dd8a6",
+      "eval/verify_results.py": "d4138f45637f10882947646e44d1a20948715864acb3d0064d7a154d1a0d0a0f",
+      "eval/check_regression.py": "d392c246d7478915ea00580c72d0d9c3dc63e6a7901f6b780c8a6c740da495e1",
+      "eval/review_packet.py": "5c4eb650e6b696c6d4d9e75e0c7c54c30d52cd17f9dffa6d2dd0bbf08a33a217"
+    },
+    "interpretation": "Complete under the authorized automated protocol; not independent human validation or a guarantee of correctness."
+  },
+  "paid_api_charges_inr": 0
+}

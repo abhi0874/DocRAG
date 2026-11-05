@@ -1,3 +1,20 @@
+# Step 8 checkpoint — complete
+
+Final implementation `bf8b833`, verified by `step8-final-a` on 5 November 2026 UTC.
+All 27 groups exited 0: 174 Python + 219 TypeScript tests, 53 focused cancellation
+checks, production build, safe migrations, 138 real HTTP observability assertions,
+66 security HTTP plus 27 SQL checks, 16 observed browser checks, and a fresh
+100-question evaluation. The unchanged regression gate passed. Browser feedback
+SQL and runtime restoration are verified. Final report: [STEP8_COMPLETE.md](STEP8_COMPLETE.md).
+All original 18 and remediation 24 tasks are complete. All three confirmations PASS.
+No Step 9, paid API calls, push or deployment. Two moderate tooling audit findings
+remain disclosed; raw JavaScript audit exit 1 is not a zero-findings result.
+
+The following stopped checkpoint is historical and superseded by the final report.
+Its failures and pending items are retained to explain the repair, not current state.
+
+---
+
 # Step 8 checkpoint — not complete
 
 Recorded 2026-11-05. Repository: `abhi0874/DocRAG`; local branch:

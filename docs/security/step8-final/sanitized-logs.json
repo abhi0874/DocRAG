@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "2026-11-05T12:05:16.347Z",
+    "level": "info",
+    "event": "request.started",
+    "request_id": "7d51ea16-7361-4a34-a9bc-3461e239dd42",
+    "route": "/api/chat",
+    "method": "POST"
+  },
+  {
+    "timestamp": "2026-11-05T12:05:17.419Z",
+    "level": "info",
+    "event": "request.finished",
+    "request_id": "7d51ea16-7361-4a34-a9bc-3461e239dd42",
+    "route": "/api/chat",
+    "method": "POST",
+    "status": 200,
+    "completion": "completed",
+    "latency_ms": 1072.389416,
+    "error_category": null,
+    "provider": "ollama",
+    "cache": "MISS"
+  }
+]
