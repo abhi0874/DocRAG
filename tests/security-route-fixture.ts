@@ -6,3 +6,6 @@ vi.mock('@/lib/auth',()=>({appOrigin:()=>({origin:'http://localhost',host:'local
   getAuth:()=>({api:{getSession:async()=>({user:{id:'unit-user'}})}})}))
 vi.mock('@/lib/security/limits',()=>({consumeLimit:vi.fn(async()=>{})}))
 beforeEach(()=>{vi.clearAllMocks()})
+
+// Persistence is verified by the real HTTP suite; keep existing route units isolated.
+vi.mock('@/lib/observability/persist',()=>({persistMetric:vi.fn(async()=>true)}))

@@ -1,3 +1,4 @@
+import {observed} from '@/lib/observability/http'
 import {and,eq,sql} from 'drizzle-orm'
 import {db} from '@/lib/db'
 import {chunks,documents,evaluations} from '@/lib/db/schema'
@@ -7,7 +8,7 @@ import {documentScope} from '@/lib/security/access'
 import {checkOrigin,principal,pathId,safeError,HttpError} from '@/lib/security/http'
 import {consumeLimit} from '@/lib/security/limits'
 type Context={params:Promise<{id:string}>}
-export async function GET(req:Request,{params}:Context){
+async function handleGET(req:Request,{params}:Context){
   try{
     const userId=await principal(req,false);await consumeLimit('read',userId)
     const result=await documentSnapshot(pathId((await params).id),userId)
@@ -15,7 +16,7 @@ export async function GET(req:Request,{params}:Context){
     return Response.json(result,{headers:{'Cache-Control':'no-store'}})
   }catch(error){return safeError(error)}
 }
-export async function DELETE(req:Request,{params}:Context){
+async function handleDELETE(req:Request,{params}:Context){
   try{
     checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('read',userId)
     const id=pathId((await params).id)
@@ -31,3 +32,6 @@ export async function DELETE(req:Request,{params}:Context){
     return Response.json({ok:true},{headers:{'Cache-Control':'no-store'}})
   }catch(error){return safeError(error)}
 }
+
+export const GET=observed('/api/documents/:id',handleGET)
+export const DELETE=observed('/api/documents/:id',handleDELETE)

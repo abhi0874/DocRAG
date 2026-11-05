@@ -43,6 +43,7 @@ export function AppHeader() {
           >
             Evaluation
           </Link>
+          <Link href="/metrics/dashboard" className="rounded-md px-3 py-1.5 text-sm hover:bg-accent">Metrics</Link>
         </nav>
       </div>
       <AuthStatus />

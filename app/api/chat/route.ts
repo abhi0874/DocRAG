@@ -1,3 +1,6 @@
+import {currentTrace,measure} from '@/lib/observability/context'
+import {answerMetadata,cachedAnswer,observeAnswer} from '@/lib/observability/answer'
+import {observed} from '@/lib/observability/http'
 import {checkOrigin,principal,jsonBody,chatInput,safeError} from '@/lib/security/http'
 import {consumeLimit} from '@/lib/security/limits'
 import {acquireWork} from '@/lib/security/work'
@@ -16,9 +19,11 @@ import type { RagUIMessage } from '@/lib/types'
 
 export const maxDuration = 60
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
+  const trace=currentTrace()
   let releaseWork:(()=>void)|undefined
   try {
+  req.signal.throwIfAborted()
   checkOrigin(req)
   const userId=await principal(req,false)
   await consumeLimit(userId ? 'chat':'public',userId)
@@ -26,12 +31,18 @@ export async function POST(req: Request) {
   if (!documentId) return Response.json({error: 'No document selected'}, {status: 400})
   const lastUser = [...messages].reverse().find(m => m.role === 'user')
   const question = lastUser?.parts.filter(p => p.type === 'text').map(p => p.text).join(' ') ?? ''
-  const snapshot = await documentSnapshot(documentId,userId)
+  const snapshot = await measure('authorization',()=>documentSnapshot(documentId,userId))
   if (!snapshot) {responseCache.invalidateDocument(documentId); return Response.json({error: 'Document unavailable'}, {status: 404})}
+  req.signal.throwIfAborted()
   releaseWork=acquireWork()
-  const selection = await selectContext(question, documentId, 6, undefined, undefined, undefined, userId)
+  const selection = await measure('retrieval',()=>selectContext(question, documentId, 6, undefined, undefined, timing=>{if(trace)Object.assign(trace.timings,timing)}, userId))
+  req.signal.throwIfAborted()
+  if(trace){trace.timings.selection_ms=selection.selection_ms;trace.timings.rerank_ms=selection.trace.elapsed_ms}
+  const contextStart=performance.now()
   const retrieved = withEvidenceMetadata(selection.ranked, snapshot)
   const version = promptVersion()
+  const metadata=answerMetadata(trace,snapshot,messages,retrieved,version)
+  if(trace)trace.timings.context=performance.now()-contextStart
   const scope = publicCacheScope(snapshot, messages)
   const key = scope ? responseKey({question, scope, documentId, documentHash: snapshot.hash,
     context: retrieved, retrieval: retrievalDefault, reranker: {config: rerankerConfig(), status: selection.trace.status},
@@ -40,9 +51,11 @@ export async function POST(req: Request) {
   // A concurrent edit must not turn a previously eligible snapshot into a stale hit.
   const current = key ? await documentSnapshot(documentId,userId) : snapshot
   if (!current || current.hash !== snapshot.hash) {releaseWork();return Response.json({error: 'Document changed; retry'}, {status: 409})}
+  const cacheStart=performance.now()
   const hit = key && scope ? responseCache.get(key, scope, answer => validateCitations(answer.text, retrieved.length).valid) : undefined
   const owner = !!(key && !hit && responseCache.acquire(key))
   const status = hit ? 'HIT' : !key ? 'BYPASS' : owner ? 'MISS' : 'BYPASS_BUSY'
+  if(trace){trace.cache=status;trace.timings.cache_lookup=performance.now()-cacheStart}
   const abort = new AbortController()
   const signal = AbortSignal.any([req.signal, abort.signal])
   let completedAnswer: CachedAnswer | undefined
@@ -54,13 +67,14 @@ export async function POST(req: Request) {
     if (owner && key) responseCache.release(key)
   }
   const stream = createUIMessageStream<RagUIMessage>({
-    onError: () => {release(); return 'The answer could not be completed. Please retry.'},
+    onError: () => {if(trace){trace.failed=true;trace.errorCategory='model'}release(); return 'The answer could not be completed. Please retry.'},
     execute: async ({writer}) => {
       // Establish the assistant message ID before the client receives its data.
-      writer.write({type: 'start'})
+      writer.write({type: 'start',...(trace?{messageId:trace.id}:{})})
       writer.write({type: 'data-sources', data: {sources: retrieved}})
       writer.write({type: 'data-cache', data: {status, tokensAvoided: hit?.tokens ?? null}})
       if (hit) {
+        cachedAnswer(trace,metadata,hit.text,hit.tokens)
         writer.write({type: 'text-start', id: 'cached-answer'})
         writer.write({type: 'text-delta', id: 'cached-answer', delta: hit.text})
         writer.write({type: 'text-end', id: 'cached-answer'})
@@ -69,8 +83,11 @@ export async function POST(req: Request) {
         return
       }
       try {
-        const result = await startRagAnswer(messages, retrieved, version, signal)
-        const observed = validatedStream(result.stream, retrieved.length, signal, async answer => {
+        const result = await measure('model_start',()=>startRagAnswer(messages, retrieved, version, signal))
+        // A disconnect can arrive during async model setup. Do not construct a
+        // new abortable pipeline after its signal has already been aborted.
+        if(signal.aborted){await result.stream.cancel(signal.reason);release();return}
+        const observed = validatedStream(observeAnswer(result.stream,trace,metadata), retrieved.length, signal, async answer => {
           completedAnswer = answer
         }, result => writer.write({type: 'data-validation', data: result}), () => {if (!completedAnswer) release()})
         writer.merge(toUIMessageStream({stream: observed, sendStart: false}))
@@ -108,8 +125,13 @@ export async function POST(req: Request) {
       // Abort inference, then drain the SDK's terminal/error frames for cleanup.
       // Cancelling its nested SSE transforms directly can leave rejected promises.
       try {while (!(await reader.read()).done) { /* Disconnected client: discard terminal frames. */ }}
-      catch { /* The aborted upstream stream is expected to reject. No result is cached. */ }
+      catch(error) {
+        // Only this request's intentional abort belongs to normal teardown.
+        if(!(signal.aborted&&(error===signal.reason||error instanceof Error&&error.name==='AbortError')))throw error
+      } finally {reader.releaseLock()}
     },
   }), {status: response.status, headers: response.headers})
   } catch(error){releaseWork?.();return safeError(error)}
 }
+
+export const POST=observed('/api/chat',handlePOST)

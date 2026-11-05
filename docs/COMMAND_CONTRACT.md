@@ -1164,3 +1164,90 @@ print({'n': len(values), 'mean_ms': statistics.mean(values),
        'p50_ms': percentile(values, .5), 'p95_ms': percentile(values, .95)})
 PYTHON
 ```
+
+### Step 8 observability verification
+
+The existing commands remain unchanged. New checks use the same native PostgreSQL
+cluster on the explicit `DOCRAG_POSTGRES_PORT` (currently 55433), never the other
+project's Docker database. Run from the repository root:
+
+```sh
+make lint
+make test
+make build-fe
+.venv/bin/python -m scripts.observability_setup
+.venv/bin/python -m scripts.security_setup --apply-selected
+.venv/bin/python -m scripts.security_setup --apply-configured
+.venv/bin/python -m scripts.security_http
+.venv/bin/python -m scripts.observability_http
+.venv/bin/python -m scripts.feedback_to_eval
+```
+
+`observability_setup` clones the preserved Step 7 test database into a new isolated
+name, adds a synthetic pre-upgrade session there, applies the existing Drizzle
+migration workflow twice, and compares all 11 legacy tables. It never resets the
+source. `observability_http` uses the production build on port 8005, real local
+Ollama, two fixture accounts, actual SQL rows, and a short metrics-table lock in
+that disposable database to test bounded persistence failure. Private fixture
+credentials and logs remain ignored under `.local`.
+
+`feedback_to_eval` currently targets the verified disposable database marker. It
+writes a new file under `.local/feedback-review`; it refuses overwrites and other
+output directories. Only manifest-verified public benchmark questions and answers
+can become `review_needed` candidates. No candidate is a reviewed golden example.
+The public corpus, model choices, prompts and regression thresholds remain fixed.
+
+The complete repeatable Step 8 sequence is:
+
+```sh
+.venv/bin/python -m scripts.verify_observability --run-id step8-final-a
+```
+
+Use a fresh run ID on each attempt. This runs lint, tests, build, upgrade
+preservation, existing security HTTP checks, new observability HTTP/export,
+original prompt/citation/cache/reranker/invalidation checks, full 100-question
+local evaluation, automated-result validation, the Step 8 compatibility gate,
+historical preservation, and dependency audits. Source hashes must remain
+unchanged throughout the run. Browser checks are recorded separately.
+
+The Step 8 gate compares with `eval/results/security/step7-final-b/evaluation.json`.
+It permits only the explicitly listed instrumentation code changes and added
+provenance files. The four repaired citation/cache/prompt/type files must retain
+their exact existing hashes; all 100 evidence sequences must match. The original
+0.02 Recall@5 and faithfulness decline limits are unchanged. Tests reject changes
+to models, evidence, prompt, missing questions and unrecognized provenance.
+
+### Step 8 cancellation repair — pinned Node runtime
+
+Node 26.5.0 reproduces upstream Web Streams issue
+<https://github.com/nodejs/node/issues/64561>: its internal pending-write rejection
+is reported as unhandled even when the public pipe promise is caught. An isolated
+reproduction and the unchanged focused suite both fail on 26.5.0 and pass on
+24.22.1. This is a runtime correction, not exception suppression.
+
+The project now pins Node **24.22.1** in `.nvmrc`, `.node-version` and package
+engines. The official Apple Silicon archive is installed only under
+`.local/node-v24.22.1-darwin-arm64`; SHA256:
+`89c682593d76cd44233fa53b1563264e7de9cbb189cad169135c5b4fadfbc0a7`.
+Download provenance: <https://nodejs.org/dist/v24.22.1/SHASUMS256.txt>.
+No global Node installation is modified. The Makefile and final runner select
+this project-local directory automatically. For direct commands in a terminal:
+
+```sh
+export PATH="$PWD/.local/node-v24.22.1-darwin-arm64/bin:$PATH"
+node --version
+pnpm exec vitest run tests/cache-api.test.ts tests/reranker-api.test.ts tests/observability.test.ts
+pnpm exec vitest run tests/chat-cancellation-stages.test.ts tests/node-stream-runtime.test.ts
+```
+
+The permanent runtime regression launches a child Node process with its normal
+unhandled-rejection behavior. It must exit zero after catching the controlled
+pipeline failure. No global rejection handler or test-runner suppression remains.
+
+To reconstruct locally, download the named archive and checksum file from
+`https://nodejs.org/dist/v24.22.1/`, verify the archive's SHA256 against the value
+above, and extract it under `.local`. To uninstall after use, stop this project's
+Node processes, open the repository's `.local` folder in Finder and move only
+`node-v24.22.1-darwin-arm64` and `node-runtime-download` to Trash. Open a fresh
+terminal to remove the temporary PATH setting. No shell startup file was edited.
+A compatible pinned runtime is needed to run the project afterward.

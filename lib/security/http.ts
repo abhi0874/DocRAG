@@ -1,3 +1,4 @@
+import {currentTrace,measure} from '../observability/context'
 import {z} from 'zod'
 import {appOrigin, getAuth} from '../auth'
 
@@ -15,7 +16,8 @@ export function checkOrigin(req:Request) {
   if (req.headers.get('origin')!==origin || req.headers.get('sec-fetch-site')==='cross-site') throw new HttpError(403,'Request origin is not allowed')
 }
 export async function principal(req:Request, required=true) {
-  const result=await getAuth().api.getSession({headers:req.headers,query:{disableCookieCache:true,disableRefresh:true}})
+  const result=await measure('authentication',()=>getAuth().api.getSession({headers:req.headers,query:{disableCookieCache:true,disableRefresh:true}}))
+  const trace=currentTrace();if(trace&&result)trace.ownerId=result.user.id
   if (!result && required) throw new HttpError(401,'Sign in required')
   return result?.user.id ?? null
 }
@@ -37,7 +39,7 @@ export async function limitedBody(req:Request,limit:number) {
   for(const part of parts){body.set(part,offset);offset+=part.byteLength}
   return body
 }
-export async function jsonBody<T>(req:Request,schema:z.ZodType<T>,limit=65536):Promise<T> {
+async function parseJsonBody<T>(req:Request,schema:z.ZodType<T>,limit=65536):Promise<T> {
   if (!req.headers.get('content-type')?.toLowerCase().startsWith('application/json')) throw new HttpError(415,'Expected JSON')
   const body=await limitedBody(req,limit)
   let value:unknown
@@ -57,3 +59,7 @@ const message=z.object({id:z.string().min(1).max(128),role:z.enum(['user','assis
 export const chatInput=z.object({documentId,messages:z.array(message).min(1).max(20)}).strict()
   .refine(v=>v.messages.at(-1)?.role==='user' && v.messages.reduce((n,m)=>n+m.parts[0].text.length,0)<=32000)
 export const evaluationInput=z.object({documentId,question:z.string().trim().min(1).max(8000)}).strict()
+
+export async function jsonBody<T>(req:Request,schema:z.ZodType<T>,limit=65536):Promise<T>{
+  return measure('validation',()=>parseJsonBody(req,schema,limit))
+}

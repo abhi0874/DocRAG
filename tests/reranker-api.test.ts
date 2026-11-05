@@ -1,7 +1,7 @@
 import './security-route-fixture'
 import { expect, it, vi } from 'vitest'
 vi.mock('@/lib/select-context', () => ({selectContext: vi.fn()}))
-vi.mock('@/lib/evidence', () => ({documentSnapshot: vi.fn(async () => ({hash: 'test'})), withEvidenceMetadata: (r: unknown) => r}))
+vi.mock('@/lib/evidence', () => ({documentSnapshot: vi.fn(async () => ({hash: 'test',document:{id:42,title:'Fixture',filename:'fixture.pdf',status:'ready'},chunks:[],isPublic:false})), withEvidenceMetadata: (r: unknown) => r}))
 vi.mock('@/lib/public-cache-policy', () => ({publicCacheScope: () => null}))
 vi.mock('@/lib/rag-answer', () => ({startRagAnswer: vi.fn()}))
 vi.mock('ai', () => ({
@@ -22,7 +22,7 @@ it.each(['reranked', 'fallback', 'disabled'] as const)('chat uses selected evide
   const messages = [{id: 'm', role: 'user', parts: [{type: 'text', text: 'question'}]}]
   const response = await POST(new Request('http://localhost/api/chat', {method: 'POST',headers:{'Content-Type':'application/json','Origin':'http://localhost'},
     body: JSON.stringify({documentId: 42, messages})}))
-  expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6, undefined, undefined, undefined, 'unit-user')
+  expect(selectContext).toHaveBeenLastCalledWith('question', 42, 6, undefined, undefined, expect.any(Function), 'unit-user')
   expect(startRagAnswer).toHaveBeenLastCalledWith(messages, ranked, 'step5-v1', expect.any(AbortSignal))
   expect(response.headers.get('X-DocRAG-Reranker-Status')).toBe(status)
   if (status === 'fallback') expect(response.headers.get('X-DocRAG-Reranker-Reason')).toBe('timeout')

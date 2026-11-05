@@ -1,3 +1,4 @@
+import {observed} from '@/lib/observability/http'
 import {desc, sql} from 'drizzle-orm'
 import {db} from '@/lib/db'
 import {chunks, documents} from '@/lib/db/schema'
@@ -9,7 +10,7 @@ import {consumeLimit} from '@/lib/security/limits'
 import {readPdf,parsePdf} from '@/lib/security/pdf'
 import {acquireWork} from '@/lib/security/work'
 export const maxDuration=120
-export async function GET(req:Request){
+async function handleGET(req:Request){
   try{
     const userId=await principal(req,false);await consumeLimit('read',userId)
     const params=new URL(req.url).searchParams
@@ -21,7 +22,7 @@ export async function GET(req:Request){
     return Response.json(rows,{headers:{'Cache-Control':'no-store'}})
   }catch(error){return safeError(error)}
 }
-export async function POST(req:Request){
+async function handlePOST(req:Request){
   let release:(()=>void)|undefined
   try{
     checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('upload',userId);release=acquireWork()
@@ -47,3 +48,6 @@ export async function POST(req:Request){
     return Response.json(doc,{status:201,headers:{'Cache-Control':'no-store'}})
   }catch(error){return safeError(error)}finally{release?.()}
 }
+
+export const GET=observed('/api/documents',handleGET)
+export const POST=observed('/api/documents',handlePOST)

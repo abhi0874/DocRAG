@@ -1,7 +1,7 @@
 import {sql} from 'drizzle-orm'
 import {db} from '../db'
 import {HttpError} from './http'
-export const quotas={auth:{max:30,seconds:300},upload:{max:5,seconds:300},chat:{max:30,seconds:60},evaluation:{max:5,seconds:300},read:{max:120,seconds:60},public:{max:60,seconds:60}} as const
+export const quotas={feedback:{max:60,seconds:60},auth:{max:30,seconds:300},upload:{max:5,seconds:300},chat:{max:30,seconds:60},evaluation:{max:5,seconds:300},read:{max:120,seconds:60},public:{max:60,seconds:60}} as const
 // PostgreSQL makes increments atomic across workers/instances. No forwarded IP trust.
 export async function consumeLimit(kind:keyof typeof quotas,identity:string|null) {
   const quota=quotas[kind],key=`${kind}:${identity ?? 'anonymous-global'}`

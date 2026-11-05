@@ -103,6 +103,10 @@ def main():
             ]
 
     before = legacy_snapshot()
+    if not args.fresh_test:
+        from scripts.observability_setup import snapshot
+
+        security_before = snapshot(target)
     env = {**os.environ, "SECURITY_DATABASE_URL": target}
     for flags in commands:
         subprocess.run(
@@ -112,6 +116,12 @@ def main():
             check=True,
         )
     assert legacy_snapshot() == before, "Migration changed legacy application data"
+    if not args.fresh_test:
+        assert snapshot(target) == security_before, "Migration changed security data"
+        label = "configured" if args.apply_configured else "selected"
+        (ROOT / f".local/step8-migration-{label}.json").write_text(
+            json.dumps({"status": "PASS", "preserved": security_before}, indent=2)
+        )
     with psycopg.connect(target) as conn:
         conn.read_only = True
         public = conn.execute(
@@ -120,11 +130,12 @@ def main():
         if not args.apply_configured:
             assert public == 2
             assert conn.execute("SELECT count(*) FROM chunks").fetchone()[0] == 162
-        assert (
-            conn.execute(
-                "SELECT count(*) FROM drizzle.__drizzle_migrations"
-            ).fetchone()[0]
-            == 1
+        assert conn.execute(
+            "SELECT count(*) FROM drizzle.__drizzle_migrations"
+        ).fetchone()[0] == len(
+            json.loads(
+                (ROOT / "db/security-migrations/meta/_journal.json").read_text()
+            )["entries"]
         )
     if args.fresh_test:
         (ROOT / ".local/security-migration-test.json").write_text(

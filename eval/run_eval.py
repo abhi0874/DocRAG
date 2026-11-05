@@ -129,6 +129,13 @@ def run(
         )
         config = prompting_configuration(prompting_experiment)
         is_local = True
+    if is_local:
+        # Extend new run receipts without rewriting the frozen historical profile
+        # configuration used to validate Steps 3–7 or Gemini cache inputs.
+        from eval.observability_gate import ADDED
+
+        for path in sorted(ADDED):
+            config["application_file_hashes"][path] = sha256((ROOT / path).read_bytes())
     reviewed = validate(golden, require_review=True)
     corpus = load_corpus()
     config["corpus_hash"] = corpus["corpus_hash"]

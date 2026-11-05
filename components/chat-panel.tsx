@@ -4,6 +4,7 @@ import { CornerDownLeft, Loader2, MessageSquareText } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { citationReferences } from '@/lib/citations'
 import type { RagUIMessage } from '@/lib/types'
+import {AnswerFeedback} from './answer-feedback'
 import { cn } from '@/lib/utils'
 
 interface ChatPanelProps {
@@ -12,6 +13,7 @@ interface ChatPanelProps {
   disabled: boolean
   documentTitle: string | null
   onSend: (text: string) => void
+  onStop: () => Promise<void>
   onCitationClick: (index: number, messageId: string) => void
 }
 
@@ -49,9 +51,11 @@ export function ChatPanel({
   disabled,
   documentTitle,
   onSend,
+  onStop,
   onCitationClick,
 }: ChatPanelProps) {
   const [input, setInput] = useState('')
+  const [stopError,setStopError]=useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -94,7 +98,7 @@ export function ChatPanel({
           </div>
         ) : (
           <div className="mx-auto flex max-w-2xl flex-col gap-6">
-            {messages.map((message) => (
+            {messages.map((message,index) => (
               <div
                 key={message.id}
                 className={cn(
@@ -133,6 +137,7 @@ export function ChatPanel({
                     ) : null,
                   )}
                 </div>
+                {message.role==='assistant'&&<AnswerFeedback answerId={message.id} complete={status==='ready'||index<messages.length-1}/>}
               </div>
             ))}
             {status === 'submitted' && (
@@ -177,6 +182,7 @@ export function ChatPanel({
             aria-label="Chat message"
             className="min-h-16 flex-1 resize-none rounded-md border border-input bg-card px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
           />
+          {(status==='streaming'||status==='submitted')&&<button type="button" className="h-10 rounded-md border border-border px-4 text-sm" onClick={async()=>{setStopError(false);try{await onStop()}catch{setStopError(true)}}}>Stop response</button>}
           <button
             type="submit"
             disabled={disabled || status !== 'ready' || !input.trim()}
@@ -186,6 +192,7 @@ export function ChatPanel({
             <CornerDownLeft className="size-3.5" aria-hidden="true" />
           </button>
         </form>
+        {stopError&&<p role="alert">The response could not be stopped. Please retry.</p>}
       </div>
     </div>
   )

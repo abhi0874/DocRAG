@@ -20,7 +20,7 @@ export function Workspace() {
   const [sourceMessageId, setSourceMessageId] = useState<string | null>(null)
   const [activeSource, setActiveSource] = useState<number | null>(null)
 
-  const { messages, sendMessage, status, setMessages } = useChat<RagUIMessage>(
+  const { messages, sendMessage, status, setMessages, stop } = useChat<RagUIMessage>(
     {
       transport: new DefaultChatTransport({ api: '/api/chat', prepareSendMessagesRequest: ({messages,body}) => ({body:{documentId:body?.documentId,messages:messages.map(m=>({id:m.id,role:m.role,parts:[{type:'text',text:m.parts.filter(p=>p.type==='text').map(p=>p.text).join(' ')}]}))}}) }),
     },
@@ -77,6 +77,7 @@ export function Workspace() {
           disabled={!selectedId}
           documentTitle={selectedDoc?.title ?? null}
           onSend={handleSend}
+          onStop={stop}
           onCitationClick={(index, messageId) => {setSourceMessageId(messageId); setActiveSource(index)}}
         />
       </main>
