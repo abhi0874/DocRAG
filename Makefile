@@ -42,11 +42,11 @@ load:
 	@echo 'STEP 10 load testing is not yet implemented.' >&2
 	@exit 1
 up:
-	$(PYTHON) scripts/native_db.py up
+	$(PYTHON) -m scripts.native_db up
 stop down:
-	$(PYTHON) scripts/native_db.py stop
+	$(PYTHON) -m scripts.native_db stop
 db-status:
-	$(PYTHON) scripts/native_db.py status
+	$(PYTHON) -m scripts.native_db status
 
 .PHONY: local-check local-ingest local-calibrate
 local-check:

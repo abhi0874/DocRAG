@@ -1251,3 +1251,19 @@ Node processes, open the repository's `.local` folder in Finder and move only
 `node-v24.22.1-darwin-arm64` and `node-runtime-download` to Trash. Open a fresh
 terminal to remove the temporary PATH setting. No shell startup file was edited.
 A compatible pinned runtime is needed to run the project afterward.
+
+### Step 8 command-entrypoint correction
+
+Run native database targets from this repository root with `.venv/bin/python`.
+`make db-status` now invokes `.venv/bin/python -m scripts.native_db status`;
+`make up`, `make stop` and `make down` use the same module form with their existing
+arguments. Direct file invocation is not the supported entrypoint. It failed
+with `ModuleNotFoundError: No module named 'scripts'` because Python placed the
+script directory, rather than its package parent, on the import path.
+No global PYTHONPATH or credentials change is needed. The existing ownership
+marker and configured port checks are unchanged. Status uses `pg_ctl` against
+this checkout's data directory; it does not merely probe an open TCP port.
+Regression tests cover the Makefile dry runs, actual module loading, invalid
+configuration and nonzero status propagation. Do not execute up/stop/down merely
+to test their syntax: up applies development SQL and stop/down interrupt service.
+The original Step 8 verification did not catch this direct-entrypoint defect.

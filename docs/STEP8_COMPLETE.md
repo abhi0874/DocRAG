@@ -286,3 +286,52 @@ Errors blocking verification: **none**. Pending required tasks: **none**. Known 
 STEP 8 COMPLETE
 No errors found and all tasks completed.
 Can proceed to the next step.
+
+## Command-contract correction — 6 November 2026
+
+The subsequent prerequisite audit reproduced `make db-status` exit 2:
+`ModuleNotFoundError: No module named 'scripts'`. The Makefile ran
+`.venv/bin/python scripts/native_db.py status`; direct execution put `scripts/`
+on the import path, so the later `scripts.common` package import could not resolve.
+The interpreter and working directory were correct. The historical 27-group run
+did not exercise this Makefile status entrypoint.
+
+The minimal fix changes only the native helper's Makefile invocations (up,
+stop/down, status) to `.venv/bin/python -m scripts.native_db ...` from the
+repository root. No Python import hacks, runtime changes, schema changes,
+credentials changes or global installations were introduced. Start/stop targets
+were dry-run inspected, never executed. Seven permanent tests cover target
+arguments, actual module loading, invalid port rejection and safe nonzero exit
+propagation. Unavailable-server behavior is mocked, not a claim of stopping a
+real database. Direct script invocation is no longer the documented interface.
+
+Actual `make db-status`: exit 0, owned PostgreSQL PID 10480. Independent read-only
+SQL confirms `127.0.0.1:55433`, database `docrag_dev`, and this checkout's data
+directory. The other project's `text-to-sql-db-1` stayed healthy on loopback 55432.
+
+Full contract rerun: `.venv/bin/python -m scripts.verify_observability --run-id
+step8-command-repair-a`, exit 0, **27/27 groups**. Lint/build passed; **181 Python
+and 219 TypeScript tests passed (400 total)**, zero failures. Focused cancellation
+suite: 53 passed, exit 0. Authentication: 66 HTTP + 27 SQL checks; observability:
+138 assertions, including cancellation, logging, feedback and export. Existing
+idempotent migration/preservation probes passed without changing legacy rows or
+schema definitions. Citation/cache/security/negative controls and historical
+preservation passed. Browser interactions were not repeated for this Makefile-only
+change; the earlier Step 8 browser evidence remains historical.
+
+The full 100-question harness ran again: retrieval was executed, while all 100
+embeddings, answers and judge results came from compatible caches. These are not
+fresh generations. Recall@3 0.95; Recall@5 0.975; Recall@10 1.0;
+MRR 0.9729166666666667; automated faithfulness 1.0; correctness 0.99;
+citation support 264/264. Provenance and unchanged .02 regression gates passed.
+Cache replay latency must not be interpreted as fresh model speed. New results
+are under `eval/results/observability/step8-command-repair-a/`; prior results were
+not overwritten. Every command and exit code is in
+`docs/security/step8-command-repair/commands.json`.
+
+The audit wrapper passed its existing policy; raw JavaScript audit remains exit 1
+with the same two moderate tooling findings, while both Python audits exit 0.
+The temporary benchmark Ollama runtime was stopped and desktop 0.40.14 restored.
+No database resets, other-container changes, paid API calls, pushes or Step 9
+implementation occurred. All three repair confirmations PASS. No required repair
+checks remain pending. Final Git status is verified after the local commit.
