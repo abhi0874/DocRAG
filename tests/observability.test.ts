@@ -82,3 +82,10 @@ it('H: a signal after completed response cannot mutate its persisted outcome',as
  await r.text();abort.abort();expect(mocks.persist).toHaveBeenCalledTimes(1)
  expect(mocks.persist.mock.calls[0][0]).toMatchObject({outcome:'completed',cancelled:false})
 })
+it('freezes cancellation category while late provider cleanup mutates the live trace',async()=>{
+ const abort=new AbortController();let live:Trace|undefined
+ const response=await observed('/test',async()=>{live=currentTrace();return Response.json({ok:true})})(new Request('http://localhost',{signal:abort.signal}))
+ mocks.persist.mockImplementationOnce(async()=>{live!.errorCategory='model';live!.failed=true;return true})
+ abort.abort();await response.text()
+ expect(mocks.persist.mock.calls[0][0]).toMatchObject({outcome:'cancelled',errorCategory:'cancelled'})
+})

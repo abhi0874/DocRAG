@@ -62,6 +62,8 @@ def main():
             "/api/feedback", "POST", {"answerId": answer, "value": value}, cookie
         )
 
+    initial_count = read("SELECT count(*) AS n FROM request_metrics")[0]["n"]
+    started_at = read("SELECT clock_timestamp() AS at")[0]["at"]
     with server(env):
         # Fixture-only quota reset. No application database rows are modified.
         with psycopg.connect(target) as conn:
@@ -230,14 +232,18 @@ def main():
         connection.close()
         for _ in range(120):
             rows = read(
-                "SELECT outcome FROM request_metrics WHERE request_id=%s",
+                "SELECT outcome,error_category FROM request_metrics "
+                "WHERE request_id=%s",
                 (cancelled_id,),
             )
             if rows:
                 break
             time.sleep(0.25)
         check(
-            "cancelled stream not completed", rows and rows[0]["outcome"] == "cancelled"
+            "cancelled stream not completed",
+            rows
+            and rows[0]["outcome"] == "cancelled"
+            and rows[0]["error_category"] == "cancelled",
         )
         check(
             "cancelled answer not rateable",
@@ -367,7 +373,8 @@ def main():
             "latency_ms) AS p50_ms,percentile_cont(.95) WITHIN GROUP(ORDER BY "
             "latency_ms) AS p95_ms,count(*) FILTER(WHERE cache='HIT') AS "
             "cache_hits,count(*) FILTER(WHERE cache='MISS') AS cache_misses "
-            "FROM request_metrics"
+            "FROM request_metrics WHERE created_at >= %s",
+            (started_at,),
         )[0]
         check(
             "plausible stored durations",
@@ -377,6 +384,17 @@ def main():
             ),
         )
         check("unique response IDs", len(ids) == len(set(ids)))
+        actual_delta = (
+            read("SELECT count(*) AS n FROM request_metrics")[0]["n"] - initial_count
+        )
+        # 33 named requests + 35 timing samples + 1 socket cancellation;
+        # exactly one deliberate metrics-write failure has no database row.
+        expected_requests = len(ids) + 35 + 1
+        check(
+            "exact metric count with one controlled loss",
+            actual_delta == expected_requests - 1,
+        )
+        check("run SQL count matches delta", stats["request_count"] == actual_delta)
     log = (ROOT / ".local/security-http-server.log").read_text()
     events = [
         json.loads(line) for line in log.splitlines() if line.startswith('{"timestamp"')
@@ -419,6 +437,9 @@ def main():
         "checks": checks,
         "check_count": len(checks),
         "http_requests_with_ids": len(ids),
+        "http_requests_total": expected_requests,
+        "metrics_rows_created": actual_delta,
+        "controlled_metric_write_losses": 1,
         "metrics": stats,
         "overhead_sample": {
             "n": len(durations),

@@ -26,7 +26,8 @@ The final outcome is `completed`, `failed` or `cancelled`. HTTP status and outco
 are independent: a stream can deliver status 200 and then disconnect. Such a
 stream is cancelled, has no rateable answer receipt and cannot enter the cache.
 A cancellation racing the bounded metric write updates the same UUID row rather
-than inserting another request. Terminal logging occurs once. Cancellation after
+than inserting another request. Terminal logging occurs once. Terminal fields are copied before the asynchronous
+write so late provider cleanup cannot change a cancellation category to model. Cancellation after
 a completely consumed response no longer changes its outcome.
 
 Before retrieval and after awaiting retrieval, the route checks the request

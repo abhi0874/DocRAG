@@ -13,12 +13,15 @@ export function observed<C>(route:string,handler:(req:Request,context:C)=>Promis
       trace.outcome=trace.cancelled?'cancelled':trace.failed||trace.status>=400?'failed':'completed'
       trace.errorCategory=trace.cancelled?'cancelled':trace.failed?(trace.errorCategory??'model'):trace.status>=400?errorCategory(trace.status):null
       const duration=elapsed(trace.started)
-      await persistMetric(trace,duration)
+      // Provider teardown can still update its live trace while this write waits.
+      // Freeze terminal fields so a late provider abort cannot relabel cancellation.
+      const terminal={...trace,timings:{...trace.timings}}
+      await persistMetric(terminal,duration)
       // Cancellation while the bounded write was pending must not leave a success receipt.
       if((trace.cancelled||req.signal.aborted)&&trace.outcome!=='cancelled'){
-        trace.outcome='cancelled';trace.errorCategory='cancelled';await persistMetric(trace,duration)
+        terminal.outcome='cancelled';terminal.errorCategory='cancelled';terminal.cancelled=true;await persistMetric(terminal,duration)
       }
-      req.signal.removeEventListener('abort',abort);emit('request.finished',trace)
+      req.signal.removeEventListener('abort',abort);emit('request.finished',terminal)
     }
     let response:Response
     try{response=await withTrace(trace,()=>handler(req,context as C))}
