@@ -50,7 +50,7 @@
   },
   "packageManager": "pnpm@11.25.0",
   "engines": {
-    "node": ">=20.9.0",
+    "node": "24.22.1",
     "pnpm": "11.25.0"
   }
 }

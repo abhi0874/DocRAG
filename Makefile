@@ -8,7 +8,7 @@ EVAL_LATEST := eval/results/latest.json
 EVAL_BASELINE := eval/results/baseline.json
 endif
 
-export PATH := $(CURDIR)/.venv/bin:$(PATH)
+export PATH := $(CURDIR)/.local/node-v24.22.1-darwin-arm64/bin:$(CURDIR)/.venv/bin:$(PATH)
 
 .PHONY: setup lint test cov build-fe run-api eval eval-gate up down stop load check-env db-query db-status
 setup:
