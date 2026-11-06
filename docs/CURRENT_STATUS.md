@@ -1,138 +1,164 @@
-# Current status — account handoff
+# Account-switch checkpoint — STEP 9 PAUSED, NOT COMPLETE
 
-Created 6 November 2026, Asia/Kolkata. Repository: abhi0874/DocRAG.
-Actual checkout: `/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent`. Branch: `feat/production-rag`.
-Pre-handoff HEAD: `df312319d846616588dbde7c08e3066b67c1a811`. The documentation-only handoff commit is its child;
-run `git log -1 --format=%H -- AGENTS.md docs/CURRENT_STATUS.md` to resolve that
-commit without an impossible self-referential hash. Always inspect current HEAD.
+Updated 6 November 2026 (Asia/Kolkata), at the user's explicit pause request.
+This status supersedes premature completion language in the other unfinished
+handoff documents and untracked `docs/STEP9_COMPLETE.md`. Those files were preserved,
+not approved as a final report. Do not proceed to Step 10.
 
-**STEP 9 IN PROGRESS — NOT COMPLETE.** Steps 0–8 are historically complete (Step 1
-is user-reported without a separate completion report). Steps 10–12 not started.
-No full Step 9 task count is certified; partial task evidence is listed below.
+## Repository and scope
 
-## Preserved working tree
+Existing checkout: `/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent`.
+Required branch: `feat/production-rag`. Implementation HEAD before this documentation
+checkpoint: `ab77e34d4d73253e90afbb77fb2130e4f9052cb0`.
+Local commits: `d28ddb0` Docker isolation/runtime, `ab77e34` CI/integration tests.
+Earlier `31cfd529954feb638d7577d4594eb11a3920150a` handoff and `df31231`
+Makefile correction remain preserved. No staged files existed at checkpoint start.
+Only this status file is authorized for the checkpoint commit. No push, PR,
+deployment, Step 10, test/build/evaluation or service mutation is authorized here.
 
-Staged files at inspection: **none**. Existing tracked modifications:
+## Completed implementation and saved verification
+
+These are existing receipts inspected during checkpoint preparation, not new runs.
+They do not establish overall Step 9 completion while final reconciliation is pending.
+
+- Task 1–2: test inventory/strategy drafted in TESTING.md.
+- Task 3–4: isolated database tests and integration gaps implemented, including
+  real SQL retrieval, auth/ownership, migrations and container lifecycle tests.
+- Task 5: measured Python scripts integration coverage **70.80% (1021/1442)**,
+  no excluded statements; unit-only **20.46% (295/1442)**. TypeScript statements
+  **66.17%**, branches64.82%, functions59.28%, lines68.05%.
+- Task 6–14: Docker availability, pinned image, dedicated pgvector/Compose,
+  host Ollama connectivity, MiniLM disabled/fallback, authentication and HTTP
+  checks have passing saved evidence. Node24.22.1, pnpm11.25.0, Python3.14.6;
+  Docker29.9.2, Compose5.6.1. Image scan recorded1585 files and no secret matches.
+- Task 15: saved container suite passed **26 checks**, including restart, expiry,
+  cancellation, DB-loss recovery and before/after other-container comparison.
+  The broader other-project start-time discrepancy remains unresolved (below).
+- Task 16–18: CI workflow and deterministic SQL/migration tests implemented.
+  Linux lint/test/coverage/build sequence recorded four exit0 results; workflow
+  static validation recorded17 checks; SQL retrieval recorded10 checks. An ACL
+  removal in a temporary copy correctly failed. Remote Actions has NOT run.
+- Task 19: prior prerequisite `step9-prerequisite-b` passed27/27; final contract
+  `step9-final-d` also passed27/27 with **198 Python +221 TypeScript tests**,
+  focused53 tests,66 security HTTP checks,27 SQL/quota checks and138 observability
+  assertions. Lint/build/preservation and audit-policy checks passed in that run.
+- Task 20: documentation and evidence are drafted but final reconciliation,
+  review, remaining local commits and clean-tree verification are pending.
+
+Evidence: `.local/observability-verify-step9-final-d/{commands,complete,source-hashes}.json`,
+`docs/step9/`, `.local/step9-ci-linux-output/commands.json`,
+`.local/step9-container-http-final.log`, `.local/step9-coverage-gate-final.log`.
+All logs and private runtime state under `.local` remain ignored.
+
+## Evaluation and failures
+
+Accepted saved result: `eval/results/observability/step9-final-d/evaluation.json`.
+100/100 questions, **100 compatible cached embeddings, answers and judgments**,
+zero misses; retrieval reran. This is not fresh generation.
+Recall@3 .95; Recall@5 .975; Recall@10 1.0; MRR .9729166666666667;
+automated faithfulness .995; correctness .985; citation support260/260.
+Existing gate passed; additional Step8 comparison passed with recall decline0 and
+faithfulness decline.005 against unchanged.02 limits. These are automated scores,
+not perfect-accuracy claims. Golden100 questions and selected162 chunks preserved.
+
+Earlier failures were retained and diagnosed: missing standalone PDF worker;
+private metadata dependency in tests; GNU Make output differences; historical
+split writes; incorrect Linux pnpm launcher; offline Google-font build fetch;
+lint traversing generated `.local` files. Fixes and later passes are recorded.
+`step9-final-a` timed out after90 questions. `step9-final-b` failed generated-file
+lint. `step9-final-c` completed100 but promotion rejected uncommitted implementation
+provenance. Its raw artifact and rejection note remain; do not promote it as-is.
+The implementation was committed and `step9-final-d` passed the full contract.
+No quality gate or validator was bypassed. Final Python coverage gate exited0;
+interim below-target measurement correctly exited2.
+
+Dependency policy passed, with raw JavaScript audit exit1 for two reviewed moderate
+esbuild/minimatch tooling advisories. Python and installed optional reranker audits
+exited0. Do not describe this as zero vulnerabilities.
+
+## Read-only service observations and unresolved isolation evidence
+
+Observed during this checkpoint, without changing any service:
+
+- `docrag-step9-app-1`: healthy,127.0.0.1:8010→3000;
+  started2026-11-06T16:27:32.086568259Z.
+- `docrag-step9-db-1`: healthy, internal5432 only;
+  started2026-11-06T16:27:27.954123341Z. Previously verified identity:
+  `docrag_container`, PostgreSQL16.12, pgvector0.8.1, vector(768), two migrations.
+  No fresh SQL inspection was performed for this checkpoint.
+- Native status command exited0, PID93967, owned `.local/postgres`, loopback55433.
+  Previously verified database name `docrag_dev`; no fresh SQL connection here.
+- `text-to-sql-db-1`: healthy,127.0.0.1:55432→5432, current start time
+  **2026-11-06T12:37:09.621671668Z**, container ID
+  `6137c9c00ed00cb1990d6e1914a70485d311fc2c91236d57106b6ec09996ba7f`.
+
+The other project's earlier snapshot recorded start time
+**2026-11-06T07:41:47.665316345Z**. A final comparison therefore failed. Later
+inspection reported restart count0 and OOMKilled=false; a bounded Docker event
+query returned no retained matching events, which does not establish the cause.
+The final container-test receipt timestamp is **16:27:37.593073Z**, so the changed
+12:37 start time PRECEDES that final test. An earlier suggestion that it happened
+"after the tests" was unsupported and must not be repeated. The suite's before/after
+comparison passed within its own test window, but a blanket claim that the other
+container's start time never changed during the entire task is not substantiated.
+No command intentionally stopping that other container was issued by this work.
+Cause/attribution remains unknown. Do not modify it to investigate or conceal this.
+See `.local/step9-other-project-events.json`. Inspection approval once timed out;
+the permitted retry succeeded. This was not an unsafe-action rejection.
+
+## Preserved uncommitted work
+
+After committing this checkpoint, these tracked modifications remain:
 
 ```text
-app/evaluate/page.tsx
-app/metrics/dashboard/page.tsx
-lib/provider-config.ts
-next.config.mjs
+docs/ACCOUNT_SWITCH_GUIDE.md
+docs/COMMAND_CONTRACT.md
+docs/PROJECT_HANDOFF.md
 ```
 
-Existing untracked files (all preserved; not included in handoff commit):
+Untracked files/directories remain:
 
 ```text
-.dockerignore
-Dockerfile
-compose.yaml
-docker/migrate.mjs
-eval/results/observability/step9-prerequisite-b/evaluation-raw.json
-eval/results/observability/step9-prerequisite-b/evaluation.json
-tests/container-config.test.ts
+docs/CI.md
+docs/DOCKER.md
+docs/STEP9_COMPLETE.md
+docs/TESTING.md
+docs/step9/
+eval/results/observability/step9-final-c/
+eval/results/observability/step9-final-d/
+eval/results/observability/step9-prerequisite-b/
 ```
 
-The four new handoff documents are the only intended commit contents. The final
-working tree must remain dirty with the implementation above. Never force it clean.
-No prior AGENTS.md or subdirectory AGENTS.md was found in this checkout.
+Preserve all of them. Some drafted files incorrectly claim overall completion or
+unchanged other-project state. They were not corrected here because ONLY this file
+was authorized to change. The working tree is intentionally not clean. Never reset,
+clean, stash, delete receipts or force a clean tree. Private environment files and
+credentials remain ignored; do not print them.
 
-## Live read-only observations
+## Exact continuation instructions for the new account
 
-- Node project-local 24.22.1; pnpm 11.25.0; Python .venv 3.14.6;
-  Docker 29.9.2; Compose 5.6.1.
-- `docrag-step9-app-1`: Up 4 hours, healthy, 127.0.0.1:8010 -> 3000.
-- `docrag-step9-db-1`: Up 4 hours, healthy, internal 5432 only.
-- `docrag-step9-migrate-1`: exited 0 (expected one-shot job).
-- `text-to-sql-db-1`: Up 43 minutes, healthy, 127.0.0.1:55432 -> 5432.
-  This belongs to another project. Do not stop/restart or alter it.
-- **Native database stopped:** `make db-status` exit 2, `pg_ctl: no server running`,
-  followed by `Native database action failed: CalledProcessError.` The fixed module
-  entrypoint works; this is service unavailability, not the former import error.
-  Native configured identity was previously verified as 127.0.0.1:55433 / docrag_dev;
-  no live SQL connection was possible/claimed in this handoff. No service was changed.
+1. Open this existing RAG-Agent checkout, not its parent or a new clone. Read
+   AGENTS.md, this file, PROJECT_HANDOFF.md and COMMAND_CONTRACT.md; this checkpoint
+   and the user's pause override contradictory completion language elsewhere.
+2. Inspect branch, HEAD, status, staged changes and saved receipts read-only.
+   Resolve this checkpoint commit with `git log -1 --format=%H -- docs/CURRENT_STATUS.md`.
+3. Keep STEP9 PAUSED/NOT COMPLETE until the user explicitly authorizes resumption.
+   Do not start tests, builds, evaluations, service changes or new implementation
+   merely because the account changed.
+4. Once authorized, reconcile the other-container timeline and the isolation claim
+   using available evidence. Do not assume empty events prove no restart. Ask for
+   context if attribution cannot be established; do not stop unrelated services.
+5. Review the existing Docker26-check, CI/Linux and accepted evaluation receipts.
+   Decide which checks require rerunning after corrections, using fresh run IDs and
+   the pinned runtime. No new evaluation is currently required by a demonstrated
+   score failure; final evidence acceptance is pending. Remote Actions remains
+   **NOT RUN — NO PUSH AUTHORIZED**.
+6. Reconcile all draft docs/report with actual evidence, review new artifacts for
+   secrets, and commit only verified authorized work locally. Verify history,
+   final status and all three Step9 confirmations before any completion claim.
+   Stop after three genuine unsuccessful repairs of the same diagnosed blocker.
 
-## Evidence and blockers
-
-Historical prerequisite: `.local/observability-verify-step9-prerequisite-b/complete.json`
-records PASS, 27/27, and commands.json records every exit. Its full evaluator reused
-100 embeddings/answers/judgments while rerunning retrieval. This preceded current
-Step 9 code; it does not certify those modifications. Later `.local/step9-lint-a.log`
-passed lint/typecheck; `.local/step9-test-a.log` records 181 Python and 221 TypeScript
-passes (two additional container configuration tests). Full final run remains pending.
-
-Initial coverage `.local/step9-coverage-initial.log`: Python 133/1313 statements,
-rounded 10%, denominator scripts only; TS statements 66.09%, branches 64.41%,
-functions 59.28%, lines 67.97%. Python target >=70% is NOT met. Do not shrink the
-denominator or describe integration helpers as covered without measurement.
-
-Docker first build failed at /evaluate prerender: HTTPS required. force-dynamic
-pages fixed build-time auth initialization. Next rebuild was interrupted by missing
-Docker daemon; reopening installed Docker allowed `.local/step9-docker-build-c.log`
-to finish successfully. These are distinct diagnoses, not three failed repairs.
-Compose startup/migration succeeded (`.local/step9-compose-up.log`); image Node
-24.22.1, UID 1000 and /sign-in HTTP 200 were observed. This is basic smoke evidence,
-not end-to-end authentication. The last independent host Ollama fetch was interrupted;
-no PASS may be inferred from the earlier combined shell command's final curl exit.
-
-Current blockers: native PostgreSQL stopped; container Ollama connectivity unverified;
-coverage below target. CI workflow, Linux test harness and final verification absent.
-No remote GitHub Actions execution has occurred. No Step 9 confirmations pass yet.
-
-## Original 20-task plan and remaining acceptance work
-
-| Task | Current evidence / remaining work |
-| --- | --- |
-| 1 Test inventory | Existing suites inspected; formal inventory still required |
-| 2 Testing matrix | Pending deterministic/DB/API/cancellation/Docker/live-eval/gate/browser matrix |
-| 3 Isolation | Prior native guards passed; new container fixture safety needs testing |
-| 4 Integration gaps | Two config tests added; container auth/upload/retrieval/telemetry/export pending |
-| 5 Coverage | Measured, Python below 70%; meaningful improvements/gate pending |
-| 6 Docker availability | Verified installed and running |
-| 7 Other-project protection | Dedicated resources created; read-only healthy observation; final comparison pending |
-| 8 Dockerfile | Build/non-root/pinned Node verified; image contents/shutdown verification pending |
-| 9 pgvector service | Healthy/migration success; direct extension/dimensions/schema checks pending |
-| 10 Compose | Configuration/startup passed; full lifecycle validation pending |
-| 11 Ollama | Host endpoint opt-in implemented; real connectivity/inference pending |
-| 12 MiniLM | Disabled/default and no weights in design; container fallback checks pending |
-| 13 Container auth | Sign-in/out, cookie/session persistence/expiry and origin checks pending |
-| 14 Container smoke | Basic health only; authenticated upload/hybrid chat/cancel/metrics/feedback pending |
-| 15 Restart/recovery | App/DB restart, persistent volume/session continuity, DB loss recovery pending |
-| 16 CI workflow | Not created; pin runtimes/actions, least privilege, no secrets/publish |
-| 17 CI regression gate | Not implemented; meaningful deterministic retrieval gate + negative controls needed |
-| 18 Local CI equivalent | Not run; YAML validation alone insufficient; remote explicitly deferred |
-| 19 Final regression | Entire applicable suite, coverage, real Docker, full local evaluation/gate pending |
-| 20 Documentation/Git | DOCKER.md, CI.md, TESTING.md, contract updates and final Step9 report pending |
-
-## Exact next actions
-
-1. Read AGENTS, technical handoff and command contract; inspect Git and Docker again.
-2. Resolve the native stopped-cluster prerequisite safely before new implementation.
-   Use the documented owned-cluster start procedure only in a separately authorized
-   continuation. Do not use `make up` blindly: it applies development SQL. Verify
-   data_directory, port and database read-only after startup; preserve all data.
-3. Rerun the full applicable prerequisite contract with a fresh run ID; never overwrite
-   step9-prerequisite-b. It requires the preserved Ollama 0.40.9 benchmark runtime;
-   inspect current PIDs and service ownership before any temporary switch, restore it
-   afterward. If a prerequisite fails, stop/report before advancing.
-4. Diagnose host Ollama from the app container with a standalone command and explicit
-   nonzero handling. Do not broaden public network exposure or weaken native guards.
-5. Finish the 20-task plan above. Reuse existing security/observability HTTP suites
-   where feasible, adapting explicitly for dedicated container fixtures. No production
-   keys for ordinary CI. Use read-only SQL and owner-marked fixture scopes.
-6. After final code changes run `make lint`, `make test`, `make cov`, `make build-fe`,
-   full native contract checks, meaningful container integration/restart checks and
-   deterministic CI gate/negative controls. Audit full current provenance and preserve
-   .02 thresholds. A changed provider file may require fresh compatible cache entries.
-7. Report local CI-equivalent honestly. Remote Actions: NOT RUN — NO PUSH AUTHORIZED.
-   Complete docs and local logical commits only after verification; stop at Step 9.
-
-Private `.env`, `.local/step9-compose.env`, auth fixture files and model caches remain
-on this same Mac. Do not print them or copy them into handoff docs. Inspect existence
-and permissions only. `.local` also contains native database data: never delete it.
-For safe inspection: `docker compose --env-file .local/step9-compose.env ps` and
-`docker compose --env-file .local/step9-compose.env config --quiet`; avoid plain
-`config`, which expands secrets. Do not run migrations during handoff.
-
-Sources: [Step 8 report](STEP8_COMPLETE.md), [command contract](COMMAND_CONTRACT.md),
-[technical map](PROJECT_HANDOFF.md), [account guide](ACCOUNT_SWITCH_GUIDE.md).
+STEP 9 PAUSED — NOT COMPLETE.
+Pending: isolation-evidence reconciliation, draft-report correction/review,
+final evidence acceptance and local documentation/artifact commits.
+DO NOT PROCEED TO NEXT STEP.
