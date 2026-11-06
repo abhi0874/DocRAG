@@ -10,8 +10,12 @@ from eval.chunking_gate import compatible
 from eval.corpus import ROOT
 
 
-def test_split_is_complete_stratified_and_disjoint():
+def test_split_is_complete_stratified_and_disjoint(tmp_path, monkeypatch):
+    monkeypatch.setattr("eval.chunking_experiments.DIRECTORY", tmp_path)
+    frozen = (ROOT / "eval/results/chunking/split.json").read_bytes()
+    (tmp_path / "split.json").write_bytes(frozen)
     rows, split = split_questions()
+    assert (tmp_path / "split.json").read_bytes() == frozen
     assert len(split["development"]) == 60
     assert len(split["holdout"]) == 40
     assert set(split["development"]).isdisjoint(split["holdout"])
@@ -105,3 +109,12 @@ def test_declared_chunking_compatibility_preserves_retrieval_code(monkeypatch):
     monkeypatch.setattr(subprocess, "check_output", changed)
     with pytest.raises(ValueError, match="Retrieval"):
         compatible(baseline, candidate)
+
+
+def test_changed_frozen_split_is_rejected_without_overwrite(tmp_path, monkeypatch):
+    monkeypatch.setattr("eval.chunking_experiments.DIRECTORY", tmp_path)
+    path = tmp_path / "split.json"
+    path.write_text('{"seed": 0}')
+    with pytest.raises(ValueError, match="Frozen split changed"):
+        split_questions()
+    assert path.read_text() == '{"seed": 0}'

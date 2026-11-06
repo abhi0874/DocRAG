@@ -61,3 +61,11 @@ local-calibrate-automated:
 	$(PYTHON) -m eval.automated_validation
 local-validate-results:
 	$(PYTHON) -m eval.promote_local --source eval/results/latest-local-ollama.json --out eval/results/latest-local-ollama.json
+
+.PHONY: cov-integration-gate
+# Run the documented real integration sequence under coverage first.
+# Unit-only make cov remains a separately reported measurement.
+cov-integration-gate:
+	$(PYTHON) -m coverage combine --rcfile=.coveragerc.integration --keep
+	$(PYTHON) -m coverage report --rcfile=.coveragerc.integration --fail-under=70
+	$(PYTHON) -m coverage json --rcfile=.coveragerc.integration -o coverage/python-integration.json

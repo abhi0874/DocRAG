@@ -15,7 +15,11 @@ from scripts.common import ROOT
 )
 def test_make_uses_module(target, action):
     result = subprocess.run(
-        ["make", "-n", target], cwd=ROOT, capture_output=True, text=True, check=True
+        ["make", "--no-print-directory", "-n", target],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
     )
     assert result.stdout.strip() == f".venv/bin/python -m scripts.native_db {action}"
 

@@ -1,0 +1,10 @@
+[run]
+source = scripts
+parallel = True
+patch = subprocess
+data_file = .local/coverage-step9/.coverage
+
+[report]
+show_missing = True
+precision = 2
+fail_under = 70
