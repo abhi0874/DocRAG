@@ -1,0 +1,51 @@
+name: docrag-step9
+services:
+  db:
+    image: pgvector/pgvector:0.8.1-pg16-bookworm@sha256:33198da2828a14c30348d2ccb4750833d5ed9a44c88d840a0e523d7417120337
+    environment:
+      POSTGRES_USER: docrag
+      POSTGRES_DB: docrag_container
+      POSTGRES_PASSWORD: ${DOCRAG_CONTAINER_DB_PASSWORD:?Set private container password}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U docrag -d docrag_container']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  migrate:
+    build:
+      context: .
+      target: migration
+    environment:
+      OLLAMA_DATABASE_URL: ${DOCRAG_CONTAINER_DATABASE_URL:?Set private container URL}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+  app:
+    build: .
+    image: docrag-step9-app:local
+    init: true
+    ports:
+      - '127.0.0.1:${DOCRAG_CONTAINER_PORT:-8010}:3000'
+    environment:
+      DOCRAG_RUNTIME: container
+      AI_PROVIDER: ollama
+      OLLAMA_DATABASE_URL: ${DOCRAG_CONTAINER_DATABASE_URL:?Set private container URL}
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      DOCRAG_APP_ORIGIN: http://127.0.0.1:${DOCRAG_CONTAINER_PORT:-8010}
+      DOCRAG_LOCAL_HTTP: 'true'
+      BETTER_AUTH_SECRET: ${DOCRAG_CONTAINER_AUTH_SECRET:?Set private auth secret}
+      RERANKER_ENABLED: 'false'
+      RESPONSE_CACHE_ENABLED: 'false'
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    stop_grace_period: 30s
+    restart: unless-stopped
+volumes:
+  database:
