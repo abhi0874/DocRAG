@@ -39,8 +39,7 @@ eval:
 eval-gate:
 	$(PYTHON) -m eval.check_regression --baseline $(EVAL_BASELINE) --current $(EVAL_LATEST)
 load:
-	@echo 'STEP 10 load testing is not yet implemented.' >&2
-	@exit 1
+	$(PYTHON) -m scripts.load_test --run-id $(RUN_ID)
 up:
 	$(PYTHON) -m scripts.native_db up
 stop down:
