@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-11-07T07:15:24.264523+00:00",
+  "checks": [
+    "Compose config",
+    "DocRAG app restart and health",
+    "sign-in HTTP 200",
+    "container-to-host Ollama",
+    "other project state/mounts/bindings unchanged"
+  ],
+  "other_project_status": "exited",
+  "other_project_started_at": "2026-11-06T12:37:09.621671668Z",
+  "ollama_version": "0.40.14",
+  "historical_restart_attribution": "Unknown; user says another task may have restarted it"
+}

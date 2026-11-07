@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "run_id": "step9-final-e",
+  "native_groups": 27,
+  "container_checks": 26,
+  "python_tests": 198,
+  "typescript_tests": 221,
+  "focused_tests_overlapping": 53,
+  "security_http_checks": 66,
+  "sql_quota_checks": 27,
+  "observability_assertions": 138,
+  "ci_retrieval_checks": 10,
+  "ci_migration_exit": 0,
+  "ci_retrieval_exit": 0,
+  "linux_commands": 4,
+  "workflow_checks": 17,
+  "integration_coverage_gate_exit": 0,
+  "python_integration_percent": 70.80443828016644,
+  "typescript_statement_percent": 66.17,
+  "regression_gate_exit": 0,
+  "step8_regression_gate_exit": 0,
+  "audit_policy_exit": 0,
+  "raw_audit_exits": {
+    "javascript": 1,
+    "python": 0,
+    "reranker": 0
+  },
+  "moderate_advisories": [
+    "GHSA-67mh-4wv8-2f99",
+    "GHSA-g3hv-75wg-m249"
+  ],
+  "remote_actions": "NOT RUN \u2014 NO PUSH AUTHORIZED",
+  "browser": "historical Step 8; no new browser claim",
+  "implementation_hashes_matched": 210,
+  "model_generation": "100 compatible cached answers and judgments; retrieval rerun",
+  "failed_repairs": 0
+}

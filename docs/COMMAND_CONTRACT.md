@@ -1267,3 +1267,54 @@ Regression tests cover the Makefile dry runs, actual module loading, invalid
 configuration and nonzero status propagation. Do not execute up/stop/down merely
 to test their syntax: up applies development SQL and stop/down interrupt service.
 The original Step 8 verification did not catch this direct-entrypoint defect.
+
+## Step 9 — isolated Docker, deterministic CI and coverage
+
+Use Node 24.22.1, pnpm 11.25.0 and Python 3.14.6. The historical Step 8 native
+verification still needs the owned native cluster at 55433 and preserved Ollama
+0.40.9. Its current status is a live observation, not inferred from Docker health.
+The dedicated Compose database is `db:5432/docrag_container`, with no host binding.
+Never redirect the frozen evaluator into that database or the other project's
+55432 service. See [DOCKER](DOCKER.md) for private configuration and safe lifecycle.
+
+```sh
+make db-status
+make lint
+make test
+make cov
+make build-fe
+docker compose --env-file .local/step9-compose.env config --quiet
+docker compose --env-file .local/step9-compose.env build
+docker compose --env-file .local/step9-compose.env up -d
+export COVERAGE_FILE="$PWD/.local/coverage-step9-UNIQUE/.coverage"
+mkdir -p "$(dirname "$COVERAGE_FILE")"
+COVERAGE_RCFILE=.coveragerc.integration .venv/bin/python -m coverage run -m scripts.container_http
+COVERAGE_RCFILE=.coveragerc.integration .venv/bin/python -m coverage run -m pytest -q
+# Only after native service ownership and pinned model runtime verification:
+COVERAGE_RCFILE=.coveragerc.integration .venv/bin/python -m coverage run -m scripts.verify_observability --run-id step9-UNIQUE
+make cov-integration-gate
+```
+
+Use a fresh run ID/output directory. The full runner remains 27 groups and freezes
+source bytes; finish implementation before starting it. The integration coverage
+configuration measures the original `scripts` scope plus new scripts, captures
+Python subprocesses and gates the combined measurement at >=70%. `make cov` alone
+reports unit-only coverage and does not establish that integration target. Preserve
+old coverage data and choose a fresh ignored collection directory for another
+independent revision. TypeScript coverage is separately reported without inventing
+a new whole-project guarantee.
+
+CI's real PostgreSQL checks are `node --import tsx scripts/ci_migrations.ts` then
+`node --import tsx scripts/ci_retrieval.ts`, with privately supplied
+`CI_DATABASE_URL` targeting an isolated `docrag_ci`. No inference key is needed.
+The local Linux equivalent uses the migration image, selected read-only source
+mounts and a separate synthetic `docrag_ci` database. Never set this variable to a
+personal/production database. Migration verification requires the exact dedicated
+name; retrieval creates only a unique UUID schema and cleans only that schema.
+
+The full local inference evaluation and .02 regression gates remain mandatory.
+Fixture tests are not fresh inference. Remote GitHub Actions is explicitly deferred
+under the no-push instruction; it is not a required remote-green condition for
+local Step 9 completion. Never push merely to trigger CI. Workflow/source checks,
+local commands, actual container tests and the full evaluation must all pass before
+writing a Step 9 completion report. See [CI](CI.md) and [TESTING](TESTING.md).

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "candidate_files_scanned": 40,
+  "configured_secret_matches": 0,
+  "credential_pattern_matches": 0,
+  "implementation_hashes_matched": 210,
+  "scope": "Exact modified/untracked STEP 9 docs and evaluation artifacts; configured .env and Compose secrets plus key patterns; not a universal secret detector"
+}

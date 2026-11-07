@@ -1,0 +1,18 @@
+[
+  {
+    "command": "make lint",
+    "exit_code": 0
+  },
+  {
+    "command": "make test",
+    "exit_code": 0
+  },
+  {
+    "command": "make cov",
+    "exit_code": 0
+  },
+  {
+    "command": "make build-fe",
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "decreases": {
+    "recall@5": "0.000",
+    "faithfulness": "0.005"
+  },
+  "declared_implementation_changes": [
+    "lib/provider-config.ts"
+  ],
+  "added_provenance": [
+    "lib/db/observability-schema.ts",
+    "lib/observability/answer.ts",
+    "lib/observability/context.ts",
+    "lib/observability/http.ts",
+    "lib/observability/persist.ts",
+    "lib/security/http.ts"
+  ],
+  "retrieved_evidence": "identical for all 100 questions",
+  "thresholds": "unchanged .02 for recall@5 and faithfulness"
+}

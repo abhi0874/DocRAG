@@ -2,8 +2,10 @@
 
 Read [CURRENT_STATUS](CURRENT_STATUS.md) first. This reference is based on source,
 saved results and read-only inspection on 6 November 2026 (Asia/Kolkata).
-The user reports Steps 0–8 complete; the repository contains their historical
-verification evidence. Step 9 is unfinished. No online deployment is established.
+Steps 0–8 are complete. Step 9 implementation and saved verification are present,
+and final documentation/evidence reconciliation passed on 7 November.
+CURRENT_STATUS.md is authoritative; STEP9_COMPLETE.md records fresh final-e acceptance. No online deployment
+is established. Steps 10–12 are not started.
 The root README is still a starter template; use these documents and the
 [command contract](COMMAND_CONTRACT.md) for actual operation.
 
@@ -114,9 +116,10 @@ Node 24.22.1 is pinned by `.nvmrc`, `.node-version`, package engines and Dockerf
 pnpm is 11.25.0. Existing Python environment is 3.14.6 with pinned requirements.
 Native PostgreSQL uses owned `.local/postgres` at 127.0.0.1:55433, `docrag_dev`.
 The other project's Docker database owns loopback 55432. See current service state
-in [CURRENT_STATUS](CURRENT_STATUS.md); the native cluster is stopped at handoff.
+in [CURRENT_STATUS](CURRENT_STATUS.md); the cluster was stopped at the original
+handoff and was safely restored during the authorized Step 9 continuation.
 
-Uncommitted Docker implementation uses a digest-pinned Node bookworm image and
+The verified Docker implementation uses a digest-pinned Node bookworm image and
 pgvector 0.8.1/PostgreSQL 16 image. `.dockerignore` allowlists build inputs and
 excludes environment files, evaluations, virtualenvs and weights. Multi-stage
 Dockerfile builds standalone Next output, copies static/public assets, and runs
@@ -125,13 +128,13 @@ Compose project `docrag-step9` owns its own network and volume, app loopback 801
 internal-only database, and health/completion dependencies. Migration initializes
 768-dimensional schema only in `docrag_container`; review idempotency thoroughly.
 The app's runtime opt-in allows only `db:5432/docrag_container` and
-`host.docker.internal:11434` for its container routes. This change is unfinished
-security-sensitive work and needs real integration checks. Native guards remain.
+`host.docker.internal:11434` for its container routes. Saved real SQL, HTTP and lifecycle checks passed. Native guards remain.
 
 Protected pages were marked force-dynamic after a clean image build attempted
-build-time authentication without runtime secrets. Image build and basic health
-passed afterward. Host Ollama connectivity was interrupted before an independently
-captured result. No CI workflow exists: `.github/workflows/ci.yml` is absent.
+build-time authentication without runtime secrets. The PDF extraction worker is
+explicitly traced into standalone output. Image build, host Ollama connectivity,
+26 container checks and lifecycle tests have saved passing evidence. `.github/workflows/ci.yml` now
+exists, and clean local macOS/Linux equivalents pass. See CI.md for the scope.
 Remote GitHub Actions: NOT RUN — NO PUSH AUTHORIZED. Production cloud inference
 and hosting are future design work; do not expose host Ollama publicly.
 
@@ -154,20 +157,24 @@ reconciliation; 0ade2d1 Node Web Streams pin; aaf77ed observability; bf8b833 ter
 cancellation race; f7bd670 Step 8 evidence formatting; df31231 module-entrypoint fix.
 `make db-status` must invoke `.venv/bin/python -m scripts.native_db status` from
 repo root. Direct file execution formerly failed to import `scripts.common`.
-The current stopped-server failure is different; do not undo the import correction.
+The original handoff stopped-server failure was different; do not undo the
+import correction. The authorized continuation restored that owned server.
 
 Step 6 273/273 versus Step 7 261/261 citations reflected changed generated answers
 under changed application-hash cache namespaces, not identical answers. See
 [reconciliation](security/step8-citation-reconciliation.json).
 Two moderate esbuild/minimatch tooling findings remain disclosed; raw JS audit
 exit 1 was accepted only under reviewed reachability policy, not zero findings.
-No new dependency audit was run for this handoff.
+The original handoff did not rerun audits. Step 9 subsequently reran them;
+the same reviewed tooling findings remain, with Python audits passing.
 
 ## Continuation boundaries
 
-Complete remaining Step 9 testing, coverage >=70% for the honest Python denominator,
-container integration/restarts, CI and documentation before advancing. Full task
-matrix and exact next actions are in CURRENT_STATUS. Step 10 load/concurrency,
+Step 9 testing, container lifecycle and local CI have saved passing evidence;
+fresh final-e verification and final local acceptance passed. Python scripts coverage is 70.80% including successful real integrations;
+unit-only coverage is 20.46%. The final 100-question run reused compatible caches,
+with automated faithfulness .995, correctness .985 and citation support 260/260.
+See STEP9_COMPLETE.md and CURRENT_STATUS for exact results and scope. Step 10 load/concurrency,
 Step 11 deployment and Step 12 finalization remain user-provided future roadmap;
 obtain their detailed instructions before implementing them. No future step is
 scaffolded here. Preserve all local state, run prerequisite checks, use only public

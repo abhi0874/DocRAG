@@ -1,9 +1,88 @@
-# Account-switch checkpoint — STEP 9 PAUSED, NOT COMPLETE
+# STEP 9 COMPLETE — 7 November 2026 (Asia/Kolkata)
 
-Updated 6 November 2026 (Asia/Kolkata), at the user's explicit pause request.
-This status supersedes premature completion language in the other unfinished
-handoff documents and untracked `docs/STEP9_COMPLETE.md`. Those files were preserved,
-not approved as a final report. Do not proceed to Step 10.
+All 20 tasks and all three local confirmations passed. Fresh step9-final-e:
+27/27 contract groups, 26/26 container checks, 198 Python + 221 TypeScript tests,
+70.80% integration coverage, four Linux CI commands, actual SQL/migrations and
+unchanged .02 regression gates. All 210 implementation hashes remain matched.
+See STEP9_COMPLETE.md and docs/step9/*final-e.json for detailed fresh evidence.
+Final local documentation/evidence commit is resolved via
+`git log -1 --format=%H -- docs/STEP9_COMPLETE.md`.
+
+Ollama 0.40.9 was started with explicit permission on loopback11434 and cloud off;
+host/container connectivity and both frozen digests passed. No model downloads.
+DocRAG app/database are healthy; native owned database is running on55433.
+The unrelated text-to-sql database is healthy on55432; its state/mounts/bindings
+were unchanged during this test window. Historical restart attribution is unknown.
+
+Final-e reran retrieval for100 questions and reused100 compatible cached answers
+and judgments: Recall@5 .975, faithfulness .995, correctness .985, citations260/260.
+Raw JS audit remains exit1 with two moderate tooling advisories; policy passed.
+Remote Actions NOT RUN — NO PUSH AUTHORIZED. Browser evidence remains historical.
+Steps10–12 are not started; Step10 requires explicit instructions/authorization.
+No push, PR, merge, deployment or publication occurred.
+
+## Earlier checkpoint history (not current service state or authorization)
+
+# Account-switch checkpoint — STEP 9 IN PROGRESS, NOT COMPLETE
+
+Updated 7 November 2026 (Asia/Kolkata). The user authorized continuation after
+checkpoint `3466d78`, then requested this handoff update. Stop after this update;
+no Step 10, push, PR or deployment is authorized. The earlier checkpoint below
+is historical; this section supersedes its paused authorization and service state.
+
+## Latest continuation evidence
+
+- Implementation remains committed in `d28ddb0` and `ab77e34`; checkpoint `3466d78`
+  and all earlier history remain preserved. All **210** saved verified source
+  hashes still match. No implementation changes were made during this resumption.
+- Saved final verification remains **27/27 PASS**, 198 Python and 221 TypeScript
+  tests. Python scripts integration coverage is 70.80%; unit-only 20.46%.
+  These are saved results, not a new full test run on 7 November.
+- `docs/step9/resume-verification.json` records five new passing checks: Compose
+  validation, DocRAG app restart/health, sign-in HTTP 200, container-to-host Ollama,
+  and unchanged other-project state/mounts/bindings across that bounded check.
+- `make db-status` confirmed the owned native cluster running on loopback 55433.
+  Native identity was verified as `docrag_dev` during restoration. Container SQL
+  inspection exited 0: `docrag_container`, port5432, pgvector0.8.1, two migrations.
+- DocRAG app and database are healthy; app binds loopback8010 and Docker database
+  has no host binding. Installed Ollama0.40.14 is serving; full historical benchmark
+  requires preserved0.40.9. Do not silently use the desktop version for evaluation.
+- Other-project `text-to-sql-db-1` is **stopped (exited)**, not currently healthy.
+  Its configured port remains loopback55432. This continuation left it stopped.
+- The earlier start-time discrepancy remains an attribution limitation. User says
+  another task may have restarted it; this is possible, not verified. The changed
+  start time precedes the final 6 November container test. The 26-check historical
+  suite and new five-check probe establish isolation within their test windows,
+  not an unchanged start time across the whole multi-day task.
+- Saved Step8-to-Step9 regression gate was revalidated PASS in
+  `.local/step9-resume-gate.log`: recall decline0, faithfulness decline.005,
+  thresholds unchanged.02. No new model generation or paid API call was made.
+
+## Exact remaining work
+
+1. Reconcile `docs/STEP9_COMPLETE.md`: it is still a draft, dated6 November, with
+   premature completion and blanket other-container-unchanged claims. Replace
+   these with the bounded evidence above and explicitly retain unknown attribution.
+2. Reconcile PROJECT_HANDOFF, ACCOUNT_SWITCH_GUIDE and Docker/testing docs with
+   current status. The 26-check container helper expects the other project healthy;
+   do not start that unrelated container just to rerun it. Preserve stopped state.
+3. Review all saved command receipts, coverage, evaluation provenance and final
+   report. Accepted evaluation is `step9-final-d`:100 compatible cached answers
+   and judgments, not fresh generation; metrics below remain applicable.
+4. Secret-scan all intended commit candidates without printing credentials;
+   run `git diff --check`, inspect staged contents, then commit only verified
+   Step9 documentation/evidence locally. Preserve rejected `step9-final-c` and
+   its rejection note. Do not overwrite historical artifacts.
+5. Verify clean tree/history and issue the required full Step9 report only after
+   all mandatory local acceptance items are satisfied. Remote Actions remains
+   NOT RUN — NO PUSH AUTHORIZED. Stop after Step9.
+
+No full tests/builds/evaluation were rerun for this handoff update. Outstanding
+work is documentation/evidence reconciliation and final local acceptance, not a
+known new implementation failure. All uncommitted files listed below remain;
+`docs/step9/resume-verification.json` is an additional new receipt.
+
+## Historical 6 November checkpoint (retain for context)
 
 ## Repository and scope
 

@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-11-07T15:16:59.033035+00:00",
+  "ollama_version": "0.40.9",
+  "model_digest_matches": {
+    "chat": true,
+    "embedding": true
+  },
+  "host_and_container_version_probes": "PASS",
+  "binding": "127.0.0.1:11434",
+  "cloud_disabled": true,
+  "model_downloads": 0,
+  "native_identity": "docrag_dev, owned cluster, port 55433",
+  "container_identity": "docrag_container, port 5432, pgvector 0.8.1",
+  "other_project": {
+    "id": "aa664cd18a6f540680f5dcf8200e42f58ad107c300203d541ef979ad3db4e688",
+    "started": "2026-11-07T07:44:49.238053887Z",
+    "status": "running"
+  },
+  "historical_restart_attribution": "unknown",
+  "service_permission": "User authorized loopback Ollama start and DocRAG-only container lifecycle checks"
+}

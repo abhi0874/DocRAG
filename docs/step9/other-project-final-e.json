@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "bounded_window_only": true,
+  "checks": {
+    "identity": true,
+    "started_at": true,
+    "status": true,
+    "mounts": true,
+    "bindings": true
+  },
+  "historical_restart_attribution": "unknown"
+}
