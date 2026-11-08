@@ -487,6 +487,13 @@ def main():
             assert exchange("/api/chat", cookies[0], chat(golden))[0]["ok"]
             for users in (5, 20, 50):
                 for mode in MODES:
+                    if mode == "cached":
+                        # Earlier stages can outlast the unchanged five-minute TTL.
+                        # Keep warm-up outside the measured cache-hit workload.
+                        warm = exchange("/api/chat", cookies[-1], chat(golden))[0]
+                        assert warm["ok"], "Cache warm-up failed"
+                        replay = exchange("/api/chat", cookies[-1], chat(golden))[0]
+                        assert replay["ok"] and replay["cache"] == "HIT"
                     stage = measure(mode, users, cookies, target, process.pid, 15, 5)
                     result["stages"].append(stage)
                     output.write_text(json.dumps(result, indent=2) + "\n")
