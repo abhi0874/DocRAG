@@ -247,8 +247,7 @@ def measure(mode, users, cookies, target, pid, duration, ramp):
                 stop.set()
             stop.wait(1)
 
-    def user(index):
-        time.sleep(ramp * index / users)
+    def operation(index):
         row = None
         queued = time.perf_counter()
         needs_model = mode in ("streaming", "cancellation", "upload")
@@ -304,12 +303,33 @@ def measure(mode, users, cookies, target, pid, duration, ramp):
             if needs_model:
                 inference.release()
 
+    def user(index):
+        time.sleep(ramp * index / users)
+        observations = []
+        deadline = begin + ramp + duration
+        # Every VU attempts at least once; admitted work may drain past the window.
+        while not stop.is_set() and (
+            not observations or time.perf_counter() < deadline
+        ):
+            row = operation(index)
+            if row is None:
+                break
+            row["virtual_user"] = index
+            observations.append(row)
+            if not row["ok"] and row["status"] != 429:
+                stop.set()
+                break
+            time.sleep(min(1, max(0, deadline - time.perf_counter())))
+        return observations
+
     thread = threading.Thread(target=monitor)
     thread.start()
     try:
         with ThreadPoolExecutor(max_workers=users) as pool:
-            rows = [r for r in pool.map(user, range(users)) if r is not None]
-        time.sleep(max(0, duration - (time.perf_counter() - begin)))
+            rows = [
+                r for observations in pool.map(user, range(users)) for r in observations
+            ]
+        time.sleep(max(0, ramp + duration - (time.perf_counter() - begin)))
     finally:
         aborted = stop.is_set()
         stop.set()
@@ -332,7 +352,7 @@ def measure(mode, users, cookies, target, pid, duration, ramp):
             (ids,),
         ).fetchone()[0]
     validation = {
-        "all_users_attempted": len(rows) == users,
+        "all_users_attempted": {r["virtual_user"] for r in rows} == set(range(users)),
         "metrics_present": len(metrics) == len(ids),
         "cached_hits": mode != "cached"
         or all(r["cache"] == "HIT" for r in rows if r["ok"]),
@@ -346,6 +366,8 @@ def measure(mode, users, cookies, target, pid, duration, ramp):
         "users": users,
         "ramp_seconds": ramp,
         "minimum_window_seconds": duration,
+        "think_seconds": 1,
+        "protocol": "closed-loop sustained VUs; ramp plus hold then bounded drain",
         "model_concurrency_cap": 2,
         "aborted": aborted,
         "validation": validation,
@@ -383,6 +405,12 @@ def main():
         sock.bind(("127.0.0.1", 8011))
     with urlopen("http://127.0.0.1:11434/api/version", timeout=5) as response:
         assert json.load(response)["version"] == "0.40.9"
+    with urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as response:
+        models = json.load(response)["models"]
+    config = json.loads((ROOT / "lib/local-model-config.json").read_text())
+    for key, digest in (("chat", "chatDigest"), ("embedding", "embeddingDigest")):
+        model = next(m for m in models if m["name"] == config[key])
+        assert model["digest"] == config[digest] and not model.get("remote_host")
     env = {
         **os.environ,
         "PATH": str(ROOT / ".local/node-v24.22.1-darwin-arm64/bin")
@@ -407,9 +435,9 @@ def main():
             ["git", "rev-parse", "HEAD"], text=True
         ).strip(),
         "policy": (
-            "One operation per virtual user per mode; 5s ramp, >=15s observation, "
+            "Sustained closed-loop VUs; 5s ramp then 15s hold, 1s think time, "
             "2 concurrent model calls, 60s socket timeout, 180s client queue bound. "
-            "No steady-state capacity claim."
+            "Bounded drain; short sustained test, not an endurance/capacity proof."
         ),
         "stages": [],
     }
