@@ -1,3 +1,51 @@
+# STEP 10 COMPLETE — 9 November 2026 (Asia/Kolkata)
+
+12/12 tasks and all three local confirmations passed. Fresh final-c:27/27 command
+groups,208 Python +221 TypeScript tests,26 container checks and18/18 sustained
+load stages. Python integration coverage74.34% exceeds unchanged70% (no exclusions);
+unit-only22.14%, TypeScript66.17%. See STEP10_COMPLETE.md and step10/final-c-verification.json.
+
+Fresh loadD:6,795 requests;2,480 HTTP429 errors; no other request failures.
+Streaming successful RPS5/20/50 users:1.643/1.179/0.658; queue p95:
+5.067/14.559/74.737s. Model admission is capped2; no production speedup or
+50-way generation capacity is claimed. Capacity/quotas remain documented limits.
+
+The100-question evaluation reran SQL retrieval and reused100 compatible cached
+answers/judgments:Recall@5 .975, faithfulness .995, correctness .985,260/260
+citations. Original and STEP9 comparison gates passed, thresholds unchanged.02.
+Raw JS audit exits1 for two reviewed moderate tooling advisories; policy and
+Python/reranker audits pass. Remote Actions NOT RUN—no push authorized.
+
+Authorized recovery restored Docker, owned native PostgreSQL55433 and preserved
+Ollama0.40.9 on loopback11434/cloud off. Both digests and host/container access
+pass. DocRAG app/database are healthy. The unrelated database remained stopped;
+its full bounded lifecycle/configuration comparison passed. No explicit control
+of that container occurred. Earlier outages/restart attribution remain unknown.
+
+Local implementation:f2497ff (stopped-service isolation guard),af5bea3 (cache-stage
+warm-up),19da816 and1f8eaa4 (load harness). Checkpoint86748d1 and all earlier
+history/rejected evidence remain. Resolve the final evidence commit via
+`git log -1 --format=%H -- docs/STEP10_COMPLETE.md`.
+No push, PR, deployment, paid API or STEP11. STEP11 requires explicit authorization.
+
+## Previous recovery checkpoint
+
+# STEP 10 RECOVERED, FINAL VERIFICATION IN PROGRESS — 9 November 2026
+
+The user authorized safe normal Docker startup. DocRAG containers are healthy;
+the unrelated database remained stopped and untouched. Owned native PostgreSQL
+and preserved loopback/cloud-disabled Ollama0.40.9 were restored under existing
+authorization; read-only identity and host/container digest checks passed.
+
+Commit f2497ff strengthens container isolation checks to preserve an initially
+stopped unrelated service. Seven tests and26/26 container lifecycle checks passed.
+Fresh load step10-d and final verification are in progress, with independent
+coverage collection. Prior coverage failure and all historical receipts remain.
+STEP10 is NOT COMPLETE pending mandatory checks, review and final confirmations.
+No push or STEP11 is authorized.
+
+## Previous blocked checkpoint
+
 # STEP 10 NOT COMPLETE — 9 November 2026 (Asia/Kolkata)
 
 9/12 tasks complete; current service confirmation, remaining mandatory verification

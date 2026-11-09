@@ -1,6 +1,8 @@
-# STEP 10 load protocol (in progress)
+# STEP 10 load protocol — locally complete
 
-STEP 10 is not complete. STEP 11 is not authorized. No push or deployment.
+Final acceptance:STEP10_COMPLETE.md; final measurements:step10/measurements-d.md.
+STEP11 is not authorized. No push or deployment. Earlier dated checkpoints below
+retain rejected/partial work and are superseded by final acceptance.
 
 ## Prerequisite audit
 
@@ -197,3 +199,37 @@ Raw JS audit exit1 with the two moderate esbuild/minimatch advisories; audit pol
 main Python and optional reranker checks exited0. Remote Actions NOT RUN, no push.
 Saved detailed command receipts and source hashes are in step10/final-b-verification.json
 and step10/final-b-source-hashes.json; private logs remain under.local.
+
+## Authorized recovery and isolation-test correction — 9 November 2026
+
+The user authorized normal Docker startup while requiring other projects remain
+unaffected. Read-only checks found no listener on required ports, no Ollama
+process to replace, and the preserved0.40.9 binary matched its frozen checksum.
+Docker Desktop started normally; DocRAG app/database recovered under existing
+restart policies. The unrelated text-to-sql database remained stopped, with its
+existing restart policy no. It was never explicitly started/stopped/reconfigured.
+The owned native cluster started using pg_ctl only; read-only identity checks
+passed. Ollama started on loopback11434 with cloud disabled; host and container
+version and both digest checks passed. No model installation/update occurred.
+
+The container helper previously required the unrelated database to be healthy.
+Commit f2497ff corrects this invalid prerequisite: an initially stopped database
+must stay stopped. It now compares status/running/paused/restarting, exit code,
+start/finish times, health, restart count, mounts, bindings and restart policy.
+Running services still require healthy status. Seven negative/positive tests
+passed, including detection of an unintended start or configuration change.
+This strengthens preservation checks without starting a service to satisfy a test.
+The revised suite passed26/26, exit0, preserving DocRAG fixture data and the other
+project’s stopped state. Evidence:step10/container-d.json and recovery-d.json.
+Fresh coverage uses a separate collection directory to avoid mixing source layouts.
+A new bounded load run and full regression sequence remain in progress.
+
+## Final local acceptance
+
+Fresh loadD passed18/18 stages, exit0:6,795 requests with2,480 HTTP429 errors and
+no other failures. Fresh final-c passed27/27 contract groups,429 unit tests,
+26 container checks,100-question cached-answer evaluation and unchanged .02 gates.
+Coverage is74.34% over1703 statements, zero exclusions, unchanged70% threshold.
+Full source hashes and final live/isolation checks passed. No production optimization
+was applied; the queue/quota capacity limits remain. See STEP10_COMPLETE.md and
+step10/final-c-verification.json for detailed counts, commands and confirmations.

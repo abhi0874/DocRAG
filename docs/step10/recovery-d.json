@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "date": "2026-11-09 Asia/Kolkata",
+  "docker_start": "normal open -a Docker, exit0; user authorized",
+  "native_start": "ownership-verified pg_ctl only, exit0, no initialization/migration",
+  "native_identity": "docrag_dev, owned data directory, port55433",
+  "ollama": "preserved checksum-verified0.40.9, loopback11434, cloud disabled",
+  "replaced_existing_process": false,
+  "host_and_container_model_digests": "both frozen digests matched",
+  "unrelated_service": "remained stopped; no explicit control operation",
+  "isolation_snapshot": {
+    "id": "aa664cd18a6f540680f5dcf8200e42f58ad107c300203d541ef979ad3db4e688",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "ExitCode": 0,
+      "StartedAt": "2026-11-08T20:02:34.533481127Z",
+      "FinishedAt": "2026-11-08T20:09:19.489991009Z"
+    },
+    "health": "unhealthy",
+    "restart_count": 0,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/host_mnt/Users/abhisheshramadasshet/Documents/ChatGPT/Text-to-SQL/docker/init/001-enable-vector.sql",
+        "Destination": "/docker-entrypoint-initdb.d/001-enable-vector.sql",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/host_mnt/Users/abhisheshramadasshet/Documents/ChatGPT/Text-to-SQL/docker/project_hba.conf",
+        "Destination": "/etc/postgresql/project_hba.conf",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "volume",
+        "Name": "text-to-sql_postgres_data",
+        "Source": "/var/lib/docker/volumes/text-to-sql_postgres_data/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "55432"
+        }
+      ]
+    },
+    "restart_policy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    }
+  },
+  "source_commit": "f2497ff"
+}

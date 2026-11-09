@@ -1,5 +1,5 @@
-> Latest checkpoint: 7 November 2026. Step 9 is locally complete; remote Actions remains unrun. Read
-> CURRENT_STATUS.md first; read STEP9_COMPLETE.md for fresh final-e evidence and limitations. Do not begin Step 10.
+> Latest checkpoint: 9 November 2026. Step 10 is locally complete; remote Actions remains unrun. Read
+> CURRENT_STATUS.md first; read STEP10_COMPLETE.md for final-c evidence and load limits. Do not begin Step 11.
 
 # Continue on another Codex account — same Mac
 
@@ -19,7 +19,7 @@ promise subscription transfer or verify the user's reported 9 November expiry.
 3. Ask Codex to read [AGENTS](../AGENTS.md), [PROJECT_HANDOFF](PROJECT_HANDOFF.md),
    [CURRENT_STATUS](CURRENT_STATUS.md), then [COMMAND_CONTRACT](COMMAND_CONTRACT.md).
 4. Have it run `git branch --show-current`, `git status --short`, `git log -3 --oneline`.
-   Branch must be feat/production-rag. Step 9 implementation is committed locally; inspect and
+   Branch must be feat/production-rag. Step 10 implementation is committed locally; inspect and
    preserve any later changes. Never clean/reset the project.
 5. Verify Node using `.local/node-v24.22.1-darwin-arm64/bin/node --version`.
    For direct pnpm commands, from this checkout set
@@ -31,8 +31,8 @@ promise subscription transfer or verify the user's reported 9 November expiry.
    Native `make db-status` previously passed on port 55433. Reinspect
    ownership and live status before restoring a stopped service. Do not touch the
    other project's port 55432 or database. No database reset.
-7. Read the final Step 9 report and current status. Await explicit instructions for the next
-   step; do not advance to Step 10 or publish automatically.
+7. Read the final Step 10 report and current status. Await explicit instructions for the next
+   step; do not advance to Step 11 or publish automatically.
 
 Common problems: wrong branch/files usually means the parent folder was opened;
 reopen RAG-Agent without recloning. Wrong Node means the local PATH selection is
@@ -50,17 +50,24 @@ your installed app. Local folders are the continuity mechanism, not chat migrati
 ```text
 Inspect my existing DocRAG project in the current local RAG-Agent checkout.
 Read AGENTS.md, docs/PROJECT_HANDOFF.md, docs/CURRENT_STATUS.md,
-docs/STEP9_COMPLETE.md and docs/COMMAND_CONTRACT.md first.
-Step 9 is locally complete; remote Actions remains unrun. Inspect Git status/history and live service state;
+docs/STEP10_COMPLETE.md and docs/COMMAND_CONTRACT.md first.
+Step 10 is locally complete; remote Actions remains unrun. Inspect Git status/history and live service state;
 preserve every modified/untracked file and all previous commits. Confirm the
-accepted step9-final-d evaluation and its cached-generation provenance.
+accepted step10-final-c evaluation and its cached-generation provenance.
 Do not reset/reclone, reset databases, stop unrelated containers, change the
 Node 24.22.1 pin, push, open PRs or deploy. Keep costs zero. Remote GitHub Actions
 remains NOT RUN until explicit publication authorization. Report any difference
-between saved evidence and live state. Do not begin Step 10 without my detailed
+between saved evidence and live state. Do not begin Step 11 without my detailed
 instructions. Stop after three genuine unsuccessful repairs of the same blocker.
 ```
 
 The original account handoff was documentation-only. Step 9 implementation and
 saved verification are present, and final local acceptance passed in step9-final-e. Current
 status overrides premature historical completion claims. A new account does not automatically inherit chat context.
+
+STEP10 subsequently passed27/27 final-c groups,429 unit tests,26 container checks,
+74.34% integration coverage and18 sustained load stages. Known capacity limits
+remain; loadD included2,480 HTTP429 errors and74.74s50-user streaming queue p95.
+All100 evaluation answers/judgments were cached, with fresh SQL retrieval.
+The unrelated container was left stopped. Recheck current services before any work;
+these are saved results, not a promise of service uptime across account changes.

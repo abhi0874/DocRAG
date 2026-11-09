@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "checks": [
+    "anonymous metrics",
+    "anonymous upload",
+    "bad origin",
+    "sign in",
+    "session persisted",
+    "sign in",
+    "session persisted",
+    "private PDF upload",
+    "cross-user document",
+    "streaming chat",
+    "feedback up",
+    "feedback down",
+    "feedback ownership",
+    "owned metrics",
+    "cancelled stream has one terminal metric and no answer receipt",
+    "expired session rejected",
+    "repeat migration preserves embeddings",
+    "session survives app restart",
+    "DB outage fails closed",
+    "recovery after DB restart",
+    "graceful shutdown; unrelated database unchanged",
+    "persistent session after full restart",
+    "sign out",
+    "logout replay",
+    "sign out",
+    "logout replay"
+  ],
+  "check_count": 26,
+  "fixture_documents_retained": [
+    7
+  ],
+  "paid_api_charges_inr": 0,
+  "command": "COVERAGE_FILE=.local/coverage-step10-d/.coverage COVERAGE_RCFILE=.coveragerc.integration .venv/bin/python -m coverage run -m scripts.container_http",
+  "exit_code": 0,
+  "source_revision": "f2497ff",
+  "scope": "DocRAG app/database lifecycle only; unrelated database remained stopped"
+}

@@ -5,8 +5,8 @@ saved results and read-only inspection on 6 November 2026 (Asia/Kolkata).
 Steps 0–8 are complete. Step 9 implementation and saved verification are present,
 and final documentation/evidence reconciliation passed on 7 November.
 CURRENT_STATUS.md is authoritative; STEP9_COMPLETE.md records fresh final-e acceptance. No online deployment
-is established. STEP 10 is authorized and in progress; Steps 11–12 are not started.
-See LOAD_TESTING.md and CURRENT_STATUS.md for recovery and load evidence.
+is established. STEP 10 is locally complete; Steps 11–12 are not started or authorized.
+See STEP10_COMPLETE.md, LOAD_TESTING.md and CURRENT_STATUS.md for final evidence.
 The root README is still a starter template; use these documents and the
 [command contract](COMMAND_CONTRACT.md) for actual operation.
 
@@ -175,7 +175,10 @@ Step 9 testing, container lifecycle and local CI have saved passing evidence;
 fresh final-e verification and final local acceptance passed. Python scripts coverage is 70.80% including successful real integrations;
 unit-only coverage is 20.46%. The final 100-question run reused compatible caches,
 with automated faithfulness .995, correctness .985 and citation support 260/260.
-See STEP9_COMPLETE.md and CURRENT_STATUS for exact results and scope. Step 10 load/concurrency,
+The preceding counts are historical STEP9 evidence. STEP10 final-c now passed
+429 unit tests,27 command groups,26 container checks and74.34% integration coverage.
+LoadD completed18 stages with6,795 requests and2,480 HTTP429 errors;50-user queue
+p95 remains74.74s at model concurrency2. See STEP10_COMPLETE.md for scopes/limits.
 Step 11 deployment and Step 12 finalization remain user-provided future roadmap;
 obtain their detailed instructions before implementing them. No future step is
 scaffolded here. Preserve all local state, run prerequisite checks, use only public

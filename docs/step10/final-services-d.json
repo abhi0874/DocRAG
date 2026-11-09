@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "native_identity": "owned docrag_dev,55433",
+  "selected_chunks": 162,
+  "host_ollama_version": "0.40.9",
+  "frozen_model_digests_matched": 2,
+  "cloud_disabled": "verified startup flag/log",
+  "container_connectivity": "PASS",
+  "docrag_app_and_db": "healthy",
+  "unrelated_snapshot_equal": true,
+  "unrelated_state": "exited, preserved",
+  "isolation_scope": "post-authorized-Docker-start snapshot through load and final verification; no claim of unchanged historical uptime",
+  "source_hashes_matched": 213
+}

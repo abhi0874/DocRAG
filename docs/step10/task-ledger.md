@@ -1,22 +1,19 @@
-# STEP 10 acceptance ledger — blocked checkpoint
+# STEP10 final acceptance ledger
 
-9/12 complete. Completion means the scoped measurement/task was performed, not
-that50-way model generation has acceptable latency. Current prerequisites failed.
+12/12 tasks complete. The detailed task mapping is in ../STEP10_COMPLETE.md.
 
-| Task | Status and evidence |
-| --- | --- |
-| 1 Audit | Complete: Step9 evidence/source audit and performance inventory |
-| 2 Harness | Complete:1f8eaa4,19da816,af5bea3; repeated closed-loop VUs |
-| 3 Sustained5/20/50 | Complete:step10-c18/18 stage validations, raw requests preserved |
-| 4 Metrics | Complete:throughput/tails/queues/errors/resources/server timings |
-| 5 Workloads | Complete:separate read/session/cached/uncached/cancel/upload; scope limits documented |
-| 6 Safety | Complete for recorded runs:isolated public data, bounds, unchanged other-container snapshots |
-| 7 Local models | Pending current confirmation:0.40.9/digests verified during runs; now server unavailable |
-| 8 Bottlenecks | Complete:queue/admission/quota constraints identified; no justified production change |
-| 9 Preserve behavior | Complete at verified revision:app/lib/db unchanged; full correctness/security regression passed |
-| 10 Verification | Pending:27/27 contract groups passed; integration66.73% fails70%; container suite blocked |
-| 11 Documentation | Complete checkpoint:commands, measured results, rejected run, limitations and blockers |
-| 12 Final acceptance | Pending:local checkpoint only; all three final confirmations cannot pass |
+1. STEP9 prerequisites and existing measurement/tooling audit:PASS.
+2. Reproducible bounded local load harness:PASS.
+3. Sustained5/20/50 VUs:18/18 stages PASS, step10-d.
+4. Throughput/tails/queue/errors/resources/model timings:measured and retained.
+5. Separate session/cache/stream/cancellation/upload/retrieval observations:PASS within documented scopes.
+6. Public fixtures/owned database/bounds/other-project preservation:PASS.
+7. Pinned local Ollama, cloud off, version/digests/host-container connectivity:PASS.
+8. Bottleneck investigation:complete; queue/admission/quota limits remain, no unjustified optimization.
+9. Architecture/security/citations/cache/observability/feedback preservation:PASS.
+10. Full mandatory verification/evaluation/gates/coverage:PASS.
+11. Commands/results/failures/limitations documentation:complete.
+12. Secret scan, exact staging and local evidence commit:completed in the commit containing this ledger.
 
-Final confirmations:TESTING NOT PASS (coverage); DOCKER BLOCKED; CI/GITHUB SAFETY
-PASS for local/no-push scope (remote Actions NOT RUN). STEP11 is not authorized.
+All three final local confirmations PASS. Remote Actions NOT RUN, no push.
+STEP11 is not authorized. Earlier failed/blocked receipts remain unchanged.

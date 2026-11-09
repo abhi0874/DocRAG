@@ -1334,6 +1334,8 @@ make load RUN_ID=step10-UNIQUE
 mkdir -p .local/coverage-step10-UNIQUE
 export COVERAGE_FILE="$PWD/.local/coverage-step10-UNIQUE/.coverage"
 export COVERAGE_RCFILE=.coveragerc.integration
+# Requires authorization for DocRAG-only app/database lifecycle checks:
+.venv/bin/python -m coverage run -m scripts.container_http
 .venv/bin/python -m coverage run -m scripts.load_test --run-id step10-UNIQUE
 .venv/bin/python -m coverage run -m scripts.verify_observability --run-id step10-final-UNIQUE
 env -u COVERAGE_RCFILE -u COVERAGE_FILE make cov
@@ -1348,3 +1350,8 @@ guards, telemetry validation, quota effects and interpretation limits. All50 VUs
 are active/queued; this does not imply50 simultaneous model generations.
 Do not change security limits or shared Ollama settings to improve benchmark scores.
 No STEP 11, remote Actions, push, PR or deployment is authorized by these commands.
+
+Container coverage is required in this collection; the full native verifier alone
+is insufficient for the70% gate. The container helper preserves an unrelated
+service in its observed running/healthy or stopped state; never start it solely
+to satisfy tests. Keep its ID/configuration/lifecycle snapshot unchanged.

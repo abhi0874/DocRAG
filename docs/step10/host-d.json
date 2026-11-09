@@ -1,0 +1,12 @@
+{
+  "machdep.cpu.brand_string": "Apple M5 Pro",
+  "hw.memsize": "51539607552",
+  "hw.physicalcpu": "18",
+  "hw.logicalcpu": "18",
+  "architecture": "arm64",
+  "macos": "27.3",
+  "node": "24.22.1",
+  "ollama": "0.40.9",
+  "python": "3.14.6",
+  "sampling": "1s ps CPU/RSS; fixture DB connections; model cap2"
+}
