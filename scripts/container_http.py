@@ -13,6 +13,37 @@ from scripts import security_http as http
 COMPOSE = ["docker", "compose", "--env-file", ".local/step9-compose.env"]
 
 
+def isolation_snapshot(data):
+    """Preserve an unrelated running or stopped service; never require starting it."""
+    state = data["State"]
+    assert state["Status"] in {"running", "exited"}
+    assert not state["Paused"] and not state["Restarting"]
+    assert state["Running"] == (state["Status"] == "running")
+    health = state.get("Health", {}).get("Status")
+    if state["Running"]:
+        assert health == "healthy"
+    return {
+        "id": data["Id"],
+        "state": {
+            key: state[key]
+            for key in (
+                "Status",
+                "Running",
+                "Paused",
+                "Restarting",
+                "ExitCode",
+                "StartedAt",
+                "FinishedAt",
+            )
+        },
+        "health": health,
+        "restart_count": data["RestartCount"],
+        "mounts": data["Mounts"],
+        "ports": data["HostConfig"]["PortBindings"],
+        "restart_policy": data["HostConfig"]["RestartPolicy"],
+    }
+
+
 def sql(query):
     result = subprocess.run(
         [
@@ -115,13 +146,7 @@ await pool.query('INSERT INTO auth_account'+
             check=True,
         )
         data = json.loads(result.stdout)[0]
-        assert data["State"]["Health"]["Status"] == "healthy"
-        return {
-            "id": data["Id"],
-            "started": data["State"]["StartedAt"],
-            "mounts": data["Mounts"],
-            "ports": data["HostConfig"]["PortBindings"],
-        }
+        return isolation_snapshot(data)
 
     other_before = other_project()
 
