@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": {
+    "id": true,
+    "started": true,
+    "mounts": true,
+    "bindings": true,
+    "state": true
+  },
+  "scope": "Bounded load-test window only; historical restart attribution remains unknown"
+}

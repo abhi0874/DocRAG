@@ -1,0 +1,14 @@
+{
+  "repository_branch": "feat/production-rag",
+  "checkpoint": "bb493dc",
+  "source_hashes": 210,
+  "historical_contract_groups": 27,
+  "historical_not_fresh": true,
+  "native_identity": "owned docrag_dev at55433",
+  "ollama_version": "0.40.9",
+  "model_digests": "both API digests matched frozen configuration",
+  "host_and_container_connectivity": "PASS",
+  "other_project_snapshot": ".local/step10-other-before.json",
+  "remote_actions": "NOT RUN \u2014 NO PUSH AUTHORIZED",
+  "status": "PASS"
+}

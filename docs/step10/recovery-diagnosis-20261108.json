@@ -1,0 +1,28 @@
+{
+  "date_local": "2026-11-08",
+  "native_cluster": {
+    "ownership_marker": "PASS",
+    "version": "16",
+    "configured_port": 55433,
+    "listener_present": false,
+    "make_db_status_exit": 2,
+    "live_database_identity": "Unavailable while stopped; must verify docrag_dev and data_directory after authorized start"
+  },
+  "ollama": {
+    "version": "0.40.14",
+    "pid_observed": 24058,
+    "parent_pid_observed": 22097,
+    "parent_kind": "Codex process; not assumed to be an Ollama desktop supervisor",
+    "executable": "/Applications/Ollama.app/Contents/Resources/ollama",
+    "binding": "127.0.0.1:11434",
+    "frozen_model_digests_matched": 2,
+    "remote_models": false,
+    "preserved_0_40_9_binary_hash": "PASS"
+  },
+  "permission_required": [
+    "Start existing owned PostgreSQL cluster without initialization or schema replay",
+    "Recheck and stop only the identified shared Ollama server, then run preserved0.40.9 on loopback11434 with cloud disabled; never stop its Codex parent"
+  ],
+  "services_modified": false,
+  "repair_attempts": 0
+}

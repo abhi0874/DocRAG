@@ -1,3 +1,99 @@
+# STEP 10 NOT COMPLETE — 9 November 2026 (Asia/Kolkata)
+
+9/12 tasks complete; current service confirmation, remaining mandatory verification
+and final completion acceptance are blocked. No STEP 11 or publication authorized.
+
+- Sustained step10-c passed18/18 validation stages:6,819 requests,2,474 HTTP429
+  errors, no other request failures.50-user streaming:0.652 successful RPS,
+  HTTP p95 4.992s, client queue p95 75.216s. The queue bottleneck remains.
+- Full step10-final-b passed27/27 command groups at af5bea3:201 Python +221 TS
+  tests,66 HTTP security checks,27 SQL/quota checks,138 observability assertions.
+  All212 source hashes still match.100-question retrieval reran;100 answers and
+  judgments were compatible cache hits, not fresh generations. Gates unchanged.
+- make cov exited0:Python unit21.00%, TypeScript66.17%. Independent integration
+  gate exited2 at66.73%, below unchanged70%; container suite coverage is pending.
+- Container suite exited1 at its first read-only database identity query because
+  Docker daemon socket was missing. No suite service changes occurred. Final
+  host probes also found native PostgreSQL stopped (make exit2) and Ollama refused
+  connections. Cause unknown; no attribution to another project. Earlier bounded
+  isolation comparisons passed and do not establish current container health.
+- Shared Docker Desktop startup needs permission because existing restart policies
+  may start unrelated containers. It was requested, not assumed. Prior native
+  PostgreSQL/Ollama recovery authorization remains subject to safety checks.
+- Harness commits1f8eaa4,19da816,af5bea3 are local. Rejected step10-b cache-TTL
+  evidence and all historical results remain. Two moderate JS tooling advisories
+  remain disclosed; audit policy passed. Remote Actions NOT RUN; no push.
+
+See LOAD_TESTING.md, step10/measurements.md, step10/final-b-verification.json and
+step10/final-prerequisite-blocker.json. Restore/verify prerequisites before further
+tests; then complete container checks, unchanged integration gate and final review.
+Do not claim STEP 10 complete.
+
+## Previous in-progress checkpoint
+
+# STEP 10 RESUMED — 8 November 2026
+
+Authorized recovery passed. Native owned docrag_dev is running on55433; recovery
+performed no initialization, migration or SQL writes. The idle0.40.14 Ollama child
+was replaced by preserved0.40.9 on loopback11434 with cloud disabled. Both frozen
+model digests and host/container connectivity passed. Fresh chat inventory found
+no other active chats; three connection observations found no active Ollama clients.
+The apparent other Codex parent was verified as the shared host for this inspection;
+it and the RepoMind web server remained untouched. Detailed safety evidence is in
+docs/step10/recovery-complete-20261108.json.
+
+Local commit19da816 adds repeated closed-loop VUs after initial burst measurements
+proved insufficient for sustained acceptance. Run step10-b is in progress. STEP10
+is NOT COMPLETE; final regressions, coverage, evidence review and commit remain.
+No shared configuration, model, architecture, security threshold or cache default
+changed. STEP11 remains unauthorized. No push or deployment.
+
+## Earlier recovery checkpoints
+
+# STEP 10 RECOVERY PARTIAL — 8 November 2026
+
+Authorized pg_ctl start exited0 without initialization, schema replay or SQL writes.
+Read-only SQL verified docrag_dev in the checkout-owned cluster on loopback55433.
+Ollama remains0.40.14; it and its Codex parent were not stopped or modified.
+Replacement safety is not established: other recent chats are inactive after
+errors, but a RepoMind web server remains running under the shared Codex parent
+and its application uses Ollama. No established11434 connections were observed;
+that does not prove no task/client depends on it. User confirmation is required
+before the conditional Ollama switch. No new load/regression tests ran.
+See docs/step10/recovery-postgres-20261108.json. Preserve all pending work.
+
+## Earlier blocked checkpoint
+
+# STEP 10 BLOCKED — 8 November 2026 (Asia/Kolkata)
+
+On resume, mandatory live prerequisites failed: Ollama reports0.40.14 instead of
+pinned0.40.9, and make db-status exits2 because the owned native cluster is stopped.
+No service was started/stopped/reconfigured on resume. Do not continue measurements
+until prerequisite restoration is authorized and independently verified. The cause
+of changed service state is unknown; do not attribute it to another project.
+
+Preserved work: local commit1f8eaa4; step10-a contains18 passing bounded burst stages
+(450 requests, zero errors) for5/20/50 virtual users with model concurrency capped2.
+This is not sustained concurrency acceptance. step10-final-a completed27/27 groups
+before interruption. A sustained lightweight-workload pass, final regression and
+coverage acceptance, documentation completion, secret scan and final evidence
+commit remain pending. Current documentation/evidence changes are intentionally
+uncommitted. STEP11 is not authorized; no push or deployment occurred.
+
+## Prior in-progress checkpoint
+
+# STEP 10 IN PROGRESS — 7 November 2026
+
+The user authorized STEP 10 only. STEP 9 prerequisite source/evidence and live
+runtime/database/connectivity checks passed independently. Local implementation
+commit1f8eaa4 adds the bounded load harness and measurement-math tests; it is not
+completion evidence. Trial step10-a uses an isolated public fixture database and
+loopback8011 app, retaining all data and obeying the existing authentication quota.
+See LOAD_TESTING.md for exact bounds and pending measurements. STEP 11 is not
+started or authorized. No push, PR or deployment is authorized.
+
+## Previous completed STEP 9 checkpoint
+
 # STEP 9 COMPLETE — 7 November 2026 (Asia/Kolkata)
 
 All 20 tasks and all three local confirmations passed. Fresh step9-final-e:

@@ -1,0 +1,60 @@
+[
+  {
+    "path": "eval/results/prompting/final-cache-http.json",
+    "status": "PASS",
+    "timing": {
+      "first-miss": {
+        "n": 6,
+        "p50_ms": 4124.182749997999,
+        "p95_ms": 6334.433114254352
+      },
+      "repeat-hit": {
+        "n": 6,
+        "p50_ms": 32.9958330039517,
+        "p95_ms": 35.93039599945769
+      },
+      "repeat-hit-2": {
+        "n": 6,
+        "p50_ms": 32.186958502279595,
+        "p95_ms": 32.80808349882136
+      },
+      "uncached-first": {
+        "n": 6,
+        "p50_ms": 1102.9185834995587,
+        "p95_ms": 3031.5290627440845
+      },
+      "uncached-warm": {
+        "n": 6,
+        "p50_ms": 1020.7023330076481,
+        "p95_ms": 2224.321541507379
+      }
+    },
+    "conditions": "Sequential matched public questions. First-miss means empty application cache, not cold OS/GPU. Uncached-first starts a new Node process; model may already be warm. Includes fresh query embeddings, SQL and HTTP transfer. Prompt-version server restart also clears memory; separate unit tests isolate key invalidation.",
+    "historical": true
+  },
+  {
+    "path": "eval/results/prompting/final-cold-warm.json",
+    "status": "PASS",
+    "timing": {
+      "model-cold": {
+        "n": 6,
+        "p50_ms": 6617.721083006472,
+        "p95_ms": 8805.351885250275
+      },
+      "model-warm": {
+        "n": 6,
+        "p50_ms": 1045.2313755013165,
+        "p95_ms": 3068.3484064975346
+      }
+    },
+    "conditions": "Six public questions, model unloaded before each cold call; paired warm call follows immediately. Production response cache off throughout. OS page cache is not flushed. Resident sizes are Ollama snapshots, not total-system peak memory.",
+    "historical": true
+  },
+  {
+    "path": "eval/results/retrieval/profile-verification.json",
+    "status": "PASS",
+    "timing": null,
+    "conditions": null,
+    "historical": true
+  }
+]

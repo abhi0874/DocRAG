@@ -1,0 +1,20 @@
+{
+  "status": "PARTIAL",
+  "postgres": {
+    "start_exit": 0,
+    "identity": "docrag_dev",
+    "port": 55433,
+    "ownership": "PASS",
+    "recovery_sql_writes": false,
+    "initialization_or_migration": false
+  },
+  "ollama": {
+    "version": "0.40.14",
+    "changed": false,
+    "parent_changed": false,
+    "replacement_safety": "NOT CONFIRMED",
+    "evidence": "Other recent chats inactive after errors; shared Codex parent has a running RepoMind web server whose application uses Ollama. No established11434 connections observed, but absence of dependency is not proven."
+  },
+  "pending_user_confirmation": "RepoMind and other Ollama clients are not in use during the temporary version switch",
+  "new_load_or_regression_runs": 0
+}

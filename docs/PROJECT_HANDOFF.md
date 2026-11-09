@@ -5,7 +5,8 @@ saved results and read-only inspection on 6 November 2026 (Asia/Kolkata).
 Steps 0–8 are complete. Step 9 implementation and saved verification are present,
 and final documentation/evidence reconciliation passed on 7 November.
 CURRENT_STATUS.md is authoritative; STEP9_COMPLETE.md records fresh final-e acceptance. No online deployment
-is established. Steps 10–12 are not started.
+is established. STEP 10 is authorized and in progress; Steps 11–12 are not started.
+See LOAD_TESTING.md and CURRENT_STATUS.md for recovery and load evidence.
 The root README is still a starter template; use these documents and the
 [command contract](COMMAND_CONTRACT.md) for actual operation.
 

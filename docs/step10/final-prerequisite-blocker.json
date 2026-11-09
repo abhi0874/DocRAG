@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-09 Asia/Kolkata",
+  "status": "BLOCKED",
+  "docker": {
+    "read_only_probe_exit": 1,
+    "error": "Docker daemon socket missing; no connection to daemon",
+    "container_suite_exit": 1,
+    "suite_mutations": false
+  },
+  "native_postgres": {
+    "make_db_status_exit": 2,
+    "state": "stopped"
+  },
+  "ollama": {
+    "host": "127.0.0.1:11434",
+    "state": "connection refused",
+    "current_version_and_digests": "not observable"
+  },
+  "cause": "unknown; no attribution to another project",
+  "recovery_authorization": "Native owned PostgreSQL start and preserved Ollama recovery already authorized subject to current ownership/activity checks. Shared Docker Desktop start permission requested, pending.",
+  "mandatory_pending": [
+    "restore and verify live prerequisites",
+    "complete container lifecycle/connectivity checks",
+    "pass unchanged >=70% integration coverage gate",
+    "final verification and confirmations"
+  ],
+  "repair_attempts": "No service repair attempted for this new daemon-unavailable blocker."
+}

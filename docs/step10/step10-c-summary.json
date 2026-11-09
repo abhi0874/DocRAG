@@ -1,0 +1,1315 @@
+{
+  "source": "loadtest/step10-c.json",
+  "status": "PASS",
+  "revision": "af5bea36536c56ccdf69ad378b9612c969b0f27c",
+  "protocol": "Sustained closed-loop VUs; 5s ramp then 15s hold, 1s think time, 2 concurrent model calls, 60s socket timeout, 180s client queue bound. Bounded drain; short sustained test, not an endurance/capacity proof.",
+  "stages": [
+    {
+      "users": 5,
+      "mode": "read",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 90,
+      "elapsed_seconds": 20.054297541995766,
+      "requests_per_second": 4.487816130758543,
+      "successful_requests_per_second": 4.487816130758543,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 12.392895994707942,
+      "p95_ms": 16.014464406180196,
+      "p99_ms": 17.022882373130415,
+      "queue_p95_ms": 0.003628653939813375,
+      "status_counts": {
+        "200": 90
+      },
+      "success_latency_ms": {
+        "p50": 12.392895994707942,
+        "p95": 16.014464406180196,
+        "p99": 17.022882373130415
+      },
+      "end_to_end_ms": {
+        "p50": 12.394083489198238,
+        "p95": 16.015504112874623,
+        "p99": 17.02610561507754
+      },
+      "queue_ms": {
+        "p50": 0.0012080126907676458,
+        "p95": 0.003628653939813375,
+        "p99": 0.0044944984256289865
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 7.0,
+          "peak_summed_rss_mib": 205.515625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 1.4,
+          "peak_summed_rss_mib": 156.203125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 18.900000000000002,
+          "peak_summed_rss_mib": 10344.65625
+        }
+      },
+      "successful_requests": 90,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 5,
+      "mode": "authentication",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 90,
+      "elapsed_seconds": 20.006089791015256,
+      "requests_per_second": 4.498630214107059,
+      "successful_requests_per_second": 4.498630214107059,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 12.70137500250712,
+      "p95_ms": 15.296631553792395,
+      "p99_ms": 15.92095137835713,
+      "queue_p95_ms": 0.008481094846501946,
+      "status_counts": {
+        "200": 90
+      },
+      "success_latency_ms": {
+        "p50": 12.70137500250712,
+        "p95": 15.296631553792395,
+        "p99": 15.92095137835713
+      },
+      "end_to_end_ms": {
+        "p50": 12.702646010438912,
+        "p95": 15.300686203408986,
+        "p99": 15.928501518210394
+      },
+      "queue_ms": {
+        "p50": 0.0012089876690879464,
+        "p95": 0.008481094846501946,
+        "p99": 0.009250252041965723
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 4.4,
+          "peak_summed_rss_mib": 177.546875
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 1.0,
+          "peak_summed_rss_mib": 156.984375
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 0.2,
+          "peak_summed_rss_mib": 10344.65625
+        }
+      },
+      "successful_requests": 90,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 5,
+      "mode": "cached",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 90,
+      "elapsed_seconds": 20.00404020800488,
+      "requests_per_second": 4.499091136798721,
+      "successful_requests_per_second": 3.349323401839048,
+      "error_rate": 0.25555555555555554,
+      "rate_limited": 23,
+      "p50_ms": 33.777250500861555,
+      "p95_ms": 60.614393746072885,
+      "p99_ms": 68.647637279646,
+      "queue_p95_ms": 0.003739401290658861,
+      "status_counts": {
+        "200": 67,
+        "429": 23
+      },
+      "success_latency_ms": {
+        "p50": 38.067708985181525,
+        "p95": 61.40033750561997,
+        "p99": 68.666305449442
+      },
+      "end_to_end_ms": {
+        "p50": 33.77833400736563,
+        "p95": 60.6165661549312,
+        "p99": 68.65017267613439
+      },
+      "queue_ms": {
+        "p50": 0.0015829864423722029,
+        "p95": 0.003739401290658861,
+        "p99": 0.0082272439613007
+      },
+      "retrieval_ms": {
+        "p50": 21.29454099998111,
+        "p95": 39.02628310001455,
+        "p99": 44.014285720021
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 20.3,
+          "peak_summed_rss_mib": 217.15625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 2.6,
+          "peak_summed_rss_mib": 167.34375
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 35.2,
+          "peak_summed_rss_mib": 10347.234375
+        }
+      },
+      "successful_requests": 67,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 5,
+      "mode": "streaming",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 50,
+      "elapsed_seconds": 20.087428958009696,
+      "requests_per_second": 2.48911894620854,
+      "successful_requests_per_second": 2.48911894620854,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 301.74114550754894,
+      "p95_ms": 2413.757905953389,
+      "p99_ms": 3033.1421285914253,
+      "queue_p95_ms": 1816.705243593605,
+      "status_counts": {
+        "200": 50
+      },
+      "success_latency_ms": {
+        "p50": 301.74114550754894,
+        "p95": 2413.757905953389,
+        "p99": 3033.1421285914253
+      },
+      "end_to_end_ms": {
+        "p50": 301.7502084985608,
+        "p95": 3115.4033081547823,
+        "p99": 4098.167310644637
+      },
+      "queue_ms": {
+        "p50": 0.010458505130372941,
+        "p95": 1816.705243593605,
+        "p99": 2364.632607335516
+      },
+      "retrieval_ms": {
+        "p50": 29.16729199999827,
+        "p95": 46.67148370001516,
+        "p99": 62.92768091000616
+      },
+      "generation_ms": {
+        "p50": 264.54537500001607,
+        "p95": 2362.502152749969,
+        "p99": 2983.532618510002
+      },
+      "first_token_ms": {
+        "p50": 205.98904150002636,
+        "p95": 2320.493275149999,
+        "p99": 2936.2854350900107
+      },
+      "peak_connections_including_monitor": 6,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 9.4,
+          "peak_summed_rss_mib": 218.15625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 1.0,
+          "peak_summed_rss_mib": 145.671875
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 57.0,
+          "peak_summed_rss_mib": 10350.15625
+        }
+      },
+      "successful_requests": 50,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 5,
+      "mode": "cancellation",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 90,
+      "elapsed_seconds": 20.005335499998182,
+      "requests_per_second": 4.498799832675047,
+      "successful_requests_per_second": 1.3996266146100147,
+      "error_rate": 0.6888888888888889,
+      "rate_limited": 62,
+      "p50_ms": 7.547416491433978,
+      "p95_ms": 47.055608009395655,
+      "p99_ms": 49.855560509313364,
+      "queue_p95_ms": 0.0471604595077224,
+      "status_counts": {
+        "200": 28,
+        "429": 62
+      },
+      "success_latency_ms": {
+        "p50": 34.86927099584136,
+        "p95": 48.939847700239625,
+        "p99": 52.580615490151104
+      },
+      "end_to_end_ms": {
+        "p50": 7.654832996195182,
+        "p95": 47.084649703174364,
+        "p99": 49.899626881524455
+      },
+      "queue_ms": {
+        "p50": 0.013687487808056176,
+        "p95": 0.0471604595077224,
+        "p99": 6.599151260161306
+      },
+      "retrieval_ms": {
+        "p50": 29.825853999966057,
+        "p95": 37.447203949987305,
+        "p99": 41.15167431999173
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 6,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 15.0,
+          "peak_summed_rss_mib": 214.484375
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 2.3000000000000003,
+          "peak_summed_rss_mib": 143.640625
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 43.8,
+          "peak_summed_rss_mib": 10350.359375
+        }
+      },
+      "successful_requests": 28,
+      "cancelled_without_receipt": 28
+    },
+    {
+      "users": 5,
+      "mode": "upload",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 90,
+      "elapsed_seconds": 20.001385000010487,
+      "requests_per_second": 4.499688396576178,
+      "successful_requests_per_second": 1.0999238302741767,
+      "error_rate": 0.7555555555555555,
+      "rate_limited": 68,
+      "p50_ms": 7.347958497120999,
+      "p95_ms": 112.65120448515518,
+      "p99_ms": 117.22583776863758,
+      "queue_p95_ms": 6.38717254914809,
+      "status_counts": {
+        "201": 22,
+        "429": 68
+      },
+      "success_latency_ms": {
+        "p50": 85.17439600836951,
+        "p95": 117.15698191983392,
+        "p99": 117.39354275923688
+      },
+      "end_to_end_ms": {
+        "p50": 8.837812492856756,
+        "p95": 112.66322758165188,
+        "p99": 117.25032338115852
+      },
+      "queue_ms": {
+        "p50": 0.016104502719826996,
+        "p95": 6.38717254914809,
+        "p99": 9.258623361238278
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 5,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 6.7,
+          "peak_summed_rss_mib": 219.0625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 1.6,
+          "peak_summed_rss_mib": 132.671875
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 12.2,
+          "peak_summed_rss_mib": 10414.09375
+        }
+      },
+      "successful_requests": 22,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 20,
+      "mode": "read",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 360,
+      "elapsed_seconds": 20.021647750021657,
+      "requests_per_second": 17.980538090308308,
+      "successful_requests_per_second": 17.980538090308308,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 8.47135399817489,
+      "p95_ms": 14.287751744268464,
+      "p99_ms": 17.290062996326032,
+      "queue_p95_ms": 0.00350422487827018,
+      "status_counts": {
+        "200": 360
+      },
+      "success_latency_ms": {
+        "p50": 8.47135399817489,
+        "p95": 14.287751744268464,
+        "p99": 17.290062996326032
+      },
+      "end_to_end_ms": {
+        "p50": 8.472270506899804,
+        "p95": 14.28880414896412,
+        "p99": 17.290636750694848
+      },
+      "queue_ms": {
+        "p50": 0.001166015863418579,
+        "p95": 0.00350422487827018,
+        "p99": 0.0047936980263330094
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 14.6,
+          "peak_summed_rss_mib": 248.796875
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 4.3,
+          "peak_summed_rss_mib": 180.703125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 0.3,
+          "peak_summed_rss_mib": 10350.34375
+        }
+      },
+      "successful_requests": 360,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 20,
+      "mode": "authentication",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 360,
+      "elapsed_seconds": 20.00690929198754,
+      "requests_per_second": 17.993783784693544,
+      "successful_requests_per_second": 5.9979279282311815,
+      "error_rate": 0.6666666666666666,
+      "rate_limited": 240,
+      "p50_ms": 6.429166503949091,
+      "p95_ms": 10.634455633407924,
+      "p99_ms": 11.9089602821623,
+      "queue_p95_ms": 0.004169049498159439,
+      "status_counts": {
+        "200": 120,
+        "429": 240
+      },
+      "success_latency_ms": {
+        "p50": 4.823937997571193,
+        "p95": 8.399014234601054,
+        "p99": 9.734294242807666
+      },
+      "end_to_end_ms": {
+        "p50": 6.431542002246715,
+        "p95": 10.635597638611216,
+        "p99": 11.910081318637824
+      },
+      "queue_ms": {
+        "p50": 0.00100000761449337,
+        "p95": 0.004169049498159439,
+        "p99": 0.007852501585148282
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 22.4,
+          "peak_summed_rss_mib": 274.90625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 1.9,
+          "peak_summed_rss_mib": 181.296875
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 0.2,
+          "peak_summed_rss_mib": 10350.34375
+        }
+      },
+      "successful_requests": 120,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 20,
+      "mode": "cached",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 349,
+      "elapsed_seconds": 20.006330208008876,
+      "requests_per_second": 17.44447864107978,
+      "successful_requests_per_second": 14.595380410301706,
+      "error_rate": 0.16332378223495703,
+      "rate_limited": 57,
+      "p50_ms": 34.98083399608731,
+      "p95_ms": 52.86244999733752,
+      "p99_ms": 60.43884015292859,
+      "queue_p95_ms": 0.0031249946914613247,
+      "status_counts": {
+        "200": 292,
+        "429": 57
+      },
+      "success_latency_ms": {
+        "p50": 37.067249504616484,
+        "p95": 53.73979794239858,
+        "p99": 60.969505000684826
+      },
+      "end_to_end_ms": {
+        "p50": 34.98216698062606,
+        "p95": 52.86423360812476,
+        "p99": 60.442200307734296
+      },
+      "queue_ms": {
+        "p50": 0.0012910168152302504,
+        "p95": 0.0031249946914613247,
+        "p99": 0.004400162724778053
+      },
+      "retrieval_ms": {
+        "p50": 22.395520499994745,
+        "p95": 35.4857749999821,
+        "p99": 40.95096516003597
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 19.2,
+          "peak_summed_rss_mib": 285.296875
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 4.7,
+          "peak_summed_rss_mib": 186.578125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 82.6,
+          "peak_summed_rss_mib": 10351.703125
+        }
+      },
+      "successful_requests": 292,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 20,
+      "mode": "streaming",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 53,
+      "elapsed_seconds": 32.134410250000656,
+      "requests_per_second": 1.6493223179659542,
+      "successful_requests_per_second": 1.6493223179659542,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 1014.4007909984794,
+      "p95_ms": 2133.6825331964064,
+      "p99_ms": 2438.152120156446,
+      "queue_p95_ms": 11802.64995819889,
+      "status_counts": {
+        "200": 53
+      },
+      "success_latency_ms": {
+        "p50": 1014.4007909984794,
+        "p95": 2133.6825331964064,
+        "p99": 2438.152120156446
+      },
+      "end_to_end_ms": {
+        "p50": 11176.70537502272,
+        "p95": 12756.5538658062,
+        "p99": 12856.919881472131
+      },
+      "queue_ms": {
+        "p50": 9262.556959001813,
+        "p95": 11802.64995819889,
+        "p99": 12112.029664841248
+      },
+      "retrieval_ms": {
+        "p50": 35.207915999984834,
+        "p95": 56.31990800000494,
+        "p99": 59.050419680045444
+      },
+      "generation_ms": {
+        "p50": 980.2695420000236,
+        "p95": 2081.671458399971,
+        "p99": 2400.7813984799777
+      },
+      "first_token_ms": {
+        "p50": 921.835791999998,
+        "p95": 2041.5042912000324,
+        "p99": 2344.4770631600286
+      },
+      "peak_connections_including_monitor": 6,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 3.1,
+          "peak_summed_rss_mib": 284.546875
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 0.6000000000000001,
+          "peak_summed_rss_mib": 166.015625
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 46.199999999999996,
+          "peak_summed_rss_mib": 10354.71875
+        }
+      },
+      "successful_requests": 53,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 20,
+      "mode": "cancellation",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 350,
+      "elapsed_seconds": 20.0059055419988,
+      "requests_per_second": 17.49483417610055,
+      "successful_requests_per_second": 17.49483417610055,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 24.81764649564866,
+      "p95_ms": 45.47509824624285,
+      "p99_ms": 48.487017750740044,
+      "queue_p95_ms": 23.4646143973805,
+      "status_counts": {
+        "200": 350
+      },
+      "success_latency_ms": {
+        "p50": 24.81764649564866,
+        "p95": 45.47509824624285,
+        "p99": 48.487017750740044
+      },
+      "end_to_end_ms": {
+        "p50": 33.82449998753145,
+        "p95": 48.183751743636094,
+        "p99": 51.14559499488677
+      },
+      "queue_ms": {
+        "p50": 0.015520476154051721,
+        "p95": 23.4646143973805,
+        "p99": 27.374888170161285
+      },
+      "retrieval_ms": {
+        "p50": 20.594229000038467,
+        "p95": 36.63531220001751,
+        "p99": 40.582801920074274
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 5,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 26.4,
+          "peak_summed_rss_mib": 285.890625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 4.6,
+          "peak_summed_rss_mib": 144.265625
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 108.4,
+          "peak_summed_rss_mib": 10355.0
+        }
+      },
+      "successful_requests": 350,
+      "cancelled_without_receipt": 350
+    },
+    {
+      "users": 20,
+      "mode": "upload",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 353,
+      "elapsed_seconds": 20.006006749987137,
+      "requests_per_second": 17.644700634734463,
+      "successful_requests_per_second": 3.448964146732799,
+      "error_rate": 0.8045325779036827,
+      "rate_limited": 284,
+      "p50_ms": 7.063790981192142,
+      "p95_ms": 88.20446720346808,
+      "p99_ms": 94.46596500230955,
+      "queue_p95_ms": 3.0360829900018858,
+      "status_counts": {
+        "429": 284,
+        "201": 69
+      },
+      "success_latency_ms": {
+        "p50": 83.14979099668562,
+        "p95": 94.58692500484176,
+        "p99": 101.58656855579457
+      },
+      "end_to_end_ms": {
+        "p50": 7.608624990098178,
+        "p95": 88.2189754047431,
+        "p99": 94.47600852348843
+      },
+      "queue_ms": {
+        "p50": 0.00941698090173304,
+        "p95": 3.0360829900018858,
+        "p99": 5.526368168648333
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 6,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 8.6,
+          "peak_summed_rss_mib": 285.234375
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 2.7,
+          "peak_summed_rss_mib": 160.328125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 39.0,
+          "peak_summed_rss_mib": 10425.1875
+        }
+      },
+      "successful_requests": 69,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 50,
+      "mode": "read",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 895,
+      "elapsed_seconds": 20.006008500000462,
+      "requests_per_second": 44.736560018955274,
+      "successful_requests_per_second": 44.736560018955274,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 7.020417018793523,
+      "p95_ms": 12.88112520123832,
+      "p99_ms": 13.953382519539444,
+      "queue_p95_ms": 0.003708299482241273,
+      "status_counts": {
+        "200": 895
+      },
+      "success_latency_ms": {
+        "p50": 7.020417018793523,
+        "p95": 12.88112520123832,
+        "p99": 13.953382519539444
+      },
+      "end_to_end_ms": {
+        "p50": 7.021167024504393,
+        "p95": 12.884891999419779,
+        "p99": 13.95646553719416
+      },
+      "queue_ms": {
+        "p50": 0.0009579816833138466,
+        "p95": 0.003708299482241273,
+        "p99": 0.004836461157537994
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 30.0,
+          "peak_summed_rss_mib": 286.125
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 7.7,
+          "peak_summed_rss_mib": 198.734375
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 0.3,
+          "peak_summed_rss_mib": 10355.015625
+        }
+      },
+      "successful_requests": 895,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 50,
+      "mode": "authentication",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 895,
+      "elapsed_seconds": 20.0216473750188,
+      "requests_per_second": 44.701616367327496,
+      "successful_requests_per_second": 5.99351280902715,
+      "error_rate": 0.8659217877094972,
+      "rate_limited": 775,
+      "p50_ms": 4.748208011733368,
+      "p95_ms": 9.410479193320498,
+      "p99_ms": 11.61932749673724,
+      "queue_p95_ms": 0.0038340018363669515,
+      "status_counts": {
+        "200": 120,
+        "429": 775
+      },
+      "success_latency_ms": {
+        "p50": 3.9748330018483102,
+        "p95": 7.943593751406297,
+        "p99": 9.034020752005745
+      },
+      "end_to_end_ms": {
+        "p50": 4.751250002300367,
+        "p95": 9.41297429963015,
+        "p99": 11.622764974017626
+      },
+      "queue_ms": {
+        "p50": 0.0010829826351255178,
+        "p95": 0.0038340018363669515,
+        "p99": 0.005529983900487396
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 13.8,
+          "peak_summed_rss_mib": 288.40625
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 4.3,
+          "peak_summed_rss_mib": 202.546875
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 0.3,
+          "peak_summed_rss_mib": 10355.015625
+        }
+      },
+      "successful_requests": 120,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 50,
+      "mode": "cached",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 877,
+      "elapsed_seconds": 20.015333249990363,
+      "requests_per_second": 43.81640760342685,
+      "successful_requests_per_second": 35.52276602740763,
+      "error_rate": 0.18928164196123148,
+      "rate_limited": 166,
+      "p50_ms": 30.559999984689057,
+      "p95_ms": 39.084716601064414,
+      "p99_ms": 47.23771492135712,
+      "queue_p95_ms": 0.002540997229516506,
+      "status_counts": {
+        "200": 711,
+        "429": 166
+      },
+      "success_latency_ms": {
+        "p50": 31.101125001441687,
+        "p95": 40.520499998820014,
+        "p99": 48.36024608521255
+      },
+      "end_to_end_ms": {
+        "p50": 30.560541985323653,
+        "p95": 39.08630801597609,
+        "p99": 47.26562983356417
+      },
+      "queue_ms": {
+        "p50": 0.0010420044418424368,
+        "p95": 0.002540997229516506,
+        "p99": 0.0032598373945802455
+      },
+      "retrieval_ms": {
+        "p50": 18.543583999969997,
+        "p95": 27.160750000039116,
+        "p99": 35.40457049997055
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 8,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 31.8,
+          "peak_summed_rss_mib": 292.734375
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 9.799999999999999,
+          "peak_summed_rss_mib": 185.890625
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 172.3,
+          "peak_summed_rss_mib": 10354.140625
+        }
+      },
+      "successful_requests": 711,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 50,
+      "mode": "streaming",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 63,
+      "elapsed_seconds": 96.56220575000043,
+      "requests_per_second": 0.6524291725802848,
+      "successful_requests_per_second": 0.6524291725802848,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 3086.694041994633,
+      "p95_ms": 4991.876557690557,
+      "p99_ms": 5357.961289848318,
+      "queue_p95_ms": 75216.47675858403,
+      "status_counts": {
+        "200": 63
+      },
+      "success_latency_ms": {
+        "p50": 3086.694041994633,
+        "p95": 4991.876557690557,
+        "p99": 5357.961289848318
+      },
+      "end_to_end_ms": {
+        "p50": 49471.529666974675,
+        "p95": 76650.89064170606,
+        "p99": 77465.46082193032
+      },
+      "queue_ms": {
+        "p50": 46193.1332499953,
+        "p95": 75216.47675858403,
+        "p99": 75330.4434560507
+      },
+      "retrieval_ms": {
+        "p50": 35.0652499999851,
+        "p95": 62.48672060000244,
+        "p99": 66.16349611999001
+      },
+      "generation_ms": {
+        "p50": 3060.699583000038,
+        "p95": 4917.272024700069,
+        "p99": 5316.413643879973
+      },
+      "first_token_ms": {
+        "p50": 2945.982166999951,
+        "p95": 4869.207238100003,
+        "p99": 5264.753520419937
+      },
+      "peak_connections_including_monitor": 7,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 7.7,
+          "peak_summed_rss_mib": 286.953125
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 0.8,
+          "peak_summed_rss_mib": 186.078125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 53.0,
+          "peak_summed_rss_mib": 10355.3125
+        }
+      },
+      "successful_requests": 63,
+      "cancelled_without_receipt": 0
+    },
+    {
+      "users": 50,
+      "mode": "cancellation",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 878,
+      "elapsed_seconds": 20.028040708013577,
+      "requests_per_second": 43.83853681946515,
+      "successful_requests_per_second": 43.83853681946515,
+      "error_rate": 0.0,
+      "rate_limited": 0,
+      "p50_ms": 21.91616699565202,
+      "p95_ms": 30.438214357127432,
+      "p99_ms": 35.547753582941375,
+      "queue_p95_ms": 11.917581199668344,
+      "status_counts": {
+        "200": 878
+      },
+      "success_latency_ms": {
+        "p50": 21.91616699565202,
+        "p95": 30.438214357127432,
+        "p99": 35.547753582941375
+      },
+      "end_to_end_ms": {
+        "p50": 22.81800049240701,
+        "p95": 35.17638748016907,
+        "p99": 41.14168823347427
+      },
+      "queue_ms": {
+        "p50": 0.007499998901039362,
+        "p95": 11.917581199668344,
+        "p99": 17.83348334138283
+      },
+      "retrieval_ms": {
+        "p50": 18.341041499981657,
+        "p95": 26.65244639994926,
+        "p99": 31.570127480070813
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 5,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 33.1,
+          "peak_summed_rss_mib": 438.078125
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 9.1,
+          "peak_summed_rss_mib": 147.703125
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 210.7,
+          "peak_summed_rss_mib": 10355.734375
+        }
+      },
+      "successful_requests": 878,
+      "cancelled_without_receipt": 878
+    },
+    {
+      "users": 50,
+      "mode": "upload",
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false,
+      "requests": 886,
+      "elapsed_seconds": 20.011489665979752,
+      "requests_per_second": 44.2745650018365,
+      "successful_requests_per_second": 4.347502432460243,
+      "error_rate": 0.9018058690744921,
+      "rate_limited": 799,
+      "p50_ms": 3.6383745027706027,
+      "p95_ms": 81.35901049536187,
+      "p99_ms": 90.60030630062101,
+      "queue_p95_ms": 2.9479477379936725,
+      "status_counts": {
+        "201": 87,
+        "429": 799
+      },
+      "success_latency_ms": {
+        "p50": 81.61595900310203,
+        "p95": 92.94888759031892,
+        "p99": 99.50278748641723
+      },
+      "end_to_end_ms": {
+        "p50": 4.1303540201624855,
+        "p95": 81.67737525945995,
+        "p99": 90.60907871462405
+      },
+      "queue_ms": {
+        "p50": 0.006437505362555385,
+        "p95": 2.9479477379936725,
+        "p99": 8.66110444330841
+      },
+      "retrieval_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "generation_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "first_token_ms": {
+        "p50": null,
+        "p95": null,
+        "p99": null
+      },
+      "peak_connections_including_monitor": 5,
+      "resources": {
+        "app": {
+          "peak_summed_cpu_percent": 27.1,
+          "peak_summed_rss_mib": 450.828125
+        },
+        "postgres": {
+          "peak_summed_cpu_percent": 5.5,
+          "peak_summed_rss_mib": 158.796875
+        },
+        "model_or_child": {
+          "peak_summed_cpu_percent": 36.5,
+          "peak_summed_rss_mib": 10427.46875
+        }
+      },
+      "successful_requests": 87,
+      "cancelled_without_receipt": 0
+    }
+  ],
+  "total_requests": 6819,
+  "total_errors": 2474
+}

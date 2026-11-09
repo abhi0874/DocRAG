@@ -23,7 +23,7 @@ Python is used for setup helpers and evaluation utilities. No Python server exis
 | `make db-status` | Checks whether this checkout’s native server is running. |
 | `make eval` | Runs the reviewed 100-question evaluator against the isolated corpus; writes ignored eval/results/latest.json. |
 | `make eval-gate` | Compares baseline.json with latest.json; rejects incompatible data or recall@5/faithfulness drops greater than 0.02. |
-| `make load` | Fails clearly; reserved for STEP 10. |
+| `make load RUN_ID=step10-UNIQUE` | Isolated local sustained load harness; see STEP 10 section below. |
 
 Native PostgreSQL was selected by the user. No Docker targets or volume deletion
 are used. Both `make stop` and `make down` preserve `.local/postgres`.
@@ -1318,3 +1318,33 @@ under the no-push instruction; it is not a required remote-green condition for
 local Step 9 completion. Never push merely to trigger CI. Workflow/source checks,
 local commands, actual container tests and the full evaluation must all pass before
 writing a Step 9 completion report. See [CI](CI.md) and [TESTING](TESTING.md).
+
+## STEP 10 — local sustained performance testing
+
+Audit STEP 9 source/evidence, native database ownership, Ollama0.40.9 and both
+lib/local-model-config.json digests first. Never infer native identity from Docker
+health. Shared-service recovery requires explicit permission; do not use make up
+to recover an existing cluster because it applies schema SQL. Retain historical
+results and select a new run ID for each invocation.
+
+```sh
+make db-status
+make load RUN_ID=step10-UNIQUE
+# For independent coverage collection at the final committed harness revision:
+mkdir -p .local/coverage-step10-UNIQUE
+export COVERAGE_FILE="$PWD/.local/coverage-step10-UNIQUE/.coverage"
+export COVERAGE_RCFILE=.coveragerc.integration
+.venv/bin/python -m coverage run -m scripts.load_test --run-id step10-UNIQUE
+.venv/bin/python -m coverage run -m scripts.verify_observability --run-id step10-final-UNIQUE
+env -u COVERAGE_RCFILE -u COVERAGE_FILE make cov
+make cov-integration-gate
+```
+
+The two load commands above are alternatives; never reuse a run ID. Full verifier
+freezes source hashes and stops on any failure. Do not edit implementation during
+the run. Keep raw audit nonzero codes and rejected runs. No paid provider calls.
+Use LOAD_TESTING.md for six workloads, two-model-call cap, ramp/hold/drain, resource
+guards, telemetry validation, quota effects and interpretation limits. All50 VUs
+are active/queued; this does not imply50 simultaneous model generations.
+Do not change security limits or shared Ollama settings to improve benchmark scores.
+No STEP 11, remote Actions, push, PR or deployment is authorized by these commands.

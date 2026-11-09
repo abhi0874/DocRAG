@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": {
+    "id": true,
+    "started": true,
+    "mounts": true,
+    "bindings": true,
+    "running": true
+  },
+  "scope": "Bounded sustained-c load window only; no attribution of historical restarts"
+}

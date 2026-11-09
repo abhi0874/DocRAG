@@ -1,0 +1,11 @@
+{
+  "date_local": "2026-11-08",
+  "status": "FAIL",
+  "ollama_expected": "0.40.9",
+  "ollama_observed": "0.40.14",
+  "native_db_status": "stopped",
+  "make_db_status_exit": 2,
+  "prior_verification": "step10-final-a, 27/27 PASS; historical execution before interruption",
+  "services_modified_on_resume": false,
+  "pending": "Authorized prerequisite restoration, sustained load pass, final regression/coverage acceptance and local evidence commit"
+}

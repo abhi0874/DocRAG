@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "native_identity": "docrag_dev, owned cluster,55433",
+  "native_start_only": true,
+  "initialization_or_migration_on_recovery": false,
+  "ollama_version": "0.40.9",
+  "binding": "127.0.0.1:11434",
+  "cloud_disabled": true,
+  "frozen_model_digests_matched": 2,
+  "host_container_connectivity": "PASS",
+  "switch_safety": {
+    "other_active_chats": 0,
+    "unavailable_hosts": 0,
+    "established_connections_in_three_observations": 0,
+    "observation_interval_seconds": 5,
+    "parent_pid": 22097,
+    "parent_identity": "shared Codex host, also parent of current inspection",
+    "parent_untouched": true,
+    "repomind_web_server_untouched": true
+  },
+  "runtime_install_or_model_download": false
+}
