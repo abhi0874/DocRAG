@@ -1,3 +1,4 @@
+import {rejectDemoWrite} from '@/lib/demo-access'
 import {currentTrace,measure,tokenCount} from '@/lib/observability/context'
 import {providerName,localSettings} from '@/lib/provider-config'
 import modelConfig from '@/lib/model-config.json'
@@ -30,6 +31,7 @@ async function handleGET(req:Request){
 async function handlePOST(req:Request){
   let release:(()=>void)|undefined
   try{
+    rejectDemoWrite()
     checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('evaluation',userId)
     const {documentId,question}=await jsonBody(req,evaluationInput)
     const snapshot=await measure('authorization',()=>documentSnapshot(documentId,userId))

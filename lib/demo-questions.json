@@ -1,0 +1,402 @@
+[
+  {
+    "documentId": 3,
+    "question": "In FastAPI, what Python value does item_id: int receive for /items/3?"
+  },
+  {
+    "documentId": 3,
+    "question": "How should FastAPI routes /users/me and /users/{user_id} be ordered so that me is not interpreted as a user ID?"
+  },
+  {
+    "documentId": 3,
+    "question": "How can a FastAPI path parameter be restricted to a predefined set of string values?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which FastAPI route syntax lets file_path contain slashes?"
+  },
+  {
+    "documentId": 3,
+    "question": "What happens when /items/foo is requested for a FastAPI path parameter declared item_id: int?"
+  },
+  {
+    "documentId": 3,
+    "question": "In the FastAPI query-parameter tutorial, what skip and limit values apply to /items/?skip=20?"
+  },
+  {
+    "documentId": 3,
+    "question": "How is a query parameter made required in FastAPI without supplying a default value?"
+  },
+  {
+    "documentId": 3,
+    "question": "For short: bool in the FastAPI query tutorial, how are short=1, short=on, and short=yes interpreted?"
+  },
+  {
+    "documentId": 3,
+    "question": "In a URL query string, what introduces the query and what separates its key-value pairs?"
+  },
+  {
+    "documentId": 3,
+    "question": "What value does FastAPI supply for q: str | None = None when q is omitted?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which Pydantic base class does the FastAPI request-body tutorial use to define a JSON data model?"
+  },
+  {
+    "documentId": 3,
+    "question": "In the Request Body tutorial Item model, which fields must be present and which can be omitted?"
+  },
+  {
+    "documentId": 3,
+    "question": "Why does the FastAPI request-body tutorial discourage sending a body with GET?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which Pydantic method does the Request Body tutorial call to turn the received Item into a dictionary?"
+  },
+  {
+    "documentId": 3,
+    "question": "How does FastAPI classify parameters in the example update_item(item_id: int, item: Item, q: str | None = None) at /items/{item_id}?"
+  },
+  {
+    "documentId": 3,
+    "question": "If both a return annotation and response_model are declared in FastAPI, which controls the response model?"
+  },
+  {
+    "documentId": 3,
+    "question": "How does the FastAPI UserIn/UserOut example prevent a returned password from reaching the client?"
+  },
+  {
+    "documentId": 3,
+    "question": "What FastAPI decorator setting disables automatic response-model generation?"
+  },
+  {
+    "documentId": 3,
+    "question": "What does response_model_exclude_unset=True do to fields that were not explicitly supplied?"
+  },
+  {
+    "documentId": 3,
+    "question": "With response_model_exclude_unset=True, is an explicitly supplied value omitted merely because it equals its default?"
+  },
+  {
+    "documentId": 3,
+    "question": "Should an HTTPException be returned or raised inside a FastAPI endpoint?"
+  },
+  {
+    "documentId": 3,
+    "question": "What response does the Handling Errors tutorial return for a nonexistent item?"
+  },
+  {
+    "documentId": 3,
+    "question": "Must FastAPI HTTPException detail be a string?"
+  },
+  {
+    "documentId": 3,
+    "question": "How does FastAPI register a handler for a custom exception class?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which HTTPException class should a FastAPI handler be registered for to catch exceptions from Starlette internals too?"
+  },
+  {
+    "documentId": 3,
+    "question": "When using Depends(common_parameters), should common_parameters be called immediately?"
+  },
+  {
+    "documentId": 3,
+    "question": "Can a FastAPI async endpoint use a normal def dependency, and can a normal endpoint use an async dependency?"
+  },
+  {
+    "documentId": 3,
+    "question": "How can Annotated reduce repeated dependency declarations across FastAPI endpoints?"
+  },
+  {
+    "documentId": 3,
+    "question": "Are FastAPI dependency parameters and validation requirements included in OpenAPI?"
+  },
+  {
+    "documentId": 3,
+    "question": "What does FastAPI inject into the endpoint parameter associated with a dependency function?"
+  },
+  {
+    "documentId": 3,
+    "question": "How should a FastAPI /users/me endpoint coexist with /users/{user_id} while allowing an omitted q query parameter?"
+  },
+  {
+    "documentId": 3,
+    "question": "For a FastAPI route with a predefined model-name path value and a Pydantic JSON body, how can I restrict that path value and convert the received body to a dictionary?"
+  },
+  {
+    "documentId": 3,
+    "question": "In the Request Body Item example, if tax is absent is the request invalid, and how should an endpoint reject a nonexistent item with an HTTP error?"
+  },
+  {
+    "documentId": 3,
+    "question": "For a FastAPI endpoint accepting a request body and returning a user record, why prefer POST over GET and how can the response omit a password present in the returned object?"
+  },
+  {
+    "documentId": 3,
+    "question": "I want to share pagination parameters between FastAPI endpoints. How can a dependency be reused, and what default limit does the Query Parameters tutorial use when only skip=20 is sent?"
+  },
+  {
+    "documentId": 3,
+    "question": "How can FastAPI run a shared resource check before an endpoint, and stop the request if the check reports a missing resource?"
+  },
+  {
+    "documentId": 3,
+    "question": "How can several FastAPI endpoints reuse the same dependency annotation while ensuring a returned UserIn password is excluded from their public output?"
+  },
+  {
+    "documentId": 3,
+    "question": "For a FastAPI endpoint that accepts short=yes and has both a return annotation and response_model, how is short parsed and which declaration controls the output?"
+  },
+  {
+    "documentId": 3,
+    "question": "For /files/{file_path} where the value may include slashes, how can FastAPI capture the full path and reuse a dependency annotation across file endpoints?"
+  },
+  {
+    "documentId": 3,
+    "question": "If needy: str has no default, why does omitting it fail in FastAPI, and which exception class can a custom validation handler target?"
+  },
+  {
+    "documentId": 3,
+    "question": "What exact uvicorn command configures four worker processes for a FastAPI deployment?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which CORSMiddleware settings allow cookies from https://example.org in FastAPI?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which JWT signing algorithm and token expiry does the FastAPI OAuth2 password tutorial configure?"
+  },
+  {
+    "documentId": 3,
+    "question": "What maximum upload size in bytes does the FastAPI UploadFile tutorial recommend?"
+  },
+  {
+    "documentId": 3,
+    "question": "How do I configure a FastAPI lifespan handler to load a model once at startup?"
+  },
+  {
+    "documentId": 3,
+    "question": "Which FastAPI BackgroundTasks method schedules an email after the response?"
+  },
+  {
+    "documentId": 3,
+    "question": "What Kubernetes readiness-probe YAML does the FastAPI deployment guide recommend?"
+  },
+  {
+    "documentId": 3,
+    "question": "What is the FastAPI WebSocket disconnect-handling example?"
+  },
+  {
+    "documentId": 3,
+    "question": "What request rate limit per minute does FastAPI recommend for a public API?"
+  },
+  {
+    "documentId": 3,
+    "question": "How does the FastAPI testing guide override a dependency during a test?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does atomic mean for a PostgreSQL transaction in the tutorial?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which SQL commands delimit a PostgreSQL transaction block?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does ROLLBACK do instead of COMMIT in the transaction tutorial?"
+  },
+  {
+    "documentId": 4,
+    "question": "What happens to successful standalone SQL statements if BEGIN is not explicitly issued in PostgreSQL?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does ROLLBACK TO a savepoint discard and preserve?"
+  },
+  {
+    "documentId": 4,
+    "question": "Does CHECK (price > 0) by itself prohibit NULL prices in PostgreSQL?"
+  },
+  {
+    "documentId": 4,
+    "question": "What changes when NULLS NOT DISTINCT is used with a PostgreSQL unique constraint?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does a PostgreSQL primary key require of its columns, and what index is created?"
+  },
+  {
+    "documentId": 4,
+    "question": "Does declaring a PostgreSQL foreign key automatically index its referencing columns?"
+  },
+  {
+    "documentId": 4,
+    "question": "How does ON DELETE CASCADE affect rows referencing a deleted row in PostgreSQL?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which index type does PostgreSQL CREATE INDEX use by default?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which comparison is supported by PostgreSQL Hash indexes?"
+  },
+  {
+    "documentId": 4,
+    "question": "Why are PostgreSQL GIN indexes appropriate for values such as arrays?"
+  },
+  {
+    "documentId": 4,
+    "question": "What data layout makes PostgreSQL BRIN indexes most effective?"
+  },
+  {
+    "documentId": 4,
+    "question": "Can a PostgreSQL B-tree support both equality and range conditions?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which PostgreSQL 16 index types support multiple key columns?"
+  },
+  {
+    "documentId": 4,
+    "question": "What is the default maximum number of columns in a PostgreSQL index, including INCLUDE columns?"
+  },
+  {
+    "documentId": 4,
+    "question": "For a PostgreSQL B-tree index on (a, b, c), which conditions narrow the scan for WHERE a = 5 AND b >= 42 AND c < 77?"
+  },
+  {
+    "documentId": 4,
+    "question": "Does PostgreSQL multicolumn GIN search effectiveness depend on using the first indexed column?"
+  },
+  {
+    "documentId": 4,
+    "question": "When does the multicolumn-index guide say separate BRIN indexes are needed instead of one multicolumn BRIN index?"
+  },
+  {
+    "documentId": 4,
+    "question": "What is an aggregate function in the PostgreSQL tutorial?"
+  },
+  {
+    "documentId": 4,
+    "question": "Why is WHERE temp_lo = max(temp_lo) invalid in the PostgreSQL aggregate example?"
+  },
+  {
+    "documentId": 4,
+    "question": "How does the PostgreSQL tutorial find cities whose low temperature equals the maximum low temperature?"
+  },
+  {
+    "documentId": 4,
+    "question": "How do WHERE and HAVING differ in PostgreSQL aggregate queries?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does FILTER change when attached to one aggregate in PostgreSQL?"
+  },
+  {
+    "documentId": 4,
+    "question": "Why is Hayward absent from the PostgreSQL tutorial inner join of weather and cities?"
+  },
+  {
+    "documentId": 4,
+    "question": "What does a left outer join put in right-table columns for an unmatched left-table row?"
+  },
+  {
+    "documentId": 4,
+    "question": "Why does the PostgreSQL joins tutorial recommend qualifying column names with table names?"
+  },
+  {
+    "documentId": 4,
+    "question": "What is a self join, and why does the PostgreSQL example use w1 and w2?"
+  },
+  {
+    "documentId": 4,
+    "question": "How do results of the tutorial explicit JOIN ... ON syntax compare with its older comma-separated FROM ... WHERE equivalent?"
+  },
+  {
+    "documentId": 4,
+    "question": "For a PostgreSQL product-price update workflow, how can I reject NULL or nonpositive prices and ensure a group of updates is all-or-nothing?"
+  },
+  {
+    "documentId": 4,
+    "question": "A PostgreSQL table has PRIMARY KEY (a, b). What index and null restrictions result, and which column is most important for narrowing its B-tree scan?"
+  },
+  {
+    "documentId": 4,
+    "question": "For PostgreSQL range queries on two ordered columns, can a Hash index be used, and how should a multicolumn B-tree constrain its scan?"
+  },
+  {
+    "documentId": 4,
+    "question": "For a PostgreSQL table with several array columns, what makes GIN relevant and must a query constrain the first column of a multicolumn GIN index?"
+  },
+  {
+    "documentId": 4,
+    "question": "For physically ordered PostgreSQL data, why consider BRIN and when choose separate BRIN indexes over one multicolumn BRIN index?"
+  },
+  {
+    "documentId": 4,
+    "question": "In the PostgreSQL weather/cities examples, how can unmatched weather rows be retained before grouping readings by city and filtering groups by maximum low temperature?"
+  },
+  {
+    "documentId": 4,
+    "question": "Why can an inner join omit a weather row for an unknown city, and what constraint can prevent future non-null city references to nonexistent cities?"
+  },
+  {
+    "documentId": 4,
+    "question": "In a PostgreSQL transaction, how can I keep earlier changes while undoing later ones, then filter grouped results based on an aggregate?"
+  },
+  {
+    "documentId": 4,
+    "question": "PostgreSQL creates a B-tree for a primary key. Besides enforcing key uniqueness, which equality/range operators can make that index relevant for lookups?"
+  },
+  {
+    "documentId": 4,
+    "question": "How can the PostgreSQL weather example join the table to itself without ambiguous instance names and then calculate a single result over multiple joined rows?"
+  },
+  {
+    "documentId": 4,
+    "question": "What autovacuum_vacuum_scale_factor value should be used for a high-churn PostgreSQL table?"
+  },
+  {
+    "documentId": 4,
+    "question": "What shared_buffers setting does PostgreSQL recommend for a server with 48 GB RAM?"
+  },
+  {
+    "documentId": 4,
+    "question": "What PostgreSQL commands configure streaming replication to a standby server?"
+  },
+  {
+    "documentId": 4,
+    "question": "What pg_dump command creates a custom-format backup and how is it restored?"
+  },
+  {
+    "documentId": 4,
+    "question": "What PostgreSQL recovery_target_time configuration is needed for point-in-time recovery?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which pg_hba.conf authentication method should be configured for SCRAM password authentication?"
+  },
+  {
+    "documentId": 4,
+    "question": "What is the default deadlock_timeout setting in PostgreSQL 16?"
+  },
+  {
+    "documentId": 4,
+    "question": "Which pgvector HNSW ef_search setting gives the best recall for 1536-dimensional embeddings?"
+  },
+  {
+    "documentId": 4,
+    "question": "How can PostgreSQL CREATE POLICY restrict rows to their owning user?"
+  },
+  {
+    "documentId": 4,
+    "question": "What SQL creates a logical replication publication and subscription in PostgreSQL?"
+  }
+]

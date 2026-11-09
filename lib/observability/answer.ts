@@ -1,3 +1,4 @@
+import {demoEnabled,demoSettings} from '../demo-config'
 import {createHash} from 'node:crypto'
 import type {TextStreamPart,ToolSet} from 'ai'
 import {elapsed,tokenCount,type Trace,type AnswerReceipt} from './context'
@@ -11,7 +12,7 @@ import {stableHash} from '../response-cache'
 
 export function answerMetadata(trace:Trace|undefined,snapshot:DocumentSnapshot,messages:RagUIMessage[],sources:RetrievedChunk[],version:string){
   if(!trace)return null
-  trace.provider=providerName();trace.model=trace.provider==='ollama'?localSettings().chat:modelConfig.chat
+  trace.provider=providerName();trace.model=trace.provider==='ollama'?localSettings().chat:demoEnabled()?demoSettings().model:modelConfig.chat
   const part=messages.length===1&&messages[0].role==='user'&&messages[0].parts.length===1?messages[0].parts[0]:null
   const hash=part?.type==='text'?stableHash(part.text.trim()):null
   const publicQuestionHash=snapshot.isPublic&&trace.provider==='ollama'&&

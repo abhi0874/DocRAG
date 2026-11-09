@@ -1,3 +1,4 @@
+import {demoEnabled,demoDatabaseUrl} from './demo-config'
 import local from './local-model-config.json'
 
 export function providerName(): 'gemini' | 'ollama' {
@@ -22,6 +23,7 @@ export function localSettings() {
 }
 
 export function databaseConnection() {
+  if(demoEnabled()) return demoDatabaseUrl()
   if (providerName() === 'gemini') return process.env.DATABASE_URL
   // Local mode can never use the Gemini application or evaluation database.
   const value = process.env.OLLAMA_DATABASE_URL

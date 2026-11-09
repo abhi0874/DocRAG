@@ -24,4 +24,9 @@ def configuration(version):
     config["application_file_hashes"].update(
         {p: sha256((ROOT / p).read_bytes()) for p in FILES}
     )
+    from eval.deployment_gate import ADDED
+
+    config["application_file_hashes"].update(
+        {p: sha256((ROOT / p).read_bytes()) for p in ADDED}
+    )
     return config

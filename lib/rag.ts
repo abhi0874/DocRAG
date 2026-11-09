@@ -1,3 +1,5 @@
+import {demoEnabled,demoSettings,normalizeDemoEmbedding} from './demo-config'
+import {demoGoogle} from './demo-provider'
 import { google, type GoogleEmbeddingModelOptions } from '@ai-sdk/google'
 import { embed, embedMany } from 'ai'
 import { retrieve } from './retrieval'
@@ -6,10 +8,11 @@ import modelConfig from './model-config.json'
 import { localSettings, providerName } from './provider-config'
 import { localEmbeddings, ollamaLanguageModel } from './ollama'
 
-// Google Gemini latest models (free tier, no credit card needed).
-// gemini-embedding-2 outputs 1536 dims to match the vector(1536) column.
-export const EMBEDDING_MODEL = google.embedding(modelConfig.embedding)
-export const CHAT_MODEL = providerName() === 'ollama' ? ollamaLanguageModel() : google(modelConfig.chat)
+// Legacy model configuration is preserved; cloud demo uses a separate embedding space.
+const cloud = demoEnabled() ? demoSettings() : null
+const cloudGoogle = cloud ? demoGoogle() : null
+export const EMBEDDING_MODEL = cloudGoogle ? cloudGoogle.embedding(cloud!.embedding.model) : google.embedding(modelConfig.embedding)
+export const CHAT_MODEL = providerName() === 'ollama' ? ollamaLanguageModel() : cloudGoogle ? cloudGoogle(cloud!.model) : google(modelConfig.chat)
 export const EMBEDDING_DIMENSIONS = providerName() === 'ollama'
   ? localSettings().embeddingDimensions : modelConfig.embeddingDimensions
 
@@ -34,6 +37,7 @@ export interface RetrievedChunk {
 /** Batch-embed chunk contents. Order is preserved. */
 export async function embedChunks(contents: string[]): Promise<number[][]> {
   if (providerName() === 'ollama') return (await localEmbeddings(contents, 'document')).embeddings
+  if(cloud) throw new Error('Cloud indexing requires the separate public corpus bootstrap')
   const allEmbeddings: number[][] = []
   // Embed in batches to stay under provider limits
   const BATCH = 100
@@ -68,6 +72,7 @@ export async function hybridSearch(
     ? { embedding: (await localEmbeddings([query], 'query')).embeddings[0] }
     : await embed({
     model: EMBEDDING_MODEL,
+    ...(cloud ? {maxRetries:0,abortSignal:AbortSignal.timeout(cloud.timeoutMs)} : {}),
     value: query,
     providerOptions: {
       google: {
@@ -76,7 +81,7 @@ export async function hybridSearch(
       } satisfies GoogleEmbeddingModelOptions,
     },
   })
-    return embedding
+    return cloud ? normalizeDemoEmbedding(embedding) : embedding
   }, observer, userId)
 }
 

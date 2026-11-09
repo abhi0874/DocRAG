@@ -1,3 +1,4 @@
+import {admitDemoQuestion} from '@/lib/demo-access'
 import {currentTrace,measure} from '@/lib/observability/context'
 import {answerMetadata,cachedAnswer,observeAnswer} from '@/lib/observability/answer'
 import {observed} from '@/lib/observability/http'
@@ -33,6 +34,7 @@ async function handlePOST(req: Request) {
   const question = lastUser?.parts.filter(p => p.type === 'text').map(p => p.text).join(' ') ?? ''
   const snapshot = await measure('authorization',()=>documentSnapshot(documentId,userId))
   if (!snapshot) {responseCache.invalidateDocument(documentId); return Response.json({error: 'Document unavailable'}, {status: 404})}
+  await admitDemoQuestion(snapshot,messages,userId)
   req.signal.throwIfAborted()
   releaseWork=acquireWork()
   const selection = await measure('retrieval',()=>selectContext(question, documentId, 6, undefined, undefined, timing=>{if(trace)Object.assign(trace.timings,timing)}, userId))

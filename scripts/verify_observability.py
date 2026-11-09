@@ -21,6 +21,9 @@ def main():
     parser.add_argument(
         "--run-id", default=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     )
+    parser.add_argument(
+        "--deployment", action="store_true", help="STEP 11 local compatibility gate"
+    )
     args = parser.parse_args()
     if not args.run_id.replace("-", "").isalnum():
         raise ValueError("Invalid verification run name")
@@ -72,6 +75,12 @@ def main():
         py + "scripts.security_audit",
         "git diff --check",
     ]
+    if args.deployment:
+        commands[22] = (
+            py + "eval.deployment_gate --baseline "
+            "eval/results/observability/step10-final-c/evaluation.json "
+            f"--candidate {result_relative}/evaluation.json"
+        )
     paths = (
         subprocess.check_output(
             ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],

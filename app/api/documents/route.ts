@@ -1,3 +1,4 @@
+import {rejectDemoWrite} from '@/lib/demo-access'
 import {observed} from '@/lib/observability/http'
 import {desc, sql} from 'drizzle-orm'
 import {db} from '@/lib/db'
@@ -25,6 +26,7 @@ async function handleGET(req:Request){
 async function handlePOST(req:Request){
   let release:(()=>void)|undefined
   try{
+    rejectDemoWrite()
     checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('upload',userId);release=acquireWork()
     const {bytes,filename}=await readPdf(req)
     const {pages,totalPages}=await parsePdf(bytes)
