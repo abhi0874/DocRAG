@@ -25,7 +25,7 @@ export function DemoWorkspace(){
       {error&&<p role="alert">The demo is unavailable or its quota is full. Wait a minute before trying again. No automatic retry is performed.</p>}
     </section>
     <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-      <div className="min-h-96 min-w-0 flex-1"><ChatPanel messages={messages} status={status} disabled documentTitle="Public documentation" onSend={()=>{}} onStop={stop} onCitationClick={i=>setActive(i)}/></div>
+      <div className="min-h-96 min-w-0 flex-1"><ChatPanel messages={messages} status={status} disabled sampleOnly documentTitle="Public documentation" onSend={()=>{}} onStop={stop} onCitationClick={i=>setActive(i)}/></div>
       <aside className="border-t lg:w-85 lg:border-l"><SourcesPanel sources={sources} activeIndex={active}/></aside>
     </div>
   </main>

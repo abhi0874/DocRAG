@@ -12,6 +12,7 @@ interface ChatPanelProps {
   status: string
   disabled: boolean
   documentTitle: string | null
+  sampleOnly?: boolean
   onSend: (text: string) => void
   onStop: () => Promise<void>
   onCitationClick: (index: number, messageId: string) => void
@@ -50,6 +51,7 @@ export function ChatPanel({
   status,
   disabled,
   documentTitle,
+  sampleOnly = false,
   onSend,
   onStop,
   onCitationClick,
@@ -86,7 +88,7 @@ export function ChatPanel({
             </span>
             <div>
               <p className="text-sm font-medium">
-                {documentTitle
+                {sampleOnly ? 'Choose a public sample question above' : documentTitle
                   ? `Ask anything about "${documentTitle}"`
                   : 'Select or upload a document to start'}
               </p>
@@ -158,7 +160,7 @@ export function ChatPanel({
             submit()
           }}
         >
-          <textarea
+          {!sampleOnly && <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -181,16 +183,16 @@ export function ChatPanel({
             disabled={disabled}
             aria-label="Chat message"
             className="min-h-16 flex-1 resize-none rounded-md border border-input bg-card px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
-          />
+          />}
           {(status==='streaming'||status==='submitted')&&<button type="button" className="h-10 rounded-md border border-border px-4 text-sm" onClick={async()=>{setStopError(false);try{await onStop()}catch{setStopError(true)}}}>Stop response</button>}
-          <button
+          {!sampleOnly && <button
             type="submit"
             disabled={disabled || status !== 'ready' || !input.trim()}
             className="flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             Send
             <CornerDownLeft className="size-3.5" aria-hidden="true" />
-          </button>
+          </button>}
         </form>
         {stopError&&<p role="alert">The response could not be stopped. Please retry.</p>}
       </div>
