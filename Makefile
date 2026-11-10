@@ -65,6 +65,6 @@ local-validate-results:
 # Run the documented real integration sequence under coverage first.
 # Unit-only make cov remains a separately reported measurement.
 cov-integration-gate:
-	$(PYTHON) -m coverage combine --rcfile=.coveragerc.integration --keep
-	$(PYTHON) -m coverage report --rcfile=.coveragerc.integration --fail-under=70
-	$(PYTHON) -m coverage json --rcfile=.coveragerc.integration -o coverage/python-integration.json
+	$(PYTHON) -m coverage combine --rcfile=.coveragerc.integration --append --keep
+	$(PYTHON) -m coverage report --rcfile=.coveragerc.integration --keep-combined --fail-under=70
+	$(PYTHON) -m coverage json --rcfile=.coveragerc.integration --keep-combined -o coverage/python-integration.json
