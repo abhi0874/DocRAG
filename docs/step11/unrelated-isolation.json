@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "before_equals_after": true,
+  "container": "text-to-sql-db-1",
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "ExitCode": 0,
+    "StartedAt": "2026-11-09T13:04:55.675081678Z",
+    "FinishedAt": "2026-11-09T14:08:54.976700844Z"
+  },
+  "restart_count": 0,
+  "scope": "Compared identity, lifecycle, mounts, ports and restart policy; no database inspection or service action"
+}

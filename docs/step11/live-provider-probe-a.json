@@ -1,0 +1,34 @@
+{
+  "provenance": "fresh live Gemini standard API",
+  "startedAt": "2026-11-09T20:51:01.875Z",
+  "generation": {
+    "model": "gemini-3.5-flash-lite",
+    "nonempty": true,
+    "errors": 0,
+    "latencyMs": 1177.491583,
+    "firstTokenMs": 1122.511542,
+    "usage": {
+      "inputTokens": 18,
+      "inputTokenDetails": {
+        "noCacheTokens": 18,
+        "cacheReadTokens": 0
+      },
+      "outputTokens": 21,
+      "outputTokenDetails": {
+        "textTokens": 21,
+        "reasoningTokens": 0
+      },
+      "totalTokens": 39
+    }
+  },
+  "embedding": {
+    "model": "gemini-embedding-001",
+    "dimensions": 1536,
+    "norm": 1.0000000000000002,
+    "latencyMs": 707.2523330000001,
+    "usage": {
+      "tokens": null
+    }
+  },
+  "status": "PASS"
+}

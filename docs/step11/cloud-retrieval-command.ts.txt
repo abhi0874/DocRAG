@@ -1,0 +1,33 @@
+import {readFile,writeFile} from 'node:fs/promises'
+import {embedMany} from 'ai'
+import {demoGoogle} from '../lib/demo-provider'
+import {demoSpace,normalizeDemoEmbedding} from '../lib/demo-config'
+import {verifyDemoSpace} from '../lib/demo-access'
+import {retrieve} from '../lib/retrieval'
+import {retrievalDefault} from '../lib/retrieval-config'
+import {pool} from '../lib/db'
+import questions from '../lib/demo-questions.json'
+async function main(){
+ await verifyDemoSpace()
+ const golden=(await readFile('eval/golden_set.jsonl','utf8')).trim().split('\n').map(s=>JSON.parse(s))
+ const vectors:number[][]=[]
+ for(let i=0;i<golden.length;){
+  const batch:string[]=[];let bytes=0
+  while(i<golden.length&&bytes+Buffer.byteLength(golden[i].question)<=8000){bytes+=Buffer.byteLength(golden[i].question);batch.push(golden[i++].question)}
+  const result=await embedMany({model:demoGoogle().embedding(demoSpace.model),values:batch,maxRetries:0,abortSignal:AbortSignal.timeout(45000),providerOptions:{google:{taskType:'RETRIEVAL_QUERY',outputDimensionality:1536}}})
+  vectors.push(...result.embeddings.map(normalizeDemoEmbedding))
+  if(i<golden.length)await new Promise(r=>setTimeout(r,32000))
+ }
+ await writeFile('.local/step11-query-vectors-a.json',JSON.stringify(vectors),{flag:'wx'})
+ const rows=[]
+ for(let i=0;i<golden.length;i++){
+  const doc=questions.find(q=>q.question===golden[i].question)
+  if(!doc)throw new Error('Unknown public question')
+  const start=performance.now()
+  const ranked=await retrieve(golden[i].question,doc.documentId,10,retrievalDefault,async()=>vectors[i])
+  rows.push({id:golden[i].id,type:golden[i].type,relevant_source_ids:golden[i].relevant_source_ids,ranked_chunks:ranked,sqlRetrievalMs:performance.now()-start})
+ }
+ await writeFile('docs/step11/cloud-retrieval-a.json',JSON.stringify({provenance:'fresh Gemini query embeddings and SQL retrieval; no generated answers',space:demoSpace,rows},null,2)+'\n',{flag:'wx'})
+ console.log('Cloud retrieval measured100 questions; acceptance metrics pending')
+}
+main().catch(()=>{console.error('Cloud retrieval failed; details withheld');process.exitCode=1}).finally(()=>pool.end())

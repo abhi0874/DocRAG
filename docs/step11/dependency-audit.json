@@ -1,0 +1,22 @@
+{
+  "status": "PASS under existing reviewed policy; not zero findings",
+  "command": ".venv/bin/python -m scripts.security_audit",
+  "exit_code": 0,
+  "javascript_raw_exit": 1,
+  "javascript_advisories": [
+    {
+      "id": "GHSA-67mh-4wv8-2f99",
+      "package": "esbuild",
+      "severity": "moderate"
+    },
+    {
+      "id": "GHSA-g3hv-75wg-m249",
+      "package": "minimatch",
+      "severity": "moderate"
+    }
+  ],
+  "python_raw_exit": 0,
+  "reranker_raw_exit": 0,
+  "reachability_review": "docs/SECURITY.md; tooling paths, not production request input",
+  "log": ".local/step11-resumed-verification-a/25.log"
+}

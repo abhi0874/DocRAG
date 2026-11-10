@@ -1,0 +1,13 @@
+{
+  "command": "make cov",
+  "exit_code": 0,
+  "statements": {
+    "covered": 1142,
+    "total": 1747,
+    "percent": 65.36
+  },
+  "branches_percent": 64.12,
+  "functions_percent": 58.28,
+  "lines_percent": 67.53,
+  "scope": "V8 unit coverage of configured lib/API/components; no invented whole-project threshold"
+}

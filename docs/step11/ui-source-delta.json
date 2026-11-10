@@ -1,0 +1,23 @@
+{
+  "evaluation_snapshot_changed_files": [
+    "components/app-header.tsx",
+    "components/chat-panel.tsx",
+    "components/demo-workspace.tsx"
+  ],
+  "rag_provider_prompt_cache_auth_and_evaluation_sources_unchanged": true,
+  "source_hashes": {
+    "components/app-header.tsx": "c49a3a84c3c957328ddc24e6c2b41356bf41e1c0a2386f4bf9b97e8f9c46c113",
+    "components/chat-panel.tsx": "901f52cb2791d893a33be7d8ccff03fdf3bf1cfbde4ae696505ae214199327ec",
+    "components/demo-workspace.tsx": "f0551e205842e453e01d4558e025f9060f46a7de8be51317010e0e34ee5e8fd3"
+  },
+  "checks": {
+    "lint": 0,
+    "test": 0,
+    "build": 0,
+    "docker_build": 0
+  },
+  "test_counts": {
+    "python": 218,
+    "typescript": 242
+  }
+}

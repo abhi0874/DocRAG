@@ -1,0 +1,47 @@
+{
+  "source_commit": "71ce85d",
+  "changed_from_evaluation": {
+    "scripts/demo_live_probe.ts": "b265191b562930ca458d25787e0d892497df8e86a8bacc43220e3cb2dc84a099",
+    "components/app-header.tsx": "c49a3a84c3c957328ddc24e6c2b41356bf41e1c0a2386f4bf9b97e8f9c46c113",
+    "components/chat-panel.tsx": "901f52cb2791d893a33be7d8ccff03fdf3bf1cfbde4ae696505ae214199327ec",
+    "components/demo-workspace.tsx": "f0551e205842e453e01d4558e025f9060f46a7de8be51317010e0e34ee5e8fd3"
+  },
+  "scope": "Three UI files plus live-probe receipt preflight; evaluated application/provider hashes unchanged",
+  "commands": [
+    {
+      "command": "make lint",
+      "exit_code": 0,
+      "log": ".local/step11-lint-final-a.log"
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "python_passed": 218,
+      "typescript_passed": 242,
+      "log": ".local/step11-test-ui-a.log"
+    },
+    {
+      "command": "make build-fe",
+      "exit_code": 0,
+      "log": ".local/step11-build-ui-a.log"
+    },
+    {
+      "command": "env -u COVERAGE_RCFILE -u COVERAGE_FILE make cov",
+      "exit_code": 0,
+      "log": ".local/step11-cov-ui-a.log"
+    },
+    {
+      "command": "node --import tsx scripts/demo_live_probe.ts",
+      "exit_code": 1,
+      "expected_exit": 1,
+      "result": "PASS negative replay check; existing receipt preserved; no model request"
+    },
+    {
+      "command": "eval.deployment_gate against step10-final-c and step11-final-a",
+      "exit_code": 0,
+      "result": "PASS unchanged .02 gates after UI repair"
+    }
+  ],
+  "browser_receipt": "browser-ui-recheck.json",
+  "container_receipt": "container-ui-recheck.json"
+}

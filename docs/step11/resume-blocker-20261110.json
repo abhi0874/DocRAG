@@ -1,0 +1,48 @@
+{
+  "observed_at_utc": "2026-11-10T04:15:21.016566+00:00",
+  "head": "9cc80bc",
+  "status": "BLOCKED_PREREQUISITES",
+  "completed_contract_groups": 20,
+  "total_contract_groups": 27,
+  "local_evaluation_progress": 12,
+  "local_evaluation_total": 100,
+  "local_evaluation_provenance": "12 completed fresh answer/judge rows reported; interrupted, no completion/gate accepted",
+  "fresh_individual_checks": {
+    "python_tests": 218,
+    "typescript_tests": 242,
+    "lint_exit": 0,
+    "production_build_final_exit": 0,
+    "security_http_exit": 0,
+    "security_http_checks": 66,
+    "observability_http_exit": 0,
+    "observability_assertions": 138,
+    "container_exit": 0,
+    "container_checks": 26,
+    "bootstrap_exit": 0,
+    "cloud_retrieval_exit": 0,
+    "dependency_policy_exit": 0
+  },
+  "failures_retained": [
+    "Initial build exit2: Google Fonts access",
+    "Second build exit2: Turbopack internal port denied; third fresh-directory build passed",
+    "Initial live probe exit1: CommonJS top-level await compile failure, before any API call; repaired probe passed",
+    "Initial cloud metric summary exit1: unanswerable None values; corrected using existing aggregate convention",
+    "Browser review interrupted by usage limit; final answer/citation UI not observed",
+    "Resume: host11434 and demo8006 connection refused; make db-status exit2; Docker socket absent"
+  ],
+  "current_checks": {
+    "ollama": "ConnectionRefusedError",
+    "demo": "ConnectionRefusedError",
+    "native_postgres": "pg_ctl no server running",
+    "docker": "daemon socket absent",
+    "evaluation_process": "not found"
+  },
+  "service_stop_cause": "unknown; no attribution",
+  "recovery_actions_performed": false,
+  "publication": "NOT DEPLOYED; no push",
+  "confirmations": [
+    "pending",
+    "pending",
+    "pending"
+  ]
+}

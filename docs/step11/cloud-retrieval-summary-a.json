@@ -1,0 +1,13 @@
+{
+  "questions": 100,
+  "answerable_denominator": 80,
+  "metrics": {
+    "recall@3": 0.93125,
+    "recall@5": 0.96875,
+    "recall@10": 0.99375
+  },
+  "local_historical_recall5": 0.975,
+  "recall5_difference": -0.006249999999999978,
+  "interpretation": "Separate embedding space; fresh query embeddings and SQL only. Not answer faithfulness or a completed local regression gate.",
+  "metric_definition": "Existing eval.metrics.recall_at_k; None for unanswerable cases excluded as in existing aggregate"
+}

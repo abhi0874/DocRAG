@@ -1304,6 +1304,15 @@ old coverage data and choose a fresh ignored collection directory for another
 independent revision. TypeScript coverage is separately reported without inventing
 a new whole-project guarantee.
 
+Coverage.py 7.14+ reporting also combines parallel files. The integration Make
+target uses `combine --append --keep` and `report/json --keep-combined`: repeated
+reports must retain both the accumulated measurement and original process files.
+Without these options, an interim report can consume inputs and a later combine
+can replace earlier measurements. Never combine historical STEP9/10 data into a
+fresh STEP11 claim. See STEP11 coverage-recovery evidence and the official
+[combine](https://coverage.readthedocs.io/en/latest/commands/cmd_combine.html) and
+[report](https://coverage.readthedocs.io/en/latest/commands/cmd_report.html) docs.
+
 CI's real PostgreSQL checks are `node --import tsx scripts/ci_migrations.ts` then
 `node --import tsx scripts/ci_retrieval.ts`, with privately supplied
 `CI_DATABASE_URL` targeting an isolated `docrag_ci`. No inference key is needed.
@@ -1355,3 +1364,31 @@ Container coverage is required in this collection; the full native verifier alon
 is insufficient for the70% gate. The container helper preserves an unrelated
 service in its observed running/healthy or stopped state; never start it solely
 to satisfy tests. Keep its ID/configuration/lifecycle snapshot unchanged.
+
+## STEP 11 preparation (not permission to publish)
+
+Read DEPLOYMENT.md and docs/step11 evidence. Use the pinned Node runtime. Keep
+DOCRAG_DEPLOYMENT unset/local for every existing Ollama regression command.
+
+```sh
+make lint
+make test
+make build-fe
+make cov
+.venv/bin/python -m scripts.verify_observability --deployment --run-id step11-UNIQUE
+```
+
+The --deployment flag selects the explicit STEP11 local compatibility declaration
+against STEP10's accepted result, preserving the old gates and .02 thresholds.
+Commit measured source before the full evaluation; use a fresh run ID. Browser,
+container and provider-specific/cloud retrieval checks remain separate requirements.
+Do not call the complete sequence PASS from isolated command results.
+
+The live probe entrypoint is `node --import tsx scripts/demo_live_probe.ts` with
+private demo environment supplied only to that process. It refuses unconfirmed
+billing, uses public text, records one streaming generation and one embedding, and
+never retries automatically. Its exclusive output path must be changed to a new
+run name before a second completed measurement. Public-corpus bootstrap is
+`node --import tsx scripts/demo_bootstrap.ts`; it requires explicit isolated-database
+and corpus-egress authorization, confirmed billing and a verified empty target.
+It is not a safe generic migration command for existing databases.

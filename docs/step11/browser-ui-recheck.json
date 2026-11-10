@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "mechanism": "existing CUA in-app browser; production Next.js server on8006",
+  "repair": "Header wraps at narrow widths; sample-only demo no longer shows misleading disabled free-text composer",
+  "measurements": [
+    {
+      "viewport_width": 390,
+      "document_scroll_width": 390,
+      "body_scroll_width": 390,
+      "sign_in_right": 85.9921875,
+      "textarea_count": 0
+    },
+    {
+      "viewport_width": 320,
+      "document_scroll_width": 320,
+      "body_scroll_width": 320
+    }
+  ],
+  "viewport_override_reset": true,
+  "additional_model_calls": 0,
+  "previous_failure_preserved": "recovery-20261110.json",
+  "live_answer_and_citation": "Previously verified before UI-only repair; RAG/provider files unchanged"
+}

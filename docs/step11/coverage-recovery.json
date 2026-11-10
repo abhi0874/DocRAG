@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "failure": "report auto-combined/deleted shards; combine without append replaced accumulated data",
+  "unchanged_threshold": 70,
+  "retained_inputs": [
+    {
+      "source": ".local/coverage-step11-a/.coverage",
+      "copy": ".local/coverage-step11-b/.coverage.load-and-resumed",
+      "sha256": "cd49dc0548c4824a629f599a813be16b1fb815dad354154b76f944a5b5f4b196",
+      "provenance": "Fresh STEP11 data only; no historical STEP9/10 measurement"
+    },
+    {
+      "source": ".coverage",
+      "copy": ".local/coverage-step11-b/.coverage.unit-final",
+      "sha256": "97df787ffa7e553de052a4fbcd9a27e679d706c1df48034f5fc13896de717242",
+      "provenance": "Fresh STEP11 data only; no historical STEP9/10 measurement"
+    }
+  ],
+  "lost_collection_remeasured": true,
+  "final_totals": {
+    "covered_lines": 1214,
+    "num_statements": 1706,
+    "percent_covered": 71.16060961313013,
+    "percent_covered_display": "71.16",
+    "missing_lines": 492,
+    "excluded_lines": 0,
+    "percent_statements_covered": 71.16060961313013,
+    "percent_statements_covered_display": "71.16"
+  },
+  "repeated_gate_exit": 0,
+  "repeated_gate_preserves_totals": true,
+  "parallel_inputs_retained": 18,
+  "historical_coverage_reused": false
+}

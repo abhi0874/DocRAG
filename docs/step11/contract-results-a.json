@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "groups": [
+    {
+      "command": "make lint",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/00.log"
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/01.log"
+    },
+    {
+      "command": "pnpm exec vitest run tests/cache-api.test.ts tests/reranker-api.test.ts tests/observability.test.ts",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/02.log"
+    },
+    {
+      "command": "make build-fe",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/03.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.observability_setup",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/04.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_setup --apply-selected",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/05.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_setup --apply-configured",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/06.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_http",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/07.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.observability_http",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/08.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.feedback_to_eval",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/09.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.validate_dataset --require-review",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/10.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/step5-v1.json",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/11.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.prompting_gate --baseline eval/results/reranking-selected.json --candidate eval/results/prompting/grounded-v1.json",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/12.log"
+    },
+    {
+      "command": ".venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py tests/test_security_gate.py tests/test_observability_gate.py",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/13.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.prompt_bytes",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/14.log"
+    },
+    {
+      "command": "node --import tsx eval/recheck_citations.ts",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/15.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.citation_cache_http",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/16.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.cache_http --prompt-version step5-v1 --out .local/observability-verify-step11-final-a/cache-http.json",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/17.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.reranking_smoke --out .local/observability-verify-step11-final-a/streaming.json",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/18.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_invalidation --prompt-version step5-v1 --out .local/observability-verify-step11-final-a/invalidation.json",
+      "exit_code": 0,
+      "log": ".local/observability-verify-step11-final-a/19.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.run_eval --golden eval/golden_set.jsonl --prompting-experiment step5-v1 --out eval/results/observability/step11-final-a/evaluation-raw.json",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/20.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.promote_local --source eval/results/observability/step11-final-a/evaluation-raw.json --out eval/results/observability/step11-final-a/evaluation.json",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/21.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.deployment_gate --baseline eval/results/observability/step10-final-c/evaluation.json --candidate eval/results/observability/step11-final-a/evaluation.json",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/22.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.reranking_integrity --out /Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local/step11-resumed-verification-a/preservation.json",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/23.log"
+    },
+    {
+      "command": ".venv/bin/python -m eval.prompting_report --out /Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local/step11-resumed-verification-a/historical-report.json",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/24.log"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_audit",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/25.log"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log": ".local/step11-resumed-verification-a/26.log"
+    }
+  ],
+  "source_snapshot": "evaluation-source-hashes.json",
+  "resumed_without_manual_splicing": true,
+  "evaluation": {
+    "path": "eval/results/observability/step11-final-a/evaluation.json",
+    "metrics": {
+      "recall@3": 0.95,
+      "recall@5": 0.975,
+      "recall@10": 1.0,
+      "mrr": 0.9729166666666667,
+      "citation_accuracy": 1.0,
+      "citation_supported": 264,
+      "citation_denominator": 264,
+      "faithfulness": 1,
+      "correctness": 0.99,
+      "p50_latency_ms": 5950.1704785,
+      "p95_latency_ms": 12623.2250351,
+      "answerable_count": 80,
+      "unanswerable_count": 20,
+      "tokens_per_query": 6680.56,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 1717.22,
+      "judge_tokens_per_query": 4935.4,
+      "retrieval_p50_latency_ms": 40.66402099999996,
+      "retrieval_p95_latency_ms": 44.491834800000014,
+      "generation_p50_latency_ms": 5900.7542085000005,
+      "generation_p95_latency_ms": 12581.156264899999
+    },
+    "cache": {
+      "embedding_hits": 0,
+      "embedding_misses": 100,
+      "answer_hits": 0,
+      "answer_misses": 100,
+      "judge_hits": 8,
+      "judge_misses": 92
+    }
+  },
+  "regression": {
+    "status": "PASS",
+    "decreases": {
+      "recall@5": "0.000",
+      "faithfulness": "-0.005"
+    },
+    "thresholds": ".02 unchanged",
+    "scope": "Ollama only; not Gemini acceptance"
+  },
+  "scope": "Before subsequent mobile-only UI repair; affected checks rerun separately"
+}

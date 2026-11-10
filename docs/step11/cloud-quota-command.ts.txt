@@ -1,0 +1,16 @@
+import {randomUUID} from 'node:crypto'
+import {consumeLimit} from '../lib/security/limits'
+import {pool} from '../lib/db'
+async function main(){
+ const checks=[]
+ for(const [kind,max] of [['demoUser',2],['demoMinute',4],['demoDay',50]] as const){
+  const identity='verification-'+randomUUID()
+  for(let i=0;i<max;i++)await consumeLimit(kind,identity)
+  let rejected=false
+  try{await consumeLimit(kind,identity)}catch(error){rejected=typeof error==='object'&&error!==null&&'status' in error&&error.status===429}
+  if(!rejected)throw new Error('Quota failed')
+  checks.push({kind,allowed:max,rejectedNext:true})
+ }
+ console.log(JSON.stringify({status:'PASS',checks,scope:'unique verification identities; public/global counters untouched'}))
+}
+main().catch(()=>{console.error('Quota verification failed');process.exitCode=1}).finally(()=>pool.end())

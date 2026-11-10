@@ -1,0 +1,12 @@
+[
+  {
+    "check": "ci_migrations",
+    "exit_code": 0,
+    "scope": "existing isolated docrag_ci; real Linux SQL, no inference calls"
+  },
+  {
+    "check": "ci_retrieval",
+    "exit_code": 0,
+    "scope": "existing isolated docrag_ci; real Linux SQL, no inference calls"
+  }
+]

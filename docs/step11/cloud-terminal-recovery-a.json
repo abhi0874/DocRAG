@@ -1,0 +1,38 @@
+{
+  "recent_public_chat_metrics": [
+    [
+      429,
+      "failed",
+      null,
+      null,
+      null
+    ],
+    [
+      200,
+      "cancelled",
+      "gemini",
+      "gemini-3.5-flash-lite",
+      "BYPASS"
+    ],
+    [
+      403,
+      "failed",
+      null,
+      null,
+      null
+    ],
+    [
+      200,
+      "completed",
+      "gemini",
+      "gemini-3.5-flash-lite",
+      "BYPASS"
+    ]
+  ],
+  "vectors": [
+    162,
+    1536,
+    1536
+  ],
+  "cancelled_gemini_observed": true
+}

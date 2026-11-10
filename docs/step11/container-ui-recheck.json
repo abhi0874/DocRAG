@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "command": "docker compose --env-file .local/step9-compose.env build app",
+      "exit_code": 0
+    },
+    {
+      "command": "docker compose --env-file .local/step9-compose.env up -d --no-deps app",
+      "exit_code": 0
+    }
+  ],
+  "app": "healthy",
+  "database": "healthy",
+  "uid": 1000,
+  "node": "v24.22.1",
+  "health_http": 200,
+  "container_host_ollama": "0.40.9",
+  "unrelated": "text-to-sql-db-1 remains exited and untouched",
+  "earlier_full_container_suite": {
+    "checks": 26,
+    "exit_code": 0,
+    "log": ".local/step11-container-a.log"
+  },
+  "scope": "Final UI image smoke checks; earlier full lifecycle suite retained"
+}

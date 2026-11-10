@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "kind": "demoUser",
+      "allowed": 2,
+      "rejectedNext": true
+    },
+    {
+      "kind": "demoMinute",
+      "allowed": 4,
+      "rejectedNext": true
+    },
+    {
+      "kind": "demoDay",
+      "allowed": 50,
+      "rejectedNext": true
+    }
+  ],
+  "scope": "unique verification identities; public/global counters untouched"
+}

@@ -1,0 +1,38 @@
+{
+  "time": "2026-11-09T20:20:58.596801+00:00",
+  "version": {
+    "version": "0.40.9"
+  },
+  "host_connectivity": true,
+  "native_configured_endpoint": "http://localhost:11434",
+  "native_version": {
+    "version": "0.40.9"
+  },
+  "cloud_disabled": "confirmed in startup log",
+  "models": {
+    "qwen3.8:latest": {
+      "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+      "historical_match": true
+    },
+    "embeddinggemma:300m": {
+      "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+      "historical_match": true
+    }
+  },
+  "container_exit": 0,
+  "container": {
+    "endpoint": "http://host.docker.internal:11434",
+    "version": "0.40.9",
+    "models": [
+      {
+        "name": "embeddinggemma:300m",
+        "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1"
+      },
+      {
+        "name": "qwen3.8:latest",
+        "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163"
+      }
+    ]
+  },
+  "all_pass": true
+}

@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "postgres": {
+    "database": "docrag_chunking_heading_1400_280",
+    "owned": true,
+    "port": 55433,
+    "selected_chunks": 162
+  },
+  "ollama": {
+    "version": "0.40.9",
+    "models": [
+      {
+        "model": "qwen3.8:latest",
+        "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+        "historical_match": true
+      },
+      {
+        "model": "embeddinggemma:300m",
+        "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+        "historical_match": true
+      }
+    ],
+    "host_api": true,
+    "cloud_disabled_at_authorized_startup": true
+  },
+  "demo_vectors": [
+    162,
+    1536,
+    1536
+  ],
+  "containers": [
+    {
+      "name": "docrag-step9-app-1",
+      "id": "371c05513627e6bb149822f611e5f3b7f0d39aea03f8b455ea11aa2fa1e1ee25",
+      "status": "running",
+      "health": "healthy",
+      "started_at": "2026-11-10T15:41:52.10054609Z",
+      "restart_count": 0
+    },
+    {
+      "name": "docrag-step9-db-1",
+      "id": "da1614d67111abcbc2c30b48f0208b266499dd949e14b8a51aa57457984d6bf4",
+      "status": "running",
+      "health": "healthy",
+      "started_at": "2026-11-10T15:41:47.969003504Z",
+      "restart_count": 0
+    },
+    {
+      "name": "text-to-sql-db-1",
+      "id": "aa664cd18a6f540680f5dcf8200e42f58ad107c300203d541ef979ad3db4e688",
+      "status": "exited",
+      "health": "unhealthy",
+      "started_at": "2026-11-09T13:04:55.675081678Z",
+      "restart_count": 0
+    }
+  ],
+  "unrelated_services_controlled": false,
+  "after_coverage_lifecycle_recheck": true,
+  "unrelated_snapshot_still_unchanged": true
+}

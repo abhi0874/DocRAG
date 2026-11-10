@@ -1,3 +1,106 @@
+# STEP 11 COMPLETE — local preparation only — 10 November 2026
+
+12/12 tasks accepted; all three confirmations PASS. Read STEP11_COMPLETE.md for
+scope, commands, provenance and limitations. Source commits9cc80bc,71ce85d,f9f33d8;
+final documentation/evidence belongs to the commit containing this checkpoint.
+
+27/27 contract groups,460 tests,26 container checks and fresh Linux SQL checks
+passed. The100-question local evaluation has100 fresh answers,92 fresh/8 cached
+judgments:Recall@5 .975,faithfulness1.000,correctness.990,citations264/264.
+Regression thresholds remain.02. Python integration coverage71.16% (1214/1706,
+zero exclusions) passes70%; TypeScript statements65.36%. The coverage accumulation
+bug was repaired and verified by repeat gate execution; earlier failures remain.
+
+Owned PostgreSQL55433, preserved Ollama0.40.9/cloud-disabled/both digests and
+DocRAG Docker services passed. Container-host connectivity passed. The unrelated
+text-to-sql container stayed exited and untouched, with matching minimal snapshots.
+Service outage and historical restart causes remain unknown.
+
+Public Gemini streaming/citations/refusal/cancellation/quotas passed. Separate
+162 cloud vectors and100-query retrieval yield Recall@5 .96875; this is not an
+answer-quality benchmark. Billing confirmation is resolved; no linked account.
+Mobile390px/320px layout passes after repair.18 load stages passed:6787 requests,
+2438 HTTP429,zero unexpected errors. Two moderate JS tooling advisories remain
+under the existing reviewed policy; Python/reranker audits pass.
+
+NOT DEPLOYED. Remote GitHub Actions NOT RUN. No cloud resources, push, PR, merge,
+paid API usage or billing activation. STEP12 is NOT AUTHORIZED and NOT STARTED.
+Reinspect live services before later work; these are saved verification results.
+
+## Earlier checkpoints (historical, superseded)
+
+# STEP 11 RECOVERED; VERIFICATION IN PROGRESS — 10 November 2026
+
+The user explicitly authorized service recovery. The owned PostgreSQL cluster,
+preserved loopback/cloud-disabled Ollama0.40.9 (both digests), Docker Desktop and
+DocRAG containers are freshly verified. The unrelated text-to-sql container stayed
+exited and untouched. No database/schema/model reset or software replacement.
+See step11/recovery-20261110.json.
+
+All frozen verification source hashes match. The20 completed contract receipts
+are retained; seven remaining groups resume through the existing evaluator/cache
+logic in .local/step11-resumed-verification-a. No result splicing. Final fresh/cache
+counts and quality gates remain pending; do not claim100 questions complete.
+
+Live public-demo answer/citation navigation, unanswerable refusal, private-text/
+upload/evaluation denials, all three SQL quota caps and cancellation telemetry
+passed after recovery. Mobile390px inspection found header overflow to445px;
+repair waits until the measured source snapshot is released. Interim integration
+coverage57.39% fails the unchanged70% gate; final bounded load coverage is pending.
+No new cloud indexing or large Gemini answer evaluation is needed.
+
+STEP11 remains NOT COMPLETE. All three final confirmations pending. No push,
+public deployment, billing activation or STEP12. Preserve uncommitted work and all
+prior failed/interrupted receipts. Earlier blocked snapshots below are historical.
+
+## Earlier checkpoint
+
+# STEP 11 BLOCKED — 10 November 2026
+
+3/12 task areas have accepted evidence: prior STEP10 prerequisite audit, hosting
+research/design recommendation, and isolated cloud embedding/retrieval measurement.
+Current live prerequisites FAIL; earlier audit success does not establish current
+availability. Source commit9cc80bc is local. All uncommitted implementation,
+documentation and historical evidence remain preserved.
+
+On resume, Ollama11434 and demo8006 refuse connections; owned native PostgreSQL
+reports stopped (make exit2); Docker daemon socket is absent. Evaluation/demo
+processes are not running. Cause unknown. No recovery/service action was taken.
+Stop until authorized prerequisite recovery; do not substitute runtimes or reset data.
+
+Before interruption:218 Python +242 TS tests, lint/build,66 security HTTP checks,
+138 observability assertions and26 container checks passed. The full contract
+completed20/27 groups and reached12/100 fresh local answer/judge cases; it is NOT
+complete. All evaluation gates and final integration coverage remain pending.
+
+Google Cloud screenshots confirmed no linked billing account. Two bounded live
+Gemini probes passed. Explicitly authorized bootstrap indexed162 public chunks in
+new local docrag_demo_gemini_v1, preserving local vectors. Separate100-question
+cloud retrieval:Recall@3 .93125, Recall@5 .96875, Recall@10 .99375 (80 answerable
+cases). No cloud answer-quality evaluation is implied. Browser observed submission
+and loading, not a verified completed answer/citation flow. No public deployment.
+
+See step11/resume-blocker-20261110.json, cloud-retrieval-summary-a.json and
+DEPLOYMENT.md. Three confirmations pending. No push, paid usage, billing activation
+or STEP12. Remaining source/docs are intentionally uncommitted pending verification.
+
+## Earlier STEP 11 checkpoints (historical)
+
+# STEP 11 NOT COMPLETE — 10 November 2026
+
+1/12 tasks accepted: STEP 10 prerequisite audit. All 213 saved source hashes
+match; 27/27 historical verification receipts passed. Fresh owned database status
+and pinned Node pass. Authorized Ollama0.40.9 startup, both digests and host/native/
+container access passed; see docs/step11/ollama-startup-20261110.json (path from repository root).
+
+Stopped at the required Gemini manual gate: project billing-disabled status and
+actual model quotas are unconfirmed. No live Gemini calls or cloud implementation.
+See [task inventory and console instructions](step11/gemini-manual-gate-20261110.md).
+All three STEP 11 confirmations remain pending. No push, deployment, paid API or
+STEP 12. Earlier reports below are historical and do not grant publication authority.
+
+## Previous completed STEP 10 checkpoint
+
 # STEP 10 COMPLETE — 9 November 2026 (Asia/Kolkata)
 
 12/12 tasks and all three local confirmations passed. Fresh final-c:27/27 command

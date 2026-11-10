@@ -1,0 +1,116 @@
+[
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.observability_setup"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/0.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.security_setup",
+      "--apply-selected"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/1.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.security_setup",
+      "--apply-configured"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/2.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.security_http"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/3.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.observability_http"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/4.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.feedback_to_eval"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/5.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.security_invalidation",
+      "--prompt-version",
+      "step5-v1",
+      "--out",
+      "/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local/step11-coverage-recheck/invalidation.json"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/6.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.container_http"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/7.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "scripts.security_audit"
+    ],
+    "exit_code": 0,
+    "log": ".local/step11-coverage-recheck/8.log"
+  }
+]

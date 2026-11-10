@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "scope": "Authorized service recovery only; STEP11 not complete",
+  "head": "9cc80bc",
+  "native_postgres": {
+    "owned_data_directory": "/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local/postgres",
+    "port": 55433,
+    "verified_database": "docrag_chunking_heading_1400_280",
+    "startup_exit": 0
+  },
+  "ollama": {
+    "version": "0.40.9",
+    "host": "127.0.0.1:11434",
+    "cloud_disabled": true,
+    "both_digest_matches": true,
+    "native_connectivity": true,
+    "container_connectivity": true
+  },
+  "docker": {
+    "desktop_started_normally": true,
+    "docrag_app": "healthy",
+    "docrag_db": "healthy",
+    "unrelated_text_to_sql": "exited; untouched",
+    "unrelated_auto_started": []
+  },
+  "evaluation_resume": {
+    "source_hashes_unchanged": true,
+    "prior_passed_groups": 20,
+    "resumed_groups_planned": 7,
+    "manual_result_splicing": false,
+    "cache_provenance": "Tooling reuses qualifying entries; observed answer misses and some judge hits. Final statistics pending."
+  },
+  "browser": {
+    "public_answer": "PASS live",
+    "citation_highlight": "PASS",
+    "mobile": "FAIL: header sign-in link extends to445px at390px viewport; repair pending until measured run finishes"
+  },
+  "cloud_http": {
+    "private_text_denied": 403,
+    "upload_denied": 403,
+    "evaluation_denied": 403,
+    "quota_rejection": 429,
+    "cancelled_gemini_telemetry": true
+  },
+  "paid_usage": false,
+  "push": false,
+  "deployment": false
+}

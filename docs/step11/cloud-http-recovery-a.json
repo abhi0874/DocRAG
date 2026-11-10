@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "path": "/api/chat",
+      "status": 403,
+      "expected": 403,
+      "pass": true
+    },
+    {
+      "path": "/api/documents",
+      "status": 403,
+      "expected": 403,
+      "pass": true
+    },
+    {
+      "path": "/api/evaluations",
+      "status": 403,
+      "expected": 403,
+      "pass": true
+    },
+    {
+      "check": "cancel after first stream frame",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/api/chat",
+      "status": 429,
+      "expected": 429,
+      "pass": true
+    }
+  ],
+  "note": "Cancellation requested; database terminal-accounting verification still required"
+}

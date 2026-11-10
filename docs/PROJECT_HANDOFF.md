@@ -1,3 +1,7 @@
+> Current checkpoint: STEP11 local preparation COMPLETE; see CURRENT_STATUS.md
+> and STEP11_COMPLETE.md. No public deployment or remote Actions. STEP12 is not
+> authorized. Earlier stage-specific boundaries below are historical.
+
 # DocRAG technical handoff
 
 Read [CURRENT_STATUS](CURRENT_STATUS.md) first. This reference is based on source,
@@ -183,3 +187,15 @@ Step 11 deployment and Step 12 finalization remain user-provided future roadmap;
 obtain their detailed instructions before implementing them. No future step is
 scaffolded here. Preserve all local state, run prerequisite checks, use only public
 fixtures, keep costs zero and never push without explicit publication permission.
+
+## STEP 11 continuation — 10 November 2026
+
+The user's later STEP11 instructions supersede earlier “not authorized” snapshots
+for local preparation only. Source commit9cc80bc adds an opt-in public Gemini demo,
+separate embedding-space guards, deterministic mocked provider checks and an
+explicit local deployment comparison gate. It is not a completion commit.
+Read CURRENT_STATUS.md and docs/step11 evidence for current acceptance.
+Google Cloud/AI Studio screenshots now establish no linked billing account and
+Free tier for the selected project. The user separately approved creating only
+an isolated local demo database and embedding162 verified public chunks. Neither
+approval grants publication, paid services or unrelated service changes.

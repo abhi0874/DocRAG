@@ -1,0 +1,23 @@
+{
+  "status": 200,
+  "public_question": "What exact uvicorn command configures four worker processes for a FastAPI deployment?",
+  "answer": "I could not find this in the document.",
+  "validation": [
+    {
+      "valid": true,
+      "kind": "uncited-refusal",
+      "numbers": [],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    }
+  ],
+  "cache": [
+    {
+      "status": "BYPASS",
+      "tokensAvoided": null
+    }
+  ],
+  "provenance": "fresh live public-demo refusal check"
+}

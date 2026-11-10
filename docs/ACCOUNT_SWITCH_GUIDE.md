@@ -1,5 +1,7 @@
-> Latest checkpoint: 9 November 2026. Step 10 is locally complete; remote Actions remains unrun. Read
-> CURRENT_STATUS.md first; read STEP10_COMPLETE.md for final-c evidence and load limits. Do not begin Step 11.
+> Latest checkpoint: 10 November 2026. STEP 11 local preparation and verification
+> are locally complete; STEP 12 and publication are not authorized.
+> Read CURRENT_STATUS.md first. STEP10_COMPLETE.md preserves the accepted
+> historical baseline; remote Actions remains NOT RUN.
 
 # Continue on another Codex account — same Mac
 
@@ -31,8 +33,8 @@ promise subscription transfer or verify the user's reported 9 November expiry.
    Native `make db-status` previously passed on port 55433. Reinspect
    ownership and live status before restoring a stopped service. Do not touch the
    other project's port 55432 or database. No database reset.
-7. Read the final Step 10 report and current status. Await explicit instructions for the next
-   step; do not advance to Step 11 or publish automatically.
+7. Read the final Step 10 report, current STEP 11 evidence and current status.
+   STEP 11 is complete locally; await the next explicit task and do not begin STEP 12 or publish.
 
 Common problems: wrong branch/files usually means the parent folder was opened;
 reopen RAG-Agent without recloning. Wrong Node means the local PATH selection is
@@ -58,7 +60,8 @@ Do not reset/reclone, reset databases, stop unrelated containers, change the
 Node 24.22.1 pin, push, open PRs or deploy. Keep costs zero. Remote GitHub Actions
 remains NOT RUN until explicit publication authorization. Report any difference
 between saved evidence and live state. Do not begin Step 11 without my detailed
-instructions. Stop after three genuine unsuccessful repairs of the same blocker.
+instructions. The later authorized STEP 11 work is recorded in CURRENT_STATUS.md;
+do not begin STEP 12. Stop after three genuine unsuccessful repairs of the same blocker.
 ```
 
 The original account handoff was documentation-only. Step 9 implementation and

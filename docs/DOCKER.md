@@ -73,8 +73,8 @@ DocRAG's app/database and restores them in `finally`. Run it without concurrent
 DocRAG users. It checks the known other project's container identity/start time,
 mounts, ports and health before and after. This proves isolation only within that
 test window. The broader historical restart attribution remains unknown. The
-helper requires that unrelated container already be healthy; if stopped, do not
-start it merely to satisfy this helper. Request service permission before running
+helper preserves an unrelated container that is either healthy/running or exited;
+if stopped, never start it merely to satisfy the helper. Request service permission before running
 the DocRAG restart/outage checks. This fixture assumes test port 8010.
 
 ```sh

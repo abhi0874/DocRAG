@@ -1,0 +1,27 @@
+{
+  "status": "CONFIRMED_BY_USER_SCREENSHOTS",
+  "project": "Default Gemini Project",
+  "project_id": "gen-lang-client-0270320094",
+  "ai_studio_tier": "Free tier",
+  "ai_studio_text": "There is no billing currently set up for this project Default Gemini Project.",
+  "cloud_console_text": [
+    "This project has no billing account",
+    "This project is not linked to a billing account"
+  ],
+  "generation": {
+    "model": "gemini-3.5-flash-lite",
+    "rpm": 15,
+    "tpm": 250000,
+    "rpd": null
+  },
+  "embedding": {
+    "model": "gemini-embedding-001",
+    "rpm": 100,
+    "tpm": 30000,
+    "rpd": null
+  },
+  "quota_provenance": "User reported console observations; RPD not displayed",
+  "billing_changes": false,
+  "screenshots_copied_into_repository": false,
+  "corpus_egress_authorization": "User explicitly approved isolated local database and all162 public chunk embeddings after automatic approval rejection"
+}
