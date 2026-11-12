@@ -169,7 +169,9 @@ completed audit with disclosed residual findings, not a zero-findings result.
   application. Fixed upstream at 0.25.0. Do not expose an esbuild serve process;
   prefer a maintained Drizzle loader update over an untested API-major override.
 - [minimatch GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249):
-  ESLint/tooling transitive versions 3.1.5 and 10.2.5. Fixed at 11.0.1. The advisory
+  The current audit flags ESLint/tooling transitive 10.2.5 (affected range
+  >=7.0.0 and <11.0.1). Installed 3.1.5 is outside this advisory’s affected range.
+  Fixed at 11.0.1. The advisory
   describes attacker-controlled glob preprocessing; DocRAG HTTP input never reaches
   lint glob configuration. Replacing every old callable API with the new major
   would risk breaking tooling. Treat repository/lint configuration as trusted.

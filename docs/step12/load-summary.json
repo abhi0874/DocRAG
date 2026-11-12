@@ -1,0 +1,443 @@
+{
+  "status": "PASS",
+  "purpose": "Fresh STEP12 bounded local load integration coverage; not a cloud or endurance benchmark",
+  "stages": [
+    {
+      "mode": "read",
+      "users": 5,
+      "summary": {
+        "requests": 90,
+        "elapsed_seconds": 20.00131862499984,
+        "requests_per_second": 4.49970332893493,
+        "successful_requests_per_second": 4.49970332893493,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 8.514249959262088,
+        "p95_ms": 16.875639668432996,
+        "p99_ms": 18.354384621488858,
+        "queue_p95_ms": 0.0036475365050137043
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "authentication",
+      "users": 5,
+      "summary": {
+        "requests": 90,
+        "elapsed_seconds": 20.061823249969166,
+        "requests_per_second": 4.486132635035468,
+        "successful_requests_per_second": 4.486132635035468,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 10.008812503656372,
+        "p95_ms": 14.828554319683462,
+        "p99_ms": 15.657392076100223,
+        "queue_p95_ms": 0.008091851486824453
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cached",
+      "users": 5,
+      "summary": {
+        "requests": 90,
+        "elapsed_seconds": 20.006033874989953,
+        "requests_per_second": 4.498642787589762,
+        "successful_requests_per_second": 3.7488689896581344,
+        "error_rate": 0.16666666666666666,
+        "rate_limited": 15,
+        "p50_ms": 33.402875502360985,
+        "p95_ms": 58.39785434945952,
+        "p99_ms": 59.980400414788164,
+        "queue_p95_ms": 0.0037310848711058497
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "streaming",
+      "users": 5,
+      "summary": {
+        "requests": 34,
+        "elapsed_seconds": 20.28294875001302,
+        "requests_per_second": 1.6762848646441595,
+        "successful_requests_per_second": 1.6762848646441595,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 291.09733350924216,
+        "p95_ms": 4796.777354070217,
+        "p99_ms": 5225.03982429218,
+        "queue_p95_ms": 4928.898422911875
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cancellation",
+      "users": 5,
+      "summary": {
+        "requests": 90,
+        "elapsed_seconds": 20.001181625004392,
+        "requests_per_second": 4.499734150080758,
+        "successful_requests_per_second": 2.0998759367043536,
+        "error_rate": 0.5333333333333333,
+        "rate_limited": 48,
+        "p50_ms": 9.78837552247569,
+        "p95_ms": 46.244741161353886,
+        "p99_ms": 47.47073286038358,
+        "queue_p95_ms": 4.0948917274363215
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "upload",
+      "users": 5,
+      "summary": {
+        "requests": 90,
+        "elapsed_seconds": 20.021290250006132,
+        "requests_per_second": 4.495214787666965,
+        "successful_requests_per_second": 1.14877711240378,
+        "error_rate": 0.7444444444444445,
+        "rate_limited": 67,
+        "p50_ms": 5.054333043517545,
+        "p95_ms": 109.9485352053307,
+        "p99_ms": 114.65183098916896,
+        "queue_p95_ms": 0.039481394924223416
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "read",
+      "users": 20,
+      "summary": {
+        "requests": 360,
+        "elapsed_seconds": 20.006615708000027,
+        "requests_per_second": 17.994047831690352,
+        "successful_requests_per_second": 17.994047831690352,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 8.96418749471195,
+        "p95_ms": 13.577772642020136,
+        "p99_ms": 15.026922730030494,
+        "queue_p95_ms": 0.00374997325707227
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "authentication",
+      "users": 20,
+      "summary": {
+        "requests": 360,
+        "elapsed_seconds": 20.003435374994297,
+        "requests_per_second": 17.996908693494987,
+        "successful_requests_per_second": 5.998969564498329,
+        "error_rate": 0.6666666666666666,
+        "rate_limited": 240,
+        "p50_ms": 5.612270993879065,
+        "p95_ms": 9.74675829638727,
+        "p99_ms": 10.436523809912616,
+        "queue_p95_ms": 0.004337233258411289
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cached",
+      "users": 20,
+      "summary": {
+        "requests": 348,
+        "elapsed_seconds": 20.006608875002712,
+        "requests_per_second": 17.394252178079473,
+        "successful_requests_per_second": 13.89540834915544,
+        "error_rate": 0.20114942528735633,
+        "rate_limited": 70,
+        "p50_ms": 31.874520500423387,
+        "p95_ms": 55.572441522963345,
+        "p99_ms": 57.698749722330824,
+        "queue_p95_ms": 0.0026669964427128434
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "streaming",
+      "users": 20,
+      "summary": {
+        "requests": 39,
+        "elapsed_seconds": 32.509170416975394,
+        "requests_per_second": 1.1996614955032896,
+        "successful_requests_per_second": 1.1996614955032896,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 1626.603791024536,
+        "p95_ms": 2893.7491996854083,
+        "p99_ms": 3327.576508953934,
+        "queue_p95_ms": 14276.632796414196
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cancellation",
+      "users": 20,
+      "summary": {
+        "requests": 350,
+        "elapsed_seconds": 20.00622849998763,
+        "requests_per_second": 17.494551759229203,
+        "successful_requests_per_second": 17.494551759229203,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 23.95916701061651,
+        "p95_ms": 44.9424186052056,
+        "p99_ms": 50.115632254746714,
+        "queue_p95_ms": 24.014477143646218
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "upload",
+      "users": 20,
+      "summary": {
+        "requests": 355,
+        "elapsed_seconds": 20.005578749987762,
+        "requests_per_second": 17.74505024005952,
+        "successful_requests_per_second": 2.6992470787696172,
+        "error_rate": 0.847887323943662,
+        "rate_limited": 301,
+        "p50_ms": 4.97491704300046,
+        "p95_ms": 90.76307051000185,
+        "p99_ms": 105.8291813044343,
+        "queue_p95_ms": 0.10721689322963633
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "read",
+      "users": 50,
+      "summary": {
+        "requests": 895,
+        "elapsed_seconds": 20.034259999985807,
+        "requests_per_second": 44.67347433848987,
+        "successful_requests_per_second": 44.67347433848987,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 7.021166966296732,
+        "p95_ms": 11.529354291269552,
+        "p99_ms": 13.55337852379307,
+        "queue_p95_ms": 0.0028329843189567327
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "authentication",
+      "users": 50,
+      "summary": {
+        "requests": 895,
+        "elapsed_seconds": 20.029758333985228,
+        "requests_per_second": 44.68351465236705,
+        "successful_requests_per_second": 5.991085763445862,
+        "error_rate": 0.8659217877094972,
+        "rate_limited": 775,
+        "p50_ms": 3.8494159816764295,
+        "p95_ms": 7.601770607288923,
+        "p99_ms": 9.616662502521647,
+        "queue_p95_ms": 0.0028043403290212137
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cached",
+      "users": 50,
+      "summary": {
+        "requests": 876,
+        "elapsed_seconds": 20.025400791026186,
+        "requests_per_second": 43.74444282745914,
+        "successful_requests_per_second": 31.609854234910543,
+        "error_rate": 0.2773972602739726,
+        "rate_limited": 243,
+        "p50_ms": 28.52262498345226,
+        "p95_ms": 43.82445800001733,
+        "p99_ms": 47.99579175596591,
+        "queue_p95_ms": 0.002260218025185168
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "streaming",
+      "users": 50,
+      "summary": {
+        "requests": 62,
+        "elapsed_seconds": 92.42706175002968,
+        "requests_per_second": 0.670799209950868,
+        "successful_requests_per_second": 0.670799209950868,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 2995.290000020759,
+        "p95_ms": 4828.908154173405,
+        "p99_ms": 5288.983123897924,
+        "queue_p95_ms": 73203.94973958028
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "cancellation",
+      "users": 50,
+      "summary": {
+        "requests": 872,
+        "elapsed_seconds": 20.007312417030334,
+        "requests_per_second": 43.58406475713094,
+        "successful_requests_per_second": 43.58406475713094,
+        "error_rate": 0.0,
+        "rate_limited": 0,
+        "p50_ms": 21.22991648502648,
+        "p95_ms": 31.335326729458757,
+        "p99_ms": 35.847475930931964,
+        "queue_p95_ms": 16.742216728744094
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    },
+    {
+      "mode": "upload",
+      "users": 50,
+      "summary": {
+        "requests": 890,
+        "elapsed_seconds": 20.00719575001858,
+        "requests_per_second": 44.483995214530424,
+        "successful_requests_per_second": 4.098525401788196,
+        "error_rate": 0.9078651685393259,
+        "rate_limited": 808,
+        "p50_ms": 3.6278539628256112,
+        "p95_ms": 84.37955884146504,
+        "p99_ms": 89.47723222547211,
+        "queue_p95_ms": 3.4911126334918596
+      },
+      "validation": {
+        "all_users_attempted": true,
+        "metrics_present": true,
+        "cached_hits": true,
+        "uncached_bypass": true,
+        "cancellation_accounting": true
+      },
+      "aborted": false
+    }
+  ],
+  "total_requests": 6786,
+  "total_rate_limited": 2567,
+  "unexpected_errors": 0,
+  "unexpected_errors_evidence": "Harness PASS requires every stage un-aborted, no non429 failure and every validation true",
+  "process_exit_note": "Completion receipt PASS preserved; original PTY session expired before exit polling"
+}

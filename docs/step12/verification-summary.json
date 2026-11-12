@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "source_revision": "83e13c7e684ecde0dfb13548c0f8eb3c5bec8f66",
+  "source_files_unchanged_from_step11": 224,
+  "full_verifier_frozen_hashes_matched": 227,
+  "contract_groups": 27,
+  "unit_tests": {
+    "python": 218,
+    "typescript": 242,
+    "failed": 0
+  },
+  "additional_negative_gate_tests": 35,
+  "security_http_checks": 66,
+  "security_sql_checks": 27,
+  "observability_assertions": 138,
+  "container_checks": 26,
+  "ci_retrieval_checks": 10,
+  "commands": [
+    {
+      "command": "env -u COVERAGE_FILE -u COVERAGE_RCFILE make cov",
+      "exit_code": 0
+    },
+    {
+      "command": "COVERAGE_FILE=$PWD/.local/coverage-step12-a/.coverage make cov-integration-gate",
+      "exit_code": 0,
+      "coverage": "74.38%;1269/1706;zero exclusions"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.container_http (final-b)",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/bin/python -m eval.reranking_integrity --out .local/step12-preservation-final.json",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/bin/python -m eval.check_regression --baseline eval/results/observability/step11-final-a/evaluation.json --current eval/results/observability/step12-final-a/evaluation.json",
+      "exit_code": 0
+    }
+  ],
+  "prior_failures": [
+    {
+      "check": "first container run",
+      "exit_code": 1,
+      "issue": "private PDF upload500; host and container Ollama ECONNREFUSED; native PostgreSQL also stopped",
+      "resolution": "explicitly authorized preserved service recovery;26/26 retry and final checks passed"
+    },
+    {
+      "check": "interim integration coverage",
+      "exit_code": 2,
+      "coverage": 58.21,
+      "resolution": "completed container and required real load paths;final74.38%;unchanged1706-line denominator"
+    },
+    {
+      "check": "temporary demo launcher",
+      "exit_code": 1,
+      "issue": "missing Python repository module import path",
+      "resolution": "supplied PYTHONPATH; browser checks passed"
+    },
+    {
+      "check": "second live service inspection",
+      "issue": "native PostgreSQL/Ollama stopped; Docker daemon unavailable",
+      "resolution": "explicit two-service and Docker Desktop authorization; final services and26 container checks pass; stop cause unknown"
+    },
+    {
+      "check": "initial secret pattern scan",
+      "exit_code": 1,
+      "issue": "review-only findings in sample/test URL literals, no actual private value match",
+      "resolution": "exact reviewed literal exceptions;final scan passes;initial review retained"
+    }
+  ],
+  "remote_actions": "NOT RUN",
+  "public_deployment": "NOT DONE",
+  "new_gemini_calls": 0
+}

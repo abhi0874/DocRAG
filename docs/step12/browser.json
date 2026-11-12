@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "base_url": "http://127.0.0.1:8006",
+  "scope": "Fresh local production demo UI; no Gemini requests",
+  "checks": [
+    "100 approved sample questions; privacy and limited-capacity disclosure visible",
+    "No API-key field or arbitrary free-text composer",
+    "Unauthenticated Metrics navigation redirects to sign-in",
+    "Browse-public navigation returns to demo",
+    "390px viewport and scroll width both390;320px both320; no horizontal overflow",
+    "No browser console errors observed"
+  ],
+  "historical_live_behavior": "STEP11 cited answer/source navigation, refusal and cancellation receipts retained; not re-executed as fresh Gemini calls",
+  "viewport_override": "reset"
+}

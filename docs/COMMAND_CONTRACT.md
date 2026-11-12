@@ -1,3 +1,10 @@
+> Current precedence: STEP 12 is authorized. Stage-specific commands and permissions
+> below are historical unless explicitly incorporated by the latest task. Use
+> Node **24.22.1**, pnpm **11.25.0**, native DocRAG PostgreSQL **55433**;
+> authenticated endpoints require a valid session. Do not run historical setup,
+> `make up`, live Gemini probes or service changes without their applicable authorization.
+> Final verification follows the STEP 12 section at the end.
+
 # STEP 0 command contract
 
 Run everything from the actual cloned repository root:
@@ -1392,3 +1399,37 @@ run name before a second completed measurement. Public-corpus bootstrap is
 `node --import tsx scripts/demo_bootstrap.ts`; it requires explicit isolated-database
 and corpus-egress authorization, confirmed billing and a verified empty target.
 It is not a safe generic migration command for existing databases.
+
+## STEP 12 final local verification
+
+Audit STEP 11 receipts/source hashes first. Read step12/acceptance.md for the
+three confirmations delegated by the user. No publication is authorized.
+Use a new run ID and coverage directory; preserve prior evidence. Commands actually
+executed for this checkpoint are recorded under step12/ and the ignored logs.
+
+```sh
+COVERAGE_FILE="$PWD/.local/coverage-step12-UNIQUE/.coverage" \
+COVERAGE_RCFILE=.coveragerc.integration \
+.venv/bin/python -m coverage run -m scripts.verify_observability --deployment --run-id step12-UNIQUE
+# Only after service ownership and lifecycle authorization checks:
+COVERAGE_FILE="$PWD/.local/coverage-step12-UNIQUE/.coverage" \
+COVERAGE_RCFILE=.coveragerc.integration \
+.venv/bin/python -m coverage run -m scripts.container_http
+env -u COVERAGE_FILE -u COVERAGE_RCFILE make cov
+COVERAGE_FILE="$PWD/.local/coverage-step12-UNIQUE/.coverage" make cov-integration-gate
+.venv/bin/python -m eval.check_regression \
+  --baseline eval/results/observability/step11-final-a/evaluation.json \
+  --current eval/results/observability/step12-UNIQUE/evaluation.json
+```
+
+The full verifier includes lint, tests, production build, real security/observability,
+citation/cache negative controls, streaming/cancellation, 100-question evaluation,
+compatibility/numerical gates, preservation, audits and diff checks. Container,
+real Linux migration/retrieval CI, browser, service identity, client-secret and
+Git/history scans are separate requirements. A coverage failure remains a failure;
+collect missing real integration paths without narrowing the denominator. The
+bounded load suite is justified only if required for this coverage collection.
+Service recovery without source changes requires the affected runtime/integration
+checks, not a second costly evaluation solely to replace already valid results.
+No Gemini live calls are needed when unchanged source, saved live receipts and
+fresh mocked failure-path checks adequately cover the final review.

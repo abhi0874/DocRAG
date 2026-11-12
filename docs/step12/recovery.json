@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "changes": [
+    "Started existing DocRAG PostgreSQL 16 on loopback55433",
+    "Started preserved Ollama0.40.9 on loopback11434 with OLLAMA_NO_CLOUD=1"
+  ],
+  "previous_service_stop_cause": "unknown",
+  "ollama_version": "0.40.9",
+  "models": [
+    {
+      "name": "qwen3.8:latest",
+      "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+      "historical_match": true
+    },
+    {
+      "name": "embeddinggemma:300m",
+      "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+      "historical_match": true
+    }
+  ],
+  "databases": [
+    {
+      "space": "local",
+      "vectors": 162,
+      "dimensions": 768,
+      "owned_native_cluster": true
+    },
+    {
+      "space": "demo",
+      "vectors": 162,
+      "dimensions": 1536,
+      "owned_native_cluster": true
+    }
+  ],
+  "container_to_host": "PASS",
+  "cloud_disabled_log_confirmed": true
+}

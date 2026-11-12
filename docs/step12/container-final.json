@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "checks": [
+    "anonymous metrics",
+    "anonymous upload",
+    "bad origin",
+    "sign in",
+    "session persisted",
+    "sign in",
+    "session persisted",
+    "private PDF upload",
+    "cross-user document",
+    "streaming chat",
+    "feedback up",
+    "feedback down",
+    "feedback ownership",
+    "owned metrics",
+    "cancelled stream has one terminal metric and no answer receipt",
+    "expired session rejected",
+    "repeat migration preserves embeddings",
+    "session survives app restart",
+    "DB outage fails closed",
+    "recovery after DB restart",
+    "graceful shutdown; unrelated database unchanged",
+    "persistent session after full restart",
+    "sign out",
+    "logout replay",
+    "sign out",
+    "logout replay"
+  ],
+  "check_count": 26,
+  "fixture_documents_retained": [
+    11
+  ],
+  "paid_api_charges_inr": 0
+}

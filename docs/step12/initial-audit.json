@@ -1,0 +1,59 @@
+{
+  "status": "NOT_COMPLETE",
+  "head": "83e13c7e684ecde0dfb13548c0f8eb3c5bec8f66",
+  "branch": "feat/production-rag",
+  "initial_worktree": "clean",
+  "remote_matches_expected_repository": true,
+  "step11_audit": {
+    "source_hashes_matched": 224,
+    "contract_receipts_passed": 27,
+    "missing_command_logs": 0,
+    "unit_test_log_counts": {
+      "python": 218,
+      "typescript": 242
+    },
+    "container_checks": 26,
+    "evaluation_integrity_validator": "PASS",
+    "questions": 100,
+    "fresh_answers": 100,
+    "fresh_judgments": 92,
+    "cached_judgments": 8,
+    "metrics": {
+      "recall5": 0.975,
+      "faithfulness": 1.0,
+      "correctness": 0.99,
+      "supported_citations": 264,
+      "citation_denominator": 264
+    },
+    "interpretation": "Saved execution evidence independently inspected; not fresh STEP12 integration execution"
+  },
+  "fresh_checks": {
+    "make_lint_exit": 0,
+    "make_test_exit": 0,
+    "python_passed": 218,
+    "typescript_passed": 242,
+    "failures": 0,
+    "native_database_status_exit": 0,
+    "native_owned_port": 55433,
+    "ollama_version": "0.40.9",
+    "both_expected_model_digests_match": true,
+    "container_to_host_ollama": "PASS",
+    "docrag_containers": "healthy",
+    "unrelated_container": "exited; untouched",
+    "selected_local_vectors": {
+      "count": 162,
+      "dimensions": 768
+    },
+    "isolated_cloud_vectors": {
+      "count": 162,
+      "dimensions": 1536
+    }
+  },
+  "blocker": "No STEP12 confirmation1/2/3 definitions found in repository; user explicitly prohibits inventing them. Clarification requested.",
+  "pending": "Fresh full contract/evaluation, production/security/browser/CI checks, final audits, portfolio evidence and final documentation/commits",
+  "service_changes": false,
+  "inference_api_calls": 0,
+  "push": false,
+  "deployment": false,
+  "billing_changes": false
+}

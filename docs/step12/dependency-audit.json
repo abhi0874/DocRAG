@@ -1,0 +1,35 @@
+{
+  "status": "PASS under existing reviewed residual-risk policy; not zero vulnerabilities",
+  "command": ".venv/bin/python -m scripts.security_audit",
+  "exit_code": 0,
+  "raw_exits": {
+    "javascript": 1,
+    "python": 0,
+    "reranker": 0
+  },
+  "advisories": [
+    {
+      "package": "esbuild",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+      "affected_versions": "<=0.24.2",
+      "patched_versions": ">=0.25.0",
+      "installed_affected_versions": [
+        "0.18.20"
+      ]
+    },
+    {
+      "package": "minimatch",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+      "affected_versions": ">=7.0.0 <11.0.1",
+      "patched_versions": ">=11.0.1",
+      "installed_affected_versions": [
+        "10.2.5"
+      ]
+    }
+  ],
+  "reachability": "esbuild0.18.20 only through legacy Drizzle CLI loader, absent from all fresh production dependency traces; no esbuild dev server invoked. minimatch10.2.5 dev-only lint glob input, not user HTTP input.3.1.5 is installed but outside this specific advisory range.",
+  "fix_assessment": "Known fixes require esbuild>=0.25.0 and minimatch>=11.0.1. No verified drop-in compatible update for pinned legacy loader/old lint APIs; retain exact lockfile rather than risky transitive-major override. Reassess on dependency/tooling changes.",
+  "official_advisories_rechecked": true
+}

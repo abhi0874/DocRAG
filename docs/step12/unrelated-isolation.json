@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "container": "text-to-sql-db-1",
+  "historical_lifecycle_times_unchanged": true,
+  "still_exited": true,
+  "restart_count_unchanged": true,
+  "explicit_actions": "none",
+  "lifecycle_suite": "compares full identity/lifecycle/mounts/ports/restart-policy snapshots before and after DocRAG actions;26 checks passed"
+}

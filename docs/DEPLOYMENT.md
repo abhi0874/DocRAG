@@ -2,7 +2,8 @@
 
 This is local preparation, not permission to publish. STEP 11 local preparation and its three confirmations passed;
 see STEP11_COMPLETE.md for exact verified scope and retained limitations. Remote
-GitHub Actions has not run. No STEP 12 is authorized.
+GitHub Actions has not run. STEP 12 final verification is authorized; publication
+and cloud provisioning still require separate explicit authorization.
 
 ## Architecture and budget
 
@@ -14,12 +15,13 @@ paid features are enabled. Do not add a payment method, paid disk or subscriptio
 
 | Option | Assessment |
 |---|---|
-| Render Free Docker | Preserves Node24.22.1 and the existing Node Route Handlers/streaming server. Services sleep after15 idle minutes; waking can take about a minute. Filesystem is ephemeral, free disk persistence unavailable.750 free instance hours are shared per workspace; usage/network/build limits and suspension remain operational risks. No availability promise. |
+| Render Free Docker | Preserves Node24.22.1 and the existing Node Route Handlers/streaming server. Services sleep after15 idle minutes; waking can take about a minute. Filesystem is ephemeral, free disk persistence unavailable.750 free instance hours are shared per workspace; usage/network/build limits and suspension remain operational risks. No availability promise; intended as a hobby/recruiter preview, not a production SLA. |
 | Neon Free | PostgreSQL/pgvector; currently1GB storage and100 CU-hours per project/month. Idle compute scales down. Keep a separate demo database, verified TLS and small client pool. Do not replace Better Auth with Neon Auth. |
 | Vercel Hobby | Attractive Next.js integration, but the supported Node major receives automatic minor/patch updates, conflicting with this project's exact24.22.1 pin. Hobby personal/noncommercial restrictions also need project-specific assessment. Not selected. |
 | Railway/Fly | Usage credits/trials or metered pricing do not establish a durable ₹0 deployment for this app. Not selected. |
 
-Official sources checked during preparation: [Render Free](https://render.com/docs/free),
+Official sources checked during preparation (Render Free and Neon pricing rechecked
+during STEP 12): [Render Free](https://render.com/docs/free),
 [Docker](https://render.com/docs/docker), [Blueprint fields](https://render.com/docs/blueprint-spec),
 [Neon pricing](https://neon.com/pricing), [pooling](https://neon.com/docs/connect/connection-pooling),
 [pgvector](https://neon.com/docs/extensions/pgvector),

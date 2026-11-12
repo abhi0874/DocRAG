@@ -5,7 +5,8 @@ links citations back to their sources. It combines vector and PostgreSQL full-te
 search with reciprocal rank fusion. Private libraries use authentication and
 server-side ownership checks.
 
-**Status:** STEPS 0–11 are locally complete, including deployment preparation.
+**Status:** STEPS 0–12 are locally complete, including final release-readiness
+verification. See [STEP 12 evidence](docs/STEP12_COMPLETE.md).
 There is no public deployment. Remote GitHub Actions has not
 run. See [current status](docs/CURRENT_STATUS.md) for accepted evidence and blockers.
 
@@ -57,5 +58,5 @@ See [load testing](docs/LOAD_TESTING.md).
 [Deployment preparation](docs/DEPLOYMENT.md) proposes Render Free Docker, Neon Free
 and Gemini's standard free tier, subject to verified account/region/quota limits.
 A budget of ₹0 is mandatory. The review-only blueprint does not authorize creating
-resources or publishing. Push, deployment, billing and STEP 12 require separate
-explicit authorization.
+resources or publishing. STEP 12 local verification is complete; push, deployment
+and billing remain outside that authorization.

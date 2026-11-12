@@ -1,0 +1,14 @@
+[
+  {
+    "check": "ci_migrations",
+    "exit_code": 0,
+    "log": ".local/step12-ci_migrations.log",
+    "scope": "Dedicated docrag_ci; real Linux SQL, no inference calls"
+  },
+  {
+    "check": "ci_retrieval",
+    "exit_code": 0,
+    "log": ".local/step12-ci_retrieval.log",
+    "scope": "Dedicated docrag_ci; real Linux SQL, no inference calls"
+  }
+]

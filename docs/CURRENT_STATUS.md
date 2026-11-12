@@ -1,3 +1,56 @@
+# STEP 12 COMPLETE — local release readiness — 12 November 2026
+
+21/21 tasks and confirmations1/2/3 PASS. See STEP12_COMPLETE.md and step12/ for
+commands, preserved failures, source hashes, provenance and limitations.
+27/27 groups,460 unit tests,26 container checks and local CI-equivalent checks pass.
+Python integration coverage74.38%; TypeScript statements65.36%.100 fresh answers/
+query embeddings,37 fresh and63 cached judgments:Recall@5 .975,faithfulness1.000,
+correctness.985,citations265/265. The.005 correctness decrease is documented.
+
+Ollama0.40.9/cloud-off/digests, owned native PostgreSQL55433 and DocRAG containers
+pass after explicitly authorized recovery. Unrelated container remains exited and
+untouched; outage causes unknown.18 bounded load stages pass:6786 requests,
+2567 quota rejections,zero unexpected failures;50-user queue p95 73.204s,cap2.
+Two reviewed moderate JS tooling advisories remain; Python/reranker audits pass.
+
+Source83e13c7 remains unchanged; this checkpoint adds only reviewed documentation
+and public evidence. Local completion is subject to the containing commit's final
+clean-status check. No push, public deployment, remote Actions, PR, merge, cloud
+resources, paid usage or billing activation. Further publication/deployment needs
+explicit authorization. Reinspect live services before future work.
+
+## Historical STEP12 checkpoints — superseded
+
+# STEP 12 IN PROGRESS — confirmation criteria authorized
+
+The user delegated definition of STEP12 confirmations1/2/3. Acceptance criteria
+are recorded in step12/acceptance.md: application correctness/security;
+reproducible verification/operations; documentation/release scope/Git safety.
+The previous missing-definition blocker is resolved. STEP12 remains NOT COMPLETE.
+Fresh full verification and final audits are pending. No publication is authorized.
+
+## Earlier STEP12 initial audit
+
+# STEP 12 AUTHORIZED — initial audit complete, acceptance definitions pending
+
+The user's later STEP12 request supersedes earlier authorization boundaries below.
+STEP12 is NOT COMPLETE. Initial checkout was clean at83e13c7 onfeat/production-rag.
+Independent audit matched224 STEP11 source hashes, all27 passing saved command
+receipts and their logs,460 saved tests,26 container checks and validated the
+100-question result/provenance. No material result discrepancy was found in this
+initial audit. Fresh STEP12 lint and460 unit tests pass; service/digest/database
+ownership and separate768/1536-dimensional vector checks pass. No service changes,
+model calls, push, deployment or billing action occurred.
+
+No repository definitions of STEP12 confirmations1/2/3 were found. The user
+explicitly prohibits inventing these definitions; clarification is pending.
+Do not declare STEP12 complete or release ready. Remaining fresh full integration,
+evaluation/security/browser/CI checks and final documentation/portfolio/Git work
+are pending. See step12/initial-audit.json. Earlier completion claims below apply
+only to STEP11's authorized local scope, not STEP12.
+
+## Historical STEP 11 checkpoint
+
 # STEP 11 COMPLETE — local preparation only — 10 November 2026
 
 12/12 tasks accepted; all three confirmations PASS. Read STEP11_COMPLETE.md for

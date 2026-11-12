@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "scope": "Read-only verification after second explicitly authorized recovery; no model requests",
+  "paid_api_charges_inr": 0,
+  "ollama_version": "0.40.9",
+  "models": [
+    {
+      "name": "qwen3.8:latest",
+      "digest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+      "match": true
+    },
+    {
+      "name": "embeddinggemma:300m",
+      "digest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+      "match": true
+    }
+  ],
+  "cloud_disabled": true,
+  "database_spaces": [
+    {
+      "space": "local",
+      "vectors": 162,
+      "dimensions": 768,
+      "native_owned_cluster": true,
+      "migration_count": 2
+    },
+    {
+      "space": "demo",
+      "vectors": 162,
+      "dimensions": 1536,
+      "native_owned_cluster": true,
+      "migration_count": 2
+    }
+  ],
+  "container_host_connectivity": "PASS",
+  "container_health_readiness": "PASS",
+  "unrelated": {
+    "name": "text-to-sql-db-1",
+    "id": "aa664cd18a6f540680f5dcf8200e42f58ad107c300203d541ef979ad3db4e688",
+    "status": "exited",
+    "started_at": "2026-11-09T13:04:55.675081678Z",
+    "finished_at": "2026-11-09T14:08:54.976700844Z",
+    "restart_count": 0,
+    "explicit_actions": "none"
+  },
+  "docRAG_containers": [
+    "docrag-step9-app-1 Up About a minute (healthy)",
+    "docrag-step9-db-1 Up About a minute (healthy)"
+  ]
+}

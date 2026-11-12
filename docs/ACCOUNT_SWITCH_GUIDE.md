@@ -1,5 +1,5 @@
-> Latest checkpoint: 10 November 2026. STEP 11 local preparation and verification
-> are locally complete; STEP 12 and publication are not authorized.
+> Latest checkpoint: STEP 12 final local verification is complete; see STEP12_COMPLETE.md.
+> STEP 11 is locally complete; publication is not authorized.
 > Read CURRENT_STATUS.md first. STEP10_COMPLETE.md preserves the accepted
 > historical baseline; remote Actions remains NOT RUN.
 
@@ -34,7 +34,8 @@ promise subscription transfer or verify the user's reported 9 November expiry.
    ownership and live status before restoring a stopped service. Do not touch the
    other project's port 55432 or database. No database reset.
 7. Read the final Step 10 report, current STEP 11 evidence and current status.
-   STEP 11 is complete locally; await the next explicit task and do not begin STEP 12 or publish.
+   STEP 12 is complete locally. Read its current status before
+   continuing; no push or publication is authorized.
 
 Common problems: wrong branch/files usually means the parent folder was opened;
 reopen RAG-Agent without recloning. Wrong Node means the local PATH selection is
@@ -59,9 +60,9 @@ accepted step10-final-c evaluation and its cached-generation provenance.
 Do not reset/reclone, reset databases, stop unrelated containers, change the
 Node 24.22.1 pin, push, open PRs or deploy. Keep costs zero. Remote GitHub Actions
 remains NOT RUN until explicit publication authorization. Report any difference
-between saved evidence and live state. Do not begin Step 11 without my detailed
-instructions. The later authorized STEP 11 work is recorded in CURRENT_STATUS.md;
-do not begin STEP 12. Stop after three genuine unsuccessful repairs of the same blocker.
+between saved evidence and live state. STEP 12 is complete locally; inspect CURRENT_STATUS.md
+and step12/acceptance.md before continuing. Do not publish. Stop after three
+genuine unsuccessful repairs of the same blocker.
 ```
 
 The original account handoff was documentation-only. Step 9 implementation and

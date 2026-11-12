@@ -1,18 +1,14 @@
-> Current checkpoint: STEP11 local preparation COMPLETE; see CURRENT_STATUS.md
-> and STEP11_COMPLETE.md. No public deployment or remote Actions. STEP12 is not
-> authorized. Earlier stage-specific boundaries below are historical.
+> Current checkpoint: STEP 12 local verification is complete; see STEP12_COMPLETE.md.
+> Read CURRENT_STATUS.md and step12/acceptance.md. STEP 11 local preparation passed;
+> public deployment and remote Actions have not run. Earlier boundaries are historical.
 
 # DocRAG technical handoff
 
-Read [CURRENT_STATUS](CURRENT_STATUS.md) first. This reference is based on source,
-saved results and read-only inspection on 6 November 2026 (Asia/Kolkata).
-Steps 0–8 are complete. Step 9 implementation and saved verification are present,
-and final documentation/evidence reconciliation passed on 7 November.
-CURRENT_STATUS.md is authoritative; STEP9_COMPLETE.md records fresh final-e acceptance. No online deployment
-is established. STEP 10 is locally complete; Steps 11–12 are not started or authorized.
-See STEP10_COMPLETE.md, LOAD_TESTING.md and CURRENT_STATUS.md for final evidence.
-The root README is still a starter template; use these documents and the
-[command contract](COMMAND_CONTRACT.md) for actual operation.
+Read [CURRENT_STATUS](CURRENT_STATUS.md) first and the [command contract](COMMAND_CONTRACT.md)
+for actual operation. Steps 0–12 are locally complete. No further publication or
+deployment action is authorized.
+The README documents the current local and public-demo modes. Historical STEP 9–11
+completion records remain preserved. No online deployment is established.
 
 ## Architecture and source map
 
