@@ -1,0 +1,121 @@
+{
+  "historical": "STEP12 integration measurements for byte-identical existing Python sources",
+  "fresh": "Production smoke checks of newly added scripts/publication_smoke.py; initial CA failure and successful run retained",
+  "sources": [
+    {
+      "path": "scripts/__init__.py",
+      "sha256": "944555a874c1678ad3287b0ce9577e846739e83529130e2e7cd00a5b65d55642",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/check_env.py",
+      "sha256": "c04aeb13f790b52f238f1c83a46a7f92cb03c556639bc160478c547787726822",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/common.py",
+      "sha256": "77795dff78c6ddd5bce2174c290fdb9888b82071730908bb09a02bc54e6dc54b",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/container_http.py",
+      "sha256": "5e056142abe1946a5c720911bafd14f394779ff698a6e0623890d8e82afec61e",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/create_account.py",
+      "sha256": "cc9dcc69f3135785c06d324d16d7cba4cceec494ab41a8905856897b7f687db9",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/db_query.py",
+      "sha256": "2321662b7c03f2ea028cee06ebec0e6efc51e8d72292e49e9e0d6569c128388b",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/eval_db_query.py",
+      "sha256": "678b941a0a4856a0d1037a24972d6277234fd63e593c514cf4bb2ed5680e7f82",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/feedback_to_eval.py",
+      "sha256": "9d8470bdbda0bbb812d6ee98d332146a4d680b2d1431168d86b30ba5ff8ee0ca",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/ingest_corpus.py",
+      "sha256": "cd0c3a4953d1ab0dad655c016ab2d94ab2d0753cae8c6556b9653492e50e52d6",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/load_test.py",
+      "sha256": "01a5b17fdfbedc6199d239a8f94803050940c867eb2d64368052b1b4487a620a",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/native_db.py",
+      "sha256": "a118a315e4ac53c586a43c88561a5abbb0d22b6135b7b5bcfa14e75c61e9dd22",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/observability_http.py",
+      "sha256": "12ef7a59ab267160e501c383391b28fa3d61c759ee70d4ee83fa89dcfe913c75",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/observability_setup.py",
+      "sha256": "3507486249bc4c7fc82fd8d9ef69cf93587cb81e777758e70e5dbe4c85d6cc2d",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/reranker_probe.py",
+      "sha256": "500b44476f9041be2f81de007dcee0b2d1bb6ccf80bfd929fbe063f470a24f4a",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/reranker_setup.py",
+      "sha256": "4f13ff4657846ad9f0b5fc0ecca6225f3615cfc4b8abd99be5478a56acba650b",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/reranker_worker.py",
+      "sha256": "a2f51ec0bd59578745bc21fa734d5ee3f2cbd03f996e251e8d5274dcb7d2cf74",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/security_audit.py",
+      "sha256": "b601800ad43cb6b682fcad834d581dec2d7c036154bf72aaf55f7685a645eccf",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/security_http.py",
+      "sha256": "38465ede5c9fbf324a0916c93ddb635a2682cfb8c67729f8243ef098291cb725",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/security_invalidation.py",
+      "sha256": "46b38c06b4a1b22db87f7b7b81bb54c4060d720cedc624cefa753a8e65be2a58",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/security_setup.py",
+      "sha256": "41e6d613ef1812509951884a267b6964b3577900bce14087bc84b28ad387096d",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/snapshot_corpus.py",
+      "sha256": "1714e07998a3bd7ad12cb5040be7fd99a856cfac7f4866ed49419580f9dff9b0",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/verify_observability.py",
+      "sha256": "6f838372e793670f1c8ccabdd191e3c815b28f7a5d974eed07b67177cd4e7563",
+      "matches_step12": true
+    },
+    {
+      "path": "scripts/verify_security.py",
+      "sha256": "c9cb7d5405daa240f0eef8a1c4c634a20bbfe0e07199fe5d89c236342e000387",
+      "matches_step12": true
+    }
+  ]
+}

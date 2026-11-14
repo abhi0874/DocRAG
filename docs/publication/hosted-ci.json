@@ -1,0 +1,10 @@
+{
+  "commit": "d128e82e44cbff7b88c7b1cbe1f01a0d0e08966c",
+  "workflow": "CI",
+  "job": "checks",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/abhi0874/DocRAG/actions/runs/43220105275",
+  "completedAt": "2026-11-12T12:44:36Z",
+  "evidence": "gh run view JSON; exit 0"
+}

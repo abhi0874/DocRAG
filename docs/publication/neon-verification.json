@@ -1,0 +1,61 @@
+{
+  "tls": {
+    "encrypted": true,
+    "authorized": true,
+    "protocol": "TLSv1.3"
+  },
+  "identity": {
+    "database": "docrag_demo_gemini_v1",
+    "role": "docrag_demo_runtime",
+    "postgres": "18.7 (a21afb5)"
+  },
+  "counts": {
+    "documents": 2,
+    "chunks": 162,
+    "users": 0,
+    "public_documents": 2
+  },
+  "roles": {
+    "rolsuper": false,
+    "rolcreatedb": false,
+    "rolcreaterole": false,
+    "rolreplication": false,
+    "rolbypassrls": false
+  },
+  "schemaCreate": false,
+  "extensions": [
+    {
+      "extname": "vector",
+      "extversion": "0.8.6"
+    }
+  ],
+  "indexes": [
+    "answer_feedback_pkey",
+    "answer_receipts_pkey",
+    "auth_account_pkey",
+    "auth_account_user_idx",
+    "auth_session_pkey",
+    "auth_session_token_unique",
+    "auth_session_user_idx",
+    "auth_user_email_unique",
+    "auth_user_pkey",
+    "auth_verification_pkey",
+    "chunks_content_tsv_idx",
+    "chunks_document_id_idx",
+    "chunks_embedding_idx",
+    "chunks_pkey",
+    "demo_embedding_space_pkey",
+    "document_access_owner_idx",
+    "document_access_pkey",
+    "document_files_pkey",
+    "documents_pkey",
+    "evaluation_access_pkey",
+    "evaluations_pkey",
+    "request_limits_pkey",
+    "request_metrics_owner_time_idx",
+    "request_metrics_pkey"
+  ],
+  "constraints": 117,
+  "oldDatabaseAccessibleTables": 0,
+  "status": "PASS"
+}

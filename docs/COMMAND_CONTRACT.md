@@ -1,9 +1,11 @@
-> Current precedence: STEP 12 is authorized. Stage-specific commands and permissions
+> Current precedence: the separate zero-cost publication phase is explicitly authorized.
+> See PUBLICATION_STATUS.md for publication commands and actual receipts. Stage-specific permissions
 > below are historical unless explicitly incorporated by the latest task. Use
 > Node **24.22.1**, pnpm **11.25.0**, native DocRAG PostgreSQL **55433**;
 > authenticated endpoints require a valid session. Do not run historical setup,
 > `make up`, live Gemini probes or service changes without their applicable authorization.
-> Final verification follows the STEP 12 section at the end.
+> The STEP12 section preserves local acceptance; publication uses the additional
+> scoped verification in PUBLICATION_STATUS.md.
 
 # STEP 0 command contract
 

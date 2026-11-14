@@ -1,7 +1,6 @@
-> Latest checkpoint: STEP 12 final local verification is complete; see STEP12_COMPLETE.md.
-> STEP 11 is locally complete; publication is not authorized.
-> Read CURRENT_STATUS.md first. STEP10_COMPLETE.md preserves the accepted
-> historical baseline; remote Actions remains NOT RUN.
+> Current checkpoint: local STEPS0–12 complete; separately authorized public demo
+> is live. Hosted CI and production checks passed; see PUBLICATION_STATUS.md and
+> CURRENT_STATUS.md. Reinspect the current commit and service state on resume.
 
 # Continue on another Codex account — same Mac
 
@@ -21,7 +20,7 @@ promise subscription transfer or verify the user's reported 9 November expiry.
 3. Ask Codex to read [AGENTS](../AGENTS.md), [PROJECT_HANDOFF](PROJECT_HANDOFF.md),
    [CURRENT_STATUS](CURRENT_STATUS.md), then [COMMAND_CONTRACT](COMMAND_CONTRACT.md).
 4. Have it run `git branch --show-current`, `git status --short`, `git log -3 --oneline`.
-   Branch must be feat/production-rag. Step 10 implementation is committed locally; inspect and
+   Branch must be feat/production-rag. The verified branch has been published; inspect and
    preserve any later changes. Never clean/reset the project.
 5. Verify Node using `.local/node-v24.22.1-darwin-arm64/bin/node --version`.
    For direct pnpm commands, from this checkout set
@@ -33,9 +32,9 @@ promise subscription transfer or verify the user's reported 9 November expiry.
    Native `make db-status` previously passed on port 55433. Reinspect
    ownership and live status before restoring a stopped service. Do not touch the
    other project's port 55432 or database. No database reset.
-7. Read the final Step 10 report, current STEP 11 evidence and current status.
-   STEP 12 is complete locally. Read its current status before
-   continuing; no push or publication is authorized.
+7. Read PUBLICATION_STATUS.md and the preserved STEP11/12 reports. The public
+   service is separate from local Ollama. Do not recreate resources, repeat corpus
+   writes or assume this handoff authorizes new deployments.
 
 Common problems: wrong branch/files usually means the parent folder was opened;
 reopen RAG-Agent without recloning. Wrong Node means the local PATH selection is
@@ -51,17 +50,15 @@ your installed app. Local folders are the continuity mechanism, not chat migrati
 ## Ready-to-copy inspection prompt
 
 ```text
-Inspect my existing DocRAG project in the current local RAG-Agent checkout.
-Read AGENTS.md, docs/PROJECT_HANDOFF.md, docs/CURRENT_STATUS.md,
-docs/STEP10_COMPLETE.md and docs/COMMAND_CONTRACT.md first.
-Step 10 is locally complete; remote Actions remains unrun. Inspect Git status/history and live service state;
-preserve every modified/untracked file and all previous commits. Confirm the
-accepted step10-final-c evaluation and its cached-generation provenance.
-Do not reset/reclone, reset databases, stop unrelated containers, change the
-Node 24.22.1 pin, push, open PRs or deploy. Keep costs zero. Remote GitHub Actions
-remains NOT RUN until explicit publication authorization. Report any difference
-between saved evidence and live state. STEP 12 is complete locally; inspect CURRENT_STATUS.md
-and step12/acceptance.md before continuing. Do not publish. Stop after three
+Inspect the existing DocRAG RAG-Agent checkout on feat/production-rag.
+Read AGENTS.md, docs/CURRENT_STATUS.md, docs/PROJECT_HANDOFF.md,
+docs/COMMAND_CONTRACT.md and docs/PUBLICATION_STATUS.md first.
+Steps0–12 are locally complete. The separately authorized public Render/Neon demo
+is live, with hosted CI and production acceptance evidence. Inspect actual Git,
+remote commit, CI and live state; distinguish saved from fresh results. Preserve
+all files, data, uncommitted changes, historical evidence and model pins. Do not
+reset/reclone, change billing, control unrelated services or make further external
+changes without applicable authorization. Keep paid costs zero. Stop after three
 genuine unsuccessful repairs of the same blocker.
 ```
 

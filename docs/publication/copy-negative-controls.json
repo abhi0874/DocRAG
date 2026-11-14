@@ -1,0 +1,21 @@
+[
+  {
+    "args": [
+      "--check"
+    ],
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "pass": true,
+    "purpose": "Reject populated target; no writes or model calls"
+  },
+  {
+    "args": [
+      "--check",
+      "--resume-empty-schema"
+    ],
+    "expected_exit": 1,
+    "actual_exit": 1,
+    "pass": true,
+    "purpose": "Reject populated target; no writes or model calls"
+  }
+]

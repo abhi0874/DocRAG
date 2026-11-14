@@ -1,13 +1,15 @@
-# STEP 11 deployment preparation — not publicly deployed
+# DocRAG deployment and operation
 
-This is local preparation, not permission to publish. STEP 11 local preparation and its three confirmations passed;
-see STEP11_COMPLETE.md for exact verified scope and retained limitations. Remote
-GitHub Actions has not run. STEP 12 final verification is authorized; publication
-and cloud provisioning still require separate explicit authorization.
+The separately authorized public demo is live at
+[docrag-demo.onrender.com](https://docrag-demo.onrender.com/). Render Free Docker
+and Neon Free passed production verification; hosted CI passed on baseline d128e82.
+See [publication evidence](PUBLICATION_STATUS.md) for resources, commands, failures,
+cost checks and rollback. STEP11_COMPLETE.md and STEP12_COMPLETE.md remain historical
+local acceptance records. This document does not authorize additional resources.
 
 ## Architecture and budget
 
-Recommended candidate: the existing pinned Docker image on **Render Free**, with
+Deployed architecture: the existing pinned Docker image on **Render Free**, with
 **Neon Free PostgreSQL/pgvector**, and standard Gemini inference/embeddings. Local
 Ollama remains unchanged. Expected hosting/API spend is ₹0 only while accounts
 remain on the reviewed free plans, Google has no linked billing account and no
@@ -20,17 +22,18 @@ paid features are enabled. Do not add a payment method, paid disk or subscriptio
 | Vercel Hobby | Attractive Next.js integration, but the supported Node major receives automatic minor/patch updates, conflicting with this project's exact24.22.1 pin. Hobby personal/noncommercial restrictions also need project-specific assessment. Not selected. |
 | Railway/Fly | Usage credits/trials or metered pricing do not establish a durable ₹0 deployment for this app. Not selected. |
 
-Official sources checked during preparation (Render Free and Neon pricing rechecked
-during STEP 12): [Render Free](https://render.com/docs/free),
+Official sources checked during preparation and rechecked immediately before
+publication provisioning: [Render Free](https://render.com/docs/free),
 [Docker](https://render.com/docs/docker), [Blueprint fields](https://render.com/docs/blueprint-spec),
 [Neon pricing](https://neon.com/pricing), [pooling](https://neon.com/docs/connect/connection-pooling),
 [pgvector](https://neon.com/docs/extensions/pgvector),
 [Vercel Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions),
 [Hobby usage](https://vercel.com/docs/limits/fair-use-guidelines),
 [Railway trial](https://docs.railway.com/pricing/free-trial), [Fly pricing](https://fly.io/docs/about/pricing/).
-Choose colocated application/database regions supported by the free plans at actual
-provisioning time. Region availability, account eligibility, deployed streaming,
-cold starts and provider network behavior remain unverified without deployment.
+Render Virginia and Neon AWS us-east-1 were selected. Public HTTPS, streaming,
+citations and natural wake-up were observed. Cold-start duration was not a
+controlled benchmark. Render Free provides 0.1 CPU and 512 MB RAM; Neon compute
+was 0.25 CU. Quotas and actual dashboard allowances remain authoritative.
 Render can suspend free services with unusual external traffic; this matters for
 an external database/model API. Do not treat the recommendation as an SLA.
 
@@ -59,8 +62,10 @@ uses the existing anonymous public-document capability, not a shared privileged 
 
 User-provided AI Studio evidence: Free tier, generation15 RPM/250K TPM,
 embedding100 RPM/30K TPM. RPD is **unavailable/not displayed** for both models.
-The Google Cloud screenshot dated10 November confirms the same selected project
-has no billing account and is not linked to one. No billing setting was changed.
+The Google Cloud screenshot dated10 November and fresh13 November console check
+confirm the same selected project has no billing account and is not linked to one.
+No billing setting was changed. Render showed no card and $0.00 accrued/projected;
+Neon showed Free. No paid add-ons were selected.
 Do not copy account screenshots containing unrelated personal UI into Git.
 
 The [pricing page](https://ai.google.dev/gemini-api/docs/pricing) lists standard
@@ -99,9 +104,10 @@ query embeddings, so they cannot alone make the cloud app independent of the Mac
 
 ## Configuration and operation
 
-`deployment/render.yaml` is a review-only blueprint; applying it requires separate
-publication approval. It pins the existing Dockerfile, free plan, port3000,
-`/api/health`, and disables automatic deployment. No production resources exist.
+`deployment/render.yaml` is the deployment template; creating additional resources
+requires separate approval. The existing service follows its Dockerfile, Free plan,
+port3000, `/api/health`, and disabled automatic deployment. Use the existing service
+instead of creating duplicates.
 Configure secrets in the provider dashboard privately, never in Git or images:
 
 - `DOCRAG_DEPLOYMENT=recruiter-demo`, `AI_PROVIDER=gemini`.
@@ -112,7 +118,10 @@ Configure secrets in the provider dashboard privately, never in Git or images:
 - Keep `DOCRAG_LOCAL_HTTP` unset remotely, cache/reranker OFF.
 
 Use Neon pooled connection for application traffic (pool max3, connection timeout5s),
-and a direct connection for bootstrap/migrations. Existing Better Auth remains
+and prefer a direct connection for future bootstrap/migrations. This initial copy
+used a pooled administrator connection with max1 and the reviewed transaction-safe
+migrations; actual verification passed. The app uses a separate restricted runtime
+role without schema-create/admin privileges. Existing Better Auth remains
 operator-managed:8-hour database sessions, secure/HttpOnly/SameSite cookies and
 exact trusted origin. No forwarded-IP authentication or origin trust is introduced.
 No database contents or URLs are exposed by health endpoints. `/api/health` checks
@@ -144,12 +153,14 @@ regressions and the100-question Ollama evaluation remain required. The explicit
 new deployment compatibility gate preserves .02 thresholds and rejects changed
 local models, prompts, evidence or undeclared source changes; historical gates
 remain untouched. Cloud retrieval evaluation is separate, never compared as if it
-were the same embedding space. Remote GitHub Actions remains NOT RUN.
+were the same embedding space. Hosted GitHub Actions now has a verified passing
+baseline run; latest branch results and publication commands are linked in
+[publication evidence](PUBLICATION_STATUS.md).
 
 STEP 10's50-user queue p9574.74s and2,480 quota rejections are historical local data,
 not Gemini capacity measurements. The demo has intentionally much lower quotas.
 
-## Local verification evidence, 10 November 2026
+## Historical local verification evidence, 10 November 2026
 
 The authorized bootstrap completed all 162 public chunks in the separate local
 database. Fresh query embeddings and SQL retrieval covered all 100 golden
@@ -167,8 +178,8 @@ and recorded cancellation. These are live checks; provider 429/5xx no-retry test
 use deterministic mocks and are labelled separately. Mobile header overflow was subsequently repaired; the local100-question
 evaluation and71.16% integration coverage gate passed. Earlier failures are retained.
 
-No cloud resource or database was provisioned. The local demo database proves
-the isolated schema and embedding path; it does not prove remote TLS, region
+At that checkpoint no cloud resource or database had been provisioned. The local demo database proved
+the isolated schema and embedding path; it did not prove remote TLS, region
 availability, real hosting cold-start latency or public-domain operation.
 
 ## Reproducing the bounded provider checks

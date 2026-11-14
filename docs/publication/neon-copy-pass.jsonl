@@ -1,0 +1,2 @@
+{"phase":"preflight","status":"PASS","sourceOwned":true,"targetDatabase":"docrag_demo_gemini_v1","postgres":"18.7 (a21afb5)","documents":2,"chunks":162,"space":{"version":"gemini-001-1536-v1","model":"gemini-embedding-001","dimensions":1536},"corpusHash":"f0cbcf44b51b75686deec854bb53106b9297146ffa9f551e85899ba17375a0f6","vectorHash":"c54165d3c11c838c7fc53ba6307c3c0e114d971960a19141f97e4a22095c03e5","modelCalls":0}
+{"phase":"copy","status":"PASS","documents":2,"chunks":162,"exactVectorReadback":true,"authenticationRowsCopied":0,"modelCalls":0}

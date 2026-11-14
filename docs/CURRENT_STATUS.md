@@ -1,3 +1,23 @@
+# Public deployment verified — 13–14 November 2026
+
+The user explicitly authorized the separate publication phase after STEP12.
+Live demo: https://docrag-demo.onrender.com/ — Render Free in Virginia, Neon Free
+public-only database, existing unbilled Gemini project. Production acceptance:
+53/53 checks PASS, including two-user HTTPS sessions, streaming/citations, refusal,
+feedback isolation, cancellation and quota rejection. Baseline d128e82 was pushed
+normally and hosted CI passed. See [PUBLICATION_STATUS](PUBLICATION_STATUS.md)
+for receipts, final-commit verification procedure, cost evidence and rollback.
+
+460 fresh unit tests, lint, saved-evaluation regression gate and34 negative controls
+pass. Local100-question and cloud-retrieval results retain their original provenance;
+no100-question hosted generation was run. Two reviewed moderate JS advisories remain.
+No paid plan, payment method, billing activation, unrelated service change, force
+push, PR or merge. Historical no-publication statements below describe their dates.
+Future material changes still require applicable authorization. Inspect actual Git,
+latest hosted CI and live services; saved checks are not an uptime guarantee.
+
+## Historical local STEP12 acceptance
+
 # STEP 12 COMPLETE — local release readiness — 12 November 2026
 
 21/21 tasks and confirmations1/2/3 PASS. See STEP12_COMPLETE.md and step12/ for

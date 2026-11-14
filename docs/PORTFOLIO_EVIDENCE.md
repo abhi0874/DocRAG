@@ -5,8 +5,8 @@ Suggested summary:
 Built a document Q&A system with Next.js/TypeScript, PostgreSQL/pgvector, hybrid
 vector/keyword retrieval and reciprocal rank fusion, streamed answers with source
 citations, and authenticated private-document isolation. Maintained separate local
-Ollama and privacy-restricted Gemini demo paths, with Docker packaging and local
-CI-equivalent verification.
+Ollama and privacy-restricted Gemini demo paths, with Docker packaging, hosted
+GitHub Actions and a public Render/Neon free-tier deployment.
 
 Evidence-backed details (use only with their scope):
 
@@ -30,7 +30,14 @@ Sources: [STEP12 review](step12/review.md), [evaluation](step12/evaluation-summa
 [verification](step12/verification-summary.json), [load](step12/load-summary.json),
 [cloud retrieval](step11/cloud-retrieval-summary-a.json), [deployment](DEPLOYMENT.md).
 
-Do not claim public deployment, hosted GitHub Actions success, zero vulnerabilities,
-unlimited capacity or a production SLA. Two reviewed moderate JS tooling advisories
-remain. Render/Neon are prepared candidates; no public URL or cloud resources exist.
-Future publication/deployment requires explicit authorization.
+Public demo: [docrag-demo.onrender.com](https://docrag-demo.onrender.com/).
+[Publication evidence](PUBLICATION_STATUS.md) records53 production checks covering
+HTTPS authentication, public streaming/citations, refusal, quotas, cancellation,
+feedback and isolation. Only five admitted live chat requests were used across
+script/browser smoke checks; these are not a capacity or answer-quality benchmark.
+
+Do not claim zero vulnerabilities, unlimited capacity or a production SLA. Two
+reviewed moderate JS tooling advisories remain. Free cold starts and strict shared
+quotas limit availability. Publication coverage76.46% combines byte-identical
+historical STEP12 integration paths with fresh operational-helper execution;
+it is not a fresh full integration run or whole-project coverage claim.

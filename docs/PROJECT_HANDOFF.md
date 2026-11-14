@@ -1,14 +1,12 @@
-> Current checkpoint: STEP 12 local verification is complete; see STEP12_COMPLETE.md.
-> Read CURRENT_STATUS.md and step12/acceptance.md. STEP 11 local preparation passed;
-> public deployment and remote Actions have not run. Earlier boundaries are historical.
-
 # DocRAG technical handoff
 
 Read [CURRENT_STATUS](CURRENT_STATUS.md) first and the [command contract](COMMAND_CONTRACT.md)
-for actual operation. Steps 0–12 are locally complete. No further publication or
-deployment action is authorized.
-The README documents the current local and public-demo modes. Historical STEP 9–11
-completion records remain preserved. No online deployment is established.
+for actual operation. Steps0–12 are locally complete. The separately authorized
+publication deployed https://docrag-demo.onrender.com/ on Render Free with Neon Free
+and the unbilled Gemini project. See [PUBLICATION_STATUS](PUBLICATION_STATUS.md)
+for53 production checks, actual hosted CI and cost/rollback evidence. Historical
+completion records remain preserved. Additional resource/billing changes are not
+authorized by this handoff.
 
 ## Architecture and source map
 
@@ -136,8 +134,9 @@ build-time authentication without runtime secrets. The PDF extraction worker is
 explicitly traced into standalone output. Image build, host Ollama connectivity,
 26 container checks and lifecycle tests have saved passing evidence. `.github/workflows/ci.yml` now
 exists, and clean local macOS/Linux equivalents pass. See CI.md for the scope.
-Remote GitHub Actions: NOT RUN — NO PUSH AUTHORIZED. Production cloud inference
-and hosting are future design work; do not expose host Ollama publicly.
+Hosted GitHub Actions passed for published baseline d128e82; current branch runs
+are linked in CI.md. Public cloud inference/hosting now pass production checks.
+Do not expose host Ollama publicly or redirect local evaluation into Neon.
 
 ## History and authoritative reports
 

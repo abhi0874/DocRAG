@@ -1,0 +1,291 @@
+{
+  "origin": "https://docrag-demo.onrender.com",
+  "started_at": "2026-11-13T18:22:01.114261+00:00",
+  "checks": [
+    {
+      "check": "homepage_https",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/0cz1d0mv5g_q7.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/0fnzwy_4gijoj.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/26y34df46nw-n.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/2g1t_gykzbfhp.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/37d299hdewg-l.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/3k5dg2yio9m-g.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/3mv9x7bhrck8a.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/3n--n1juqt5f2.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/3z6y7_ibjdw2t.js"
+    },
+    {
+      "check": "client_asset",
+      "pass": true,
+      "asset": "/_next/static/chunks/turbopack-077hmtqrhcoji.js"
+    },
+    {
+      "check": "/api/health",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "/api/ready",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "public_corpus",
+      "pass": true
+    },
+    {
+      "check": "public_source_3",
+      "pass": true
+    },
+    {
+      "check": "public_source_4",
+      "pass": true
+    },
+    {
+      "check": "anonymous_denied_/api/metrics",
+      "pass": true,
+      "status": 401
+    },
+    {
+      "check": "anonymous_denied_/api/evaluations",
+      "pass": true,
+      "status": 401
+    },
+    {
+      "check": "anonymous_denied_/api/feedback",
+      "pass": true,
+      "status": 401
+    },
+    {
+      "check": "demo_write_denied_/api/documents",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "check": "demo_write_denied_/api/evaluations",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "check": "registration_disabled",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "check": "foreign_origin_denied",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "check": "invalid_input",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "check": "unapproved_text_denied_before_model",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "check": "secure_login_1",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "session_navigation_1",
+      "pass": true
+    },
+    {
+      "check": "secure_login_2",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "session_navigation_2",
+      "pass": true
+    },
+    {
+      "check": "chat_http_1",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "cache_bypassed_1",
+      "pass": true
+    },
+    {
+      "check": "stream_1",
+      "pass": true,
+      "request_id": "ecfa1f66-6246-4ca1-a514-273c8292506a",
+      "first_text_seconds": 1.2589714579517022,
+      "elapsed_seconds": 1.4295767919975333,
+      "sources": 6,
+      "cancelled_by_client": false,
+      "validation": {
+        "valid": true,
+        "kind": "cited",
+        "numbers": [
+          1
+        ],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      }
+    },
+    {
+      "check": "citation_validation_1",
+      "pass": true
+    },
+    {
+      "check": "grounded_answer",
+      "pass": true
+    },
+    {
+      "check": "feedback_write",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "feedback_read",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "feedback_cross_user_denied",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "check": "feedback_cross_user_write_denied",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "check": "metrics_cross_user_isolation",
+      "pass": true
+    },
+    {
+      "check": "chat_http_2",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "cache_bypassed_2",
+      "pass": true
+    },
+    {
+      "check": "stream_2",
+      "pass": true,
+      "request_id": "cc6a8405-8d63-4127-afc7-979e659b1a2a",
+      "first_text_seconds": 1.791002667043358,
+      "elapsed_seconds": 1.7999793750350364,
+      "sources": 6,
+      "cancelled_by_client": false,
+      "validation": {
+        "valid": true,
+        "kind": "uncited-refusal",
+        "numbers": [],
+        "invalid": [],
+        "invalidTokens": [],
+        "adjacentDuplicates": false,
+        "semanticSupport": "not-verified"
+      }
+    },
+    {
+      "check": "citation_validation_2",
+      "pass": true
+    },
+    {
+      "check": "unsupported_question_refused",
+      "pass": true,
+      "answer": "I could not find this in the document."
+    },
+    {
+      "check": "application_quota_429",
+      "pass": true,
+      "status": 429
+    },
+    {
+      "check": "chat_http_3",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "check": "cache_bypassed_3",
+      "pass": true
+    },
+    {
+      "check": "stream_3",
+      "pass": true,
+      "request_id": "d47e9158-5062-40a3-b51f-96797189ce97",
+      "first_text_seconds": 1.7687662499956787,
+      "elapsed_seconds": 1.7689052080386318,
+      "sources": 6,
+      "cancelled_by_client": true,
+      "validation": {}
+    },
+    {
+      "check": "cancelled_request_accounted",
+      "pass": true,
+      "observed_outcome": "cancelled"
+    },
+    {
+      "check": "logout_1",
+      "pass": true
+    },
+    {
+      "check": "logout_invalidates_session_1",
+      "pass": true
+    },
+    {
+      "check": "logout_2",
+      "pass": true
+    },
+    {
+      "check": "logout_invalidates_session_2",
+      "pass": true
+    }
+  ],
+  "chat_requests": 3,
+  "status": "PASS",
+  "finished_at": "2026-11-13T18:22:22.162254+00:00"
+}

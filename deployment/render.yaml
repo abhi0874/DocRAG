@@ -1,4 +1,4 @@
-# Review-only blueprint. Applying this file is a separate, unauthorized deployment action.
+# Reviewed Free-service template. Additional resources require explicit authorization.
 services:
   - type: web
     name: docrag-demo

@@ -1,0 +1,20 @@
+[
+  {
+    "command": "make lint",
+    "exit_code": 0,
+    "seconds": 2.89,
+    "log": ".local/publication-lint.log"
+  },
+  {
+    "command": "make test",
+    "exit_code": 0,
+    "seconds": 33.15,
+    "log": ".local/publication-test.log"
+  },
+  {
+    "command": "make cov",
+    "exit_code": 0,
+    "seconds": 33.31,
+    "log": ".local/publication-cov.log"
+  }
+]

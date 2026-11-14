@@ -26,9 +26,12 @@ schema on exit. Migration fixtures are retained in the disposable service.
   security/observability contract and a separate >=70% Python integration-coverage
   gate. Its cache hit/miss counts must be reported. This is mandatory for local
   Step 9 completion and cannot be replaced by the small CI fixture.
-- **Remote GitHub Actions:** NOT RUN — NO PUSH AUTHORIZED. YAML and local commands
-  are verified here; runner provisioning, hosted networking and remote Actions
-  execution remain deferred until explicit publication permission.
+- **Remote GitHub Actions:** the separately authorized push of d128e82 passed
+  hosted workflow `CI`, job `checks`, including real PostgreSQL fixtures:
+  [baseline run](https://github.com/abhi0874/DocRAG/actions/runs/43220105275).
+  [Latest branch runs](https://github.com/abhi0874/DocRAG/actions/workflows/ci.yml?query=branch%3Afeat%2Fproduction-rag)
+  identify subsequent commit results. This uses a standard Ubuntu runner in the
+  public repository, no paid/custom runner or inference secrets.
 
 `make cov` reports unit-only Python coverage over every Python file in `scripts`
 and TypeScript coverage over lib/API/components. Real integration measurement uses

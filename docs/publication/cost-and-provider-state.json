@@ -1,0 +1,28 @@
+{
+  "observed_date": "2026-11-13",
+  "method": "Authenticated provider dashboard UI, sanitized observations; no billing mutations",
+  "render": {
+    "plan": "Free",
+    "region": "Virginia",
+    "cpu": 0.1,
+    "memory_mb": 512,
+    "card_on_file": false,
+    "accrued_usd": 0,
+    "projected_usd": 0,
+    "auto_deploy": "off"
+  },
+  "neon": {
+    "plan": "Free",
+    "region": "AWS us-east-1",
+    "compute_cu": 0.25,
+    "observed_cu_hours": 0.17,
+    "observed_storage_mb": 44.24
+  },
+  "gemini": {
+    "billing_text": "This project has no billing account",
+    "linked_account_text": "This project is not linked to a billing account"
+  },
+  "paid_cost_inr": 0,
+  "billing_or_payment_changes": false,
+  "unrelated_resources_modified": false
+}

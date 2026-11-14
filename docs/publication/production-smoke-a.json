@@ -1,0 +1,9 @@
+{
+  "origin": "https://docrag-demo.onrender.com",
+  "started_at": "2026-11-13T18:21:25.603403+00:00",
+  "checks": [],
+  "chat_requests": 0,
+  "status": "FAIL",
+  "failure": "URLError",
+  "finished_at": "2026-11-13T18:21:25.695248+00:00"
+}
