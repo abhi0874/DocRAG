@@ -1,0 +1,49 @@
+{
+  "commit": "6458b355d28521f7e0ae32f68d1fb710433f6bdd",
+  "deploy": "dep-dbth6m9srm7s73b9vmag",
+  "rollback": {
+    "commit": "b40319c",
+    "deploy": "dep-dbs2sntg1s2s73e1ep00",
+    "available": true,
+    "executed": false
+  },
+  "publicUrl": "https://docrag-demo.onrender.com/",
+  "runtime": "Docker Node 24.22.1",
+  "appearance": {
+    "dark": {
+      "glass": "high",
+      "intensity": "100",
+      "primary": "#c7ff5e",
+      "theme": "dark"
+    },
+    "persisted": {
+      "glass": "high",
+      "intensity": "100",
+      "theme": "dark"
+    },
+    "light": {
+      "motion": "reduce",
+      "primary": "#276749",
+      "theme": "light"
+    },
+    "oneIndicator": true,
+    "geometryChanged": true,
+    "animationObserved": true,
+    "reducedMotion": true,
+    "mobile401NoOverflow": true,
+    "views": [
+      "Library",
+      "Sources",
+      "Ask"
+    ]
+  },
+  "logs": {
+    "entriesReviewed": 50,
+    "http5xx": 0,
+    "unexpected": 0
+  },
+  "smoke": "mono-glass-prod-6458b35-a.json",
+  "smokeChecks": "55/55",
+  "chatRequests": 3,
+  "billingActivated": false
+}
