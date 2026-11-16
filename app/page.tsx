@@ -6,7 +6,7 @@ import { Workspace } from '@/components/workspace'
 
 export default function Page() {
   return (
-    <div className="flex h-dvh flex-col">
+    <div className="app-frame">
       <AppHeader />
       {demoEnabled() ? <DemoWorkspace /> : <Workspace />}
     </div>

@@ -1,9 +1,10 @@
 'use client'
 
-import { CornerDownLeft, Loader2, MessageSquareText } from 'lucide-react'
-import { Fragment, useEffect, useRef, useState } from 'react'
-import { citationReferences } from '@/lib/citations'
+import { CornerDownLeft, Loader2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { MessageContent } from './message-content'
 import type { RagUIMessage } from '@/lib/types'
+import {OpticalMark} from './appearance'
 import {AnswerFeedback} from './answer-feedback'
 import { cn } from '@/lib/utils'
 
@@ -18,34 +19,6 @@ interface ChatPanelProps {
   onCitationClick: (index: number, messageId: string) => void
 }
 
-/** Render assistant text, turning [n] citations into clickable chips. */
-function CitedText({
-  text,
-  onCitationClick,
-  sourceCount,
-}: {
-  sourceCount: number
-  text: string
-  onCitationClick: (index: number) => void
-}) {
-  const references = citationReferences(text, sourceCount).filter(ref => ref.valid)
-  return <>
-    {references.map((ref, index) => {
-      const before = text.slice(references[index - 1]?.end ?? 0, ref.start)
-      const number = ref.number!
-      return <Fragment key={ref.start}>
-        {before}<button
-          type="button"
-          onClick={() => onCitationClick(number - 1)}
-          className="mx-0.5 inline-flex size-5 items-center justify-center rounded bg-primary/15 align-text-top font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/30"
-          aria-label={`Show source ${number}`}
-        >{number}</button>
-      </Fragment>
-    })}
-    {text.slice(references.at(-1)?.end ?? 0)}
-  </>
-}
-
 export function ChatPanel({
   messages,
   status,
@@ -58,10 +31,12 @@ export function ChatPanel({
 }: ChatPanelProps) {
   const [input, setInput] = useState('')
   const [stopError,setStopError]=useState(false)
+  const [away,setAway]=useState(false)
+  const following = useRef(true)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight })
+    if(following.current) scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight })
   }, [messages])
 
   function submit() {
@@ -72,39 +47,32 @@ export function ChatPanel({
   }
 
   return (
-    <div className="flex h-full min-w-0 flex-col">
+    <div className="mono-chat">
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 py-6 md:px-8"
-        aria-live="polite"
+        className="mono-chat-scroll"
+        onScroll={e=>{const el=e.currentTarget;following.current=el.scrollHeight-el.scrollTop-el.clientHeight<100;setAway(!following.current)}}
+        tabIndex={0}
+        role="log"
+        aria-label="Conversation"
+        aria-live={status === 'streaming' ? 'off' : 'polite'}
       >
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-            <span className="flex size-12 items-center justify-center rounded-lg border border-border bg-card">
-              <MessageSquareText
-                className="size-5 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </span>
-            <div>
-              <p className="text-sm font-medium">
-                {sampleOnly ? 'Choose a public sample question above' : documentTitle
-                  ? `Ask anything about "${documentTitle}"`
-                  : 'Select or upload a document to start'}
-              </p>
-              <p className="mt-1 max-w-sm text-pretty text-sm text-muted-foreground">
-                Answers are grounded in retrieved excerpts with inline
-                citations. Click a citation to inspect the source chunk.
-              </p>
-            </div>
+          <div className="mono-chat-empty">
+            <OpticalMark/>
+            <span className="mono-overline">INTELLIGENCE, WITH EVIDENCE</span>
+            <h1>Ask better.<br/><span>Know why.</span></h1>
+            <p>{sampleOnly?'Explore the ideas inside your documents. Start with a sample question. Every answer leads back to its source.':documentTitle?`A conversation with “${documentTitle}”. Ask a question and follow the evidence.`:'Bring a document. Find a new perspective. Select a reference or upload a PDF to begin.'}</p>
+            <div className="mono-empty-steps"><span><b>01</b> Choose a document</span><span><b>02</b> Ask a question</span><span><b>03</b> Follow the source</span></div>
           </div>
         ) : (
-          <div className="mx-auto flex max-w-2xl flex-col gap-6">
+          <div className="mono-messages">
             {messages.map((message,index) => (
               <div
                 key={message.id}
+                data-role={message.role}
                 className={cn(
-                  'flex flex-col gap-1',
+                  'mono-message flex flex-col gap-1',
                   message.role === 'user' ? 'items-end' : 'items-start',
                 )}
               >
@@ -113,17 +81,17 @@ export function ChatPanel({
                 </span>
                 <div
                   className={cn(
-                    'max-w-[85%] rounded-lg px-4 py-3 text-sm leading-relaxed',
+                    'mono-message-body max-w-full',
                     message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'border border-border bg-card',
+                      ? 'text-foreground'
+                      : 'text-foreground',
                   )}
                 >
                   {message.parts.map((part, i) =>
                     part.type === 'text' ? (
-                      <p key={i} className="whitespace-pre-wrap">
+                      <div key={i} className="whitespace-pre-wrap">
                         {message.role === 'assistant' ? (
-                          <CitedText
+                          <MessageContent
                             sourceCount={message.parts.find(p => p.type === 'data-sources')?.data.sources.length ?? 0}
                             text={part.text}
                             onCitationClick={index => onCitationClick(index, message.id)}
@@ -131,7 +99,7 @@ export function ChatPanel({
                         ) : (
                           part.text
                         )}
-                      </p>
+                      </div>
                     ) : part.type === 'data-cache' && part.data.status === 'HIT' ? (
                       <p key={i} className="mt-2 text-xs text-muted-foreground">Previously generated answer</p>
                     ) : part.type === 'data-validation' && !part.data.valid ? (
@@ -152,9 +120,11 @@ export function ChatPanel({
         )}
       </div>
 
-      <div className="border-t border-border p-4">
+      {away&&<button className="mono-jump" onClick={()=>{following.current=true;setAway(false);scrollRef.current?.scrollTo({top:scrollRef.current.scrollHeight})}}>Jump to latest response ↓</button>}
+      <p className="sr-only" role="status">{status === 'streaming' ? 'Response is streaming. Stop response is available.' : status === 'submitted' ? 'Finding evidence.' : 'Conversation ready.'}</p>
+      <div className={sampleOnly ? "mono-stop-slot" : "mono-composer-wrap"}>
         <form
-          className="mx-auto flex max-w-2xl items-end gap-2"
+          className={sampleOnly ? "flex justify-end" : "mono-composer"}
           onSubmit={(e) => {
             e.preventDefault()
             submit()
@@ -188,7 +158,7 @@ export function ChatPanel({
           {!sampleOnly && <button
             type="submit"
             disabled={disabled || status !== 'ready' || !input.trim()}
-            className="flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+            className="mono-primary-action"
           >
             Send
             <CornerDownLeft className="size-3.5" aria-hidden="true" />

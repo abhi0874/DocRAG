@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, DM_Sans, IBM_Plex_Mono } from 'next/font/google'
+import {AppearanceProvider} from '@/components/appearance'
 import './globals.css'
 
-const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
-const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const bodyFont = DM_Sans({ subsets: ['latin'], variable: '--font-body', display:'swap' })
+const displayFont = Bricolage_Grotesque({ subsets:['latin'], variable:'--font-display', display:'swap' })
+const monoFont = IBM_Plex_Mono({ subsets:['latin'], weight:['400','500'], variable:'--font-technical', display:'swap' })
 
 export const metadata: Metadata = {
   title: 'DocRAG — Chat with your documents',
   description:
     'Retrieval-Augmented Generation document assistant with hybrid search, inline citations, and RAG evaluation.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#16181f',
+  colorScheme: 'light dark',
+  themeColor: [{media:'(prefers-color-scheme: dark)',color:'#0B0C0E'},{media:'(prefers-color-scheme: light)',color:'#F5F5F2'}],
 }
 
 export default function RootLayout({
@@ -41,8 +42,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background">
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        {children}
+      <body className={`${bodyFont.variable} ${displayFont.variable} ${monoFont.variable} font-sans antialiased`}>
+        <AppearanceProvider><a className="skip-link" href="#main-content">Skip to content</a>{children}</AppearanceProvider>
       </body>
     </html>
   )

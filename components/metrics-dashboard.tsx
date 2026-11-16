@@ -1,22 +1,50 @@
 'use client'
-import {useState} from 'react'
+
+import { useState } from 'react'
 import useSWR from 'swr'
-type Summary={total:number;successful:number;failed:number;cancelled:number;mean_ms:number|null;p50_ms:number|null;p95_ms:number|null;cache_hits:number;cache_misses:number;input_tokens:number|null;output_tokens:number|null;total_tokens:number|null;token_measurements:number}
-type Data={scope:string;hours:number;summary:Summary;providers:{provider:string|null;count:number}[];errors:{error_category:string;count:number}[];trends:{hour:string;count:number}[];recent:{request_id:string;created_at:string;method:string;route:string;status:number;outcome:string;latency_ms:number;cache:string|null}[]}
-const value=(n:number|null,unit='')=>n===null?'Unavailable':`${n.toLocaleString(undefined,{maximumFractionDigits:2})}${unit}`
-export function MetricsDashboard(){
-  const [hours,setHours]=useState(24)
-  const {data,error,isLoading,mutate}=useSWR<Data>(`/api/metrics?hours=${hours}`,async (url:string)=>{const r=await fetch(url);if(!r.ok)throw new Error(r.status===401?'Sign in to view your metrics.':'Metrics could not be loaded.');return r.json()})
-  const s=data?.summary
-  return <main className="mx-auto w-full max-w-6xl space-y-6 p-6">
-    <div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-2xl font-semibold">Your request metrics</h1><p className="text-sm text-muted-foreground">Recorded requests for your account. Dashboard reads are excluded.</p></div>
-    <div className="flex gap-2"><select aria-label="Metrics period" value={hours} onChange={e=>setHours(Number(e.target.value))} className="rounded border border-border bg-card p-2"><option value={1}>Past hour</option><option value={24}>Past 24 hours</option><option value={168}>Past 7 days</option></select><button onClick={()=>mutate()} className="rounded border border-border px-3">Refresh</button></div></div>
-    {isLoading&&<p role="status">Loading metrics…</p>}{error&&<p role="alert">{error.message}</p>}
-    {s&&<><div className="grid grid-cols-2 gap-3 md:grid-cols-4">{Object.entries({'Recorded requests':s.total,'Successful':s.successful,'Failed':s.failed,'Cancelled':s.cancelled,'Median latency':value(s.p50_ms,' ms'),'p95 latency':value(s.p95_ms,' ms'),'Eligible cache-hit rate':s.cache_hits+s.cache_misses?value(100*s.cache_hits/(s.cache_hits+s.cache_misses),'%'):'Unavailable','Reported tokens':value(s.total_tokens)}).map(([label,v])=><div key={label} className="rounded-lg border border-border bg-card p-4"><p className="text-sm text-muted-foreground">{label}</p><p className="mt-2 text-xl font-semibold">{v}</p></div>)}</div>
-      <p className="text-sm text-muted-foreground">Token measurements available for {s.token_measurements} requests. Input: {value(s.input_tokens)}; output: {value(s.output_tokens)}. Cached answers skip generation; unreported tokens remain unavailable.</p>
-      <div className="grid gap-4 md:grid-cols-2"><section className="rounded-lg border border-border p-4"><h2 className="font-semibold">Providers</h2>{data.providers.map(r=><p key={r.provider??'none'}>{r.provider??'No model call'}: {r.count}</p>)}</section><section className="rounded-lg border border-border p-4"><h2 className="font-semibold">Error categories</h2>{data.errors.length?data.errors.map(r=><p key={r.error_category}>{r.error_category}: {r.count}</p>):<p>No recorded errors in this period.</p>}</section></div>
-      <section><h2 className="mb-2 font-semibold">Hourly request counts</h2><div className="flex max-h-40 flex-wrap gap-3 overflow-auto text-xs">{data.trends.map(r=><p key={r.hour}>{new Date(r.hour).toLocaleString()}: <strong>{r.count}</strong></p>)}</div></section>
-      <section className="overflow-x-auto"><h2 className="mb-2 font-semibold">Recent requests</h2><table className="w-full text-left text-sm"><thead><tr>{['Time','Operation','Status','Completion','Latency','Cache'].map(h=><th className="border-b border-border p-2" key={h}>{h}</th>)}</tr></thead><tbody>{data.recent.map(r=><tr key={r.request_id}><td className="p-2">{new Date(r.created_at).toLocaleTimeString()}</td><td className="p-2">{r.method} {r.route}</td><td className="p-2">{r.status}</td><td className="p-2">{r.outcome}</td><td className="p-2">{value(r.latency_ms,' ms')}</td><td className="p-2">{r.cache??'—'}</td></tr>)}</tbody></table></section>
+import { Activity, RefreshCw, ShieldCheck } from 'lucide-react'
+import './supporting.css'
+
+type Summary = { total: number; successful: number; failed: number; cancelled: number; mean_ms: number | null; p50_ms: number | null; p95_ms: number | null; cache_hits: number; cache_misses: number; input_tokens: number | null; output_tokens: number | null; total_tokens: number | null; token_measurements: number }
+type Data = { scope: string; hours: number; summary: Summary; providers: { provider: string | null; count: number }[]; errors: { error_category: string; count: number }[]; trends: { hour: string; count: number }[]; recent: { request_id: string; created_at: string; method: string; route: string; status: number; outcome: string; latency_ms: number; cache: string | null }[] }
+const value = (n: number | null, unit = '') => n === null ? 'Unavailable' : `${n.toLocaleString(undefined, { maximumFractionDigits: 2 })}${unit}`
+
+export function MetricsDashboard() {
+  const [hours, setHours] = useState(24)
+  const { data, error, isLoading, isValidating, mutate } = useSWR<Data>(`/api/metrics?hours=${hours}`, async (url: string) => {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(response.status === 401 ? 'Sign in to view your metrics.' : 'Metrics could not be loaded.')
+    return response.json()
+  })
+  const summary = data?.summary
+  const stats = summary ? {
+    'Recorded requests': summary.total, 'Successful': summary.successful, 'Failed': summary.failed, 'Cancelled': summary.cancelled,
+    'Median latency': value(summary.p50_ms, ' ms'), 'p95 latency': value(summary.p95_ms, ' ms'),
+    'Eligible cache-hit rate': summary.cache_hits + summary.cache_misses ? value(100 * summary.cache_hits / (summary.cache_hits + summary.cache_misses), '%') : 'Unavailable',
+    'Reported tokens': value(summary.total_tokens),
+  } : {}
+
+  return <main id="main-content" className="support-page space-y-7">
+    <header className="support-heading">
+      <div><p className="eyebrow">OBSERVATORY / YOUR ACCOUNT</p><h1>Every request,<br />in perspective.</h1><p>A clear view of your activity, response times and model usage. Only requests belonging to your account appear here.</p></div>
+      <div className="support-controls">
+        <label className="sr-only" htmlFor="metrics-period">Metrics period</label>
+        <select id="metrics-period" value={hours} onChange={event => setHours(Number(event.target.value))} className="support-input !w-auto"><option value={1}>Past hour</option><option value={24}>Past 24 hours</option><option value={168}>Past 7 days</option></select>
+        <button type="button" onClick={() => void mutate()} disabled={isValidating} className="support-action"><RefreshCw size={15} aria-hidden="true" className={isValidating ? 'animate-spin' : ''} />{isValidating ? 'Refreshing' : 'Refresh'}</button>
+      </div>
+    </header>
+    {isLoading && <div className="support-empty" role="status"><Activity size={28} aria-hidden="true" /><p>Bringing your activity into focus…</p></div>}
+    {error && <p className="support-error" role="alert">{error.message} Use Refresh to try again.</p>}
+    {summary && data && <>
+      <dl className="metrics-stats">{Object.entries(stats).map(([label, measurement]) => <div key={label} className="metrics-stat"><dt>{label}</dt><dd>{measurement}</dd></div>)}</dl>
+      <p className="text-sm leading-relaxed text-muted-foreground">Token measurements available for {summary.token_measurements} requests. Input: {value(summary.input_tokens)}; output: {value(summary.output_tokens)}. Cached answers skip generation; unreported tokens remain unavailable.</p>
+      <div className="metrics-breakdown">
+        <section className="support-panel"><div className="support-panel-heading"><h2>Provider activity</h2><span className="support-caption">MODEL USAGE</span></div><div className="metrics-list">{data.providers.length ? data.providers.map(row => <div className="metrics-list-row" key={row.provider ?? 'none'}><span>{row.provider ?? 'No model call'}</span><strong className="font-mono">{row.count}</strong></div>) : <p className="pt-3 text-sm text-muted-foreground">No provider activity in this period.</p>}</div></section>
+        <section className="support-panel"><div className="support-panel-heading"><h2>Error categories</h2><ShieldCheck size={17} aria-hidden="true" className="text-muted-foreground" /></div><div className="metrics-list">{data.errors.length ? data.errors.map(row => <div className="metrics-list-row" key={row.error_category}><span>{row.error_category}</span><strong className="font-mono">{row.count}</strong></div>) : <p className="pt-3 text-sm text-muted-foreground">No recorded errors in this period.</p>}</div></section>
+      </div>
+      <section className="support-panel"><div className="support-panel-heading"><h2>Hourly activity</h2><span className="support-caption">RECORDED REQUEST COUNTS</span></div><div className="metrics-hours">{data.trends.length ? data.trends.map(row => <p key={row.hour} className="metrics-hour text-muted-foreground"><time dateTime={row.hour}>{new Date(row.hour).toLocaleString()}</time><strong>{row.count}</strong></p>) : <p className="text-sm text-muted-foreground">Activity will appear after your first recorded request.</p>}</div></section>
+      <section className="support-panel"><div className="support-panel-heading"><h2>Request ledger</h2><span className="support-caption">RECENT ACTIVITY</span></div><div className="metrics-table-wrap" tabIndex={0} role="region" aria-label="Recent request table, scroll horizontally on small screens"><table className="metrics-table"><caption className="sr-only">Recent requests for your account</caption><thead><tr>{['Time', 'Operation', 'Status', 'Completion', 'Latency', 'Cache'].map(label => <th scope="col" key={label}>{label}</th>)}</tr></thead><tbody>{data.recent.map(row => <tr key={row.request_id}><td><time dateTime={row.created_at}>{new Date(row.created_at).toLocaleTimeString()}</time></td><td className="font-mono">{row.method} {row.route}</td><td>{row.status}</td><td><span className="metrics-outcome">{row.outcome}</span></td><td>{value(row.latency_ms, ' ms')}</td><td>{row.cache ?? '—'}</td></tr>)}</tbody></table>{!data.recent.length && <p className="p-6 text-sm text-muted-foreground">No requests recorded in this period.</p>}</div></section>
+      <p className="support-caption">ACCOUNT-SCOPED TELEMETRY · Dashboard reads are excluded.</p>
     </>}
   </main>
 }

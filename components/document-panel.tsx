@@ -21,10 +21,13 @@ export function DocumentPanel({
 }: DocumentPanelProps) {
   const { mutate } = useSWRConfig()
   const inputRef = useRef<HTMLInputElement>(null)
+  const [dragging,setDragging]=useState(false)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function handleFile(file: File) {
+    if(uploading)return
+    if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){setError('Choose a PDF document.');return}
     setError(null)
     setUploading(true)
     try {
@@ -50,14 +53,17 @@ export function DocumentPanel({
   }
 
   async function handleDelete(id: number) {
-    const response=await fetch(`/api/documents/${id}`, { method: 'DELETE' })
-    if(!response.ok){setError((await response.json()).error ?? 'Deletion failed');return}
-    await mutate('/api/documents')
+    setError(null)
+    try {
+      const response=await fetch(`/api/documents/${id}`, { method: 'DELETE' })
+      if(!response.ok){setError((await response.json()).error ?? 'Deletion failed');return}
+      await mutate('/api/documents')
+    } catch {setError('Deletion failed. Check your connection and retry.')}
   }
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-border p-4">
+      <div className="p-4">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Documents
         </h2>
@@ -65,7 +71,11 @@ export function DocumentPanel({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-md border border-dashed border-border bg-card px-3 py-4 text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground disabled:opacity-60"
+          className="mt-4 flex w-full min-h-28 flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card p-4 text-sm text-muted-foreground hover:border-primary"
+          data-dragging={dragging}
+          onDragOver={e=>{e.preventDefault();setDragging(true)}}
+          onDragLeave={()=>setDragging(false)}
+          onDrop={e=>{e.preventDefault();setDragging(false);const file=e.dataTransfer.files[0];if(file)void handleFile(file)}}
         >
           {uploading ? (
             <>
@@ -109,12 +119,13 @@ export function DocumentPanel({
           </li>
         )}
         {documents.map((doc) => (
-          <li key={doc.id} className="group relative">
+          <li key={doc.id} className="mono-document-row">
             <button
               type="button"
               onClick={() => onSelect(doc.id)}
+              aria-pressed={selectedId===doc.id}
               className={cn(
-                'flex w-full items-start gap-2.5 rounded-md px-2.5 py-2.5 text-left transition-colors',
+                'mono-document',
                 selectedId === doc.id
                   ? 'bg-accent'
                   : 'hover:bg-accent/50',
@@ -139,7 +150,7 @@ export function DocumentPanel({
             <button
               type="button"
               onClick={() => handleDelete(doc.id)}
-              className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground opacity-0 transition-opacity hover:text-destructive focus:opacity-100 group-hover:opacity-100"
+              className="mono-document-delete"
               aria-label={`Delete ${doc.title}`}
             >
               <Trash2 className="size-3.5" aria-hidden="true" />

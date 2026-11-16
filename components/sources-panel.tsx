@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 interface SourcesPanelProps {
   sources: SourceChunk[]
   activeIndex: number | null
+  focusKey?: number
 }
 
 function ScoreBar({
@@ -18,7 +19,7 @@ function ScoreBar({
   value: number | null
   max: number
 }) {
-  const pct = value === null ? 0 : Math.min(100, (value / max) * 100)
+  const pct = value === null ? 0 : Math.max(0, Math.min(100, (value / max) * 100))
   return (
     <div className="flex items-center gap-2">
       <span className="w-14 shrink-0 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -28,7 +29,7 @@ function ScoreBar({
         className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"
         role="meter"
         aria-label={`${label} score`}
-        aria-valuenow={value ?? 0}
+        aria-valuenow={Math.max(0, Math.min(max, value ?? 0))}
         aria-valuemin={0}
         aria-valuemax={max}
       >
@@ -44,43 +45,46 @@ function ScoreBar({
   )
 }
 
-export function SourcesPanel({ sources, activeIndex }: SourcesPanelProps) {
+export function SourcesPanel({ sources, activeIndex, focusKey = 0 }: SourcesPanelProps) {
   const itemRefs = useRef<(HTMLLIElement | null)[]>([])
+  const activeSourceId = activeIndex === null ? null : sources[activeIndex]?.id ?? null
 
   useEffect(() => {
-    if (activeIndex !== null && itemRefs.current[activeIndex]) {
+    if (activeSourceId !== null && activeIndex !== null && itemRefs.current[activeIndex]) {
+      itemRefs.current[activeIndex]?.focus({preventScroll:true})
       itemRefs.current[activeIndex]?.scrollIntoView({
-        behavior: 'smooth',
+        behavior: (window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduce') ? 'instant' : 'smooth',
         block: 'nearest',
       })
     }
-  }, [activeIndex])
+  }, [activeIndex, activeSourceId, focusKey])
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-border p-4">
+      <div className="mono-panel-heading">
         <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Retrieved Sources
+          The evidence
         </h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          Hybrid search: vector + keyword, fused with RRF
+          Follow a citation. See it in context.
         </p>
       </div>
-      <ol className="flex-1 overflow-y-auto p-3" aria-label="Retrieved source chunks">
+      <ol className="mono-sources-list" aria-label="Retrieved source chunks">
         {sources.length === 0 && (
           <li className="px-2 py-3 text-sm text-muted-foreground">
-            Ask a question to see which chunks were retrieved and how they
-            scored.
+            Every answer has a starting point. Ask a question, then open a citation to explore the original passage.
           </li>
         )}
         {sources.map((source, i) => (
           <li
             key={source.id}
+            tabIndex={-1}
+            data-active={activeIndex===i}
             ref={(el) => {
               itemRefs.current[i] = el
             }}
             className={cn(
-              'mb-3 rounded-lg border p-3 transition-colors',
+              'mono-source',
               activeIndex === i
                 ? 'border-primary/60 bg-primary/5'
                 : 'border-border bg-card',
@@ -96,14 +100,14 @@ export function SourcesPanel({ sources, activeIndex }: SourcesPanelProps) {
                 </span>
               </span>
             </div>
-            <p className="mt-2 line-clamp-4 font-mono text-xs leading-relaxed text-foreground/85">
+            <p className="mono-source-passage">
               {source.content}
             </p>
-            <div className="mt-3 flex flex-col gap-1.5">
+            <details><summary>Retrieval details</summary><div className="mt-3 flex flex-col gap-1.5">
               <ScoreBar label="vector" value={source.vectorScore} max={1} />
               <ScoreBar label="keyword" value={source.keywordScore} max={0.2} />
               <ScoreBar label="rrf" value={source.rrfScore} max={0.035} />
-            </div>
+            </div></details>
           </li>
         ))}
       </ol>

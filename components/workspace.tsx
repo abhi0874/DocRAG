@@ -3,26 +3,32 @@
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
 import { useMemo, useState } from 'react'
+import {LiquidPillGroup} from './ui/liquid-pill-group'
+import './workspace.css'
 import useSWR from 'swr'
 import { ChatPanel } from '@/components/chat-panel'
 import { DocumentPanel } from '@/components/document-panel'
 import { SourcesPanel } from '@/components/sources-panel'
 import type { DocumentInfo, RagUIMessage, SourceChunk } from '@/lib/types'
+import { requestMessages } from '@/lib/ui/chat-request'
 
 const fetcher = (url: string) => fetch(url).then(async r => {if(!r.ok)throw new Error('Documents unavailable');return r.json()})
 
 export function Workspace() {
-  const { data: documents, isLoading } = useSWR<DocumentInfo[]>(
+  const { data: documents, isLoading, error } = useSWR<DocumentInfo[]>(
     '/api/documents',
     fetcher,
   )
+  const [view,setView]=useState('conversation')
+  const [citationFocus,setCitationFocus]=useState(0)
+  const [sourcesOpen,setSourcesOpen]=useState(true)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [sourceMessageId, setSourceMessageId] = useState<string | null>(null)
   const [activeSource, setActiveSource] = useState<number | null>(null)
 
-  const { messages, sendMessage, status, setMessages, stop } = useChat<RagUIMessage>(
+  const { messages, sendMessage, status, setMessages, stop, error: chatError, clearError } = useChat<RagUIMessage>(
     {
-      transport: new DefaultChatTransport({ api: '/api/chat', prepareSendMessagesRequest: ({messages,body}) => ({body:{documentId:body?.documentId,messages:messages.map(m=>({id:m.id,role:m.role,parts:[{type:'text',text:m.parts.filter(p=>p.type==='text').map(p=>p.text).join(' ')}]}))}}) }),
+      transport: new DefaultChatTransport({ api: '/api/chat', prepareSendMessagesRequest: ({messages,body}) => ({body:{documentId:body?.documentId,messages:requestMessages(messages)}}) }),
     },
   )
 
@@ -44,6 +50,7 @@ export function Workspace() {
   }, [messages, sourceMessageId])
 
   function handleSelect(id: number) {
+    setView('conversation')
     if (id !== selectedId) {
       setSelectedId(id)
       setMessages([])
@@ -60,8 +67,9 @@ export function Workspace() {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-      <aside className="max-h-64 shrink-0 border-b border-border bg-sidebar lg:max-h-none lg:w-72 lg:border-b-0 lg:border-r">
+    <div className="mono-workspace"><div className="mono-workspace-bar"><p className="mono-breadcrumb">WORKSPACE / <strong>Your document studio</strong></p><div className="mono-mobile-views"><LiquidPillGroup label="Workspace view" value={view} onChange={next=>{setView(next);if(next==='sources')setSourcesOpen(true)}} options={[{value:'library',label:'Library'},{value:'conversation',label:'Ask'},{value:'sources',label:'Sources'}]}/></div><button className="mono-icon-button mono-desktop-toggle" aria-expanded={sourcesOpen} aria-controls="workspace-sources" onClick={()=>setSourcesOpen(!sourcesOpen)}>{sourcesOpen?'Hide evidence':'Show evidence'}</button></div><div className="mono-workspace-grid" data-view={view} data-sources-open={sourcesOpen}>
+      <aside className="mono-library">
+        {error&&<p role="alert" className="mono-error">Your documents could not be loaded. Check your connection and sign-in.</p>}
         <DocumentPanel
           documents={documents ?? []}
           isLoading={isLoading}
@@ -70,21 +78,22 @@ export function Workspace() {
         />
       </aside>
 
-      <main className="flex min-h-96 min-w-0 flex-1 flex-col">
+      <main id="main-content" className="mono-center">
+        {chatError&&<p role="alert" className="mono-error">The response could not be completed. Check your connection and try again. <button className="underline" onClick={clearError}>Dismiss error</button></p>}
         <ChatPanel
           messages={messages}
           status={status}
-          disabled={!selectedId}
+          disabled={!selectedDoc}
           documentTitle={selectedDoc?.title ?? null}
           onSend={handleSend}
           onStop={stop}
-          onCitationClick={(index, messageId) => {setSourceMessageId(messageId); setActiveSource(index)}}
+          onCitationClick={(index, messageId) => {setSourceMessageId(messageId); setActiveSource(index);setView('sources');setSourcesOpen(true);setCitationFocus(n=>n+1)}}
         />
       </main>
 
-      <aside className="shrink-0 border-t border-border bg-sidebar lg:w-85 lg:border-l lg:border-t-0">
-        <SourcesPanel sources={latestSources} activeIndex={activeSource} />
+      <aside id="workspace-sources" className="mono-source-region" hidden={!sourcesOpen}>
+        <SourcesPanel sources={latestSources} activeIndex={activeSource} focusKey={citationFocus} />
       </aside>
-    </div>
+    </div></div>
   )
 }

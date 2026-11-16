@@ -1,63 +1,14 @@
 'use client'
-
 import {AuthStatus} from './auth-status'
-import { FileSearch } from 'lucide-react'
+import {AppearanceControl} from './appearance'
+import {ArrowUpRight,Layers2} from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-
-export function AppHeader() {
-  const pathname = usePathname()
-
-  return (
-    <header className="flex min-h-14 shrink-0 flex-wrap items-center justify-between gap-2 border-b border-border bg-sidebar px-4 py-2 md:px-6">
-      <div className="flex min-w-0 flex-wrap items-center gap-2 md:gap-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <FileSearch className="size-4" aria-hidden="true" />
-          </span>
-          <span className="font-mono text-sm font-semibold tracking-tight">
-            DocRAG
-          </span>
-        </Link>
-        <nav aria-label="Main" className="flex items-center gap-1">
-          <Link
-            href="/"
-            className={cn(
-              'rounded-md px-3 py-1.5 text-sm transition-colors',
-              pathname === '/'
-                ? 'bg-accent text-accent-foreground'
-                : 'text-muted-foreground hover:text-foreground',
-            )}
-          >
-            Workspace
-          </Link>
-          <Link
-            href="/evaluate"
-            className={cn(
-              'rounded-md px-3 py-1.5 text-sm transition-colors',
-              pathname === '/evaluate'
-                ? 'bg-accent text-accent-foreground'
-                : 'text-muted-foreground hover:text-foreground',
-            )}
-          >
-            Evaluation
-          </Link>
-          <Link href="/metrics/dashboard" className="rounded-md px-3 py-1.5 text-sm hover:bg-accent">Metrics</Link>
-        </nav>
-      </div>
-      <AuthStatus />
-      <div className="hidden items-center gap-2 md:flex">
-        <span className="rounded border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
-          pgvector
-        </span>
-        <span className="rounded border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
-          hybrid search
-        </span>
-        <span className="rounded border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
-          RRF
-        </span>
-      </div>
-    </header>
-  )
+import {usePathname} from 'next/navigation'
+export function AppHeader(){
+ const pathname=usePathname()
+ return <header className="app-header">
+  <Link href="/" className="brand" aria-label="DocRAG home"><span className="brand-symbol"><Layers2 size={21} strokeWidth={1.4}/></span><span>DocRAG<span className="brand-edition">MONO / GLASS</span></span></Link>
+  <nav className="main-navigation" aria-label="Main">{[['/','Workspace'],['/evaluate','Evaluation'],['/metrics/dashboard','Insights']].map(([href,label])=><Link key={href} href={href} aria-current={pathname===href?'page':undefined}>{label}{pathname===href&&<span className="nav-dot" aria-hidden="true"/>}</Link>)}</nav>
+  <div className="header-tools"><span className="header-caption">AN OPTICAL WORKSPACE <ArrowUpRight size={12}/></span><AppearanceControl/><AuthStatus/></div>
+ </header>
 }

@@ -1,165 +1,59 @@
 'use client'
 
-import { CheckCircle2, FlaskConical, Loader2, XCircle } from 'lucide-react'
+import { ArrowRight, CheckCircle2, FlaskConical, Loader2, ScanText } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 import type { DocumentInfo, EvaluationResult } from '@/lib/types'
+import './supporting.css'
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json())
+const fetcher = async (url: string) => {
+  const response = await fetch(url)
+  if (!response.ok) throw new Error(response.status === 401 ? 'Sign in to access your evaluations.' : 'Your evaluation data could not be loaded.')
+  return response.json()
+}
 
-export function EvaluationPanel() {
-  const { data: documents } = useSWR<DocumentInfo[]>('/api/documents', fetcher)
-  const { data: evaluations, isLoading } = useSWR<EvaluationResult[]>(
-    '/api/evaluations',
-    fetcher,
-  )
+export function EvaluationPanel({ demoMode = false }: { demoMode?: boolean }) {
+  const { data: documents, error: documentError } = useSWR<DocumentInfo[]>('/api/documents', fetcher)
+  const { data: evaluations, isLoading, error: historyError, mutate: refreshHistory } = useSWR<EvaluationResult[]>('/api/evaluations', fetcher)
   const { mutate } = useSWRConfig()
-
-  const [documentId, setDocumentId] = useState<string>('')
+  const [documentId, setDocumentId] = useState('')
   const [question, setQuestion] = useState('')
   const [running, setRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function runEvaluation() {
-    if (!documentId || !question.trim() || running) return
-    setError(null)
-    setRunning(true)
+    if (demoMode || !documentId || !question.trim() || running) return
+    setError(null); setRunning(true)
     try {
-      const res = await fetch('/api/evaluations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ documentId: Number(documentId), question }),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setError(data.error ?? 'Evaluation failed')
-      } else {
-        setQuestion('')
-        await mutate('/api/evaluations')
-      }
-    } catch {
-      setError('Evaluation failed. Please try again.')
-    } finally {
-      setRunning(false)
-    }
+      const response = await fetch('/api/evaluations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ documentId: Number(documentId), question }) })
+      const data = await response.json()
+      if (!response.ok) setError(data.error ?? 'Evaluation failed')
+      else { setQuestion(''); await mutate('/api/evaluations') }
+    } catch { setError('Evaluation failed. Please try again.') }
+    finally { setRunning(false) }
   }
 
-  return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-8 md:px-6">
-      <div className="flex items-center gap-3">
-        <span className="flex size-10 items-center justify-center rounded-lg border border-border bg-card">
-          <FlaskConical className="size-5 text-primary" aria-hidden="true" />
-        </span>
-        <div>
-          <h1 className="text-lg font-semibold">RAG Evaluation</h1>
-          <p className="text-sm text-muted-foreground">
-            Compare a grounded answer (with retrieval) against the model&apos;s
-            ungrounded answer to the same question.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-6 rounded-lg border border-border bg-card p-4">
-        <div className="flex flex-col gap-3 md:flex-row">
-          <select
-            value={documentId}
-            onChange={(e) => setDocumentId(e.target.value)}
-            aria-label="Select document"
-            className="h-10 rounded-md border border-input bg-background px-3 text-sm md:w-64"
-          >
-            <option value="">Select a document...</option>
-            {documents?.map((doc) => (
-              <option key={doc.id} value={doc.id}>
-                {doc.title}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            onKeyDown={(e) => {
-              if (
-                e.key === 'Enter' &&
-                !e.nativeEvent.isComposing &&
-                e.keyCode !== 229
-              ) {
-                e.preventDefault()
-                runEvaluation()
-              }
-            }}
-            placeholder="Ask a question the document should answer..."
-            aria-label="Evaluation question"
-            className="h-10 flex-1 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          />
-          <button
-            type="button"
-            onClick={runEvaluation}
-            disabled={!documentId || !question.trim() || running}
-            className="flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
-          >
-            {running ? (
-              <>
-                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                Running both...
-              </>
-            ) : (
-              'Run comparison'
-            )}
-          </button>
-        </div>
-        {error && (
-          <p role="alert" className="mt-2 text-xs text-destructive">
-            {error}
-          </p>
-        )}
-      </div>
-
-      <div className="mt-8 flex flex-col gap-6">
-        {isLoading && (
-          <p className="text-sm text-muted-foreground">Loading evaluations...</p>
-        )}
-        {!isLoading && (!evaluations || evaluations.length === 0) && (
-          <p className="text-sm text-muted-foreground">
-            No evaluations yet. Run a comparison above to see RAG vs no-RAG
-            side by side.
-          </p>
-        )}
-        {evaluations?.map((ev) => (
-          <article
-            key={ev.id}
-            className="rounded-lg border border-border bg-card"
-          >
-            <header className="border-b border-border px-4 py-3">
-              <p className="text-sm font-medium">{ev.question}</p>
-              <p className="mt-0.5 font-mono text-xs text-muted-foreground">
-                {ev.retrievedChunks.length} chunks retrieved /{' '}
-                {new Date(ev.createdAt).toLocaleString()}
-              </p>
-            </header>
-            <div className="grid grid-cols-1 divide-y divide-border md:grid-cols-2 md:divide-x md:divide-y-0">
-              <div className="p-4">
-                <h3 className="flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-primary">
-                  <CheckCircle2 className="size-3.5" aria-hidden="true" />
-                  With RAG (grounded)
-                </h3>
-                <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed">
-                  {ev.ragAnswer}
-                </p>
-              </div>
-              <div className="p-4">
-                <h3 className="flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  <XCircle className="size-3.5" aria-hidden="true" />
-                  Without RAG (model only)
-                </h3>
-                <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
-                  {ev.noRagAnswer}
-                </p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  )
+  return <div className="support-page">
+    <header className="support-heading"><div><p className="eyebrow">EVALUATION / A CLOSER LOOK</p><h1>The difference<br />is in the evidence.</h1><p>Compare a document-grounded response with the same model answering on its own. Inspect the answers side by side.</p></div><FlaskConical size={32} strokeWidth={1.2} aria-hidden="true" className="text-primary" /></header>
+    {demoMode ? <section className="support-panel p-6"><h2 className="mb-2 font-semibold">Comparisons belong in your local workspace.</h2><p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">The public demo accepts reviewed sample questions only. New evaluations are disabled to protect privacy and shared capacity.</p><Link href="/" className="support-action mt-5">Explore the public demo<ArrowRight size={15} aria-hidden="true" /></Link></section> : <section className="support-panel" aria-label="New answer comparison">
+      <div className="support-panel-heading"><h2>Set up a comparison</h2><span className="support-caption">DOCUMENT + QUESTION</span></div>
+      <form className="eval-form" aria-busy={running} onSubmit={event => { event.preventDefault(); void runEvaluation() }}>
+        <label className="support-field">Source document<select value={documentId} onChange={event => setDocumentId(event.target.value)} disabled={running || !!documentError} aria-label="Select document" className="support-input"><option value="">Select a document…</option>{documents?.map(doc => <option key={doc.id} value={doc.id}>{doc.title}</option>)}</select></label>
+        <label className="support-field">Your question<input type="text" value={question} onChange={event => setQuestion(event.target.value)} onKeyDown={event => { if (event.key === 'Enter' && (event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault() }} disabled={running} placeholder="What should this document answer?" aria-label="Evaluation question" className="support-input" /></label>
+        <button type="submit" disabled={!documentId || !question.trim() || running || !!documentError} className="support-action support-action-primary min-h-12">{running ? <><Loader2 size={16} className="animate-spin" aria-hidden="true" />Running both…</> : <>Run comparison<ArrowRight size={16} aria-hidden="true" /></>}</button>
+      </form>
+      {(error || documentError) && <p role="alert" className="support-error mx-6 mb-6">{error ?? documentError.message}</p>}
+    </section>}
+    <section className="eval-history" aria-label="Your comparison history">
+      <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="eyebrow">YOUR COMPARISONS</h2><span className="support-caption">{evaluations?.length ?? 0} SAVED</span></div>
+      {isLoading && <p role="status" className="text-sm text-muted-foreground">Loading your comparisons…</p>}
+      {historyError && <div className="support-error" role="alert"><p>{historyError.message}</p><button type="button" className="support-action" onClick={() => void refreshHistory()}>Retry</button></div>}
+      {!isLoading && !historyError && !evaluations?.length && <div className="support-empty"><ScanText size={30} strokeWidth={1.2} aria-hidden="true" /><h2>A fresh perspective awaits.</h2><p>{demoMode ? 'Your existing comparisons will appear here. Explore sample answers in the public workspace.' : 'Choose a document and a question above. Your grounded and model-only answers will appear here together.'}</p></div>}
+      {evaluations?.map(evaluation => <article key={evaluation.id} className="support-panel">
+        <header className="border-b border-border p-6"><h3 className="eval-result-title">{evaluation.question}</h3><p className="support-caption mt-3">{evaluation.retrievedChunks.length} SOURCE EXCERPTS · <time dateTime={evaluation.createdAt}>{new Date(evaluation.createdAt).toLocaleString()}</time></p></header>
+        <div className="eval-columns"><section className="eval-column"><h4 className="flex items-center gap-2 text-sm font-medium text-primary"><CheckCircle2 size={16} aria-hidden="true" />With RAG · document-grounded</h4><p className="eval-answer">{evaluation.ragAnswer}</p></section><section className="eval-column"><h4 className="flex items-center gap-2 text-sm font-medium text-muted-foreground"><FlaskConical size={16} aria-hidden="true" />Without RAG · model only</h4><p className="eval-answer">{evaluation.noRagAnswer}</p></section></div>
+      </article>)}
+    </section>
+  </div>
 }
