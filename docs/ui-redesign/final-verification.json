@@ -1,0 +1,112 @@
+{
+  "status": "PASS",
+  "source_commit": "acddb352aa5e1d02f42c87b4d12ed34c7d38022a",
+  "applicable_post_fix_commands": [
+    {
+      "command": "make lint",
+      "exit_code": 0,
+      "log": ".local/ui-redesign/lint-post-stop.log",
+      "log_sha256": "5839aa9a8d170a0055ddbd176253d4aacd393b8fc8fc2db2f8bde251eb5b3236"
+    },
+    {
+      "command": "make test",
+      "exit_code": 0,
+      "log": ".local/ui-redesign/tests-post-stop.log",
+      "log_sha256": "579e000043dfb7da893a185140d4c92acceeedb6f0819609c195c8e8282989fb"
+    },
+    {
+      "command": "make cov",
+      "exit_code": 0,
+      "log": ".local/ui-redesign/coverage-post-stop.log",
+      "log_sha256": "128c725ebb02de14b4083b32c37b553592d761f076ed9d1b7e1e49355a1e3184"
+    },
+    {
+      "command": "make build-fe",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/00.log",
+      "log_sha256": "1f403e1980b9dac0f7bced5ea90b9c4ba53417c7db63b16f376947109f7b423e"
+    },
+    {
+      "command": "pnpm exec vitest run tests/chat-request.test.ts tests/chat-cancellation-stages.test.ts tests/node-stream-runtime.test.ts tests/closed-code-attribution.test.ts tests/cache-api.test.ts",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/01.log",
+      "log_sha256": "e3ac7e48c80a999220af5dbf2aff485b36be5f72b3e60defa05458c2316647f1"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_http",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/02.log",
+      "log_sha256": "059b83416174294f849895ab864df1804eeab82dc0a82afa708c3b66193cef17"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.observability_http",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/03.log",
+      "log_sha256": "67895148ad790bdc77e1746192d0235a2b9167b5342e7175f4c52e2ad71c5bb5"
+    },
+    {
+      "command": ".venv/bin/python -m eval.citation_cache_http",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/04.log",
+      "log_sha256": "9ee1028efbcca9511f65e99ea765f2a1cc14dbeee34de854ce8cc9ed7784e66f"
+    },
+    {
+      "command": ".venv/bin/python -m pytest -q tests/test_prompting_gate.py tests/test_prompting_report.py tests/test_security_gate.py tests/test_observability_gate.py",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/05.log",
+      "log_sha256": "4adf3e737c886cd8b77a0ce3b1942d5086d34a1a2615db4224bc349e76dee671"
+    },
+    {
+      "command": ".venv/bin/python -m eval.deployment_gate --baseline eval/results/observability/step10-final-c/evaluation.json --candidate eval/results/observability/ui-redesign-d/evaluation.json",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/06.log",
+      "log_sha256": "e5ac3a62b83f8f8ffc4a76f7041dd73e6b381ea46aba19e90152ef3c4c22a56d"
+    },
+    {
+      "command": ".venv/bin/python -m eval.check_regression --baseline eval/results/observability/step12-final-a/evaluation.json --current eval/results/observability/ui-redesign-d/evaluation.json",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/07.log",
+      "log_sha256": "d9c6a6779745423670b09edd13ea85d9410eec374b7460b0d7464c5134b088bd"
+    },
+    {
+      "command": ".venv/bin/python -m eval.reranking_integrity --out .local/ui-redesign-post-stop/preservation.json",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/08.log",
+      "log_sha256": "d1141e95a3ba9bcd4b27cfed807e9aeb8a11f03767840510c04eba1b4a9bd6f9"
+    },
+    {
+      "command": ".venv/bin/python -m scripts.security_audit",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/09.log",
+      "log_sha256": "12da2ecb56e5634fb80aa868c06f382fe56cb3b13147fecc083a87a8f62db649"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log": ".local/ui-redesign-post-stop/10.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "unique_unit_tests": {
+    "python": 218,
+    "typescript": 273,
+    "total": 491,
+    "failed": 0
+  },
+  "typescript_coverage": {
+    "statements": 58.31,
+    "branches": 59.21,
+    "functions": 50.75,
+    "lines": 62.5
+  },
+  "python_unit_coverage": {
+    "covered": 377,
+    "total": 1869,
+    "percent": 20.17
+  },
+  "full_python_integration_coverage": "Historical publication 76.46%; not rerun or relabeled fresh",
+  "pre_fix_full_verifier": "ui-redesign-d:27/27, exit0; see final-source-review.json for the isolated UI delta",
+  "production_ui_lab_route": 404,
+  "no_push": true,
+  "no_deployment": true
+}

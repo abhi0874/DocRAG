@@ -1,0 +1,11 @@
+{
+  "duringStream": {
+    "active": "Chat message",
+    "streaming": true
+  },
+  "after": {
+    "active": "Chat message",
+    "selectedSource": "1page 1 / chunk #0PostgreSQL transactions begin with BEGIN and finish with COMMIT. ROLLBACK cancels the transaction.Retrieval detailsvector0.800keyword0.100rrf0.030",
+    "streaming": false
+  }
+}

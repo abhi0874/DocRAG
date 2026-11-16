@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "baseline": "b40319ccce62390edd4f8acd6573abc836671f53",
+  "full_run_d_frozen_entries": 245,
+  "changed_from_full_run_d": [
+    "components/workspace.tsx"
+  ],
+  "added_since_full_run_d": [
+    "lib/ui/chat-request.ts",
+    "tests/chat-request.test.ts"
+  ],
+  "post_fix_frozen_entries": 184,
+  "post_fix_changed": [],
+  "post_fix_source_manifest_sha256": "2cc07315ad56ad054bf020d835edbb3487b063b4d4521521d3fbac0f68bfbce0",
+  "final_source_hashes": {
+    "AGENTS.md": "62ed79eb12bcde2898a4c4dfd37b5b7456e9f346409d0c11ab35b14cf99e69d9",
+    "app/error.tsx": "5cd6a5e72bae2ac4994c69a4aa1cbadb511c5e947124b2adf7ac16d5da842be2",
+    "app/evaluate/page.tsx": "76114e3a5cee7929eafb57272c65244861be9cf0554c9009d5214ad3d2f0056c",
+    "app/globals.css": "644cf0d50c05f9faa2ffebf451c62c984843fa9b6a5ecb48380f5cc9c9d84d72",
+    "app/layout.tsx": "6b8856cdc048fbe0d0ba989e05ed1207d97a490088e1ea52556f1de4bae7a4f0",
+    "app/not-found.tsx": "7c6a4557001caae60016c72b0a7330df413f46648a4d1b76d49d82e04428cd36",
+    "app/page.tsx": "5253af44d6a950a78ad8a21be50d37c54ab58afaafa23bc99488adec56310211",
+    "app/sign-in/page.tsx": "452c23df865272e26d195864862be03a2d9834c45210a0a0954190a8aa6bb5c6",
+    "app/ui-lab/page.tsx": "0e9cc1cf9b4d726156d5bd75d833896ba682723b7582aa6ffd9d1d770f9c277d",
+    "components/answer-feedback.tsx": "b9797da5e258fece23cc8821d53a322bb4ce260caa35e49fab327610472a5d02",
+    "components/app-header.tsx": "e85e6f816804746bca871222b66f4d69029ed0472608890ecbaa1cb63406f833",
+    "components/appearance.tsx": "c30bd46baf509312c25b81f6312d494bdff6b64874351e9d008f213bac9947e3",
+    "components/auth-status.tsx": "1244eeacdaaa29f3e06897ceaa321bcff0c38c1cadcd50670c786bf04796b3f7",
+    "components/chat-panel.tsx": "2a2dfeebedf392247b006a077b757879f39c944ef4c71858f48eb2aaec849a52",
+    "components/demo-workspace.tsx": "0befe070295c7915063674a74049d42ae12f2e25568ebff16febf558d1ffec3f",
+    "components/document-panel.tsx": "79314554a224040cbb6d053263a209a30bc0bee3ea36ccb817b3d60efe22f4b0",
+    "components/evaluation-panel.tsx": "f876ac509de224924011421e9fe345a0e01fc3a6f0da92eb43a260abe0100365",
+    "components/message-content.tsx": "c223e0f7564dac7bbd9d1f6d2c26b16c66f7d53372840456128e6f37b791adf1",
+    "components/metrics-dashboard.tsx": "10254e779e755783ff13f4396c20220f8649b73d90583e74a96dbb892e5f08e4",
+    "components/sources-panel.tsx": "8383faf9e83c14c0a7db3440573deb39b8e2e5850e9e36e932169668e483cd5f",
+    "components/supporting.css": "ce535525e8b6b54b6545644e7d650d9976d807d14dab02aee91025d4b4d0fb40",
+    "components/ui-lab.tsx": "41a11081caee05f80526223270a5cf544647e547a3d7f31d7f2dfb69ddd260bc",
+    "components/ui/liquid-pill-group.tsx": "8d3f8c905cf07cb020bc9afd3aa8094dc74fffa1b9f5c02ec88d3ba8d4511213",
+    "components/ui/liquid-pill.css": "2165db3a31adb503c74a36b153154ae3a51a4d636d48214e111b099362d70a2f",
+    "components/workspace.css": "94111d66f754b0d357f4e495c586e91dfafa4987e9267c864d3e5e2e3bc1ebec",
+    "components/workspace.tsx": "a67267cbafbd2982f15d5cc975ea0d4f5662d9195d3b68ff8d14c3fc96db0d02",
+    "lib/ui/appearance.ts": "1395086d072512a771f1f7ff5cdb4ae55c66098c2e1d77a9849dc67b42a612f3",
+    "lib/ui/chat-request.ts": "e3925421d751b3efd55982f829b85f80ba1253afd267ba050f4c15b438ef0463",
+    "lib/ui/lens-normal.ts": "bd711193cc5a541a8fda1deddda959385cf8bd7e487d15caecdf55e77f006f98",
+    "lib/ui/liquid-physics.ts": "6d05298cb655826eb11262731a8f789ba237447e4217ccbbfe2585bd3d9a7fda",
+    "tests/appearance.test.ts": "fc695790876219ba4142143675e641f8ab47bffa1e157c555dd150a197387d37",
+    "tests/chat-request.test.ts": "0583e0e977600e7623748ade33520cca962763b568e55807e75035ee08002d64",
+    "tests/liquid-pill.test.ts": "061e46e093e8b2b7e67004a054255663175f91a9ecb1b4e48b45110949c484bb",
+    "tests/message-content.test.tsx": "c7f0a906f2a0a9e2996d0fa55a7d4dc962f04d00850710d9642c34ef6d6975c1",
+    "vitest.config.ts": "04ec7548956c6e0809b8cd40c4200d8d2cec66a8ec30467993c8155d4419b16f"
+  },
+  "engine_evaluation_reused": "ui-redesign-d; unchanged evaluator and backend; single-turn evaluator does not import UI history serializer"
+}

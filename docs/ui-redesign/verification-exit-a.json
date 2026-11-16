@@ -1,0 +1,15 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "coverage",
+    "run",
+    "-m",
+    "scripts.verify_observability",
+    "--deployment",
+    "--run-id",
+    "ui-redesign-a"
+  ],
+  "exit_code": 2,
+  "utc": "2026-11-14T20:16:01.004812+00:00"
+}

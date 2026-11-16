@@ -1,0 +1,19 @@
+{
+  "utc": "2026-11-15T18:33:53.857173+00:00",
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "coverage",
+    "run",
+    "-m",
+    "scripts.verify_observability",
+    "--deployment",
+    "--run-id",
+    "ui-redesign-d"
+  ],
+  "exit_code": 0,
+  "runtime_checks": 253,
+  "required_runtime": "0.40.9",
+  "runtime_guard_error": null,
+  "status": "PASS"
+}

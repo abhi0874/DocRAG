@@ -1,0 +1,21 @@
+{
+  "emptyAssistantBeforeStop": {
+    "assistant": "Assistant",
+    "sourceCount": 1
+  },
+  "followup": {
+    "answer": "AssistantPostgreSQL transaction blocks start with BEGIN and end with COMMIT 1.Was this answer helpful?",
+    "error": false,
+    "focus": "mono-source border-primary/60 bg-primary/5",
+    "source": "1page 1 / chunk #0PostgreSQL transaction blocks start with BEGIN and end with COMMIT.Retrieval detailsvector0.526keyword—rrf0.016"
+  },
+  "upload": "PASS: one public transaction PDF, owned test account A",
+  "feedback": "PASS: Helpful saved",
+  "evaluation": "PASS: owned comparisons visible",
+  "metrics": "PASS: owned dashboard headings and request ledger visible",
+  "isolation": {
+    "secondAccount": true,
+    "firstAccountUploadVisible": false
+  },
+  "protectedAfterLogout": true
+}

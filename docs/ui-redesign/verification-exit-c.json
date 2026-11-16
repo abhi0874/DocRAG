@@ -1,0 +1,10 @@
+{
+  "status": "INTERRUPTED",
+  "utc_observed": "2026-11-15T18:02:33.681597+00:00",
+  "exit_code": null,
+  "completed_groups": 20,
+  "evaluation_progress": "57/100",
+  "cause": "Unknown. Verification, local preview and Ollama processes absent at independent process/port check. No completion receipt; not accepted.",
+  "source_changed_during_active_run": false,
+  "recovery": "Existing service startup authorization reused; no conflicting process killed."
+}

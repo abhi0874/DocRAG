@@ -1,0 +1,7 @@
+{
+  "before": ".x{-webkit-backdrop-filter:blur(var(--glass-blur))}",
+  "after": ".x{backdrop-filter:blur(var(--glass-blur))}",
+  "browserComputedHigh": "blur(12px)",
+  "browserComputedLow": "none",
+  "reason": "The installed CSS minifier retains the last equivalent property; put standard declaration last."
+}

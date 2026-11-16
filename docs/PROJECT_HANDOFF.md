@@ -8,6 +8,26 @@ for53 production checks, actual hosted CI and cost/rollback evidence. Historical
 completion records remain preserved. Additional resource/billing changes are not
 authorized by this handoff.
 
+## Current local frontend redesign
+
+MONO / GLASS is locally complete on top of publication baseline `b40319c`; it is
+not deployed. Read [ui-redesign/ACCEPTANCE](ui-redesign/ACCEPTANCE.md) for browser
+scope, local commit receipts and the separate publication boundary. The redesign
+uses semantic theme tokens, appearance preferences, a bounded decorative SVG lens,
+one spring-driven liquid radio indicator, responsive library/chat/evidence panes,
+and a safe Markdown/citation renderer. `lib/ui/chat-request.ts` excludes empty
+assistant shells after early cancellation while preserving partial text and server
+validation. Backend, auth, ownership, model configuration, database schemas and
+cache defaults are unchanged.
+
+Final 491 tests and14 post-repair checks pass; the27-group run and100-question
+engine evaluation predate only the final UI request serializer fix. Evidence is
+explicit about fresh answers, cached judgments and historical full Python coverage.
+The dev-only `/ui-lab` provides public-fixture interaction measurements and returns
+404 in production. High-refresh claims are limited to measured ~120Hz;165Hz,
+Firefox and physical-mobile verification remain unavailable. No new packages.
+Do not interpret prior publication permission as approval to publish this redesign.
+
 ## Architecture and source map
 
 The UI is Next.js 16.4.4, React 19.2.4, TypeScript and Tailwind. `app/page.tsx`

@@ -1,0 +1,16 @@
+{
+  "command": [
+    ".venv/bin/python",
+    "-m",
+    "coverage",
+    "run",
+    "-m",
+    "scripts.verify_observability",
+    "--deployment",
+    "--run-id",
+    "ui-redesign-b"
+  ],
+  "exit_code": 1,
+  "utc": "2026-11-14T20:55:17.904625+00:00",
+  "environmentCorrection": "Removed accidental process-wide AI_PROVIDER override; runner selects local inference only for applicable commands."
+}

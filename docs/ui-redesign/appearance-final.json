@@ -1,0 +1,15 @@
+{
+  "reducedMotion": {
+    "animating": [
+      "false",
+      "false",
+      "false"
+    ],
+    "indicators": 3,
+    "motion": "reduce"
+  },
+  "reloadPersisted": true,
+  "escapeFocus": "Appearance settings",
+  "publicSourcesAfterDesktopHide": true,
+  "consoleWarningsOrErrors": 0
+}

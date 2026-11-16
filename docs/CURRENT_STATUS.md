@@ -1,3 +1,33 @@
+# MONO / GLASS local redesign complete — 16 November 2026
+
+The separate frontend redesign is complete locally on `feat/production-rag`.
+See [acceptance](ui-redesign/ACCEPTANCE.md), [verification](ui-redesign/VERIFICATION.md)
+and [performance](ui-redesign/PERFORMANCE.md). The existing public deployment at
+`b40319c` is unchanged; this redesign has NOT been pushed or redeployed.
+
+Both themes, liquid controls, appearance preferences and responsive public/native
+workspaces are implemented. Final 491 unit tests, lint/build and 14 applicable
+post-repair commands pass. The earlier 27/27 full contract result is retained with
+its exact pre-serializer source provenance. Its 100 fresh local answers/embeddings
+and 15 fresh/85 cached judgments yield Recall@5 .975, faithfulness 1, correctness
+.990 and citations 265/265; unchanged regression gates pass.
+
+Real local browser upload/chat/citation/cancellation/feedback/isolation checks pass.
+Chromium 157 and Safari 27.3 have the documented browser scopes. Short interaction
+measurements observed approximately 120Hz, p95 8.6–9.3ms, 11 estimated drops over
+13,173 frames and no observed long tasks. 165Hz and physical-device testing remain
+unverified. Final TS statement coverage58.31%; Python unit20.17%; complete Python
+integration76.46% remains historical. Two reviewed moderate JS advisories remain.
+
+Implementation commit: `acddb35`. Exact-stage and local-commit receipts are under
+docs/ui-redesign; LOCAL_COMMITS.md identifies its containing evidence commit.
+Preserve all rejected/interrupted runs. No new dependency, paid API, model change,
+unrelated service change or destructive operation. Further push, hosted CI,
+redeployment and production smoke checks require separate explicit authorization.
+Service availability must be inspected afresh before future work.
+
+## Earlier publication and roadmap checkpoints (historical)
+
 # Public deployment verified — 13–14 November 2026
 
 The user explicitly authorized the separate publication phase after STEP12.

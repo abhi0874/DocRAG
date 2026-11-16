@@ -1,0 +1,13 @@
+{
+  "utc": "2026-11-16T03:26:48.591080+00:00",
+  "database_identity": "docrag|55433|/Users/abhisheshramadasshet/Documents/ChatGPT/DocRAG/RAG-Agent/.local/postgres",
+  "ollama_pid": 55078,
+  "version": "0.40.9",
+  "cloud_disabled": true,
+  "binding": "127.0.0.1:11434",
+  "digests": {
+    "embeddinggemma:300m": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1",
+    "qwen3.8:latest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163"
+  },
+  "changes": "Authorized starts only; prior full verification d passed. Subsequent service stop cause unknown."
+}

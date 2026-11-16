@@ -1,0 +1,101 @@
+{
+  "method": "WCAG relative luminance of current semantic tokens; not a complete accessibility certification",
+  "checks": [
+    {
+      "theme": "light",
+      "foreground": "foreground",
+      "background": "card",
+      "ratio": 17.78,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "foreground": "muted-foreground",
+      "background": "card",
+      "ratio": 5.846,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "foreground": "muted-foreground",
+      "background": "background",
+      "ratio": 5.352,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "foreground": "primary",
+      "background": "card",
+      "ratio": 6.725,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "foreground": "input",
+      "background": "background",
+      "ratio": 3.376,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "theme": "light",
+      "foreground": "input",
+      "background": "card",
+      "ratio": 3.687,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "foreground",
+      "background": "card",
+      "ratio": 15.844,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "muted-foreground",
+      "background": "card",
+      "ratio": 7.304,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "muted-foreground",
+      "background": "background",
+      "ratio": 8.114,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "primary",
+      "background": "card",
+      "ratio": 15.009,
+      "minimum": 4.5,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "input",
+      "background": "background",
+      "ratio": 3.385,
+      "minimum": 3,
+      "pass": true
+    },
+    {
+      "theme": "dark",
+      "foreground": "input",
+      "background": "card",
+      "ratio": 3.046,
+      "minimum": 3,
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "composerWidth": 239.3545379638672,
+    "overflow": false,
+    "pageWidth": 299,
+    "theme": "light",
+    "width": 299
+  },
+  {
+    "composerWidth": 290.75640869140625,
+    "overflow": false,
+    "pageWidth": 350,
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "composerWidth": 342.15826416015625,
+    "overflow": false,
+    "pageWidth": 402,
+    "theme": "light",
+    "width": 402
+  },
+  {
+    "composerWidth": 528.7674560546875,
+    "overflow": false,
+    "pageWidth": 718,
+    "theme": "light",
+    "width": 718
+  },
+  {
+    "composerWidth": 304.0230407714844,
+    "overflow": false,
+    "pageWidth": 957,
+    "theme": "light",
+    "width": 957
+  },
+  {
+    "composerWidth": 584.7984619140625,
+    "overflow": false,
+    "pageWidth": 1346,
+    "theme": "light",
+    "width": 1346
+  },
+  {
+    "composerWidth": 929.4099731445312,
+    "overflow": false,
+    "pageWidth": 1794,
+    "theme": "light",
+    "width": 1794
+  },
+  {
+    "composerWidth": 239.3545379638672,
+    "overflow": false,
+    "pageWidth": 299,
+    "theme": "dark",
+    "width": 299
+  },
+  {
+    "composerWidth": 290.75640869140625,
+    "overflow": false,
+    "pageWidth": 350,
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "composerWidth": 342.15826416015625,
+    "overflow": false,
+    "pageWidth": 402,
+    "theme": "dark",
+    "width": 402
+  },
+  {
+    "composerWidth": 528.7674560546875,
+    "overflow": false,
+    "pageWidth": 718,
+    "theme": "dark",
+    "width": 718
+  },
+  {
+    "composerWidth": 304.0230407714844,
+    "overflow": false,
+    "pageWidth": 957,
+    "theme": "dark",
+    "width": 957
+  },
+  {
+    "composerWidth": 584.7984619140625,
+    "overflow": false,
+    "pageWidth": 1346,
+    "theme": "dark",
+    "width": 1346
+  },
+  {
+    "composerWidth": 929.4099731445312,
+    "overflow": false,
+    "pageWidth": 1794,
+    "theme": "dark",
+    "width": 1794
+  }
+]

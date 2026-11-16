@@ -1,3 +1,9 @@
+> Current task: MONO / GLASS local frontend redesign. No push or redeployment is
+> authorized by this task. See ui-redesign/ACCEPTANCE.md and VERIFICATION.md for
+> exact final commands, scopes and evidence. The publication authorization below
+> describes the completed November 13–14 phase; it does not authorize publishing
+> this redesign. Keep Node 24.22.1 and pnpm 11.25.0.
+
 > Current precedence: the separate zero-cost publication phase is explicitly authorized.
 > See PUBLICATION_STATUS.md for publication commands and actual receipts. Stage-specific permissions
 > below are historical unless explicitly incorporated by the latest task. Use
