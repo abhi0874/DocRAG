@@ -1,19 +1,35 @@
 # STEP15 — README publication and branch audit
 
-## Outcome
+## Authorized publication resolution
+
+After the initial local checkpoint below, the user delegated the temporary build
+suppression decision. In the existing DocRAG Vercel project, Ignored Build Step was
+changed from Automatic to Don't build anything (`exit 0`) and verified after reload.
+The previous production deployment's Automatic snapshot is historical; new builds
+use the current project setting. Normal documentation pushes can now proceed.
+After both resulting build attempts are confirmed cancelled/skipped, restore
+Automatic and verify the existing production deployment remains the active alias.
+Final remote equality, rendered README/Mermaid verification and restored build
+settings are required observations at the end of publication.
+
+GitHub main has documentation commit `2ef0116`; production documentation begins at
+`381dc67`. A small follow-up audit commit records this authorization. Application
+code remains identical to6458b35. No branch deletion or application merge is involved.
+
+## Initial local outcome — superseded by the resolution above
 
 Both README updates are prepared locally. GitHub About metadata now points to
 https://docrag-demo.onrender.com/ and describes the deployed hybrid RAG application.
 The default branch remains `main`.
 
-**STEP15 is BLOCKED at documentation publication.** The user's instruction requires
+At this initial checkpoint, **STEP15 was BLOCKED at documentation publication.** The user's instruction requires
 stopping a push that would trigger an unwanted deployment. Vercel's DocRAG project
 is linked to this repository with Ignored Build Step set to **Automatic**. Production
 uses `main`; pushes to `feat/production-rag` create previews. The previous redesign
 push demonstrated that feature-branch preview trigger. Render tracks the feature
 branch with auto-deploy **Off**, retaining application commit6458b35.
 
-No documentation push, PR creation or deployment was performed in STEP15. Direct
+No documentation push, PR creation or deployment had been performed at that checkpoint. Direct
 pushes to main are unprotected and no main rulesets were reported, but the hosting
 trigger still blocks publication under the user's explicit restriction. An automatic
 preview triggered by PR creation would have the same unwanted side effect.
