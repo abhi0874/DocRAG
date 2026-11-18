@@ -1,0 +1,45 @@
+{
+  "status": "PROVISIONAL_NOT_RELEASE_VALIDATED",
+  "questions": 100,
+  "cache_statistics": {
+    "embedding_hits": 0,
+    "embedding_misses": 100,
+    "answer_hits": 0,
+    "answer_misses": 100,
+    "judge_hits": 0,
+    "judge_misses": 100
+  },
+  "metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 0.9851301115241635,
+    "citation_supported": 265,
+    "citation_denominator": 269,
+    "faithfulness": 0.995,
+    "correctness": 0.99,
+    "p50_latency_ms": 5802.2551045,
+    "p95_latency_ms": 12718.314743749997,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6679.18,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1716.22,
+    "judge_tokens_per_query": 4935.02,
+    "retrieval_p50_latency_ms": 43.05016699999999,
+    "retrieval_p95_latency_ms": 83.68008094999995,
+    "generation_p50_latency_ms": 5755.88925,
+    "generation_p95_latency_ms": 12671.075855899997
+  },
+  "failed_quality_row": "postgresql-037",
+  "validation": "FAIL: dirty implementation differs from recorded Git revision",
+  "compatibility_gate": "FAIL: raw result provenance/status",
+  "numerical_gate": "FAIL: raw local judge result not validated",
+  "source_preservation": {
+    "initial_paths": 50,
+    "altered": []
+  }
+}

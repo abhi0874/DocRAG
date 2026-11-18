@@ -1,0 +1,265 @@
+{
+  "head": "329ec8c595bbcc2c517188a15a4dd60de8f7201c",
+  "baseline": {
+    "time": "2026-11-17T18:42:28.090Z",
+    "generationCalls": 1,
+    "embeddingCalls": 0,
+    "databaseIdentity": {
+      "database": "docrag_security_test_b12e0dbd232b",
+      "owner": "docrag",
+      "port": 55433
+    },
+    "contextIds": [
+      105,
+      104,
+      107,
+      102,
+      106,
+      103
+    ],
+    "contextSha256": "c38f37e0d665d6901a1947c9b479654d183c3eee990082fc30d2952211911c21",
+    "generationConfig": {
+      "maxOutputTokens": 1024
+    },
+    "requestSha256": "cc4830e96f2af4bb9c92327d89d57ab7fb8aa3809d36f49f333a41882818aee3",
+    "questionPresent": true,
+    "instructionBytes": 12003,
+    "finishReason": "stop",
+    "rawFinishReason": "STOP",
+    "usage": {
+      "inputTokens": 2523,
+      "inputTokenDetails": {
+        "noCacheTokens": 2523,
+        "cacheReadTokens": 0
+      },
+      "outputTokens": 161,
+      "outputTokenDetails": {
+        "textTokens": 161,
+        "reasoningTokens": 0
+      },
+      "totalTokens": 2684
+    },
+    "textChars": 785,
+    "errors": 0,
+    "answerChars": 0,
+    "citations": {
+      "valid": false,
+      "kind": "missing-references",
+      "numbers": [],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "assessmentValid": false,
+    "guard": "REJECTED",
+    "guardError": "ZodError"
+  },
+  "post_fix": {
+    "time": "2026-11-17T18:43:51.959Z",
+    "generationCalls": 1,
+    "embeddingCalls": 0,
+    "databaseIdentity": {
+      "database": "docrag_security_test_b12e0dbd232b",
+      "owner": "docrag",
+      "port": 55433
+    },
+    "contextIds": [
+      105,
+      104,
+      107,
+      102,
+      106,
+      103
+    ],
+    "contextSha256": "c38f37e0d665d6901a1947c9b479654d183c3eee990082fc30d2952211911c21",
+    "generationConfig": {
+      "maxOutputTokens": 1024
+    },
+    "requestSha256": "6b701e8ddc28b6a4ecf2b178d66646e8bab586a9779e90f1e1d59c25a4d023b7",
+    "questionPresent": true,
+    "instructionBytes": 12049,
+    "finishReason": "stop",
+    "rawFinishReason": "STOP",
+    "usage": {
+      "inputTokens": 2536,
+      "inputTokenDetails": {
+        "noCacheTokens": 2536,
+        "cacheReadTokens": 0
+      },
+      "outputTokens": 82,
+      "outputTokenDetails": {
+        "textTokens": 82,
+        "reasoningTokens": 0
+      },
+      "totalTokens": 2618
+    },
+    "textChars": 415,
+    "errors": 0,
+    "answerChars": 143,
+    "citations": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        1,
+        5
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    },
+    "support": "full",
+    "assessmentValid": true,
+    "guard": "PASS",
+    "forwardedChars": 143,
+    "semanticChecks": {
+      "mentionsCommit": true,
+      "explainsVisibilityOrPermanence": true
+    }
+  },
+  "cloud": {
+    "status": "PASS",
+    "scope": "live Gemini; isolated native database; synthetic uploads",
+    "checks": [
+      "no-consent chat blocked",
+      "explicit consent",
+      "signup alpha",
+      "login alpha",
+      "signup beta",
+      "login beta",
+      "guest public library",
+      "cloud upload and index",
+      "1536-dimensional index and bounded retention",
+      "cross-account source blocked",
+      "cross-account delete blocked",
+      "guest source blocked",
+      "supported HTTP",
+      "supported answer and citations",
+      "follow-up HTTP",
+      "follow-up answer and citations",
+      "unsupported HTTP",
+      "unsupported answer and citations",
+      "guest free-form HTTP",
+      "guest free-form answer and citations",
+      "cloud own-document deletion",
+      "deletion removes new data; 162 public chunks survive"
+    ],
+    "answers": [
+      {
+        "label": "supported",
+        "answer_chars": 44,
+        "answer_sha256": "a0e784df43018330105ecd74bc3045d65a78f41376ec6c28857bf87be9aa3677",
+        "validation": {
+          "valid": true,
+          "kind": "cited",
+          "numbers": [
+            1
+          ],
+          "invalid": [],
+          "invalidTokens": [],
+          "adjacentDuplicates": false,
+          "semanticSupport": "not-verified"
+        }
+      },
+      {
+        "label": "follow-up",
+        "answer_chars": 49,
+        "answer_sha256": "f1c80b67e0da297e09c6a3fd8329c263dbab79d838e1682a99b4114525639e9c",
+        "validation": {
+          "valid": true,
+          "kind": "cited",
+          "numbers": [
+            1
+          ],
+          "invalid": [],
+          "invalidTokens": [],
+          "adjacentDuplicates": false,
+          "semanticSupport": "not-verified"
+        }
+      },
+      {
+        "label": "unsupported",
+        "answer_chars": 38,
+        "answer_sha256": "58b4f20abb7cb189899663c5d1c7e9ea0c2104eb607bab3ea4f34eb1a5d4d04c",
+        "validation": {
+          "valid": true,
+          "kind": "uncited-refusal",
+          "numbers": [],
+          "invalid": [],
+          "invalidTokens": [],
+          "adjacentDuplicates": false,
+          "semanticSupport": "not-verified"
+        }
+      },
+      {
+        "label": "guest free-form",
+        "answer_chars": 324,
+        "answer_sha256": "da97f1ce0883a887c9d30c03dd60d9f1c3d32de6fb45faa5a5b42a32b38479fe",
+        "validation": {
+          "valid": true,
+          "kind": "cited",
+          "numbers": [
+            1,
+            2,
+            5
+          ],
+          "invalid": [],
+          "invalidTokens": [],
+          "adjacentDuplicates": false,
+          "semanticSupport": "not-verified"
+        }
+      }
+    ],
+    "generation_requests": 4
+  },
+  "native": {
+    "status": "FAIL",
+    "checks": 38,
+    "fresh_generations": 3,
+    "failure": "summary: stream error"
+  },
+  "dependencies": {
+    "audit_exit": 1,
+    "policy_exit": 1,
+    "advisory_count": 5,
+    "moderate": 4,
+    "high": 1,
+    "production_trace_count": 20,
+    "package_trace_counts": {
+      "picomatch": 0,
+      "vitest": 0,
+      "drizzle-kit": 0,
+      "esbuild": 0
+    }
+  },
+  "unit_tests": {
+    "python": 218,
+    "typescript": 334,
+    "exit": 0
+  },
+  "coverage": {
+    "typescript_statements": 57.01,
+    "typescript_lines": 61.18,
+    "python_statements_covered": 377,
+    "python_statements_total": 2199,
+    "scope": "unit only"
+  },
+  "negative_controls": {
+    "tests": 35,
+    "exit": 0
+  },
+  "initial_paths": 40,
+  "modified_initial_paths": [
+    "app/api/chat/route.ts",
+    "lib/workspace-evidence.ts",
+    "scripts/workspace_cloud_http.py",
+    "tests/workspace-chat.test.ts"
+  ],
+  "full_regression": "NOT RUN: mandatory security gate failed",
+  "fresh_100_question_evaluation": "NOT RUN",
+  "browser_mobile": "NOT RUN",
+  "commit": "NOT CREATED",
+  "push": "NOT RUN",
+  "deployment": "UNCHANGED"
+}
