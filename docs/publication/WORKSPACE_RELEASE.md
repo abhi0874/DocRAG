@@ -1,5 +1,23 @@
 # Personal document workspace on Render
 
+## Live release on 18 November 2026
+
+Render promoted application `c1a228d0c231652c567f48b1ac588422f542f7c0` at 16:12 UTC. Deployment `dep-dbussqgm7kps73dd70n0` serves the existing Free service, using AMD64 manifest `sha256:01994616d75f66806f7bdddfbe60d22a77ebf45149b01dd067c042cb36ce39ea`. Anonymous GHCR reads matched both that manifest and the approved OCI index. The release retained the previous image for rollback and used the existing restricted Neon role and schema. [Source CI](https://github.com/abhi0874/DocRAG/actions/runs/44343150740) · [Image publisher](https://github.com/abhi0874/DocRAG/actions/runs/44343937157) · [Owner decision and withdrawal conditions](../security/proposals/docrag-c1a228d/OWNER_DECISION.md)
+
+| Live verification | Result |
+|---|---|
+| Health and readiness | Both returned HTTP 200. Local tests passed on the release branch (231 Python, 363 TypeScript). |
+| Email and ownership | Two synthetic accounts registered, signed in and signed out. The second account could neither read, download nor delete the first account's PDF. Anonymous reads returned 404. Both sessions were revoked. |
+| Upload and grounding | The PDF was indexed and its authorized download matched the original bytes. The generated answer correctly cited page 1 for 19 March 2025. A follow-up correctly reported 17 sensors. A question about the unnamed funder produced an explicit insufficient-evidence response. |
+| Provider and cancellation | Telemetry recorded three uncached completions from `gemini-3.5-flash-lite` and one cancelled request. The cancelled answer had no feedback receipt. The test PDF was deleted. The production HTTP suite passed 45 checks. |
+| Appearance | Both served WebP files matched the committed assets byte for byte. Dark mode and glass intensity 100 persisted on reload. The 390 px mobile sign-in page fit the viewport and the Sign Up pill opened the registration and consent form. |
+| Google sign-in | The production OAuth client ID and secret were absent. The live sign-in page disabled the Google control and offered email. |
+| Logs | One successful auth GET returned 200 but its telemetry write failed. The log omitted the underlying database error. The other two error-level records in the verification window belonged to the intentional cancellation. |
+
+The source audit preserved its one high and two moderate results. The image scan reported zero critical/high, 43 medium, 12 low and five unknown occurrences. The owner exception expires on 25 November 2026 at 13:30 IST or on an earlier withdrawal trigger. [Advisory status](https://github.com/advisories/GHSA-fc5q-39xc-vjpf)
+
+## Previous live release `4d888d6`
+
 The existing [live workspace](https://docrag-demo.onrender.com/workspace) passed the ten recruiter acceptance steps on 18 November 2026. The tested application source is `4d888d6a5e876e250f95f20a1850522299b5a80f`. Render deployment `dep-dbuouru8bjmc739gubv0` reported live on the existing Free service with AMD64 manifest `sha256:45b21f9df2102ab0d5611ceade5a375e999829e09c80de71a6b1b6716b543668`. Health and database readiness both returned 200.
 
 ## What recruiters can use

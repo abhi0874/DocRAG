@@ -26,7 +26,7 @@ library, conversation, and evidence pane in one responsive workspace.
 
 Hosted processing is for eligible adults using the demo professionally in India or the United States. Keep personal, sensitive or confidential material out of documents and questions. Shared free quotas apply. Accounts can hold three PDFs and upload twice per day. Uploads have a 30-day expiry.
 
-**Production release** — application `4d888d6`, verified on the existing Render Free service on 18 November 2026. [Live acceptance and image identity](docs/publication/WORKSPACE_RELEASE.md)
+**Production release** — `c1a228d` is live on Render Free. The light and dark themes use sage and jade document artwork. Email registration and sign-in are enabled. Google sign-in requires production OAuth credentials and is currently unavailable. [Live acceptance and image identity](docs/publication/WORKSPACE_RELEASE.md)
 
 ## The problem
 
