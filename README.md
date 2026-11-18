@@ -9,7 +9,7 @@ library, conversation, and evidence pane in one responsive workspace.
 
 [**Live demo**](https://docrag-demo.onrender.com/) ·
 [Architecture](docs/ARCHITECTURE.md) · [Evaluation](docs/AUTOMATED_EVALUATION.md) ·
-[Production release](docs/publication/MONO_GLASS_RELEASE.md) · [Security](docs/SECURITY.md)
+[Production release](docs/publication/WORKSPACE_RELEASE.md) · [Security](docs/SECURITY.md)
 
 [![CI](https://github.com/abhi0874/DocRAG/actions/workflows/ci.yml/badge.svg?branch=feat%2Fproduction-rag)](https://github.com/abhi0874/DocRAG/actions/workflows/ci.yml?query=branch%3Afeat%2Fproduction-rag)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -19,15 +19,14 @@ library, conversation, and evidence pane in one responsive workspace.
 
 ## Try the application
 
-Open the [public demo](https://docrag-demo.onrender.com/), select FastAPI or
-PostgreSQL, and ask an approved sample question. Follow a citation to the exact
-supporting passage. Appearance includes light/dark themes, glass intensity, and
-reduced motion. Free cold starts can take about a minute; shared quotas apply.
+1. Open the [live workspace](https://docrag-demo.onrender.com/workspace), create an account, sign in and review the hosted AI consent disclosure.
+2. Upload a short, non-confidential text PDF (up to 2 MB). Select it after indexing completes.
+3. Ask your own document-related question and a follow-up. Select a numbered citation to see the page and supporting passage. When the document lacks the answer, the workspace says so.
+4. Delete your PDF from the library and sign out. The Gemini API key is provided by the server.
 
-**Production release** — `6458b355d28521f7e0ae32f68d1fb710433f6bdd`, deployed to the
-existing Render service on 16 November 2026. Its hosted CI and 55-check production
-smoke suite passed. This branch contains the current implementation. The default
-`main` branch retains the earlier source and serves as a project showcase.
+Hosted processing is for eligible adults using the demo professionally in India or the United States. Keep personal, sensitive or confidential material out of documents and questions. Shared free quotas apply. Accounts can hold three PDFs and upload twice per day. Uploads have a 30-day expiry.
+
+**Production release** — application `4d888d6`, verified on the existing Render Free service on 18 November 2026. [Live acceptance and image identity](docs/publication/WORKSPACE_RELEASE.md)
 
 ## The problem
 
@@ -40,11 +39,11 @@ Authentication and ownership checks apply throughout retrieval and document acce
 
 | Capability | Public Gemini demo | Authenticated local workspace |
 | --- | --- | --- |
-| Questions | 100 approved questions over two public documentation sources | Questions and follow-ups over authorized documents |
-| Document ingestion | Fixed, verified public index; uploads blocked | PDF validation, extraction, chunking and owned storage |
+| Questions | Free-form questions and follow-ups on public sources or your own PDFs | Questions and follow-ups over authorized documents |
+| Document ingestion | Private PDF upload, extraction, indexing and owner deletion | PDF validation, extraction, chunking and owned storage |
 | Retrieval | Semantic + PostgreSQL full-text search with RRF | Same hybrid pipeline with document ACLs |
 | Answers | Gemini streaming, grounded citations, refusal and cancellation | Local Ollama streaming with the same validation stages |
-| Accounts and activity | Operator-provisioned accounts; private metrics and feedback | Eight-hour sessions, private libraries, owned evaluations and feedback |
+| Accounts and activity | Self-registration, consent and scoped document access | Eight-hour sessions, private libraries, owned evaluations and feedback |
 | Interface | MONO / GLASS library/chat/evidence, themes and appearance | Same components plus upload, conversation and evaluation tools |
 
 Server-side origin checks, database quotas, cancellation accounting, request IDs
@@ -70,7 +69,7 @@ flowchart LR
     VALIDATE --> UI[Answer and inspectable sources]
 ```
 
-- **Frontend and API** — Next.js 16.4.4, React 19.2.4, TypeScript and Tailwind CSS.
+- **Frontend and API** — Next.js 16.4.5, React 19.2.4, TypeScript and Tailwind CSS.
   Route Handlers implement API/auth/streaming endpoints.
 - **Storage** — Drizzle ORM over PostgreSQL/pgvector stores documents, vectors,
   original private PDFs, sessions, atomic quotas, answer receipts and feedback.
@@ -143,7 +142,7 @@ Measured short browser interactions observed approximately 120Hz, frame p95
 | Automated faithfulness | **100%** | Local automated judge score |
 | Citation validation | **265/265** | Local evaluated occurrences |
 | Automated tests | **491 passed** | 218 Python + 273 TypeScript |
-| Production smoke checks | **55/55** | Deployed Render release |
+| Production smoke checks | **55/55** | Historical release `6458b35` |
 
 The frozen 100-question benchmark contains 80 answerable and 20 refusal questions
 from two public documentation sources. Final run `ui-redesign-d` generated 100 fresh
@@ -153,13 +152,13 @@ They are not hosted Gemini answer-accuracy measurements. Recall and faithfulness
 regression declines greater than .02 fail the existing gates, including negative
 controls for degraded results and incompatible provenance.
 
-The full local contract passed 27/27 groups before the final UI-only cancellation
+For the historical UI release `6458b35`, the full local contract passed 27/27 groups before the final UI-only cancellation
 request repair. Fourteen applicable checks passed afterward. Hosted CI passed on
-the exact deployed commit. Production smoke used three admitted Gemini requests
+that historical application commit. Its production smoke used three admitted Gemini requests
 to check secure sessions, two-user isolation, public access, streaming/citations,
 refusal, cancellation, quotas and client-secret exposure.
 
-Final TS statement coverage is 58.31%; Python unit-only scripts coverage is 20.17%.
+TS statement coverage for that run was 58.31%; Python unit-only scripts coverage was 20.17%.
 The earlier complete Python integration result is historical 76.46%, with its original
 mixed-run provenance retained. The unchanged integration gate remains 70%.
 [Full results and limitations](docs/ui-redesign/VERIFICATION.md) ·
@@ -170,13 +169,13 @@ mixed-run provenance retained. The unchanged integration gate remains 70%.
 
 - Server-side document ACLs cover both retrieval branches, direct reads and sources.
 - Better Auth uses fixed eight-hour sessions, HttpOnly/Secure/SameSite cookies,
-  database validation, disabled public signup and exact trusted origins.
+  database validation, rate-limited hosted registration and exact trusted origins.
 - Input/PDF validation, atomic database rate limits and bounded concurrency constrain
   uploads and inference. Cancellation propagates and prevents partial cache writes.
 - Private/history responses bypass public caching. Feedback references server-owned
   receipts; private content cannot enter the public feedback export.
-- Demo inputs are restricted to reviewed public questions. Uploads and evaluation
-  writes are blocked. Unpaid Gemini processing terms are disclosed in the interface.
+- The hosted workspace accepts non-confidential PDFs after consent. Questions and
+  excerpts go to unpaid Gemini. Google may review them and use them for product improvement.
 - Secrets remain server-side in ignored local files or hosting secret settings.
   Restrict database users and require verified TLS for Neon connections.
 
@@ -269,12 +268,7 @@ settings, historical results and cache provenance.
 
 GitHub Actions runs pinned tooling, lint/types, unit tests, coverage, a production
 build, real SQL migrations/retrieval and citation/quality negative controls.
-Render deployment is manual with auto-deploy OFF. The live service uses the
-verified `6458b35` release; subsequent documentation commits do not identify a new
-application deployment. The previous `b40319c` release remains the recorded rollback.
-
-Render Free runs the Docker app, Neon Free holds the isolated public index and
-application state, and an unbilled Gemini project serves approved requests.
+Render uses the verified non-root AMD64 image pinned by digest. Git auto-deploy is disabled. Neon stores the public index and owner-scoped workspace data. Gemini generation uses the server-side key in a project with billing disabled.
 The public profile caps generation at two requests/minute per user, four globally
 per minute and 50 per application day window, with bounded output/context,
 45-second timeout and zero generation retries. Credentials and quota settings are
@@ -285,6 +279,7 @@ verification. [Deployment operations](docs/DEPLOYMENT.md)
 
 - Free cold starts, shared quotas and provider allowances constrain availability.
   Paid usage was ₹0 at release verification; this is an observed result.
+- The workspace runs under time-limited security decisions expiring 25 November 2026 at 13:30 IST. [Scope and withdrawal criteria](docs/publication/WORKSPACE_RELEASE.md)
 - Two reviewed moderate JS tooling advisories remain for esbuild and minimatch.
   The dependency policy records their raw audit findings. [Assessment](docs/SECURITY.md)
 - Evaluation uses a small documentation corpus and an automated judge. The hosted
@@ -300,5 +295,5 @@ verification. [Deployment operations](docs/DEPLOYMENT.md)
 [Chunking](docs/CHUNKING_EXPERIMENTS.md) · [Retrieval](docs/HYBRID_RETRIEVAL.md) ·
 [Local models](docs/LOCAL_OLLAMA.md) · [Security](docs/SECURITY.md) ·
 [Observability](docs/OBSERVABILITY.md) · [CI](docs/CI.md) ·
-[Production release](docs/publication/MONO_GLASS_RELEASE.md) ·
+[Production release](docs/publication/WORKSPACE_RELEASE.md) ·
 [UI design](docs/ui-redesign/DESIGN.md)
