@@ -1,0 +1,12 @@
+{
+  "exception": "EX-DOCRAG-4D888D6-02",
+  "owner_reply": "I approve EX-DOCRAG-4D888D6-02 as owner and Render operator.",
+  "source_of_approval": "Owner message directly following presentation of the proposal in the DocRAG chat",
+  "approval_recorded_utc": "2026-11-18T10:48:36+00:00",
+  "expires_utc": "2026-11-25T08:00:00+00:00",
+  "proposal_sha256": "b961780f53f2c6fb8916c3e3f92818a2693eb2c7ec68c6171cdf800f1137c337",
+  "candidate": "4d888d6a5e876e250f95f20a1850522299b5a80f",
+  "runtime_manifest_sha256": "45b21f9df2102ab0d5611ceade5a375e999829e09c80de71a6b1b6716b543668",
+  "independent_review": false,
+  "scope": "Only the matching availability advisory. All other production gates apply."
+}
