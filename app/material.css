@@ -42,10 +42,6 @@
   content:''; pointer-events:none; position:absolute; inset:0; border-radius:inherit;
   box-shadow:inset 0 0 0 1px var(--rim),inset 0 0 1px 3px rgb(255 255 255 / .12);
 }
-:root[data-theme=dark] .optical-plate svg { filter:saturate(.68) hue-rotate(-29deg) brightness(.7) contrast(1.13); }
-@media(prefers-color-scheme:dark) {
-  :root:not([data-theme]) .optical-plate svg {filter:saturate(.68) hue-rotate(-29deg) brightness(.7) contrast(1.13)}
-}
 :root[data-glass=low] .optical-loupe { opacity:var(--glass-level); }
 @media(prefers-reduced-transparency:reduce), (forced-colors:active) {
   :root, :root[data-theme] { --glass-opacity:1; --glass-skin:none; --specular:none; --glass-blur:0px; --rim:var(--border); }
