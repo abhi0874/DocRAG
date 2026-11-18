@@ -19,6 +19,7 @@ RUN pnpm build && mkdir -p /app/runtime-cache
 # Use the accepted Node binary with distroless system libraries and CA certificates.
 FROM gcr.io/distroless/cc-debian13:nonroot@sha256:cb87acc574abe719b6e5c547384defa2f7b1f24af9605d3f618cf852495d8be2 AS runtime
 COPY --from=dependencies /usr/local/bin/node /usr/bin/node
+COPY --from=dependencies /usr/local/LICENSE /usr/share/doc/node/LICENSE
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 HOSTNAME=0.0.0.0 PORT=3000 RERANKER_ENABLED=false
 COPY --from=build /app/.next/standalone ./
