@@ -204,11 +204,46 @@ def main():
             "other user's consent still enabled",
             body(http.request(state, cookie=second))["enabled"],
         )
-        call("re-enable from workspace", 200, state, "POST", terms, first)
+        call(
+            "guest cannot enable from a saved account",
+            401,
+            state,
+            "POST",
+            {"action": "enable"},
+            receipt,
+        )
+        call(
+            "re-enable using account acceptance alone",
+            200,
+            state,
+            "POST",
+            {"action": "enable"},
+            other_session,
+        )
         check(
-            "consent timestamp remains read-only",
-            body(http.request(state, cookie=first))["acceptedAt"]
-            == initial["acceptedAt"],
+            "all sessions retain original terms and country after re-enabling",
+            body(http.request(state, cookie=first)) == initial,
+        )
+        with psycopg.connect(target) as conn:
+            conn.execute(
+                "UPDATE auth_user SET hosted_consent_version=NULL WHERE id=%s",
+                (second_id,),
+            )
+        call(
+            "missing account acceptance cannot be bypassed with a guest receipt",
+            403,
+            state,
+            "POST",
+            {"action": "enable"},
+            second + "; " + receipt,
+        )
+        call(
+            "legacy account records its first acceptance",
+            200,
+            state,
+            "POST",
+            terms,
+            second,
         )
         call(
             "anonymous profile update denied",

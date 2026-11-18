@@ -12,7 +12,7 @@ import {checkOrigin, HttpError, jsonBody, principal, safeError} from '@/lib/secu
 import {consumeLimit} from '@/lib/security/limits'
 
 const localAcceptance = z.object({version: z.literal(localTermsVersion), accepted: z.literal(true)}).strict()
-const disable = z.object({action: z.literal('disable')}).strict()
+const preference = z.object({action: z.enum(['enable', 'disable'])}).strict()
 const headers = {'Cache-Control': 'no-store', Vary: 'Cookie'}
 
 export async function GET(req: Request) {
@@ -31,10 +31,14 @@ export async function POST(req: Request) {
     checkOrigin(req)
     const owner = await principal(req, false)
     await consumeLimit('read', owner)
-    const input = await jsonBody(req, z.union([acceptance, localAcceptance, disable]), 1024)
+    const input = await jsonBody(req, z.union([acceptance, localAcceptance, preference]), 1024)
     if ('action' in input) {
       if (!owner) throw new HttpError(401, 'Sign in required')
-      await db.update(user).set({hostedAiEnabled: false}).where(eq(user.id, owner))
+      const enable = input.action === 'enable'
+      if (enable && (!demoEnabled() || !(await accountConsent(owner)).accepted)) {
+        throw new HttpError(403, 'Review the current hosted AI terms before enabling access.')
+      }
+      await db.update(user).set({hostedAiEnabled: enable}).where(eq(user.id, owner))
     } else {
       if (demoEnabled() !== ('country' in input)) throw new HttpError(400, 'Review the current terms.')
       const country = 'country' in input ? input.country : null
