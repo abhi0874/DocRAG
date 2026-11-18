@@ -4,8 +4,10 @@ DocRAG uses **Better Auth 1.7.15**, its Drizzle PostgreSQL adapter and its estab
 scrypt password hashing. This is free, works with Next.js 16.4.4/React 19 and does
 not require a hosted identity service. Compatibility was checked against the
 installed package's peer dependencies and [official Next.js integration](https://better-auth.com/docs/integrations/next).
-The operator creates accounts; public signup and unused auth endpoints are closed.
-No email verification or password reset service is implied.
+The personal workspace (`DOCRAG_WORKSPACE_ENABLED=true`) offers public registration
+at `/sign-up` and returning-user sign-in at `/sign-in`. In operator-managed mode,
+the operator creates accounts and public registration is closed. Email/password
+accounts have no email delivery, address verification or password recovery.
 
 A session is a server-stored record that proves a previous successful sign-in.
 The browser holds its signed opaque cookie, marked HttpOnly and SameSite=Lax.
@@ -13,6 +15,35 @@ HTTPS uses Secure cookies. The server checks the database on each request, rathe
 than trusting a user ID supplied by the browser. Sessions expire after eight hours
 and do not slide forward on activity. Sign-out deletes the session; replaying that
 cookie no longer grants private access. Session JSON intentionally omits tokens.
+
+## Optional Google sign-in
+
+Google uses the same Better Auth session and document ownership checks as email
+sign-in. New users select **Create an account**, accept the hosted processing
+conditions when applicable, and select **Sign up with Google**. Returning Google
+users select **Sign in with Google**. An existing password account keeps its
+original sign-in method even when the Google profile has the same email address.
+
+1. In Google Auth Platform, configure the app audience and create a **Web application**
+   OAuth client for the intended environment. In testing mode, add the intended test
+   users. For recruiter access, verify that the consent audience allows external users.
+2. Register the exact callback for the configured `DOCRAG_APP_ORIGIN`. The Render
+   callback is `https://docrag-demo.onrender.com/api/auth/callback/google`.
+   For local testing register the actual loopback origin and port followed by
+   `/api/auth/callback/google`.
+3. Store `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in the server environment.
+   These are separate from the Gemini key. Both are required to enable the buttons.
+4. Verify with a real test Google account on the configured origin, then sign out
+   and sign in again. Confirm that the same private library opens.
+
+The app requests only OpenID, email and profile scopes. Better Auth exchanges the
+authorization code server-side and validates the browser-bound state. DocRAG keeps
+the provider account identifier and discards Google access, refresh and ID tokens
+before storing the account. Registration initiation counts toward the same shared
+caps as email registration, including an attempt abandoned at Google.
+
+[Google web OAuth setup](https://developers.google.com/identity/protocols/oauth2/web-server)
+and [Better Auth Google integration](https://better-auth.com/docs/authentication/google).
 
 ## Local configuration and accounts
 

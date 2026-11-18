@@ -19,7 +19,7 @@ library, conversation, and evidence pane in one responsive workspace.
 
 ## Try the application
 
-1. Open the [live workspace](https://docrag-demo.onrender.com/workspace), create an account, sign in and review the hosted AI consent disclosure.
+1. [Create an account](https://docrag-demo.onrender.com/sign-up) and review the hosted AI consent disclosure. Returning users can [sign in](https://docrag-demo.onrender.com/sign-in).
 2. Upload a short, non-confidential text PDF (up to 2 MB). Select it after indexing completes.
 3. Ask your own document-related question and a follow-up. Select a numbered citation to see the page and supporting passage. When the document lacks the answer, the workspace says so.
 4. Delete your PDF from the library and sign out. The Gemini API key is provided by the server.

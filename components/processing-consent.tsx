@@ -1,10 +1,11 @@
 'use client'
 import {useState} from 'react'
 
-export function ProcessingConsent({onAccepted}:{onAccepted:()=>void}) {
+export function ProcessingConsent({onAccepted,registering=false}:{onAccepted:()=>void;registering?:boolean}) {
   const [busy,setBusy]=useState(false),[error,setError]=useState('')
   return <section className="glass-surface processing-notice" aria-labelledby="processing-title">
-    <h2 id="processing-title" className="text-lg font-semibold">Before using hosted AI</h2>
+    <h2 id="processing-title" className="text-lg font-semibold">{registering?'Create an account':'Before using hosted AI'}</h2>
+    {registering&&<p>Review the privacy conditions below, then choose how to register.</p>}
     <p className="mt-3">Questions and document excerpts go to Google Gemini’s unpaid service. Google may use inputs and responses to improve its products, and human reviewers may review them.</p>
     <p className="mt-3 font-medium">Do not upload personal, confidential or sensitive information. Use local Ollama for those documents.</p>
     <p className="mt-3">This limited hosted workspace is for adults using it professionally in India or the United States. It is unavailable elsewhere, including the EEA, UK and Switzerland. Your location is self-declared; we do not claim it is independently verified.</p>

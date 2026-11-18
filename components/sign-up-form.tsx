@@ -2,13 +2,15 @@
 import Link from 'next/link'
 import {useState} from 'react'
 import {ProcessingConsent} from './processing-consent'
-export function SignUpForm({cloud}:{cloud:boolean}) {
+import {GoogleAuthButton} from './google-auth-button'
+export function SignUpForm({cloud,googleEnabled}:{cloud:boolean;googleEnabled:boolean}) {
   const [accepted,setAccepted]=useState(!cloud),[busy,setBusy]=useState(false),[error,setError]=useState(''),[done,setDone]=useState(false)
-  if(!accepted)return <ProcessingConsent onAccepted={()=>setAccepted(true)}/>
+  if(!accepted)return <ProcessingConsent registering onAccepted={()=>setAccepted(true)}/>
   return <section className="signin-card glass-surface">
     <h1 className="text-2xl">Create your workspace</h1>
-    <p>Use a display name. Email delivery and password recovery are not available; keep your password safe.</p>
     {done?<p role="status">Registration request accepted. If this is a new address, your account is ready. <Link href="/sign-in" className="underline">Sign in to continue</Link>.</p>:
+    <><GoogleAuthButton enabled={googleEnabled} intent="sign-up"/>
+    <p>Or register with email and a display name. Keep your password safe. Email recovery is unavailable.</p>
     <form className="signin-form" onSubmit={async e=>{
       e.preventDefault();if(busy)return;setBusy(true);setError('');const data=new FormData(e.currentTarget)
       try {
@@ -22,7 +24,7 @@ export function SignUpForm({cloud}:{cloud:boolean}) {
       <label className="support-field">Password (12–128 characters)<input name="password" type="password" className="support-input" autoComplete="new-password" minLength={12} maxLength={128} required/></label>
       <button className="mono-primary-action" disabled={busy}>{busy?'Creating account…':'Create account'}</button>
       {error&&<p role="alert">{error}</p>}
-    </form>}
+    </form></>}
     <Link href="/sign-in" className="underline">Already have an account? Sign in</Link>
   </section>
 }

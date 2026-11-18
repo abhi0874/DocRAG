@@ -3,6 +3,7 @@ import {drizzleAdapter} from 'better-auth/adapters/drizzle'
 import {db} from './db'
 import * as schema from './db/security-schema'
 import {workspaceEnabled} from './workspace-config'
+import {googleCredentials} from './google-auth'
 
 export function appOrigin() {
   const url = new URL(process.env.DOCRAG_APP_ORIGIN || 'http://localhost:8000')
@@ -14,9 +15,21 @@ export function appOrigin() {
 function createAuth() {
   const config=appOrigin(), secret=process.env.BETTER_AUTH_SECRET
   if (!secret || secret.length < 32 || secret.includes('replace-')) throw new Error('Authentication secret is not configured')
+  const google = googleCredentials()
   return betterAuth({
     appName:'DocRAG', baseURL:config.origin, secret,
     database:drizzleAdapter(db,{provider:'pg',schema,transaction:true}),
+    socialProviders: google ? {google: {
+      ...google, disableImplicitSignUp:true, accessType:'online', includeGrantedScopes:false,
+    }} : {},
+    account:{accountLinking:{enabled:false},updateAccountOnSignIn:false},
+    databaseHooks:{account:{create:{before:async account => {
+      if (account.providerId === 'google') {
+        return {data:{...account, accessToken:null, refreshToken:null, idToken:null,
+          accessTokenExpiresAt:null, refreshTokenExpiresAt:null}}
+      }
+    }}}},
+    onAPIError:{errorURL:config.origin+'/sign-in'},
     emailAndPassword:{enabled:true,disableSignUp:!workspaceEnabled(),autoSignIn:false,minPasswordLength:12,maxPasswordLength:128},
     session:{expiresIn:8*60*60,disableSessionRefresh:true,cookieCache:{enabled:false}},
     trustedOrigins:[config.origin],

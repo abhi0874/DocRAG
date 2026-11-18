@@ -127,3 +127,8 @@
 .consent-layout {align-items:start}
 .consent-layout h1 {font:550 clamp(39px,6vw,76px)/1 var(--font-display),sans-serif;letter-spacing:-.065em;margin-bottom:12px}
 @media(min-width:761px){.consent-layout .signup-intro {position:sticky;top:112px}}
+.auth-provider { display:grid; gap:6px; margin:16px 0; }
+.auth-provider p, .auth-entry span { font-size:.875rem; color:var(--muted-foreground); }
+.auth-entry { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 0; }
+.guest-account-entry { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:16px; font-size:.875rem; }
+.guest-account-entry p { flex-basis:100%; }
