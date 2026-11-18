@@ -1,0 +1,11 @@
+{
+  "git": "c1a228d0c231652c567f48b1ac588422f542f7c0",
+  "index": "sha256:f086d4b7cebb6780995d59a19c94167d2d85c3b43bbf5a0192d4dd29fc2a18e1",
+  "runtime": "sha256:01994616d75f66806f7bdddfbe60d22a77ebf45149b01dd067c042cb36ce39ea",
+  "archive_sha": "29d0f6e75dc2e3165ef52ff9649280683cec94985327883db171fab4d47e3c98",
+  "exception": "EX-DOCRAG-C1A228D-01",
+  "reply": "Approve EX-DOCRAG-C1A228D-01 as owner and Render operator",
+  "recorded_utc": "2026-11-18T16:04:42.615327+00:00",
+  "expires_utc": "2026-11-25T08:00:00Z",
+  "independent_review": false
+}

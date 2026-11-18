@@ -15,23 +15,23 @@ jobs:
       actions: read
       packages: write
     env:
-      SOURCE: 4d888d6a5e876e250f95f20a1850522299b5a80f
-      INDEX: sha256:2f215ce4bc02acc6fc7b212858faecc551cf201ce7e17b9cf8b726be0b5fe300
-      RUNTIME: sha256:45b21f9df2102ab0d5611ceade5a375e999829e09c80de71a6b1b6716b543668
+      SOURCE: c1a228d0c231652c567f48b1ac588422f542f7c0
+      INDEX: sha256:f086d4b7cebb6780995d59a19c94167d2d85c3b43bbf5a0192d4dd29fc2a18e1
+      RUNTIME: sha256:01994616d75f66806f7bdddfbe60d22a77ebf45149b01dd067c042cb36ce39ea
       IMAGE: ghcr.io/abhi0874/docrag
     steps:
       - name: Verify release window, tested commit and retained archive
         env:
           GH_TOKEN: ${{ github.token }}
-          ARCHIVE_URL: ${{ secrets.DOCRAG_OCI_TRANSFER_4D888D6 }}
+          ARCHIVE_URL: ${{ secrets.DOCRAG_OCI_TRANSFER_C1A228D }}
         run: |
           set -euo pipefail
           test "$(date -u +%s)" -lt "$(date -u -d '2026-11-25 08:00:00Z' +%s)"
-          gh api repos/abhi0874/DocRAG/actions/runs/44291485453 |
+          gh api repos/abhi0874/DocRAG/actions/runs/44343150740 |
             jq -e --arg source "$SOURCE" '.head_sha == $source and .event == "push" and .conclusion == "success" and .path == ".github/workflows/ci.yml"'
           [[ "$ARCHIVE_URL" == https://release-assets.githubusercontent.com/github-production-release-asset/* ]]
           curl --fail --silent --show-error --proto '=https' "$ARCHIVE_URL" --output release.oci.tar
-          echo '1f734cbd82c7b9bd92d32e32db6c9651284e9352f564777c5dab927376e937f9  release.oci.tar' | sha256sum --check
+          echo '29d0f6e75dc2e3165ef52ff9649280683cec94985327883db171fab4d47e3c98  release.oci.tar' | sha256sum --check
       - name: Install pinned OCI transfer client
         run: |
           set -euo pipefail
@@ -44,8 +44,8 @@ jobs:
         run: |
           set -euo pipefail
           printf '%s' "$GH_TOKEN" | ./oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-          ./oras cp --from-oci-layout "release.oci.tar@$INDEX" "$IMAGE:rc-4d888d6"
-          test "$(./oras resolve "$IMAGE:rc-4d888d6")" = "$INDEX"
+          ./oras cp --from-oci-layout "release.oci.tar@$INDEX" "$IMAGE:rc-c1a228d"
+          test "$(./oras resolve "$IMAGE:rc-c1a228d")" = "$INDEX"
           for digest in "$INDEX" "$RUNTIME"; do
             ./oras manifest fetch "$IMAGE@$digest" --output fetched.json
             printf '%s  fetched.json\n' "${digest#sha256:}" | sha256sum --check
