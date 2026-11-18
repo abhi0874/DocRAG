@@ -101,6 +101,7 @@
 }
 :root[data-theme=dark] {
   color-scheme: dark;
+  --night-print-display: inline;
   --background: #0a0d0f;
   --foreground: #eff2ee;
   --card: #171b1d;
@@ -125,6 +126,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
+    --night-print-display: inline;
     --background: #0a0d0f;
     --foreground: #eff2ee;
     --card: #171b1d;

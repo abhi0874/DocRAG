@@ -38,6 +38,7 @@
   border-radius:18px; box-shadow:var(--glass-depth),var(--glass-lift);
 }
 .optical-plate svg { display:block; height:100%; width:100%; }
+.optical-night-print { display:var(--night-print-display,none); }
 .optical-plate::after {
   content:''; pointer-events:none; position:absolute; inset:0; border-radius:inherit;
   box-shadow:inset 0 0 0 1px var(--rim),inset 0 0 1px 3px rgb(255 255 255 / .12);

@@ -18,10 +18,13 @@ export function OpticalPlate({className=''}: {className?: string}) {
           <feDisplacementMap in="SourceGraphic" in2="normal" scale={displacement} xChannelSelector="R" yChannelSelector="G"/>
         </filter>
         <linearGradient id={`${id}-rim`} x2=".8" y2="1">
-          <stop stopColor="#fff"/><stop offset=".32" stopColor="#e1f1ec" stopOpacity=".15"/>
-          <stop offset=".69" stopColor="#354d45" stopOpacity=".62"/><stop offset="1" stopColor="#fff"/>
+          <stop stopColor="var(--platinum)"/><stop offset=".32" stopColor="var(--glacier)" stopOpacity=".15"/>
+          <stop offset=".69" stopColor="var(--optic-ink)" stopOpacity=".62"/><stop offset="1" stopColor="var(--platinum)"/>
         </linearGradient>
-        <image id={`${id}-scene`} href="/optics/folio.webp" width="600" height="400" preserveAspectRatio="xMidYMid slice"/>
+        <g id={`${id}-scene`}>
+          <image href="/optics/folio.webp" width="600" height="400" preserveAspectRatio="xMidYMid slice"/>
+          <image className="optical-night-print" href="/optics/folio-obsidian.webp" width="600" height="400" preserveAspectRatio="xMidYMid slice"/>
+        </g>
       </defs>
       <use href={`#${id}-scene`}/>
       <g className="optical-loupe">
