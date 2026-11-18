@@ -213,15 +213,24 @@ def main():
             return result
 
         with server(env, directory):
+            consent = expect(
+                "accept local registration terms",
+                http.request(
+                    "/api/processing-consent",
+                    "POST",
+                    {"version": "local-workspace-v1", "accepted": True},
+                ),
+                200,
+            )[1]["Set-Cookie"].split(";")[0]
             for account in accounts:
                 expect(
                     "registration " + account["name"],
-                    http.request("/api/auth/sign-up/email", "POST", account),
+                    http.request("/api/auth/sign-up/email", "POST", account, consent),
                     200,
                 )
             duplicate = expect(
                 "duplicate registration is generic",
-                http.request("/api/auth/sign-up/email", "POST", accounts[0]),
+                http.request("/api/auth/sign-up/email", "POST", accounts[0], consent),
                 200,
             )
             assert json.loads(duplicate[2]) == {"ok": True}

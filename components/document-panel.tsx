@@ -12,6 +12,7 @@ interface DocumentPanelProps {
   selectedId: number | null
   onSelect: (id: number) => void
   selectedIds?:number[]
+  manageOwned?:boolean
   uploadAllowed?:boolean
   cloud?:boolean
   documentsUrl?:string
@@ -24,7 +25,7 @@ export function DocumentPanel({
   isLoading,
   selectedId,
   onSelect,
-  selectedIds,uploadAllowed=true,cloud=false,documentsUrl='/api/documents',onDeleted,busy=false,
+  selectedIds,uploadAllowed=true,manageOwned=uploadAllowed,cloud=false,documentsUrl='/api/documents',onDeleted,busy=false,
 }: DocumentPanelProps) {
   const { mutate } = useSWRConfig()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -129,7 +130,7 @@ export function DocumentPanel({
         )}
         {!isLoading && documents.length === 0 && (
           <li className="px-2 py-3 text-sm text-muted-foreground">
-            {uploadAllowed?'No documents yet. Upload a PDF to start.':'Public samples are currently unavailable.'}
+            {uploadAllowed?'No documents yet. Upload a PDF to start.':manageOwned?'Your library is empty.':'Public samples are currently unavailable.'}
           </li>
         )}
         {documents.map((doc) => (
@@ -162,7 +163,7 @@ export function DocumentPanel({
                 </span>
               </span>
             </button>
-            {doc.owned!==false&&uploadAllowed&&<button
+            {doc.owned!==false&&manageOwned&&<button
               type="button"
               onClick={() => handleDelete(doc.id)}
               disabled={busy}

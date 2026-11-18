@@ -104,9 +104,10 @@ def main():
 
     before = legacy_snapshot()
     if not args.fresh_test:
-        from scripts.observability_setup import snapshot
+        from scripts.observability_setup import snapshot, user_columns
 
-        security_before = snapshot(target)
+        existing_columns = user_columns(target)
+        security_before = snapshot(target, existing_columns)
     env = {**os.environ, "SECURITY_DATABASE_URL": target}
     for flags in commands:
         subprocess.run(
@@ -117,7 +118,9 @@ def main():
         )
     assert legacy_snapshot() == before, "Migration changed legacy application data"
     if not args.fresh_test:
-        assert snapshot(target) == security_before, "Migration changed security data"
+        assert snapshot(target, existing_columns) == security_before, (
+            "Migration changed security data"
+        )
         label = "configured" if args.apply_configured else "selected"
         (ROOT / f".local/step8-migration-{label}.json").write_text(
             json.dumps({"status": "PASS", "preserved": security_before}, indent=2)

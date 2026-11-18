@@ -5,6 +5,9 @@ import {documents, evaluations} from './schema'
 export const user = pgTable('auth_user', {
   id: text('id').primaryKey(), name: text('name').notNull(), email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').notNull().default(false), image: text('image'),
+  hostedAiEnabled: boolean('hosted_ai_enabled').notNull().default(false),
+  consentVersion: text('hosted_consent_version'), consentCountry: text('hosted_consent_country'),
+  consentAcceptedAt: timestamp('hosted_consent_accepted_at', {withTimezone:true}),
   createdAt: timestamp('created_at', {withTimezone:true}).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', {withTimezone:true}).notNull().defaultNow(),
 })

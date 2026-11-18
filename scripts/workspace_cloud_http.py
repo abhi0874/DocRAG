@@ -70,7 +70,24 @@ def main():
     try:
         with server(env, directory):
             expect(
-                "no-consent chat blocked", http.request("/api/chat", "POST", {}), 403
+                "no-consent chat blocked",
+                http.request(
+                    "/api/chat",
+                    "POST",
+                    {
+                        "documentId": 4,
+                        "messages": [
+                            {
+                                "id": "q",
+                                "role": "user",
+                                "parts": [
+                                    {"type": "text", "text": "Synthetic request"}
+                                ],
+                            }
+                        ],
+                    },
+                ),
+                403,
             )
             consent = expect(
                 "explicit consent",
@@ -78,6 +95,7 @@ def main():
                     "/api/processing-consent",
                     "POST",
                     {
+                        "version": "non-sensitive-professional-v2",
                         "country": "IN",
                         "adult": True,
                         "professional": True,

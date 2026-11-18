@@ -31,10 +31,10 @@ async function handlePOST(req: Request) {
   try {
   req.signal.throwIfAborted()
   checkOrigin(req)
-  requireProcessingConsent(req)
-  await expireWorkspaceDocuments()
   const {messages,documentId:singleId,documentIds,personal}=await jsonBody(req,chatInput)
   const userId=await principal(req,personal===true)
+  await requireProcessingConsent(userId, req.headers)
+  await expireWorkspaceDocuments()
   // Guest Demo always selects public evidence, including for a signed-in visitor.
   const evidenceUserId = personal === false ? null : userId
   await consumeLimit(userId ? 'chat':'public',userId)

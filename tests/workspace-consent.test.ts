@@ -1,27 +1,39 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 vi.mock('@/lib/db',()=>({db:{}}))
-import {consentToken,consentCookie,requireProcessingConsent} from '@/lib/workspace-consent'
+import {consentToken,consentCookie,registrationTerms} from '@/lib/registration-terms'
+import {eligibleCountries} from '@/lib/eligible-countries'
+import {acceptance,consentVersion,requireProcessingConsent} from '@/lib/workspace-consent'
 import {chatInput} from '@/lib/security/http'
 import {documentScope} from '@/lib/security/access'
 import {sql} from 'drizzle-orm'
 import {PgDialect} from 'drizzle-orm/pg-core'
 const now=1800000000000
-const request=(token?:string)=>new Request('https://example.test/api/chat',{headers:token?{cookie:`${consentCookie}=${token}`}:{}})
+const receipt=(token?:string,at=now)=>registrationTerms(new Headers(token?{cookie:`${consentCookie}=${token}`}:{}),at)
 beforeEach(()=>{vi.stubEnv('DOCRAG_WORKSPACE_ENABLED','true');vi.stubEnv('DOCRAG_DEPLOYMENT','recruiter-demo');vi.stubEnv('BETTER_AUTH_SECRET','synthetic-secret-for-tests-32-characters')})
 afterEach(()=>vi.unstubAllEnvs())
 describe('hosted processing consent',()=>{
-  it('requires consent before arbitrary text can leave the app',()=>expect(()=>requireProcessingConsent(request(),now)).toThrow('privacy'))
-  it.each(['IN','US'])('accepts signed unexpired consent for %s',country=>expect(()=>requireProcessingConsent(request(consentToken(country,now)),now)).not.toThrow())
-  it.each(['GB','DE','CH','FR','','XX'])('rejects unsupported country %s',country=>expect(()=>consentToken(country,now)).toThrow())
+  it('requires consent before guest text can leave the app',async()=>await expect(requireProcessingConsent(null,new Headers())).rejects.toThrow('access'))
+  it.each(eligibleCountries)('accepts the listed country $code',({code})=>{
+    expect(receipt(consentToken(code,now))?.consentCountry).toBe(code)
+    expect(acceptance.safeParse({version:consentVersion,country:code,adult:true,professional:true,nonSensitive:true,externalProcessing:true}).success).toBe(true)
+  })
+  it.each(['GB','DE','CH','FR','IS','NO','LI','AX','GF','RE','CN','RU','','XX'])('rejects unavailable country %s',country=>expect(()=>consentToken(country,now)).toThrow())
   it('rejects tampering, extra fields and truncated signatures',()=>{
     const token=consentToken('IN',now)
-    for(const bad of [token+'x',token+'.extra',token.slice(0,-3),'forged.token'])expect(()=>requireProcessingConsent(request(bad),now)).toThrow()
+    for(const bad of [token+'x',token+'.extra',token.slice(0,-3),'forged.token'])expect(receipt(bad)).toBeNull()
   })
-  it('expires after eight hours',()=>expect(()=>requireProcessingConsent(request(consentToken('IN',now)),now+28800000)).toThrow('expired'))
-  it('does not accept a token after a signing key rotation',()=>{const token=consentToken('IN',now);vi.stubEnv('BETTER_AUTH_SECRET','other-synthetic-key-32-characters-long');expect(()=>requireProcessingConsent(request(token),now)).toThrow()})
-  it('leaves local Ollama and the existing sample-only mode unchanged',()=>{
-    vi.stubEnv('DOCRAG_DEPLOYMENT','local');expect(()=>requireProcessingConsent(request(),now)).not.toThrow()
-    vi.stubEnv('DOCRAG_DEPLOYMENT','recruiter-demo');vi.stubEnv('DOCRAG_WORKSPACE_ENABLED','false');expect(()=>requireProcessingConsent(request(),now)).not.toThrow()
+  it('expires after eight hours',()=>expect(receipt(consentToken('IN',now),now+28800000)).toBeNull())
+  it('invalidates unsigned, future, rotated and wrong-environment receipts',()=>{
+    expect(receipt()).toBeNull()
+    expect(receipt(consentToken('IN',now+1))).toBeNull()
+    const token=consentToken('IN',now)
+    vi.stubEnv('DOCRAG_DEPLOYMENT','local');expect(receipt(token)).toBeNull()
+    vi.stubEnv('DOCRAG_DEPLOYMENT','recruiter-demo')
+    vi.stubEnv('BETTER_AUTH_SECRET','other-synthetic-key-32-characters-long');expect(receipt(token)).toBeNull()
+  })
+  it('leaves local Ollama and existing sample-only requests unchanged',async()=>{
+    vi.stubEnv('DOCRAG_DEPLOYMENT','local');await expect(requireProcessingConsent(null,new Headers())).resolves.toBeUndefined()
+    vi.stubEnv('DOCRAG_DEPLOYMENT','recruiter-demo');vi.stubEnv('DOCRAG_WORKSPACE_ENABLED','false');await expect(requireProcessingConsent(null,new Headers())).resolves.toBeUndefined()
   })
 })
 describe('multi-document and retention boundaries',()=>{

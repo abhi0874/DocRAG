@@ -30,7 +30,20 @@ TABLES = [
 ]
 
 
-def snapshot(target):
+def user_columns(target):
+    with psycopg.connect(target) as conn:
+        conn.read_only = True
+        return [
+            row[0]
+            for row in conn.execute(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema='public' AND table_name='auth_user' "
+                "ORDER BY ordinal_position"
+            )
+        ]
+
+
+def snapshot(target, auth_columns=None):
     with psycopg.connect(target) as conn:
         conn.read_only = True
         assert os.path.realpath(
@@ -38,11 +51,16 @@ def snapshot(target):
         ) == str(DATA.resolve())
         result = {}
         for table in TABLES:
+            columns = (
+                sql.SQL(",").join(map(sql.Identifier, auth_columns))
+                if table == "auth_user" and auth_columns
+                else sql.SQL("*")
+            )
             rows = conn.execute(
                 sql.SQL(
-                    "SELECT row_to_json(t)::text FROM {} t "
+                    "SELECT row_to_json(t)::text FROM (SELECT {} FROM {}) t "
                     "ORDER BY row_to_json(t)::text"
-                ).format(sql.Identifier(table))
+                ).format(columns, sql.Identifier(table))
             ).fetchall()
             result[table] = {
                 "count": len(rows),
@@ -103,7 +121,13 @@ def main():
             "FROM auth_user ORDER BY id LIMIT 1",
             (str(uuid.uuid4()), str(uuid.uuid4())),
         )
-    before_upgrade = snapshot(target)
+    existing_columns = user_columns(target)
+    before_upgrade = snapshot(target, existing_columns)
+    migration_count = len(
+        json.loads((ROOT / "db/security-migrations/meta/_journal.json").read_text())[
+            "entries"
+        ]
+    )
     for _ in range(2):
         subprocess.run(
             ["node", "--import", "tsx", "scripts/security-migrate.ts"],
@@ -111,14 +135,16 @@ def main():
             env={**os.environ, "SECURITY_DATABASE_URL": target},
             check=True,
         )
-        assert snapshot(target) == before_upgrade, "Migration changed existing rows"
+        assert snapshot(target, existing_columns) == before_upgrade, (
+            "Migration changed existing rows"
+        )
     with psycopg.connect(target) as conn:
         conn.read_only = True
         assert (
             conn.execute(
                 "SELECT count(*) FROM drizzle.__drizzle_migrations"
             ).fetchone()[0]
-            == 2
+            == migration_count
         )
         for table in ["request_metrics", "answer_receipts", "answer_feedback"]:
             assert (
@@ -142,7 +168,7 @@ def main():
         "database": name,
         "repeat_migration": "idempotent",
         "preserved": before_upgrade,
-        "migration_count": 2,
+        "migration_count": migration_count,
     }
     (ROOT / ".local/step8-migration-test.json").write_text(
         json.dumps(receipt, indent=2)

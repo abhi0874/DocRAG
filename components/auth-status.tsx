@@ -4,6 +4,7 @@ import Link from 'next/link'
 import useSWR from 'swr'
 import { useState } from 'react'
 import { ArrowUpRight, LogOut } from 'lucide-react'
+import {ProfileAvatar} from './profile-avatar'
 import './supporting.css'
 
 export function AuthStatus() {
@@ -18,7 +19,9 @@ export function AuthStatus() {
   if (error) return <span role="alert" className="auth-status-note">Sign-in service unavailable</span>
   if (!data) return <Link className="support-action" href="/sign-in">Sign in<ArrowUpRight size={14} aria-hidden="true" /></Link>
   return <div className="auth-account">
-    <span className="auth-account-name" title={data.user.name}>{data.user.name}</span>
+    <Link href="/account" className="support-action" aria-label="Profile settings" title="Profile settings">
+      <ProfileAvatar small pixels={data.user.avatar} name={data.user.name}/><span className="auth-account-name">Profile</span>
+    </Link>
     <button type="button" className="support-action" disabled={busy} onClick={async () => {
       if (busy) return
       setBusy(true); setFailed(false)

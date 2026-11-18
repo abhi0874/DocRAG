@@ -34,8 +34,7 @@ async function handlePOST(req:Request){
   let release:(()=>void)|undefined
   try{
     if(!workspaceEnabled()) rejectDemoWrite()
-    requireProcessingConsent(req)
-    checkOrigin(req);const userId=(await principal(req))!;await consumeLimit('upload',userId);release=acquireWork()
+    checkOrigin(req);const userId=(await principal(req))!;await requireProcessingConsent(userId, req.headers);await consumeLimit('upload',userId);release=acquireWork()
     const {bytes,filename}=await readPdf(req)
     const cloud=demoEnabled() && workspaceEnabled()
     if(cloud) {

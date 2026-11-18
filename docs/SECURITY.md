@@ -16,6 +16,16 @@ than trusting a user ID supplied by the browser. Sessions expire after eight hou
 and do not slide forward on activity. Sign-out deletes the session; replaying that
 cookie no longer grants private access. Session JSON intentionally omits tokens.
 
+## Registration terms and profile
+
+New email and Google accounts require explicit acceptance before the registration form opens. The server verifies a short-lived signed receipt during registration and writes the version, time and declared country to the new account. A returning user can navigate both studios without another prompt. Earlier accounts have no inferred acceptance. They may review the terms from the workspace before their first hosted AI request. Guests may browse without a prompt and must actively review the disclosures before using free-form hosted AI.
+
+The hosted selector uses the shared allowlist in `lib/eligible-countries.ts`. The November 18, 2026 review matched 230 provider-listed regions, then excluded the EEA, its listed territories (Åland, French Guiana and Réunion), Switzerland and the UK. The resulting 195 options use the country of current use. The declaration is self-reported. Recheck the sources before changing availability. [Google regions](https://aistudio.google.com/docs/available-regions) · [Google terms](https://aistudio.google.com/docs/terms) · [EU outermost regions](https://oceans-and-fisheries.ec.europa.eu/coastal-communities/europes-outermost-regions_en).
+
+Profile displays the acceptance record read-only. Users can update their display name and profile picture. DocRAG stores a 64×64 thumbnail without the original file or photo metadata. Turning off hosted AI in the workspace preserves the acceptance record and blocks new hosted AI requests. Deleting an account requires a session created within 15 minutes and its matching email. The transaction removes the DocRAG identity, all sessions and the user's private data. Provider retention and backup schedules still apply.
+
+Apply the additive Drizzle migration `0002_account_consent` before releasing this version. The local regression command `python -m scripts.profile_http` uses the production build and an isolated fixture database with a synthetic provider key.
+
 ## Optional Google sign-in
 
 Google uses the same Better Auth session and document ownership checks as email

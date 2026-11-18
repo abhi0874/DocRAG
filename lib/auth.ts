@@ -1,3 +1,4 @@
+import {registrationTerms} from './registration-terms'
 import {betterAuth} from 'better-auth'
 import {drizzleAdapter} from 'better-auth/adapters/drizzle'
 import {db} from './db'
@@ -23,7 +24,18 @@ function createAuth() {
       ...google, disableImplicitSignUp:true, accessType:'online', includeGrantedScopes:false,
     }} : {},
     account:{accountLinking:{enabled:false},updateAccountOnSignIn:false},
-    databaseHooks:{account:{create:{before:async account => {
+    user:{additionalFields:{
+      consentVersion:{type:'string',required:false,input:false,returned:false},
+      consentCountry:{type:'string',required:false,input:false,returned:false},
+      consentAcceptedAt:{type:'date',required:false,input:false,returned:false},
+      hostedAiEnabled:{type:'boolean',required:false,input:false,returned:false},
+    }},
+    databaseHooks:{user:{create:{before:async (user, ctx) => {
+      if (!workspaceEnabled()) return
+      const terms = registrationTerms(ctx?.request?.headers ?? ctx?.headers)
+      if (!terms) return false
+      return {data:{...user, ...terms}}
+    }}},account:{create:{before:async account => {
       if (account.providerId === 'google') {
         return {data:{...account, accessToken:null, refreshToken:null, idToken:null,
           accessTokenExpiresAt:null, refreshTokenExpiresAt:null}}

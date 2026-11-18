@@ -18,7 +18,7 @@ async function main(){
     const before=(await pool.query('SELECT row_to_json(s) AS data FROM auth_session s WHERE user_id=$1',[id])).rows
     await migrate(drizzle(pool),{migrationsFolder:'db/security-migrations'})
     assert.deepEqual((await pool.query('SELECT row_to_json(s) AS data FROM auth_session s WHERE user_id=$1',[id])).rows,before)
-    assert.equal((await pool.query('SELECT count(*)::int AS n FROM drizzle.__drizzle_migrations')).rows[0].n,2)
+    assert.equal((await pool.query('SELECT count(*)::int AS n FROM drizzle.__drizzle_migrations')).rows[0].n,3)
     for(const table of ['documents','chunks','evaluations','document_access','request_metrics','answer_receipts','answer_feedback']){
       assert.equal((await pool.query('SELECT to_regclass($1) IS NOT NULL AS present',[table])).rows[0].present,true)
     }

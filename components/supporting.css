@@ -63,6 +63,8 @@
 .signin-footer { border-top: 1px solid var(--border); padding-top: 22px; margin-top: 28px; color: var(--muted-foreground); font-size: 12px; line-height: 1.7; }
 .auth-account { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; }
 .auth-account-name { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.support-action.account-delete { color:var(--destructive); border-color:color-mix(in srgb,var(--destructive) 45%,var(--border)); }
+.support-action.account-delete:hover:not(:disabled) { background:color-mix(in srgb,var(--destructive) 9%,var(--card)); }
 .auth-status-note { font-size: 11px; color: var(--muted-foreground); max-width: 16ch; }
 .feedback-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 10px; font-size: 12px; color: var(--muted-foreground); }
 .feedback-controls button { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 50%; transition: background 160ms, color 160ms; }
@@ -133,3 +135,6 @@
 .auth-entry { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 0; }
 .guest-account-entry { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:16px; font-size:.875rem; }
 .guest-account-entry p { flex-basis:100%; }
+
+.profile-avatar { display:inline-grid; place-items:center; flex:none; width:64px; height:64px; border-radius:50%; background:var(--secondary); color:var(--foreground); font-size:24px; font-weight:600; }
+.profile-avatar-small { width:22px; height:22px; font-size:12px; }

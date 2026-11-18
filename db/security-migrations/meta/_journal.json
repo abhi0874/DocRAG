@@ -15,6 +15,13 @@
       "when": 1793860734835,
       "tag": "0001_observability_and_feedback",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795022567823,
+      "tag": "0002_account_consent",
+      "breakpoints": true
     }
   ]
 }

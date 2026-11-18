@@ -2,7 +2,7 @@ import {randomUUID} from 'node:crypto'
 import {afterAll, beforeAll, beforeEach, describe, expect, it, vi} from 'vitest'
 import {GET, POST} from '@/app/api/auth/[...all]/route'
 import {getAuth} from '@/lib/auth'
-import {consentCookie, consentToken} from '@/lib/workspace-consent'
+import {consentCookie, consentToken} from '@/lib/registration-terms'
 import {consumeLimit} from '@/lib/security/limits'
 import {HttpError} from '@/lib/security/http'
 
@@ -27,13 +27,13 @@ function cookieHeader(response:Response) {
 async function start(intent:'sign-in'|'sign-up') {
   return post('google/start',{intent},consentCookie+'='+consentToken('IN'))
 }
-async function finish(started:Response) {
+async function finish(started:Response,withTerms=true) {
   expect(started.status).toBe(200)
   const target=new URL((await started.json()).url)
   const callback=new URL('/api/auth/callback/google',origin)
   callback.searchParams.set('state',target.searchParams.get('state')!)
   callback.searchParams.set('code','synthetic-provider-code')
-  return GET(new Request(callback,{headers:{cookie:cookieHeader(started)}}))
+  return GET(new Request(callback,{headers:{cookie:cookieHeader(started)+(withTerms?'; '+consentCookie+'='+consentToken('CA'):'')}}))
 }
 describe('Google workspace authentication',()=>{
   beforeAll(async()=>{
@@ -118,9 +118,10 @@ describe('Google workspace authentication',()=>{
   it('registers once, keeps no provider tokens, signs in again, and invalidates the session on sign-out',async()=>{
     const registered=await finish(await start('sign-up'))
     expect(registered.headers.get('location')).toBe(origin+'/workspace')
+    expect(rows.user[0]).toMatchObject({consentCountry:'CA',hostedAiEnabled:true})
     expect(rows.account).toHaveLength(1)
     expect(rows.account[0]).toMatchObject({providerId:'google',accountId:'synthetic-subject',accessToken:null,refreshToken:null,idToken:null})
-    const again=await finish(await start('sign-in'))
+    const again=await finish(await start('sign-in'),false)
     expect(again.headers.get('location')).toBe(origin+'/workspace')
     const cookie=cookieHeader(again)
     const session=()=>GET(new Request(origin+'/api/auth/get-session',{headers:{cookie}}))
@@ -131,6 +132,11 @@ describe('Google workspace authentication',()=>{
     expect(rows.user).toHaveLength(1)
     expect((await post('sign-out',{},cookie)).status).toBe(200)
     expect(await (await session()).json()).toBeNull()
+  })
+  it('rejects new Google registration when the acceptance expires during OAuth',async()=>{
+    const response=await finish(await start('sign-up'),false)
+    expect(response.headers.get('location')).toBe(origin+'/sign-in?google=failed')
+    expect(rows.user).toHaveLength(0)
   })
   it('keeps an existing password account separate when the email matches',async()=>{
     expect((await post('sign-up/email',{name:'Email reader',email,password:randomUUID()},consentCookie+'='+consentToken('IN'))).status).toBe(200)

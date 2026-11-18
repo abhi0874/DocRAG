@@ -1,11 +1,9 @@
 'use client'
 import Link from 'next/link'
 import {useState} from 'react'
-import {ProcessingConsent} from './processing-consent'
 import {GoogleAuthButton} from './google-auth-button'
-export function SignUpForm({cloud,googleEnabled}:{cloud:boolean;googleEnabled:boolean}) {
-  const [accepted,setAccepted]=useState(!cloud),[busy,setBusy]=useState(false),[error,setError]=useState(''),[done,setDone]=useState(false)
-  if(!accepted)return <ProcessingConsent registering onAccepted={()=>setAccepted(true)}/>
+export function SignUpForm({googleEnabled}:{googleEnabled:boolean}) {
+  const [busy,setBusy]=useState(false),[error,setError]=useState(''),[done,setDone]=useState(false)
   return <section className="signin-card glass-surface">
     <h1 className="text-2xl">Create your workspace</h1>
     {done?<p role="status">Registration request accepted. If this is a new address, your account is ready. <Link href="/sign-in" className="underline">Sign in to continue</Link>.</p>:
@@ -16,7 +14,7 @@ export function SignUpForm({cloud,googleEnabled}:{cloud:boolean;googleEnabled:bo
       try {
         const response=await fetch('/api/auth/sign-up/email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.get('name'),email:data.get('email'),password:data.get('password')})})
         if(response.ok)setDone(true)
-        else setError(response.status===429?'Registration limit reached. Please try again later.':'Registration could not be completed. Check your details and privacy consent.')
+        else setError(response.status===429?'Registration limit reached. Please try again later.':'Registration could not be completed. Check your details and try again.')
       } catch {setError('Connection failed. Please retry.')} finally {setBusy(false)}
     }}>
       <label className="support-field">Display name<input name="name" className="support-input" autoComplete="nickname" minLength={1} maxLength={80} required/></label>

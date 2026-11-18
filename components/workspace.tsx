@@ -11,9 +11,9 @@ import { DocumentPanel } from '@/components/document-panel'
 import { SourcesPanel } from '@/components/sources-panel'
 import type { DocumentInfo, RagUIMessage, SourceChunk } from '@/lib/types'
 import { requestMessages } from '@/lib/ui/chat-request'
-import {OpticalPlate} from './ui/optical-plate'
-import {ProcessingConsent} from './processing-consent'
+import {useHostedAccess} from './hosted-access'
 import Link from 'next/link'
+import {useRouter} from 'next/navigation'
 
 const fetcher = (url: string) => fetch(url).then(async r => {if(!r.ok)throw new Error('Documents unavailable');return r.json()})
 function chatErrorMessage(error:Error) {
@@ -25,8 +25,10 @@ function chatErrorMessage(error:Error) {
 }
 
 export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?:boolean;cloud?:boolean;enhanced?:boolean}={}) {
+  const router = useRouter()
   const documentsUrl=personal?'/api/documents?scope=mine':enhanced?'/api/documents?scope=public':'/api/documents'
-  const [consented,setConsented]=useState(!cloud)
+  const consent = useHostedAccess(cloud && enhanced)
+  const aiEnabled = !cloud || !!consent.data?.enabled
   const { data: documents, isLoading, error } = useSWR<DocumentInfo[]>(
     documentsUrl,
     fetcher,
@@ -93,21 +95,14 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
     })
   }
 
-  if (!consented) return (
-    <main id="main-content" className="signin-layout consent-layout">
-      <div className="signup-intro">
-        <OpticalPlate/>
-        <h1>Document studio.</h1>
-        <p>Review the hosted AI processing terms before opening your workspace.</p>
-        {enhanced&&!personal&&<Link href="/sign-up" className="support-action support-action-primary">Create an account</Link>}
-      </div>
-      <ProcessingConsent onAccepted={() => setConsented(true)}/>
-    </main>
-  )
   return (
     <div className="mono-workspace"><div className="mono-workspace-bar"><p className="mono-breadcrumb">DocRAG <span>/</span> <strong>{personal ? 'Personal studio' : enhanced ? 'Guest studio' : 'Document studio'}</strong></p><div className="mono-mobile-views"><LiquidPillGroup label="Workspace view" value={view} onChange={next=>{setView(next);if(next==='sources')setSourcesOpen(true)}} options={[{value:'library',label:'Library'},{value:'conversation',label:'Ask'},{value:'sources',label:'Sources'}]}/></div><button className="mono-icon-button mono-desktop-toggle" aria-expanded={sourcesOpen} aria-controls="workspace-sources" onClick={()=>setSourcesOpen(!sourcesOpen)}>{sourcesOpen?'Hide evidence':'Show evidence'}</button></div><div className="mono-workspace-grid" data-view={view} data-sources-open={sourcesOpen}>
       <aside ref={library} className="mono-library" aria-label="Document library" tabIndex={-1}>
-        {enhanced&&!personal&&<div className="guest-account-entry"><p>Ask about the public documents, or use your own PDFs in a personal workspace.</p><Link href="/sign-up" className="support-action support-action-primary">Create an account</Link><Link href="/workspace" className="underline">Sign in</Link></div>}
+        {enhanced&&!personal&&!consent.data?.signedIn&&<div className="guest-account-entry"><p>Browse public documents or sign in to ask questions and use your own PDFs.</p><Link href="/sign-up" className="support-action support-action-primary">Create an account</Link><Link href="/workspace" className="underline">Sign in</Link>{cloud && !aiEnabled && <Link href="/guest-access" className="underline">Ask as a guest</Link>}</div>}
+        {cloud && (personal || consent.data?.signedIn) && <div className="guest-account-entry">
+          <p>{consent.error ? 'Hosted AI preferences could not be loaded.' : consent.data ? (aiEnabled ? 'Hosted AI is on.' : 'Hosted AI is off.') : 'Checking hosted AI access…'}</p>
+          <Link className="underline" href="/workspace/hosted-ai">{aiEnabled ? 'Manage hosted AI' : 'Review hosted AI access'}</Link>
+        </div>}
         {error&&<p role="alert" className="mono-error">Your documents could not be loaded. Check your connection or <Link href="/sign-in" className="underline">sign in again</Link>.</p>}
         <DocumentPanel
           documents={documents ?? []}
@@ -116,7 +111,8 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
           busy={status==='submitted'||status==='streaming'}
           onSelect={handleSelect}
           selectedIds={enhanced?selectedIds:undefined}
-          uploadAllowed={!enhanced||personal}
+          uploadAllowed={(!enhanced||personal) && aiEnabled}
+          manageOwned={!enhanced||personal}
           cloud={cloud}
           documentsUrl={documentsUrl}
           onDeleted={id=>{setSelectedIds(ids=>ids.filter(value=>value!==id));if(id===selectedId)setSelectedId(null);setMessages([]);setSourceMessageId(null)}}
@@ -128,9 +124,12 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
         <ChatPanel
           messages={messages}
           status={status}
-          disabled={enhanced?!selectedIds.some(id=>documents?.some(d=>d.id===id)):!selectedDoc}
+          disabled={!aiEnabled || (enhanced?!selectedIds.some(id=>documents?.some(d=>d.id===id)):!selectedDoc)}
           documentTitle={enhanced?documents?.filter(d=>selectedIds.includes(d.id)).map(d=>d.title).join(' + ')||null:selectedDoc?.title ?? null}
-          entryAction={selectedDoc || (enhanced && selectedIds.length) ? undefined : {
+          entryAction={!aiEnabled ? (consent.data ? {
+            label: 'Review hosted AI access',
+            open: () => router.push(consent.data?.signedIn ? '/workspace/hosted-ai' : '/guest-access'),
+          } : undefined) : selectedDoc || (enhanced && selectedIds.length) ? undefined : {
             label: personal && !documents?.length ? 'Upload a PDF' : 'Choose a document',
             open: personal && !documents?.length
               ? () => {setView('library');library.current?.querySelector<HTMLInputElement>('input[type=file]')?.click()}

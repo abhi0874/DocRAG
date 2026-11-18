@@ -8,8 +8,8 @@ import { AppHeader } from '@/components/app-header'
 import { GoogleAuthButton } from './google-auth-button'
 import '@/components/supporting.css'
 
-export default function SignIn({enhanced=false,googleEnabled=false,googleFailed=false}:{
-  enhanced?:boolean; googleEnabled?:boolean; googleFailed?:boolean
+export default function SignIn({enhanced=false,googleEnabled=false,googleFailed=false,accountDeleted=false}:{
+  enhanced?:boolean; googleEnabled?:boolean; googleFailed?:boolean; accountDeleted?:boolean
 }) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -27,6 +27,7 @@ export default function SignIn({enhanced=false,googleEnabled=false,googleFailed=
       <section className="signin-card glass-surface" aria-labelledby="signin-form-heading">
         <LockKeyhole className="mb-6 text-primary" size={23} aria-hidden="true" />
         <h2 id="signin-form-heading">Welcome back.</h2>
+        {accountDeleted&&<p role="status">Your DocRAG account has been deleted.</p>}
         {enhanced&&<div className="auth-entry"><span>New to DocRAG?</span><Link href="/sign-up" className="support-action">Create an account<ArrowRight size={16} aria-hidden="true"/></Link></div>}
         {googleFailed&&<p role="alert" className="support-error">Google sign-in didn’t finish. Use the method you registered with, or create an account if you’re new.</p>}
         {enhanced&&<GoogleAuthButton enabled={googleEnabled} intent="sign-in"/>}

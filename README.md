@@ -24,7 +24,7 @@ library, conversation, and evidence pane in one responsive workspace.
 3. Ask your own document-related question and a follow-up. Select a numbered citation to see the page and supporting passage. When the document lacks the answer, the workspace says so.
 4. Delete your PDF from the library and sign out. The Gemini API key is provided by the server.
 
-Hosted processing is for eligible adults using the demo professionally in India or the United States. Keep personal, sensitive or confidential material out of documents and questions. Shared free quotas apply. Accounts can hold three PDFs and upload twice per day. Uploads have a 30-day expiry.
+Hosted processing is for eligible adults using the demo professionally in the countries and territories listed by the deployed sign-up form. Keep personal, sensitive or confidential material out of documents and questions. Shared free quotas apply. Accounts can hold three PDFs and upload twice per day. Uploads have a 30-day expiry.
 
 **Production release** — `c1a228d` is live on Render Free. The light and dark themes use sage and jade document artwork. Email registration and sign-in are enabled. Google sign-in requires production OAuth credentials and is currently unavailable. [Live acceptance and image identity](docs/publication/WORKSPACE_RELEASE.md)
 
