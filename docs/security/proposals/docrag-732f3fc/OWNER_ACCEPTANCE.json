@@ -1,0 +1,23 @@
+{
+  "commit": "732f3fcd388861477702d53b797dee0bf65daf00",
+  "index": "sha256:2ff62c88210facb43ad260ebaba5f2f0b699ae632984f91a19e5d70d16de798b",
+  "runtime": "sha256:7077e6878eb1e887de3c4cc1c74970545266913c73f263a3f6fac2a7a2c7175e",
+  "user": "65532:65532",
+  "archive_sha": "f76aa008a73b1832fff1bfaece26b1a1ebda502258c35781aabfd86a3c048a66",
+  "attestations": [
+    "https://spdx.dev/Document",
+    "https://slsa.dev/provenance/v1"
+  ],
+  "exception": "EX-DOCRAG-732F3FC-01",
+  "service": "srv-dbrf4l0u01pc73b2dneg",
+  "approval": "Approve EX-DOCRAG-732F3FC-01 as owner and Render operator",
+  "recorded_utc": "2026-11-18T21:05:57.337110+00:00",
+  "expires_utc": "2026-11-25T08:00:00Z",
+  "independent_review": false,
+  "advisories": [
+    "CVE-2026-100290",
+    "CVE-2026-115819"
+  ],
+  "controls": "Monitor availability, memory, latency and restarts. Withdraw on supported fix, incident, credible exposure, loss of monitoring, scope change or expiry. Preserve privacy, quotas and database isolation.",
+  "migration": "0002_account_consent: four additive auth_user columns; no inferred acceptance for existing accounts."
+}
