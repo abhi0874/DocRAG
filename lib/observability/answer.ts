@@ -15,7 +15,9 @@ export function answerMetadata(trace:Trace|undefined,snapshot:DocumentSnapshot,m
   trace.provider=providerName();trace.model=trace.provider==='ollama'?localSettings().chat:demoEnabled()?demoSettings().model:modelConfig.chat
   const part=messages.length===1&&messages[0].role==='user'&&messages[0].parts.length===1?messages[0].parts[0]:null
   const hash=part?.type==='text'?stableHash(part.text.trim()):null
-  const publicQuestionHash=snapshot.isPublic&&trace.provider==='ollama'&&
+  // A public first document cannot authorize exporting text from a second source.
+  const singleDocumentEvidence=sources.length>0 && sources.every(s=>s.documentId===snapshot.document.id)
+  const publicQuestionHash=singleDocumentEvidence&&snapshot.isPublic&&trace.provider==='ollama'&&
     manifest.documents.some(d=>d.id===snapshot.document.id&&d.hash===snapshot.hash)&&
     manifest.questions.some(q=>q.documentId===snapshot.document.id&&q.hash===hash)?hash:null
   return {documentId:snapshot.document.id,documentHash:snapshot.hash,publicQuestionHash,

@@ -20,7 +20,9 @@ export function demoDatabaseUrl() {
   const u=new URL(value)
   const native=u.hostname==='127.0.0.1' && u.port===(process.env.DOCRAG_POSTGRES_PORT || '55432')
   const neon=u.hostname.endsWith('.neon.tech') && u.searchParams.get('sslmode')==='verify-full'
-  if(!['postgres:','postgresql:'].includes(u.protocol) || u.pathname!=='/docrag_demo_gemini_v1' || (!native&&!neon) || u.hash)
+  // Integration fixtures must never expand the remote database allowlist.
+  const fixture=native && process.env.DOCRAG_LOCAL_HTTP==='true' && process.env.DOCRAG_WORKSPACE_TEST_DATABASE==='true' && /^\/docrag_security_test_[a-f0-9]{12}$/.test(u.pathname)
+  if(!['postgres:','postgresql:'].includes(u.protocol) || (u.pathname!=='/docrag_demo_gemini_v1'&&!fixture) || (!native&&!neon) || u.hash)
     throw new Error('Demo requires its isolated database with verified TLS remotely')
   for(const key of u.searchParams.keys()) if(key!=='sslmode') throw new Error('Unexpected database option')
   return value

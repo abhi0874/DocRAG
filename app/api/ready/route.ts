@@ -2,11 +2,13 @@ import {sql} from 'drizzle-orm'
 import {db} from '@/lib/db'
 import {demoEnabled,demoSettings,demoApiKey} from '@/lib/demo-config'
 import {verifyDemoSpace} from '@/lib/demo-access'
+import {workspaceEnabled} from '@/lib/workspace-config'
 export const dynamic='force-dynamic'
 export async function GET(){
   try{
     if(demoEnabled()){demoSettings();demoApiKey();await verifyDemoSpace()}
     else await db.execute(sql`SELECT 1`)
+    if(workspaceEnabled() && demoEnabled())await db.execute(sql`SELECT document_id,expires_at,consent_version FROM workspace_document_policy LIMIT 0`)
     return Response.json({status:'ready'},{headers:{'Cache-Control':'no-store'}})
   }catch{return Response.json({status:'unavailable'},{status:503,headers:{'Cache-Control':'no-store'}})}
 }

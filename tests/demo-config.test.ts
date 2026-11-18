@@ -15,6 +15,12 @@ describe('cloud configuration and billing boundary',()=>{
  it('rejects absent billing confirmation before reading credentials',()=>{enable();vi.stubEnv('DOCRAG_GEMINI_BILLING_CONFIRMED','');expect(()=>demoApiKey()).toThrow('billing')})
  it('does not fall back to legacy keys',()=>{enable();vi.stubEnv('DOCRAG_GEMINI_BILLING_CONFIRMED','no-linked-account');vi.stubEnv('GEMINI_API_KEY','');vi.stubEnv('GOOGLE_GENERATIVE_AI_API_KEY','fake-only-key');expect(()=>demoApiKey()).toThrow('key')})
  it('requires a separate database',()=>{enable();vi.stubEnv('DEMO_DATABASE_URL','postgresql://127.0.0.1:55433/docrag_ollama_v1');expect(()=>demoDatabaseUrl()).toThrow()})
+ it('allows explicit loopback fixtures without expanding remote database access',()=>{
+  enable();vi.stubEnv('DOCRAG_POSTGRES_PORT','55433');vi.stubEnv('DOCRAG_LOCAL_HTTP','true');vi.stubEnv('DOCRAG_WORKSPACE_TEST_DATABASE','true')
+  vi.stubEnv('DEMO_DATABASE_URL','postgresql://127.0.0.1:55433/docrag_security_test_012345abcdef');expect(demoDatabaseUrl()).toContain('docrag_security_test_')
+  vi.stubEnv('DEMO_DATABASE_URL','postgresql://example.neon.tech/docrag_security_test_012345abcdef?sslmode=verify-full');expect(()=>demoDatabaseUrl()).toThrow()
+  vi.stubEnv('DEMO_DATABASE_URL','postgresql://127.0.0.1:55433/docrag_security_test_012345abcdef');vi.stubEnv('DOCRAG_WORKSPACE_TEST_DATABASE','false');expect(()=>demoDatabaseUrl()).toThrow()
+ })
  it('rejects remote unverified TLS',()=>{enable();vi.stubEnv('DEMO_DATABASE_URL','postgresql://example.neon.tech/docrag_demo_gemini_v1?sslmode=require');expect(()=>demoDatabaseUrl()).toThrow()})
  it('accepts verified TLS and exact dedicated database',()=>{enable();vi.stubEnv('DEMO_DATABASE_URL','postgresql://example.neon.tech/docrag_demo_gemini_v1?sslmode=verify-full');expect(demoDatabaseUrl()).toContain('verify-full')})
  it('rejects foreign 768-dimensional vectors',()=>{expect(()=>normalizeDemoEmbedding(Array(768).fill(1))).toThrow()})

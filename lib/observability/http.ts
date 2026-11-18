@@ -1,8 +1,8 @@
 import {elapsed,emit,errorCategory,newTrace,withTrace} from './context'
 import {persistMetric} from './persist'
 
-export function observed<C>(route:string,handler:(req:Request,context:C)=>Promise<Response>){
-  return async (req:Request,context?:C):Promise<Response>=>{
+export function observed<C extends unknown[]>(route:string,handler:(req:Request,...context:C)=>Promise<Response>){
+  return async (req:Request,...context:C):Promise<Response>=>{
     const trace=newTrace(route,req.method);emit('request.started',trace)
     let settled=false
     const abort=()=>{trace.cancelled=true}
@@ -24,7 +24,7 @@ export function observed<C>(route:string,handler:(req:Request,context:C)=>Promis
       req.signal.removeEventListener('abort',abort);emit('request.finished',terminal)
     }
     let response:Response
-    try{response=await withTrace(trace,()=>handler(req,context as C))}
+    try{response=await withTrace(trace,()=>handler(req,...context))}
     catch{trace.failed=true;response=Response.json({error:'Request could not be completed'},{status:500})}
     trace.status=response.status
     const headers=new Headers(response.headers);headers.set('X-Request-ID',trace.id);headers.set('Cache-Control','no-store')

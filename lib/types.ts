@@ -28,6 +28,7 @@ export type RagUIMessage = UIMessage<
 >
 
 export interface DocumentInfo {
+  owned?: boolean
   id: number
   title: string
   filename: string

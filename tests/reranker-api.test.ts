@@ -3,7 +3,7 @@ import { expect, it, vi } from 'vitest'
 vi.mock('@/lib/select-context', () => ({selectContext: vi.fn()}))
 vi.mock('@/lib/evidence', () => ({documentSnapshot: vi.fn(async () => ({hash: 'test',document:{id:42,title:'Fixture',filename:'fixture.pdf',status:'ready'},chunks:[],isPublic:false})), withEvidenceMetadata: (r: unknown) => r}))
 vi.mock('@/lib/public-cache-policy', () => ({publicCacheScope: () => null}))
-vi.mock('@/lib/rag-answer', () => ({startRagAnswer: vi.fn()}))
+vi.mock('@/lib/rag-answer',async original=>({...await original<typeof import('@/lib/rag-answer')>(),startRagAnswer:vi.fn()}))
 vi.mock('ai', () => ({
   createUIMessageStream: vi.fn(({execute}) => {void execute({writer: {write: vi.fn(), merge: vi.fn()}}); return new ReadableStream({start(c) {c.close()}})}),
   createUIMessageStreamResponse: vi.fn(({headers}) => new Response(new ReadableStream({start(c) {c.close()}}), {headers})),

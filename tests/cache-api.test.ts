@@ -3,7 +3,7 @@ import {afterEach,beforeEach,expect,it,vi} from 'vitest'
 import type {TextStreamPart,ToolSet} from 'ai'
 vi.mock('@/lib/db',()=>({db:{}}))
 vi.mock('@/lib/select-context',()=>({selectContext:vi.fn()}))
-vi.mock('@/lib/rag-answer',()=>({startRagAnswer:vi.fn()}))
+vi.mock('@/lib/rag-answer',async original=>({...await original<typeof import('@/lib/rag-answer')>(),startRagAnswer:vi.fn()}))
 vi.mock('@/lib/evidence',async importOriginal=>({...await importOriginal<typeof import('@/lib/evidence')>(),documentSnapshot:vi.fn()}))
 vi.mock('@/lib/public-cache-policy',async importOriginal=>({...await importOriginal<typeof import('@/lib/public-cache-policy')>(),cacheModelIdentity:vi.fn(async()=>({digest:'pinned',runtime:'fixed'}))}))
 import {POST} from '@/app/api/chat/route'

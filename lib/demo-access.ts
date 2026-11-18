@@ -6,6 +6,7 @@ import {HttpError} from './security/http'
 import {consumeLimit} from './security/limits'
 import type {DocumentSnapshot} from './evidence'
 import type {RagUIMessage} from './types'
+import {workspaceEnabled} from './workspace-config'
 export function rejectDemoWrite() {
   if(demoEnabled()) throw new HttpError(403,'The public demo supports sample questions only. Use local Ollama for private documents.')
 }
@@ -17,7 +18,8 @@ export async function verifyDemoSpace() {
 }
 export async function admitDemoQuestion(snapshot:DocumentSnapshot,messages:RagUIMessage[],userId:string|null) {
   if(!demoEnabled()) return
-  if(!allowedDemoQuestion(snapshot,messages)) throw new HttpError(403,'Choose a public sample question; private text is not sent to Gemini.')
+  if(!workspaceEnabled() && !allowedDemoQuestion(snapshot,messages)) throw new HttpError(403,'Choose a public sample question; private text is not sent to Gemini.')
+  if(workspaceEnabled() && !snapshot.isPublic && !userId) throw new HttpError(403,'Sign in required')
   await verifyDemoSpace()
   await consumeLimit('demoUser',userId)
   await consumeLimit('demoMinute','global')

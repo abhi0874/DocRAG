@@ -89,3 +89,12 @@ it('freezes cancellation category while late provider cleanup mutates the live t
  abort.abort();await response.text()
  expect(mocks.persist.mock.calls[0][0]).toMatchObject({outcome:'cancelled',errorCategory:'cancelled'})
 })
+it('exports only answers whose every source belongs to the allowlisted public document',()=>{
+ const question=[{id:'q',role:'user' as const,parts:[{type:'text' as const,text:'In FastAPI, what Python value does item_id: int receive for /items/3?'}]}]
+ const first={...snapshot,isPublic:true}
+ const source={id:1,documentId:3,pageNumber:1,chunkIndex:0,content:'Public example.',vectorScore:1,keywordScore:null,rrfScore:1}
+ const metadata=(sources:typeof source[])=>answerMetadata(newTrace('/api/chat','POST'),first,question,sources,'grounded-v1')
+ expect(metadata([source])?.publicQuestionHash).toBeTruthy()
+ expect(metadata([source,{...source,documentId:99}])?.publicQuestionHash).toBeNull()
+ expect(metadata([])?.publicQuestionHash).toBeNull()
+})

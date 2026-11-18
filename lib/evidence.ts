@@ -4,6 +4,7 @@ import { db } from './db'
 import {documentScope} from './security/access'
 import { chunks, documents } from './db/schema'
 import type { RetrievedChunk } from './rag'
+import {HttpError} from './security/http'
 
 export const digest = (value: unknown): string => createHash('sha256').update(JSON.stringify(value)).digest('hex')
 export interface DocumentSnapshot {
@@ -17,7 +18,8 @@ export async function documentSnapshot(id: number,userId:string|null=null): Prom
   return db.transaction(async tx => {
     const [row] = await tx.select({id: documents.id, title: documents.title,
       filename: documents.filename, status: documents.status, isPublic:sql<boolean>`EXISTS(SELECT 1 FROM document_access WHERE document_id=documents.id AND visibility='public')`}).from(documents).where(and(eq(documents.id,id),documentScope(sql`documents.id`,userId)))
-    if (!row || row.status !== 'ready') return null
+    if (!row) return null
+    if(row.status!=='ready')throw new HttpError(409,'Document is still processing; try again when indexing finishes')
     const {isPublic,...document}=row
     const rows = await tx.select({id: chunks.id, chunkIndex: chunks.chunkIndex, pageNumber: chunks.pageNumber,
       content: chunks.content, metadata: chunks.metadata}).from(chunks).where(eq(chunks.documentId, id)).orderBy(chunks.id)

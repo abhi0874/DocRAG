@@ -56,7 +56,8 @@ export function pathId(value:string) {
 }
 const message=z.object({id:z.string().min(1).max(128),role:z.enum(['user','assistant']),
   parts:z.array(z.object({type:z.literal('text'),text:z.string().min(1).max(8000)}).strict()).min(1).max(1)}).strict()
-export const chatInput=z.object({documentId,messages:z.array(message).min(1).max(20)}).strict()
+export const chatInput=z.object({documentId:documentId.optional(),documentIds:z.array(documentId).min(1).max(3).optional(),personal:z.boolean().optional(),messages:z.array(message).min(1).max(20)}).strict()
+  .refine(v=>Boolean(v.documentId)!==Boolean(v.documentIds) && (!v.documentIds || new Set(v.documentIds).size===v.documentIds.length))
   .refine(v=>v.messages.at(-1)?.role==='user' && v.messages.reduce((n,m)=>n+m.parts[0].text.length,0)<=32000)
 export const evaluationInput=z.object({documentId,question:z.string().trim().min(1).max(8000)}).strict()
 

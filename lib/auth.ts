@@ -2,6 +2,7 @@ import {betterAuth} from 'better-auth'
 import {drizzleAdapter} from 'better-auth/adapters/drizzle'
 import {db} from './db'
 import * as schema from './db/security-schema'
+import {workspaceEnabled} from './workspace-config'
 
 export function appOrigin() {
   const url = new URL(process.env.DOCRAG_APP_ORIGIN || 'http://localhost:8000')
@@ -16,7 +17,7 @@ function createAuth() {
   return betterAuth({
     appName:'DocRAG', baseURL:config.origin, secret,
     database:drizzleAdapter(db,{provider:'pg',schema,transaction:true}),
-    emailAndPassword:{enabled:true,disableSignUp:true,minPasswordLength:12,maxPasswordLength:128},
+    emailAndPassword:{enabled:true,disableSignUp:!workspaceEnabled(),autoSignIn:false,minPasswordLength:12,maxPasswordLength:128},
     session:{expiresIn:8*60*60,disableSessionRefresh:true,cookieCache:{enabled:false}},
     trustedOrigins:[config.origin],
     advanced:{useSecureCookies:config.secure,ipAddress:{ipAddressHeaders:[]},

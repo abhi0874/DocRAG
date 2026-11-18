@@ -7,6 +7,8 @@ import { retrievalDefault, type RetrievalConfig, type RetrievalTiming } from './
 import modelConfig from './model-config.json'
 import { localSettings, providerName } from './provider-config'
 import { localEmbeddings, ollamaLanguageModel } from './ollama'
+import {workspaceEnabled, workspaceLimits} from './workspace-config'
+import {consumeLimit} from './security/limits'
 
 // Legacy model configuration is preserved; cloud demo uses a separate embedding space.
 const cloud = demoEnabled() ? demoSettings() : null
@@ -35,9 +37,23 @@ export interface RetrievedChunk {
 }
 
 /** Batch-embed chunk contents. Order is preserved. */
-export async function embedChunks(contents: string[]): Promise<number[][]> {
+export async function embedChunks(contents: string[],signal?:AbortSignal): Promise<number[][]> {
   if (providerName() === 'ollama') return (await localEmbeddings(contents, 'document')).embeddings
-  if(cloud) throw new Error('Cloud indexing requires the separate public corpus bootstrap')
+  if(cloud) {
+    if(!workspaceEnabled()) throw new Error('Cloud indexing requires the separate public corpus bootstrap')
+    if(!contents.length || contents.length>workspaceLimits.chunksPerDocument) throw new Error('Upload exceeds indexing budget')
+    const vectors:number[][]=[]
+    // One admitted request per chunk; no SDK retries or uncontrolled parallel batches.
+    for(const value of contents) {
+      signal?.throwIfAborted()
+      await consumeLimit('embeddingBytes','global',Math.max(1,Buffer.byteLength(value)));await consumeLimit('embeddingMinute','global');await consumeLimit('embeddingDay','global')
+      const timeout=AbortSignal.timeout(cloud.timeoutMs)
+      const result=await embed({model:EMBEDDING_MODEL,value,maxRetries:0,abortSignal:signal?AbortSignal.any([signal,timeout]):timeout,
+        providerOptions:{google:{outputDimensionality:cloud.embedding.dimensions,taskType:'RETRIEVAL_DOCUMENT'} satisfies GoogleEmbeddingModelOptions}})
+      vectors.push(normalizeDemoEmbedding(result.embedding))
+    }
+    return vectors
+  }
   const allEmbeddings: number[][] = []
   // Embed in batches to stay under provider limits
   const BATCH = 100
@@ -68,6 +84,7 @@ export async function hybridSearch(
   userId:string|null=null,
 ): Promise<RetrievedChunk[]> {
   return retrieve(query, documentId, topK, config, async () => {
+  if(cloud && workspaceEnabled()) {await consumeLimit('embeddingBytes','global',Math.max(1,Buffer.byteLength(query)));await consumeLimit('embeddingMinute','global');await consumeLimit('embeddingDay','global')}
   const { embedding } = providerName() === 'ollama'
     ? { embedding: (await localEmbeddings([query], 'query')).embeddings[0] }
     : await embed({

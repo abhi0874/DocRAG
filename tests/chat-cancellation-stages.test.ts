@@ -2,7 +2,7 @@ import './security-route-fixture'
 import {beforeEach,afterEach,expect,it,vi} from 'vitest'
 vi.mock('@/lib/db',()=>({db:{}}))
 vi.mock('@/lib/select-context',()=>({selectContext:vi.fn()}))
-vi.mock('@/lib/rag-answer',()=>({startRagAnswer:vi.fn()}))
+vi.mock('@/lib/rag-answer',async original=>({...await original<typeof import('@/lib/rag-answer')>(),startRagAnswer:vi.fn()}))
 vi.mock('@/lib/evidence',async original=>({...await original<typeof import('@/lib/evidence')>(),documentSnapshot:vi.fn()}))
 vi.mock('@/lib/public-cache-policy',()=>({publicCacheScope:()=>null}))
 import {POST} from '@/app/api/chat/route'

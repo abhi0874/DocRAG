@@ -11,6 +11,12 @@ interface DocumentPanelProps {
   isLoading: boolean
   selectedId: number | null
   onSelect: (id: number) => void
+  selectedIds?:number[]
+  uploadAllowed?:boolean
+  cloud?:boolean
+  documentsUrl?:string
+  onDeleted?:(id:number)=>void
+  busy?:boolean
 }
 
 export function DocumentPanel({
@@ -18,6 +24,7 @@ export function DocumentPanel({
   isLoading,
   selectedId,
   onSelect,
+  selectedIds,uploadAllowed=true,cloud=false,documentsUrl='/api/documents',onDeleted,busy=false,
 }: DocumentPanelProps) {
   const { mutate } = useSWRConfig()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -26,8 +33,10 @@ export function DocumentPanel({
   const [error, setError] = useState<string | null>(null)
 
   async function handleFile(file: File) {
-    if(uploading)return
+    if(uploading||busy)return
+    if(!uploadAllowed)return
     if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){setError('Choose a PDF document.');return}
+    if(file.size>(cloud?2:15)*1024*1024){setError(`PDF must be at most ${cloud?2:15} MB.`);return}
     setError(null)
     setUploading(true)
     try {
@@ -41,7 +50,7 @@ export function DocumentPanel({
       if (!res.ok) {
         setError(data.error ?? 'Upload failed')
       } else {
-        await mutate('/api/documents')
+        await mutate(documentsUrl)
         onSelect(data.id)
       }
     } catch {
@@ -53,11 +62,13 @@ export function DocumentPanel({
   }
 
   async function handleDelete(id: number) {
+    if(!window.confirm('Delete this document, its stored original and its search index? This cannot be undone.'))return
     setError(null)
     try {
       const response=await fetch(`/api/documents/${id}`, { method: 'DELETE' })
       if(!response.ok){setError((await response.json()).error ?? 'Deletion failed');return}
-      await mutate('/api/documents')
+      onDeleted?.(id)
+      await mutate(documentsUrl)
     } catch {setError('Deletion failed. Check your connection and retry.')}
   }
 
@@ -67,10 +78,11 @@ export function DocumentPanel({
         <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Documents
         </h2>
-        <button
+        {selectedIds&&<p className="mt-3 text-xs">Select up to three documents. {selectedIds.length} selected.</p>}
+        {uploadAllowed&&<><p className="mt-3 text-xs">PDF only · {cloud?'2 MB, 3 documents, 2 uploads/day. Short text PDFs only; shared free limits apply.':'15 MB maximum'}</p><button
           type="button"
           onClick={() => inputRef.current?.click()}
-          disabled={uploading}
+          disabled={uploading||busy}
           className="mt-4 flex w-full min-h-28 flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card p-4 text-sm text-muted-foreground hover:border-primary"
           data-dragging={dragging}
           onDragOver={e=>{e.preventDefault();setDragging(true)}}
@@ -100,6 +112,7 @@ export function DocumentPanel({
             if (file) handleFile(file)
           }}
         />
+        </>}
         {error && (
           <p role="alert" className="mt-2 text-xs text-destructive">
             {error}
@@ -115,7 +128,7 @@ export function DocumentPanel({
         )}
         {!isLoading && documents.length === 0 && (
           <li className="px-2 py-3 text-sm text-muted-foreground">
-            No documents yet. Upload a PDF to start.
+            {uploadAllowed?'No documents yet. Upload a PDF to start.':'Public samples are currently unavailable.'}
           </li>
         )}
         {documents.map((doc) => (
@@ -123,10 +136,11 @@ export function DocumentPanel({
             <button
               type="button"
               onClick={() => onSelect(doc.id)}
-              aria-pressed={selectedId===doc.id}
+              disabled={busy}
+              aria-pressed={selectedIds?selectedIds.includes(doc.id):selectedId===doc.id}
               className={cn(
                 'mono-document',
-                selectedId === doc.id
+                (selectedIds?selectedIds.includes(doc.id):selectedId === doc.id)
                   ? 'bg-accent'
                   : 'hover:bg-accent/50',
               )}
@@ -134,7 +148,7 @@ export function DocumentPanel({
               <FileText
                 className={cn(
                   'mt-0.5 size-4 shrink-0',
-                  selectedId === doc.id
+                  (selectedIds?selectedIds.includes(doc.id):selectedId === doc.id)
                     ? 'text-primary'
                     : 'text-muted-foreground',
                 )}
@@ -147,14 +161,15 @@ export function DocumentPanel({
                 </span>
               </span>
             </button>
-            <button
+            {doc.owned!==false&&uploadAllowed&&<button
               type="button"
               onClick={() => handleDelete(doc.id)}
+              disabled={busy}
               className="mono-document-delete"
               aria-label={`Delete ${doc.title}`}
             >
               <Trash2 className="size-3.5" aria-hidden="true" />
-            </button>
+            </button>}
           </li>
         ))}
       </ul>
