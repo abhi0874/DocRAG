@@ -103,3 +103,21 @@ input[type=range]{width:100%;accent-color:var(--primary);min-height:36px}.intens
 .mono-library [data-dragging]{border-color:var(--input)}
 
 :root[data-motion=reduce] *,:root[data-motion=reduce] *::before,:root[data-motion=reduce] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+
+.global-theme {
+  position:fixed; z-index:40; top:max(14px,env(safe-area-inset-top)); right:max(16px,env(safe-area-inset-right));
+  display:grid; place-items:center; width:44px; height:44px; overflow:hidden; isolation:isolate;
+  border-radius:50%; color:var(--primary); cursor:pointer;
+}
+.global-theme > * { grid-area:1/1 }
+.global-theme .optical-mark { position:absolute; width:68px; max-width:none; opacity:.48; z-index:-1 }
+.global-theme .theme-moon { display:none }
+:root[data-theme=dark] .global-theme .theme-moon { display:block }
+:root[data-theme=dark] .global-theme .theme-sun { display:none }
+.global-theme svg:not(.optical-mark) {
+  transition:transform 400ms var(--theme-spring);
+}
+.global-theme:active svg:not(.optical-mark) { transform:scale(.84) rotate(-12deg) }
+.header-tools { margin-right:calc(48px + env(safe-area-inset-right)) }
+body:has(.appearance-dialog[open]) > .global-theme { visibility:hidden }
+@media(max-height:640px) { .appearance-dialog { max-height:calc(100dvh - 128px) } }

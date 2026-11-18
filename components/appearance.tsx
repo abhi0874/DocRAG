@@ -1,23 +1,43 @@
 'use client'
 import {createContext,useContext,useEffect,useRef,useState,useId} from 'react'
-import {SlidersHorizontal,X} from 'lucide-react'
+import {SlidersHorizontal,X,Sun,Moon} from 'lucide-react'
 import {appearanceKey,defaultAppearance,opticalParameters,parseAppearance,type Appearance} from '@/lib/ui/appearance'
+import {advanceLiquid,liquidAt} from '@/lib/ui/liquid-physics'
 import {lensNormalField} from '@/lib/ui/lens-normal'
 import {LiquidPillGroup} from './ui/liquid-pill-group'
 const Context=createContext({appearance:defaultAppearance,setAppearance:(_value:Appearance)=>{void _value}})
 export function AppearanceProvider({children}:{children:React.ReactNode}) {
-  const [appearance,setAppearance]=useState(defaultAppearance)
+  const [appearance,setAppearance]=useState<Appearance | null>(null)
   useEffect(()=>{
     const sync=()=>{try{setAppearance(parseAppearance(localStorage.getItem(appearanceKey)))}catch{setAppearance(defaultAppearance)}}
     sync();window.addEventListener('storage',sync);return()=>window.removeEventListener('storage',sync)
   },[])
   useEffect(()=>{
+    if (!appearance) return
     const media=window.matchMedia('(prefers-color-scheme: dark)')
     const apply=()=>{document.documentElement.dataset.motion=appearance.reduceMotion?'reduce':'system';document.documentElement.dataset.theme=appearance.theme==='system'?(media.matches?'dark':'light'):appearance.theme; const p=opticalParameters(appearance.intensity); const s=document.documentElement.style;s.setProperty('--glass-blur',`${p.blur}px`);s.setProperty('--glass-highlight',String(p.highlight));s.setProperty('--glass-opacity',String(p.opacity));document.documentElement.dataset.glass=appearance.intensity<25?'low':appearance.intensity>75?'high':'balanced'}
     apply();media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply)
   },[appearance])
   function update(value:Appearance){setAppearance(value);try{localStorage.setItem(appearanceKey,JSON.stringify(value))}catch{/* Preferences remain usable when storage is unavailable. */}}
-  return <Context.Provider value={{appearance,setAppearance:update}}>{children}</Context.Provider>
+  return <Context.Provider value={{appearance:appearance ?? defaultAppearance,setAppearance:update}}>{children}<ThemeToggle/></Context.Provider>
+}
+// Sample the navigation lens spring once; CSS interpolates on the compositor.
+const springTarget={center:1,width:1}
+let springState=liquidAt({center:0,width:1})
+const toggleSpring='linear(0,'+Array.from({length:24},()=>{
+  springState=advanceLiquid(springState,springTarget,1/60)
+  return springState.center.toFixed(4)
+}).join(',')+',1)'
+function ThemeToggle(){
+  const {appearance,setAppearance}=useContext(Context)
+  const toggle=()=>{
+    const dark=document.documentElement.dataset.theme==='dark' ||
+      (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches)
+    setAppearance({...appearance,theme:dark?'light':'dark'})
+  }
+  return <button type="button" className="global-theme glass-surface" style={{'--theme-spring':toggleSpring} as React.CSSProperties} onClick={toggle} aria-label="Switch light or dark theme">
+    <OpticalMark/><Sun aria-hidden="true" className="theme-sun" size={20}/><Moon aria-hidden="true" className="theme-moon" size={20}/>
+  </button>
 }
 /** Bounded decorative optical study: only public vector artwork is displaced. */
 export function OpticalMark({className=''}:{className?:string}){
@@ -47,6 +67,7 @@ export function AppearanceControl(){
  return <>
   <button ref={trigger} className="icon-button" aria-label="Appearance settings" onClick={()=>dialog.current?.showModal()}><SlidersHorizontal size={18}/></button>
   <dialog ref={dialog} className="appearance-dialog" aria-labelledby="appearance-title" onClick={e=>{if(e.target===e.currentTarget)close()}} onClose={()=>trigger.current?.focus()}>
+   <ThemeToggle/>
    <div className="appearance-content">
     <div className="flex items-start justify-between gap-4"><div><p className="eyebrow">Make it yours</p><h2 id="appearance-title" className="display-title text-3xl">Light & material.</h2></div><button className="icon-button" onClick={close} aria-label="Close appearance settings"><X size={18}/></button></div>
     <div className="appearance-preview glass-surface"><OpticalMark/><span className="eyebrow">Optical study / 01</span></div>

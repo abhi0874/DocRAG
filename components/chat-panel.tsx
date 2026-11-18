@@ -1,7 +1,7 @@
 'use client'
 
 import { CornerDownLeft, Loader2 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { MessageContent } from './message-content'
 import type { RagUIMessage } from '@/lib/types'
 import {OpticalMark} from './appearance'
@@ -32,6 +32,19 @@ export function ChatPanel({
   const [input, setInput] = useState('')
   const [stopError,setStopError]=useState(false)
   const [away,setAway]=useState(false)
+  const draftRef = useRef<HTMLTextAreaElement>(null)
+  useLayoutEffect(() => {
+    const draft = draftRef.current
+    if (!draft || CSS.supports('field-sizing', 'content')) return
+    function resize() {
+      if (!draft) return
+      draft.style.height = 'auto'
+      draft.style.height = draft.scrollHeight + 'px'
+    }
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
+  }, [input, sampleOnly])
   const following = useRef(true)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -131,6 +144,7 @@ export function ChatPanel({
           }}
         >
           {!sampleOnly && <textarea
+            ref={draftRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -144,18 +158,18 @@ export function ChatPanel({
                 submit()
               }
             }}
-            rows={2}
+            rows={1}
             placeholder={
               disabled
-                ? 'Select a document first...'
-                : 'Ask a question about the document...'
+                ? 'Select a document…'
+                : 'Ask a question…'
             }
             disabled={disabled}
             aria-label="Chat message"
-            className="min-h-16 flex-1 resize-none rounded-md border border-input bg-card px-3 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
+            className="placeholder:text-muted-foreground disabled:opacity-60"
           />}
           {(status==='streaming'||status==='submitted')&&<button type="button" className="h-10 rounded-md border border-border px-4 text-sm" onClick={async()=>{setStopError(false);try{await onStop()}catch{setStopError(true)}}}>Stop response</button>}
-          {!sampleOnly && <button
+          {!sampleOnly && status!=='streaming' && status!=='submitted' && <button
             type="submit"
             disabled={disabled || status !== 'ready' || !input.trim()}
             className="mono-primary-action"

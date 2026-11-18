@@ -41,7 +41,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-background">
+    <html lang="en" suppressHydrationWarning className="bg-background">
+      <head>{/* Parser-blocking local bootstrap restores the palette before paint. */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="/theme-init.js" />
+      </head>
       <body className={`${bodyFont.variable} ${displayFont.variable} ${monoFont.variable} font-sans antialiased`}>
         <AppearanceProvider><a className="skip-link" href="#main-content">Skip to content</a>{children}</AppearanceProvider>
       </body>
