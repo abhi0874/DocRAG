@@ -1,0 +1,82 @@
+{
+  "application": "2fc209521af326db308753e9b18525ad022f3a6d",
+  "browser": {
+    "checks": [
+      "fixed in modal, shared settings state",
+      "keyboard and reload",
+      "global control on authorized routes at 1280",
+      "single and multiline composer at 1280",
+      "global control on authorized routes at 390",
+      "single and multiline composer at 390",
+      "global control on authorized routes at 320",
+      "single and multiline composer at 320",
+      "Enter submit, stop and cleared draft"
+    ],
+    "viewport": "1280, 390 and 320 CSS pixels",
+    "engine": "Chrome/157.0.8103.79",
+    "errors": [],
+    "frameIntervals": [
+      16.599999999999966,
+      16.599999999999966,
+      16.599999999999994,
+      16.599999999999994,
+      16.600000000000023,
+      16.600000000000023,
+      16.600000000000023,
+      16.600000000000023,
+      16.600000000000023,
+      16.600000000000023,
+      16.600000000000023,
+      16.635999999999996,
+      16.699999999999932,
+      16.699999999999932,
+      16.699999999999932,
+      16.699999999999932,
+      16.69999999999999,
+      16.69999999999999,
+      16.69999999999999,
+      16.69999999999999,
+      16.69999999999999,
+      16.69999999999999,
+      16.69999999999999,
+      16.700000000000017,
+      16.700000000000045,
+      16.700000000000045,
+      16.700000000000045,
+      16.700000000000045,
+      16.700000000000045,
+      16.80000000000001
+    ],
+    "status": "PASS"
+  },
+  "first_frame_sidebar_modal": [
+    "saved dark before first animation frame with light OS palette",
+    "fixed throughout evidence panel collapse",
+    "modal theme control in top layer is pointer accessible"
+  ],
+  "unit": {
+    "python": 231,
+    "typescript": 354
+  },
+  "workspace_checks": 63,
+  "container_checks": 26,
+  "unrelated_containers": {
+    "unchanged": true,
+    "count": 10
+  },
+  "application_hashes_verified": 42,
+  "evaluator_hashes_verified": 18,
+  "audit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 2,
+    "high": 1,
+    "critical": 0
+  },
+  "screenshots": {
+    "desktop-dark.png": "8d05d030939b2e3debc1e39bc5becfdf741ce5984d2cfa0ed5e2335223bc6495",
+    "desktop-light.png": "294d2c34130c520b8f1dac5b84560e273dd929604a14b06e409130fcdfcbe878",
+    "mobile-dark.png": "7d653e444ac52331e978179086b13c5b3c318cd90bba6d67643251feef1f7efa",
+    "mobile-light.png": "039f14aebbe6c8212e926036aa002e88ed493317bfed74c6871f8ff691fb44e5"
+  }
+}

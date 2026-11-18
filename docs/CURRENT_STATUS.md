@@ -1,3 +1,7 @@
+# Final workspace UI candidate — 18 November 2026
+
+Local candidate `2fc2095` passed UI, workspace and container checks. Publication is blocked by CVE-2026-112366. Last recorded production commit is `6458b35`. [Verification and conditional Render release procedure](ui-redesign/release-candidate/README.md)
+
 # MONO / GLASS local redesign complete — 16 November 2026
 
 The separate frontend redesign is complete locally on `feat/production-rag`.
