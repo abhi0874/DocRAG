@@ -13,7 +13,6 @@ jobs:
     timeout-minutes: 10
     permissions:
       actions: read
-      contents: read
       packages: write
     env:
       SOURCE: 4d888d6a5e876e250f95f20a1850522299b5a80f
@@ -24,12 +23,14 @@ jobs:
       - name: Verify release window, tested commit and retained archive
         env:
           GH_TOKEN: ${{ github.token }}
+          ARCHIVE_URL: ${{ secrets.DOCRAG_OCI_TRANSFER_4D888D6 }}
         run: |
           set -euo pipefail
           test "$(date -u +%s)" -lt "$(date -u -d '2026-11-25 08:00:00Z' +%s)"
           gh api repos/abhi0874/DocRAG/actions/runs/44291485453 |
             jq -e --arg source "$SOURCE" '.head_sha == $source and .event == "push" and .conclusion == "success" and .path == ".github/workflows/ci.yml"'
-          gh api -H 'Accept: application/octet-stream' repos/abhi0874/DocRAG/releases/assets/763063312 > release.oci.tar
+          [[ "$ARCHIVE_URL" == https://release-assets.githubusercontent.com/github-production-release-asset/* ]]
+          curl --fail --silent --show-error --proto '=https' "$ARCHIVE_URL" --output release.oci.tar
           echo '1f734cbd82c7b9bd92d32e32db6c9651284e9352f564777c5dab927376e937f9  release.oci.tar' | sha256sum --check
       - name: Install pinned OCI transfer client
         run: |
