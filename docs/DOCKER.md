@@ -17,7 +17,10 @@ inside the dedicated container service.
 
 Node is exactly 24.22.1, pnpm 11.25.0. Dockerfile pins the Node bookworm-slim image
 by digest and uses frozen dependencies, a separate migration target, a build target
-and a non-root standalone runtime (UID 1000). PostgreSQL is pgvector 0.8.1 on
+and a standalone runtime on digest-pinned distroless Debian 13 (UID/GID 65532).
+The runtime copies the exact Node executable from the build image. Its application
+files are root-owned and its Next.js cache directory is writable by the service user.
+Use the separate migration target for database setup. PostgreSQL is pgvector 0.8.1 on
 PostgreSQL 16, also pinned by digest. The runtime includes public/static assets and
 the bounded PDF extraction worker. Environment files, local environments, benchmark
 results and model weights are excluded by the build-context allowlist.
