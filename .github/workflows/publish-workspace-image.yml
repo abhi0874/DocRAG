@@ -1,0 +1,51 @@
+name: Publish approved DocRAG image
+on:
+  push:
+    branches: [feat/production-rag]
+    paths: [.github/workflows/publish-workspace-image.yml]
+
+permissions: {}
+
+jobs:
+  publish:
+    if: github.repository == 'abhi0874/DocRAG'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+    env:
+      SOURCE: 4d888d6a5e876e250f95f20a1850522299b5a80f
+      INDEX: sha256:2f215ce4bc02acc6fc7b212858faecc551cf201ce7e17b9cf8b726be0b5fe300
+      RUNTIME: sha256:45b21f9df2102ab0d5611ceade5a375e999829e09c80de71a6b1b6716b543668
+      IMAGE: ghcr.io/abhi0874/docrag
+    steps:
+      - name: Verify release window, tested commit and retained archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(date -u +%s)" -lt "$(date -u -d '2026-11-25 08:00:00Z' +%s)"
+          gh api repos/abhi0874/DocRAG/actions/runs/44291485453 |
+            jq -e --arg source "$SOURCE" '.head_sha == $source and .event == "push" and .conclusion == "success" and .path == ".github/workflows/ci.yml"'
+          gh api -H 'Accept: application/octet-stream' repos/abhi0874/DocRAG/releases/assets/763063312 > release.oci.tar
+          echo '1f734cbd82c7b9bd92d32e32db6c9651284e9352f564777c5dab927376e937f9  release.oci.tar' | sha256sum --check
+      - name: Install pinned OCI transfer client
+        run: |
+          set -euo pipefail
+          curl -fsSL --proto '=https' https://github.com/oras-project/oras/releases/download/v1.4.0/oras_1.4.0_linux_amd64.tar.gz -o oras.tar.gz
+          echo 'd8e1dce2fd8ce996f1d901845b688eb0cf505a6082897606f053825bb47935d1  oras.tar.gz' | sha256sum --check
+          tar -xzf oras.tar.gz oras
+      - name: Publish original OCI bytes and verify registry manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$GH_TOKEN" | ./oras login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          ./oras cp --from-oci-layout "release.oci.tar@$INDEX" "$IMAGE:rc-4d888d6"
+          test "$(./oras resolve "$IMAGE:rc-4d888d6")" = "$INDEX"
+          for digest in "$INDEX" "$RUNTIME"; do
+            ./oras manifest fetch "$IMAGE@$digest" --output fetched.json
+            printf '%s  fetched.json\n' "${digest#sha256:}" | sha256sum --check
+          done
