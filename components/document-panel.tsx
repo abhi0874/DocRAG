@@ -1,6 +1,6 @@
 'use client'
 
-import { FileText, Loader2, Trash2, Upload } from 'lucide-react'
+import { Check, FileText, Loader2, Trash2, Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useSWRConfig } from 'swr'
 import type { DocumentInfo } from '@/lib/types'
@@ -75,13 +75,14 @@ export function DocumentPanel({
   return (
     <div className="flex h-full flex-col">
       <div className="p-4">
-        <h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Documents
-        </h2>
+        <div className="library-title"><h2 className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Library
+        </h2><span className="mono-count" aria-label={`${documents.length} documents`}>{documents.length}</span></div>
         {selectedIds&&<p className="mt-3 text-xs">Select up to three documents. {selectedIds.length} selected.</p>}
         {uploadAllowed&&<><p className="mt-3 text-xs">PDF only · {cloud?'2 MB, 3 documents, 2 uploads/day. Short text PDFs only; shared free limits apply.':'15 MB maximum'}</p><button
           type="button"
           onClick={() => inputRef.current?.click()}
+          aria-busy={uploading}
           disabled={uploading||busy}
           className="mt-4 flex w-full min-h-28 flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card p-4 text-sm text-muted-foreground hover:border-primary"
           data-dragging={dragging}
@@ -97,7 +98,7 @@ export function DocumentPanel({
           ) : (
             <>
               <Upload className="size-4" aria-hidden="true" />
-              Upload PDF
+              <strong>Upload PDF</strong><span className="drop-hint">Choose a file or drop it here</span>
             </>
           )}
         </button>
@@ -145,7 +146,7 @@ export function DocumentPanel({
                   : 'hover:bg-accent/50',
               )}
             >
-              <FileText
+              <span className="file-glyph"><FileText
                 className={cn(
                   'mt-0.5 size-4 shrink-0',
                   (selectedIds?selectedIds.includes(doc.id):selectedId === doc.id)
@@ -153,11 +154,11 @@ export function DocumentPanel({
                     : 'text-muted-foreground',
                 )}
                 aria-hidden="true"
-              />
+              />{(selectedIds ? selectedIds.includes(doc.id) : selectedId === doc.id) && <Check size={12} className="file-check" aria-hidden="true"/>}</span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-sm">{doc.title}</span>
                 <span className="block font-mono text-xs text-muted-foreground">
-                  {doc.pageCount} pages / {doc.chunkCount} chunks
+                  {doc.pageCount} {doc.pageCount===1?'page':'pages'} · {doc.chunkCount} {doc.chunkCount===1?'chunk':'chunks'}
                 </span>
               </span>
             </button>

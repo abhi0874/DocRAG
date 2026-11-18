@@ -26,7 +26,7 @@ export function MetricsDashboard() {
 
   return <main id="main-content" className="support-page space-y-7">
     <header className="support-heading">
-      <div><p className="eyebrow">OBSERVATORY / YOUR ACCOUNT</p><h1>Every request,<br />in perspective.</h1><p>A clear view of your activity, response times and model usage. Only requests belonging to your account appear here.</p></div>
+      <div><p className="eyebrow">Account insights</p><h1>Request activity.</h1><p>A clear view of your activity, response times and model usage. Only requests belonging to your account appear here.</p></div>
       <div className="support-controls">
         <label className="sr-only" htmlFor="metrics-period">Metrics period</label>
         <select id="metrics-period" value={hours} onChange={event => setHours(Number(event.target.value))} className="support-input !w-auto"><option value={1}>Past hour</option><option value={24}>Past 24 hours</option><option value={168}>Past 7 days</option></select>

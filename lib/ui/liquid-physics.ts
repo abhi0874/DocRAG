@@ -50,10 +50,11 @@ export function liquidPath(state: LiquidState, height: number, containerWidth: n
   if (height < 1 || containerWidth < 1) return ''
   const inset = 4, top = inset, bottom = Math.max(inset + 1, height - inset)
   const midY = (top + bottom) / 2, radius = (bottom - top) / 2
-  const direction = Math.sign(state.velocity)
+  // Ease through zero so a mid-flight reversal cannot swap the bevel in one frame.
+  const bias = 0.22 * Math.tanh(state.velocity / 320)
   const half = Math.max(radius, state.width / 2 - inset)
-  const left = Math.max(inset, state.center - half - state.stretch * (direction < 0 ? 0.72 : 0.28))
-  const right = Math.min(containerWidth - inset, state.center + half + state.stretch * (direction > 0 ? 0.72 : 0.28))
+  const left = Math.max(inset, state.center - half - state.stretch * (0.5 - bias))
+  const right = Math.min(containerWidth - inset, state.center + half + state.stretch * (0.5 + bias))
   if (right <= left) return ''
   const r = Math.min(radius, (right - left) / 2)
   const a = left + r, b = right - r, center = (a + b) / 2

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react'
+import { OpticalPlate } from './ui/optical-plate'
 import { AppHeader } from '@/components/app-header'
 import '@/components/supporting.css'
 
@@ -15,9 +16,9 @@ export default function SignIn({enhanced=false}:{enhanced?:boolean}) {
     <AppHeader enhanced={enhanced}/>
     <main className="signin-layout" id="main-content">
       <section className="signin-editorial" aria-labelledby="signin-heading">
-        <p className="eyebrow">YOUR PRIVATE WORKSPACE</p>
-        <h1 id="signin-heading">A little more<br /><span>clarity.</span></h1>
-        <p>Your documents. Your questions. A space to turn information into answers you can trace.</p>
+        <OpticalPlate/>
+        <h1 id="signin-heading">Your document<br /><span>studio.</span></h1>
+        <p>Sign in to open your document library and ask questions with sources.</p>
         <div className="signin-detail"><ShieldCheck size={23} aria-hidden="true" /><span>Private libraries stay tied to your account.<br />Every answer starts with a source.</span></div>
       </section>
       <section className="signin-card glass-surface" aria-labelledby="signin-form-heading">

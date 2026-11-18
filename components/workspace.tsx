@@ -2,7 +2,7 @@
 
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {LiquidPillGroup} from './ui/liquid-pill-group'
 import './workspace.css'
 import useSWR from 'swr'
@@ -11,6 +11,7 @@ import { DocumentPanel } from '@/components/document-panel'
 import { SourcesPanel } from '@/components/sources-panel'
 import type { DocumentInfo, RagUIMessage, SourceChunk } from '@/lib/types'
 import { requestMessages } from '@/lib/ui/chat-request'
+import {OpticalPlate} from './ui/optical-plate'
 import {ProcessingConsent} from './processing-consent'
 import Link from 'next/link'
 
@@ -30,9 +31,10 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
     documentsUrl,
     fetcher,
   )
+  const library = useRef<HTMLElement>(null)
   const [view,setView]=useState('conversation')
   const [citationFocus,setCitationFocus]=useState(0)
-  const [sourcesOpen,setSourcesOpen]=useState(true)
+  const [sourcesOpen,setSourcesOpen]=useState(false)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [selectedIds,setSelectedIds]=useState<number[]>([])
   const [sourceMessageId, setSourceMessageId] = useState<string | null>(null)
@@ -83,10 +85,27 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
     sendMessage({ text }, { body: enhanced?{documentIds:selectedIds}:{documentId: selectedId} })
   }
 
-  if(!consented)return <ProcessingConsent onAccepted={()=>setConsented(true)}/>
+  function openLibrary() {
+    setView('library')
+    requestAnimationFrame(() => {
+      const target = library.current?.querySelector<HTMLElement>('.mono-document:not(:disabled)') ?? library.current
+      target?.focus()
+    })
+  }
+
+  if (!consented) return (
+    <main id="main-content" className="signin-layout consent-layout">
+      <div className="signup-intro">
+        <OpticalPlate/>
+        <h1>Document studio.</h1>
+        <p>Review the hosted AI processing terms before opening your workspace.</p>
+      </div>
+      <ProcessingConsent onAccepted={() => setConsented(true)}/>
+    </main>
+  )
   return (
-    <div className="mono-workspace"><div className="mono-workspace-bar"><p className="mono-breadcrumb">WORKSPACE / <strong>Your document studio</strong></p><div className="mono-mobile-views"><LiquidPillGroup label="Workspace view" value={view} onChange={next=>{setView(next);if(next==='sources')setSourcesOpen(true)}} options={[{value:'library',label:'Library'},{value:'conversation',label:'Ask'},{value:'sources',label:'Sources'}]}/></div><button className="mono-icon-button mono-desktop-toggle" aria-expanded={sourcesOpen} aria-controls="workspace-sources" onClick={()=>setSourcesOpen(!sourcesOpen)}>{sourcesOpen?'Hide evidence':'Show evidence'}</button></div><div className="mono-workspace-grid" data-view={view} data-sources-open={sourcesOpen}>
-      <aside className="mono-library">
+    <div className="mono-workspace"><div className="mono-workspace-bar"><p className="mono-breadcrumb">DocRAG <span>/</span> <strong>{personal ? 'Personal studio' : enhanced ? 'Guest studio' : 'Document studio'}</strong></p><div className="mono-mobile-views"><LiquidPillGroup label="Workspace view" value={view} onChange={next=>{setView(next);if(next==='sources')setSourcesOpen(true)}} options={[{value:'library',label:'Library'},{value:'conversation',label:'Ask'},{value:'sources',label:'Sources'}]}/></div><button className="mono-icon-button mono-desktop-toggle" aria-expanded={sourcesOpen} aria-controls="workspace-sources" onClick={()=>setSourcesOpen(!sourcesOpen)}>{sourcesOpen?'Hide evidence':'Show evidence'}</button></div><div className="mono-workspace-grid" data-view={view} data-sources-open={sourcesOpen}>
+      <aside ref={library} className="mono-library" aria-label="Document library" tabIndex={-1}>
         {enhanced&&!personal&&<p className="p-4 text-sm">Ask your own questions about these public documents, or <Link href="/workspace" className="underline">sign in to upload your documents</Link>.</p>}
         {error&&<p role="alert" className="mono-error">Your documents could not be loaded. Check your connection or <Link href="/sign-in" className="underline">sign in again</Link>.</p>}
         <DocumentPanel
@@ -110,6 +129,12 @@ export function Workspace({personal=false,cloud=false,enhanced=false}:{personal?
           status={status}
           disabled={enhanced?!selectedIds.some(id=>documents?.some(d=>d.id===id)):!selectedDoc}
           documentTitle={enhanced?documents?.filter(d=>selectedIds.includes(d.id)).map(d=>d.title).join(' + ')||null:selectedDoc?.title ?? null}
+          entryAction={selectedDoc || (enhanced && selectedIds.length) ? undefined : {
+            label: personal && !documents?.length ? 'Upload a PDF' : 'Choose a document',
+            open: personal && !documents?.length
+              ? () => {setView('library');library.current?.querySelector<HTMLInputElement>('input[type=file]')?.click()}
+              : openLibrary,
+          }}
           onSend={handleSend}
           onStop={stop}
           onCitationClick={(index, messageId) => {setSourceMessageId(messageId); setActiveSource(index);setView('sources');setSourcesOpen(true);setCitationFocus(n=>n+1)}}

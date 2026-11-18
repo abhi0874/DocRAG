@@ -1,10 +1,10 @@
 'use client'
 
-import { CornerDownLeft, Loader2 } from 'lucide-react'
+import { ArrowUp, ArrowUpRight, Loader2 } from 'lucide-react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { MessageContent } from './message-content'
 import type { RagUIMessage } from '@/lib/types'
-import {OpticalMark} from './appearance'
+import {OpticalPlate} from './ui/optical-plate'
 import {AnswerFeedback} from './answer-feedback'
 import { cn } from '@/lib/utils'
 
@@ -13,6 +13,7 @@ interface ChatPanelProps {
   status: string
   disabled: boolean
   documentTitle: string | null
+  entryAction?: {label:string; open:()=>void}
   sampleOnly?: boolean
   onSend: (text: string) => void
   onStop: () => Promise<void>
@@ -25,6 +26,7 @@ export function ChatPanel({
   disabled,
   documentTitle,
   sampleOnly = false,
+  entryAction,
   onSend,
   onStop,
   onCitationClick,
@@ -60,7 +62,7 @@ export function ChatPanel({
   }
 
   return (
-    <div className="mono-chat">
+    <div className="mono-chat" data-status={status}>
       <div
         ref={scrollRef}
         className="mono-chat-scroll"
@@ -72,11 +74,15 @@ export function ChatPanel({
       >
         {messages.length === 0 ? (
           <div className="mono-chat-empty">
-            <OpticalMark/>
-            <span className="mono-overline">INTELLIGENCE, WITH EVIDENCE</span>
-            <h1>Ask better.<br/><span>Know why.</span></h1>
-            <p>{sampleOnly?'Explore the ideas inside your documents. Start with a sample question. Every answer leads back to its source.':documentTitle?`A conversation with “${documentTitle}”. Ask a question and follow the evidence.`:'Bring a document. Find a new perspective. Select a reference or upload a PDF to begin.'}</p>
-            <div className="mono-empty-steps"><span><b>01</b> Choose a document</span><span><b>02</b> Ask a question</span><span><b>03</b> Follow the source</span></div>
+            <div className="studio-intro">
+              <div className="studio-copy">
+                <span className="mono-overline">Document Q&amp;A</span>
+                <h1>Ask your<br/><em>documents.</em></h1>
+                <p>{documentTitle ? `Ask about “${documentTitle}” and open a citation to read the original passage.` : 'Choose a document, ask in your own words, and follow each answer back to its source.'}</p>
+                {entryAction && <button type="button" className="studio-entry" onClick={entryAction.open}>{entryAction.label}<ArrowUpRight size={16} aria-hidden="true"/></button>}
+              </div>
+              <OpticalPlate/>
+            </div>
           </div>
         ) : (
           <div className="mono-messages">
@@ -89,8 +95,8 @@ export function ChatPanel({
                   message.role === 'user' ? 'items-end' : 'items-start',
                 )}
               >
-                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                  {message.role === 'user' ? 'You' : 'Assistant'}
+                <span className="mono-message-label">
+                  {message.role === 'user' ? 'You' : 'DocRAG'}
                 </span>
                 <div
                   className={cn(
@@ -175,7 +181,7 @@ export function ChatPanel({
             className="mono-primary-action"
           >
             Send
-            <CornerDownLeft className="size-3.5" aria-hidden="true" />
+            <ArrowUp className="size-3.5" aria-hidden="true" />
           </button>}
         </form>
         {stopError&&<p role="alert">The response could not be stopped. Please retry.</p>}

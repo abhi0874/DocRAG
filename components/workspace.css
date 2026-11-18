@@ -69,11 +69,6 @@
 .mono-composer-wrap { padding:12px 24px 20px; margin-top:auto; }
 .mono-composer { display:flex; align-items:center; gap:8px; border:1px solid var(--border); padding:8px; border-radius:18px; background:var(--background); box-shadow:0 10px 24px #00000006; }
 .mono-composer textarea { flex:1; min-width:0; min-height:44px; max-height:180px; field-sizing:content; resize:none; padding:12px 8px; background:transparent; font-size:14px; line-height:20px; border:0; border-radius:10px; outline-offset:0; }
-.mono-primary-action { display:inline-flex; justify-content:center; align-items:center; flex-shrink:0; gap:8px; min-height:44px; padding:12px 18px; border-radius:12px; font-size:12px; font-weight:600; color:var(--primary-foreground); background:var(--primary); cursor:pointer; transition:transform .18s,opacity .18s; }
-.mono-primary-action:hover { opacity:.88; }
-.mono-primary-action:active { transform:scale(.97); }
-.mono-primary-action:disabled { opacity:.5; cursor:not-allowed; }
-.mono-primary-action svg { width:16px; height:16px; }
 .mono-composer-note { font-size:10px; color:var(--muted-foreground); text-align:center; margin-top:12px; line-height:1.5; }
 .mono-stream-state { display:flex; align-items:center; gap:9px; font-size:12px; color:var(--muted-foreground); }
 .mono-sources-empty { margin:30px 22px; color:var(--muted-foreground); font-size:12px; line-height:1.8; }
@@ -124,3 +119,101 @@
 @media(max-width:480px){.mono-chat-empty{min-height:380px}.mono-chat-empty h1{font-size:40px}.mono-chat-scroll{padding:18px}}
 
 .mono-chat{position:relative}.mono-jump{position:absolute;bottom:110px;left:50%;transform:translateX(-50%);z-index:2;border:1px solid var(--border);background:var(--card);color:var(--foreground);border-radius:20px;min-height:40px;padding:8px 16px;font-size:11px;box-shadow:0 4px 16px #0002;white-space:nowrap}
+
+/* A machined outer frame around two satin rails and a quiet central reading plane. */
+.mono-workspace-grid {
+  box-shadow: inset 0 1px var(--rim), 0 1px 2px var(--contact), 0 20px 50px -25px var(--elevation);
+}
+.mono-library, .mono-source-region {
+  background: linear-gradient(154deg, var(--secondary), color-mix(in srgb,var(--secondary) 36%,var(--card)) 52%,var(--secondary));
+  box-shadow:inset 0 1px var(--rim);
+}
+.mono-center { container-type:inline-size; background:var(--card); }
+.mono-center:has(.mono-chat-empty) {
+  background:
+    radial-gradient(ellipse at 98% 12%, color-mix(in srgb,var(--glacier) 50%,transparent), transparent 44%),
+    linear-gradient(150deg, var(--card) 28%,color-mix(in srgb,var(--titanium) 21%,var(--card)) 85%,var(--card));
+}
+.mono-library h2,.mono-source-region h2 { font:600 16px/1.3 var(--font-display),sans-serif; text-transform:none; letter-spacing:-.025em; color:var(--foreground); }
+.mono-library [data-dragging] {
+  position:relative; overflow:hidden; background:var(--specular),linear-gradient(150deg,var(--card),var(--secondary));
+  color:var(--foreground); box-shadow:var(--material-depth); border-color:var(--input);
+  transition:border-color 160ms, background-color 160ms, transform 220ms var(--settle);
+}
+.mono-library [data-dragging] svg { width:34px;height:34px;padding:7px;border-radius:10px;background:var(--accent);color:var(--primary); }
+.mono-library [data-dragging=true] { transform:scale(.985); border-color:var(--primary); background:var(--accent); }
+.mono-library [data-dragging][aria-busy=true]::after { content:'';position:absolute;bottom:0;height:2px;width:32%;background:var(--primary);animation:index-pass 1.4s ease-in-out infinite alternate; }
+@keyframes index-pass { from{transform:translateX(-95%)} to{transform:translateX(95%)} }
+.mono-document {background:color-mix(in srgb,var(--card) 62%,transparent);border-color:var(--border)}
+.mono-document-row + .mono-document-row { margin-top:6px; }
+.mono-document[aria-pressed=true],.mono-source[data-active=true] { background:var(--accent);box-shadow:inset 3px 0 var(--primary),inset 0 1px var(--rim); }
+.mono-citation { border-radius:8px; box-shadow:inset 0 1px var(--rim); }
+.mono-message-body { font-size:clamp(14px,2.1cqw,16px); }
+.mono-composer { background:var(--specular),var(--card); box-shadow:var(--material-depth); }
+.mono-composer:focus-within { border-color:var(--primary); }
+.mono-source,.mono-icon-button,.mono-jump { box-shadow:var(--material-depth); }
+.mono-sources-list > li:only-child:not(.mono-source) { margin:3px 4px; border-left:2px solid var(--input); padding:3px 15px; }
+@media(prefers-reduced-motion:no-preference) {
+  .mono-source-region:not([hidden]) > div { animation:surface-arrive 200ms var(--settle); }
+}
+@media(max-width:480px) {
+  .mono-chat-empty { padding:6px 2px 10px; }
+  .mono-chat-empty h1 { margin:6px 0 12px; }
+  .mono-empty-steps { margin-top:18px; padding-top:12px; }
+}
+
+/* Library, reading desk and evidence are separate panes. Opening a citation adds
+   a third pane without disturbing the source selection or the reading order. */
+.mono-workspace {max-width:1820px;width:100%;margin-inline:auto;padding-inline:clamp(12px,2.6vw,48px)}
+.mono-workspace-grid {
+  border:0;box-shadow:none;background:transparent;border-radius:0;gap:14px;overflow:visible;
+  grid-template-columns:clamp(215px,18vw,300px) minmax(0,1fr) clamp(232px,21vw,340px);
+}
+.mono-workspace-grid[data-sources-open=false] {grid-template-columns:clamp(215px,18vw,300px) minmax(0,1fr)}
+.mono-workspace-grid > :is(.mono-library,.mono-center,.mono-source-region) {
+  overflow:hidden;border:1px solid var(--border);border-radius:22px;box-shadow:var(--material-depth);
+}
+.mono-workspace-grid > :is(.mono-library,.mono-source-region){overflow:auto}
+.mono-library,.mono-source-region {background:var(--glass-skin),linear-gradient(140deg,var(--secondary),var(--card) 95%)}
+.mono-library .library-title {display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:15px;margin-bottom:15px}
+.mono-library h2,.mono-source-region h2 {font-size:19px}
+.mono-library [data-dragging] {gap:6px;min-height:146px;border-radius:18px;background:var(--glass-skin),var(--glass-plane)}
+.mono-library [data-dragging] > svg {width:42px;height:42px;padding:10px;border-radius:14px;background:var(--card);box-shadow:var(--glass-depth)}
+.drop-hint {font-size:11px;color:var(--muted-foreground)}
+.file-glyph {display:grid;place-items:center;position:relative;min-width:32px;height:38px;border-radius:6px 10px 6px 6px;background:var(--secondary);color:var(--primary);box-shadow:inset 0 1px var(--rim)}
+.file-glyph .file-check {position:absolute;right:-3px;bottom:0;background:var(--primary);color:var(--primary-foreground);border-radius:50%}
+.mono-document {align-items:center;padding-right:34px}
+.mono-workspace-bar .mono-breadcrumb {font:11px var(--font-technical),monospace;letter-spacing:.015em}
+.mono-workspace-bar .mono-breadcrumb strong {font:600 15px var(--font-body),sans-serif}
+.mono-chat-scroll:has(.mono-chat-empty) {display:flex;flex-direction:column;padding:clamp(14px,3cqw,48px)}
+.mono-chat-empty {width:100%;max-width:1170px;min-height:0;height:auto;flex:1 0 auto;justify-content:center;padding:0;margin:auto}
+.studio-intro {width:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:center}
+.studio-intro .optical-plate {order:-1;height:clamp(100px,23cqw,190px)}
+.studio-copy .mono-overline {display:flex;gap:8px;align-items:center;color:var(--primary);font-weight:600}
+.studio-copy .mono-overline::before {content:'';width:18px;height:2px;background:currentColor}
+.studio-copy h1 {font:550 clamp(40px,8.5cqw,100px)/.94 var(--font-display),sans-serif;letter-spacing:-.065em;margin:13px 0 20px}
+.studio-copy h1 em {font-style:normal;color:var(--primary)}
+.studio-copy p {max-width:36ch;font-size:clamp(13px,1.5cqw,16px);line-height:1.65;color:var(--muted-foreground);overflow-wrap:anywhere}
+.studio-entry {display:inline-flex;align-items:center;gap:14px;min-height:44px;margin-top:20px;padding:10px 17px;border-radius:24px;background:var(--primary);color:var(--primary-foreground);font-size:13px;font-weight:600;box-shadow:var(--material-depth)}
+@container(min-width:590px){
+  .studio-intro {grid-template-columns:minmax(0,.95fr) minmax(0,1fr);gap:clamp(16px,3cqw,44px)}
+  .studio-intro .optical-plate {order:0;height:clamp(240px,37cqw,480px);border-radius:clamp(18px,3cqw,36px) 7px clamp(18px,3cqw,36px) 7px}
+}
+.mono-composer-wrap {width:100%;max-width:1220px;margin-inline:auto;padding:12px clamp(14px,3cqw,48px) clamp(14px,3cqw,34px)}
+.mono-composer {border-radius:25px;padding:7px 8px 7px 13px;background:var(--glass-skin),var(--glass-plane);box-shadow:var(--glass-depth),0 8px 26px -12px var(--elevation)}
+.mono-composer:focus-within {box-shadow:0 0 0 2px var(--primary),var(--glass-lift)}
+.mono-composer .mono-primary-action {border-radius:18px}
+.mono-messages {max-width:80ch;padding-block:clamp(8px,2.5cqw,32px)}
+.mono-message[data-role=assistant] .mono-message-label::before {content:'';display:inline-block;width:9px;height:9px;background:var(--primary);border-radius:3px;transform:rotate(-12deg)}
+.mono-chat[data-status=streaming] .mono-message:last-child .mono-message-label::before {animation:source-pulse 1.1s ease-in-out infinite alternate}
+@keyframes source-pulse {to{opacity:.4}}
+.mono-panel-heading {align-items:center;border-bottom:1px solid var(--border);margin-bottom:16px}
+@media(max-width:900px){.mono-workspace-grid{gap:0}.mono-workspace-grid > :is(.mono-library,.mono-center,.mono-source-region){border-radius:18px}.mono-workspace-bar{gap:7px}}
+@media(max-width:480px){
+  .mono-workspace{padding-inline:8px}
+  .studio-intro{gap:12px}
+  .studio-copy h1{font-size:clamp(36px,10cqw,48px);margin-block:8px}
+  .studio-copy h1 br{display:none}
+  .studio-copy h1 em::before{content:' '}
+  .studio-entry{margin-top:12px}
+}

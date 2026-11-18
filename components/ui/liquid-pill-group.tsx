@@ -126,8 +126,10 @@ export function LiquidPillGroup({options, value, onChange, label, className, dis
       <defs>
         <linearGradient id={`${id}-material`} x1="0" y1="0" x2="0.15" y2="1">
           <stop offset="0" stopColor="var(--liquid-shine)" />
-          <stop offset="0.46" stopColor="var(--liquid-body)" />
-          <stop offset="1" stopColor="var(--liquid-floor)" />
+          <stop offset="0.12" stopColor="var(--liquid-body)" />
+          <stop offset="0.62" stopColor="var(--liquid-body)" />
+          <stop offset="0.92" stopColor="var(--liquid-floor)" />
+          <stop offset="1" stopColor="var(--liquid-shine)" />
         </linearGradient>
         <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="0.2" y2="1">
           <stop offset="0" stopColor="var(--liquid-edge)" />

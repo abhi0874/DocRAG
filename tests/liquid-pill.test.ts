@@ -60,6 +60,13 @@ describe('liquid spring and contour', () => {
       expect(Math.max(...numbers)).toBeLessThanOrEqual(210)
     }
   })
+  it('keeps a stretched contour continuous as velocity crosses zero', () => {
+    const state = {...liquidAt({center:100, width:120}), stretch:18}
+    const points = (velocity:number) => liquidPath({...state, velocity}, 48, 240)
+      .match(/-?\d+(?:\.\d+)?/g)!.map(Number)
+    const before = points(-1), after = points(1)
+    expect(Math.max(...before.map((x, i) => Math.abs(x - after[i])))).toBeLessThan(.05)
+  })
   it('deforms continuously and recovers the resting capsule', () => {
     const state = liquidAt({center: 100, width: 120})
     expect(liquidPath({...state, velocity: 400, stretch: 12}, 48, 400)).not.toBe(liquidPath(state, 48, 400))

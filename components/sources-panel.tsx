@@ -72,7 +72,7 @@ export function SourcesPanel({ sources, activeIndex, focusKey = 0 }: SourcesPane
       <ol className="mono-sources-list" aria-label="Retrieved source chunks">
         {sources.length === 0 && (
           <li className="px-2 py-3 text-sm text-muted-foreground">
-            Every answer has a starting point. Ask a question, then open a citation to explore the original passage.
+            Open a citation in an answer to see its page and supporting passage here.
           </li>
         )}
         {sources.map((source, i) => (

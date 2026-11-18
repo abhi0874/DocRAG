@@ -3,7 +3,7 @@ import {useState} from 'react'
 
 export function ProcessingConsent({onAccepted}:{onAccepted:()=>void}) {
   const [busy,setBusy]=useState(false),[error,setError]=useState('')
-  return <section className="glass-surface rounded-xl p-5 m-4" aria-labelledby="processing-title">
+  return <section className="glass-surface processing-notice" aria-labelledby="processing-title">
     <h2 id="processing-title" className="text-lg font-semibold">Before using hosted AI</h2>
     <p className="mt-3">Questions and document excerpts go to Google Gemini’s unpaid service. Google may use inputs and responses to improve its products, and human reviewers may review them.</p>
     <p className="mt-3 font-medium">Do not upload personal, confidential or sensitive information. Use local Ollama for those documents.</p>
