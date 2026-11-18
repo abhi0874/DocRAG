@@ -1,0 +1,102 @@
+{
+  "guest": {
+    "question": "How does FastAPI validate request data?",
+    "public_document": "Evaluation corpus: fastapi",
+    "document_id": 3,
+    "selected_chunk_ids": [
+      32,
+      78,
+      82,
+      4,
+      84,
+      43
+    ],
+    "chunk_content_sha256": [
+      "d573a8fead7db2521aa880adc0a75b2b60571a297577746c238132cdb8aa7774",
+      "305e191719383c409191316deaecba6504c3cbeb385e91a7164dc3760647673b",
+      "e92994bc6f0e2a535be61f2b62b2a19224ca2b70c57c4d8e7f73ca4c4e95a021",
+      "eca56ae40ed6cfad3dd8f52c3d5433645cc43577089fef124f2671b91f7de2fb",
+      "b869da10309558403a4b62f4f1e59510e797d6487c0d9349f4458d13a0fdb27d",
+      "bf0e65497f8d2e7bbfdd4f607928cd953192fa412bcc1ab640e9c86fec8be3e4"
+    ],
+    "source_lines_by_citation": {
+      "1": [
+        "Validate the data.",
+        "If the data is invalid, it will return a nice and clear error, indicating exactly where and what was the incorrect data."
+      ],
+      "4": [
+        "So, with the same Python type declaration, FastAPI gives you data validation.",
+        "Notice that the error also clearly states exactly the point where the validation didn't pass."
+      ]
+    },
+    "before": {
+      "exact_quotes": [
+        {
+          "citation": 1,
+          "model_quote": "Validate the data. If the data is invalid, it will return a nice and clear error",
+          "exact_substring": false
+        },
+        {
+          "citation": 4,
+          "model_quote": "FastAPI gives you data validation. Notice that the error also clearly states exactly the point where the validation didn't pass",
+          "exact_substring": false
+        }
+      ],
+      "raw_model_text": "{\"support\":\"full\",\"evidence\":[{\"citation\":1,\"quote\":\"Validate the data. If the data is invalid, it will return a nice and clear error\"},{\"citation\":4,\"quote\":\"FastAPI gives you data validation. Notice that the error also clearly states exactly the point where the validation didn't pass\"}]}}\nFastAPI validates request data by reading the request body as JSON, converting types as needed, and validating the data against the declared Python types [1]. If the data is invalid, FastAPI returns a clear error message that indicates exactly where and what the incorrect data is [1]. This validation applies to path parameters as well; for example, if a path parameter expects an integer but receives a string like \"foo\", FastAPI returns an HTTP error specifying the exact location of the validation failure [4]. This process is incredibly helpful for developing and debugging code that interacts with the API [4].",
+      "finish_reason": "stop",
+      "guard": "FAIL"
+    },
+    "after": {
+      "exact_quotes": [
+        {
+          "citation": 1,
+          "model_quote": "Validate the data.",
+          "exact_substring": true
+        },
+        {
+          "citation": 4,
+          "model_quote": "FastAPI gives you data validation.",
+          "exact_substring": true
+        }
+      ],
+      "raw_model_text": "{\"support\":\"full\",\"evidence\":[{\"citation\":1,\"quote\":\"Validate the data.\"},{\"citation\":4,\"quote\":\"FastAPI gives you data validation.\"}]}\nFastAPI validates request data by reading the request body as JSON, converting corresponding types if needed, and validating the data against the declared Python types [1]. If the data is invalid, FastAPI returns a clear error indicating exactly where and what was incorrect [1]. For example, if a path parameter declared as an integer receives a non-integer value like \"foo\", FastAPI returns an HTTP error specifying the validation failure location and message [4]. This validation process also generates JSON Schema definitions that become part of the OpenAPI schema used by automatic documentation UIs [1].",
+      "finish_reason": "stop",
+      "guard": "PASS"
+    }
+  },
+  "postgresql_037_focused": {
+    "question": "Why can an inner join omit a weather row for an unknown city, and what constraint can prevent future non-null city references to nonexistent cities?",
+    "contextIds": [
+      160,
+      159,
+      158,
+      161,
+      157,
+      162
+    ],
+    "text": "An inner join omits a weather row for an unknown city (such as Hayward) because there is no matching entry in the `cities` table, causing the join to ignore the unmatched rows in the `weather` table [3][5].\n\nThe provided excerpts do not contain information regarding a specific constraint that can prevent future non-null city references to nonexistent cities.",
+    "usage": {
+      "inputTokens": 2022,
+      "inputTokenDetails": {},
+      "outputTokens": 73,
+      "outputTokenDetails": {
+        "textTokens": 73,
+        "reasoningTokens": 0
+      },
+      "totalTokens": 2095
+    },
+    "finishReason": "stop",
+    "validation": {
+      "valid": true,
+      "kind": "cited",
+      "numbers": [
+        3,
+        5
+      ],
+      "invalid": [],
+      "invalidTokens": [],
+      "adjacentDuplicates": false,
+      "semanticSupport": "not-verified"
+    }
+  }
+}

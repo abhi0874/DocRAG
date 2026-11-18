@@ -1,0 +1,1253 @@
+{
+  "source": "ddb0e0c27284eef9986983ee211541eaee776209",
+  "clean_start": true,
+  "configuration_hash": "15b0da1a5d48cfa341bddd57ec8c991c2241279a571b08315fc4eca20f0574e5",
+  "dataset_hash": "1867147d2667a2745d6cf0b2139225395f2599a1b68803fb37356964febab78b",
+  "corpus_hash": "d496bb83aa5750d540b25a4395657e2c238d237e2e187e9ec192c7246a7f579c",
+  "cache": {
+    "embedding_hits": 0,
+    "embedding_misses": 100,
+    "answer_hits": 0,
+    "answer_misses": 100,
+    "judge_hits": 0,
+    "judge_misses": 100
+  },
+  "metrics": {
+    "recall@3": 0.95,
+    "recall@5": 0.975,
+    "recall@10": 1.0,
+    "mrr": 0.9729166666666667,
+    "citation_accuracy": 1.0,
+    "citation_supported": 267,
+    "citation_denominator": 267,
+    "faithfulness": 1,
+    "correctness": 0.97,
+    "p50_latency_ms": 5851.663958499999,
+    "p95_latency_ms": 10262.774121149996,
+    "answerable_count": 80,
+    "unanswerable_count": 20,
+    "tokens_per_query": 6752.68,
+    "tokens_unavailable_reason": null,
+    "estimated_cost_per_query_usd": 0,
+    "cost_unavailable_reason": null,
+    "answer_tokens_per_query": 1809.88,
+    "judge_tokens_per_query": 4914.86,
+    "retrieval_p50_latency_ms": 40.08797899999999,
+    "retrieval_p95_latency_ms": 85.18115589999994,
+    "generation_p50_latency_ms": 5807.3006045,
+    "generation_p95_latency_ms": 10210.141020849995
+  },
+  "runtime": "0.40.9",
+  "models": {
+    "chat": "qwen3.8:latest",
+    "chatDigest": "47951e4a666180bc2aedfc93c169472f2de783696fe196efbf063f5730ecf163",
+    "embedding": "embeddinggemma:300m",
+    "embeddingDigest": "85462619ee721b466c5927d109d4cb765861907d5417b9109caebc4e614679f1"
+  },
+  "unanswerable": {
+    "count": 20,
+    "correct": 20,
+    "faithful": 20
+  },
+  "identical_ranked_chunks_to_ui_baseline": true,
+  "changed_implementation_hashes": [
+    "app/api/chat/route.ts",
+    "lib/demo-access.ts",
+    "lib/demo-config.ts",
+    "lib/evidence.ts",
+    "lib/observability/answer.ts",
+    "lib/observability/http.ts",
+    "lib/rag-answer.ts",
+    "lib/rag.ts",
+    "lib/security/http.ts",
+    "lib/security/limits.ts",
+    "lib/types.ts",
+    "pnpm-lock.yaml"
+  ],
+  "other_changed_config_keys": [],
+  "postgresql_037": {
+    "answer": "An inner join omits a weather row for an unknown city (such as Hayward) because there is no matching entry in the `cities` table, causing the join to ignore the unmatched rows in the `weather` table [3][5].\n\nThe provided excerpts do not contain information regarding a specific constraint that can prevent future non-null city references to nonexistent cities.",
+    "citation_supported": 2,
+    "citation_denominator": 2,
+    "faithfulness": 1,
+    "correctness": 0.5
+  },
+  "unsupported_rows": [],
+  "negative_controls": {
+    "faithfulness": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: faithfulness decreased by 0.020000000001 (>0.02)"
+    },
+    "recall@5": {
+      "exit_code": 1,
+      "message": "Regression gate failed: Regression: recall@5 decreased by 0.020000000001 (>0.02)"
+    }
+  },
+  "paid_api_charges_inr": 0,
+  "measurements_sha256": "60931dcfecc02098c46639adc5109823d86e86dd781f4d34fa0352885d6c6e81",
+  "validated_sha256": "d96525ade952d0fc5ec155e49e0f042d409fbe55de0b33b4d20709d5ed5a5064",
+  "historical_comparison": {
+    "artifact": "eval/results/observability/ui-redesign-d/evaluation.json",
+    "source": "b40319ccce62390edd4f8acd6573abc836671f53",
+    "metrics": {
+      "recall@3": 0.95,
+      "recall@5": 0.975,
+      "recall@10": 1.0,
+      "mrr": 0.9729166666666667,
+      "citation_accuracy": 1.0,
+      "citation_supported": 265,
+      "citation_denominator": 265,
+      "faithfulness": 1,
+      "correctness": 0.99,
+      "p50_latency_ms": 5878.972229000001,
+      "p95_latency_ms": 12483.38730625,
+      "answerable_count": 80,
+      "unanswerable_count": 20,
+      "tokens_per_query": 6682.12,
+      "tokens_unavailable_reason": null,
+      "estimated_cost_per_query_usd": 0,
+      "cost_unavailable_reason": null,
+      "answer_tokens_per_query": 1717.95,
+      "judge_tokens_per_query": 4936.23,
+      "retrieval_p50_latency_ms": 40.47793749999997,
+      "retrieval_p95_latency_ms": 44.570179200000005,
+      "generation_p50_latency_ms": 5832.8084375,
+      "generation_p95_latency_ms": 12443.733545500001
+    },
+    "deltas_in_correctness": [
+      {
+        "id": "fastapi-036",
+        "baseline": 1,
+        "fresh": 0,
+        "fresh_answer": "Based on the provided excerpts, I could not find this in the document.\n\nThe excerpts describe how to use `Depends` to share code (such as `common_parameters`) across multiple endpoints [1][2][6], and how to raise an `HTTPException` to stop a request and return an error response (like a 404 \"Item not found\") [5]. However, the excerpts do not explicitly describe a mechanism for running a \"shared resource check\" that halts the request specifically when a resource is missing, nor do they link the `Depends` mechanism to this specific error-handling workflow.",
+        "rationale": "The answer is a refusal. It claims the retrieved context does not explicitly link the `Depends` mechanism to the error-handling workflow for missing resources. This is factually supported by the retrieved excerpts, which describe `Depends` for sharing code (excerpts 1, 2, 6) and `HTTPException` for stopping requests (excerpt 5) separately, without explicitly combining them into a 'shared resource check' pattern in the text provided. Therefore, the refusal is faithful to the provided context. However, the question is answerable based on the combination of these concepts (using a dependency that raises an exception), and the reference answer confirms this. Since the model refused to answer an answerable question, correctness is 0.",
+        "answer_context_ids": [
+          93,
+          90,
+          60,
+          84,
+          73,
+          92
+        ]
+      },
+      {
+        "id": "postgresql-031",
+        "baseline": 1,
+        "fresh": 0.5,
+        "fresh_answer": "To reject NULL or nonpositive prices, you should use a combination of a `NOT NULL` constraint and a `CHECK` constraint. A `NOT NULL` constraint ensures the column does not assume the null value [2]. A `CHECK` constraint can be used to enforce that the price is greater than zero, such as `CHECK (price > 0)` [2][5]. Note that a `CHECK` constraint alone is not sufficient to prevent null values because the check expression evaluates to null (and is thus satisfied) if the operand is null [1][5].\n\nThe provided excerpts do not contain information regarding how to ensure a group of updates is all-or-nothing (transactional atomicity).",
+        "rationale": "The answer correctly explains how to reject NULL or nonpositive prices using NOT NULL and CHECK constraints, which is fully supported by the retrieved context. However, it fails to answer the second part of the question regarding all-or-nothing updates (transactions), explicitly stating that the context lacks this information. While this is factually true regarding the *retrieved* context (which only contains constraint docs), the reference answer and reference documents confirm that this information exists in the broader corpus (transactions doc). Therefore, the answer is materially incomplete relative to the full scope of the question and reference, resulting in a correctness score of 0.5. Faithfulness is 1 because all claims made in the answer are supported by the retrieved excerpts.",
+        "answer_context_ids": [
+          118,
+          120,
+          121,
+          132,
+          117,
+          119
+        ]
+      },
+      {
+        "id": "postgresql-040",
+        "baseline": 1,
+        "fresh": 0.5,
+        "fresh_answer": "To join the `weather` table to itself without ambiguous instance names, you must use table aliases (e.g., `w1` and `w2`) to distinguish between the two instances of the table in the `FROM` clause [4]. This is known as a self join [4].\n\nHowever, the provided excerpts do not contain information on how to calculate a single result over multiple joined rows using aggregate functions in the context of a self join. While the excerpts explain that aggregate functions like `max` compute a single result from multiple input rows [6], they do not demonstrate or describe applying these aggregates to the result of a self join.",
+        "rationale": "The answer correctly identifies the use of aliases (w1, w2) for self-joins based on the retrieved context. It also correctly notes that the context does not explicitly demonstrate applying aggregates to the result of a self-join, although it mentions that aggregates compute single results. This makes the answer factually faithful to the provided text but materially incomplete compared to the reference answer, which expects the user to combine the concepts of self-joins and aggregates to answer the question. The citations are accurate.",
+        "answer_context_ids": [
+          158,
+          157,
+          159,
+          161,
+          160,
+          153
+        ]
+      }
+    ]
+  },
+  "formal_commands": [
+    {
+      "name": "promote",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.promote_local",
+        "--source",
+        "eval/results/observability/grounding-repair-a/evaluation-raw.json",
+        "--out",
+        "eval/results/observability/grounding-repair-a/evaluation.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "deployment-gate",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.deployment_gate",
+        "--baseline",
+        "eval/results/observability/step10-final-c/evaluation.json",
+        "--candidate",
+        "eval/results/observability/grounding-repair-a/evaluation.json"
+      ],
+      "exit": 1
+    },
+    {
+      "name": "historical-quality-gate",
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "eval.check_regression",
+        "--baseline",
+        "eval/results/observability/ui-redesign-d/evaluation.json",
+        "--current",
+        "eval/results/observability/grounding-repair-a/evaluation.json"
+      ],
+      "exit": 1
+    }
+  ],
+  "gate_messages": {
+    "historical_quality": "Missing or incompatible config_sha256",
+    "deployment": "Undeclared implementation change"
+  },
+  "diagnostic_synthesis_trials": [
+    {
+      "trial": 1,
+      "guidance": "When separate excerpts establish the pieces of a solution, combine them. Give each step with the citations for that step. The document need not show the steps together in one example. Only mark a part missing if a necessary fact or link cannot be derived from the supplied text.",
+      "placement": "append to measured guidance",
+      "result": "REJECTED",
+      "reason": "The FastAPI answer ended by refusing the supported combination. The price answer named transaction commands absent from its context.",
+      "answers": [
+        {
+          "id": "fastapi-036",
+          "contextIds": [
+            93,
+            90,
+            60,
+            84,
+            73,
+            92
+          ],
+          "text": "Based on the provided excerpts, the document does not explicitly describe a mechanism for running a \"shared resource check\" that stops a request if a resource is missing.\n\nHowever, the excerpts do describe two related mechanisms that could be used to achieve similar outcomes:\n\n1.  **Dependencies for Shared Logic:** You can use `Depends` to run shared code (like a check) before an endpoint. You can store the dependency in a variable using `Annotated` to avoid code duplication [1]. FastAPI will call this dependency function for each request and assign its result to the path operation function [6].\n2.  **Stopping the Request via Exceptions:** If the check determines a resource is missing, you can raise an `HTTPException` (e.g., with status code 404) to stop the request and return an error response [5]. The excerpts show that `HTTPException` can be raised with a `detail` parameter [5], and custom exception handlers can be used to process these errors [4].\n\nWhile the excerpts show how to run shared code via dependencies [1][6] and how to stop a request via `HTTPException` [4][5], they do not explicitly link these two concepts into a single \"resource check\" pattern or provide an example of a dependency that raises an exception for a missing resource. Therefore, I could not find this specific combined pattern in the document.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              1,
+              6,
+              5,
+              5,
+              4,
+              1,
+              6,
+              4,
+              5
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-031",
+          "contextIds": [
+            118,
+            120,
+            121,
+            132,
+            117,
+            119
+          ],
+          "text": "To reject NULL or nonpositive prices and ensure an all-or-nothing update workflow in PostgreSQL, you can combine the following constraints and transactional features:\n\n1.  **Reject NULL Prices:**\n    Use a `NOT NULL` constraint on the price column. This is functionally equivalent to `CHECK (column_name IS NOT NULL)` but is more efficient in PostgreSQL [2]. Note that standard `CHECK` constraints alone do not prevent NULL values because the check expression evaluates to NULL (which is considered satisfied) if any operand is NULL [1][5].\n\n2.  **Reject Nonpositive Prices:**\n    Use a `CHECK` constraint to ensure the price is greater than zero, such as `CHECK (price > 0)` [2][5]. This can be defined as a column constraint or a table constraint [5].\n\n3.  **Ensure All-or-Nothing (Atomicity):**\n    The provided excerpts do not explicitly describe transactional mechanisms (such as `BEGIN`, `COMMIT`, or `ROLLBACK`) to ensure that a group of updates is all-or-nothing. While the excerpts discuss constraints and triggers, they do not contain information on how to wrap multiple updates in a single atomic transaction.\n\n**Summary of Supported Steps:**\n*   Define the column as `price numeric NOT NULL CHECK (price > 0)` [2].\n*   Alternatively, define `price numeric` and add a table constraint `CHECK (price > 0)` [5].\n*   **Missing Information:** The supplied excerpts do not establish how to ensure a group of updates is all-or-nothing.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              2,
+              1,
+              5,
+              2,
+              5,
+              5,
+              2,
+              5
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-037",
+          "contextIds": [
+            160,
+            159,
+            158,
+            161,
+            157,
+            162
+          ],
+          "text": "Based on the provided excerpts, an inner join omits a weather row for an unknown city because there is no matching entry in the `cities` table for that city, causing the join to ignore the unmatched rows in the `weather` table [3][5].\n\nThe supplied excerpts do not establish what constraint can prevent future non-null city references to nonexistent cities.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              3,
+              5
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-040",
+          "contextIds": [
+            158,
+            157,
+            159,
+            161,
+            160,
+            153
+          ],
+          "text": "To join the `weather` table to itself without ambiguous instance names, you must use table aliases (e.g., `w1` and `w2`) to distinguish between the two instances of the table in the `FROM` clause [4]. For example:\n\n`SELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high, w2.city, w2.temp_lo AS low, w2.temp_hi AS high FROM weather w1 JOIN weather w2 ON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;` [4].\n\nTo calculate a single result over multiple rows, you use an **aggregate function** (such as `max`, `min`, `sum`, `avg`, or `count`) which computes a single result from multiple input rows [6]. For instance, to find the highest low-temperature reading, you would use:\n\n`SELECT max(temp_lo) FROM weather;` [6].\n\nNote: The provided excerpts do not contain a specific example that combines a self-join with an aggregate function in a single query.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              4,
+              4,
+              6,
+              6
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "guidance": "Give a direct answer from the numbered evidence. You may combine documented steps from different excerpts to solve the user's problem. Cite each step to its supporting passage. When all the necessary facts are present, answer without requiring an example of that exact combination. If only some facts are present, give the supported steps first, then identify the specific missing fact in an uncited sentence. Never supply a missing fact from memory. Never use a passage title, a related topic, or a citation as a substitute for actual supporting text.",
+      "placement": "replace partial-evidence guidance",
+      "result": "REJECTED",
+      "reason": "The join answer again supplied a foreign key, then cited unrelated passages. The price answer supplied unsupported transaction advice.",
+      "answers": [
+        {
+          "id": "fastapi-036",
+          "contextIds": [
+            93,
+            90,
+            60,
+            84,
+            73,
+            92
+          ],
+          "text": "To run a shared resource check before an endpoint and stop the request if the resource is missing, you can use FastAPI's dependency injection system combined with exception handling:\n\n1.  **Define a Dependency Function:** Create an asynchronous function that performs the resource check. This function should accept parameters similar to a path operation function (e.g., `item_id`) [6].\n2.  **Raise an Exception:** Inside this dependency function, if the resource is missing, raise an `HTTPException` (e.g., with status code 404) [5]. FastAPI will automatically stop the request and return the appropriate error response (such as `{\"detail\": \"Item not found\"}`) to the client [5].\n3.  **Inject the Dependency:** Use `Depends()` to inject this function into your path operation function's parameters [2]. You can use the `Annotated` type hint to store the dependency in a variable for reuse across multiple endpoints, such as `/items/` and `/users/` [1].\n4.  **Automatic Execution:** When a request arrives, FastAPI automatically calls the dependency function with the correct parameters before executing the main path operation function [6]. If the dependency raises an exception, the main function is not executed, effectively stopping the request [5][6].\n\nNote: The provided excerpts do not contain specific code for a \"resource check\" logic itself, but they confirm that dependencies are called before the endpoint [6] and that raising an `HTTPException` stops the request and returns an error [5].",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              6,
+              5,
+              5,
+              2,
+              1,
+              6,
+              5,
+              6,
+              6,
+              5
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-031",
+          "contextIds": [
+            118,
+            120,
+            121,
+            132,
+            117,
+            119
+          ],
+          "text": "To reject NULL or nonpositive prices and ensure an all-or-nothing update workflow in PostgreSQL, you should combine constraint definitions with transaction control:\n\n1.  **Reject NULL values:** Apply a `NOT NULL` constraint to the price column. This is functionally equivalent to `CHECK (column_name IS NOT NULL)` but is more efficient in PostgreSQL [2].\n2.  **Reject nonpositive values:** Apply a `CHECK` constraint to ensure the price is greater than zero, such as `CHECK (price > 0)` [2][5]. Note that a standard `CHECK` constraint alone does not prevent NULL values because the expression evaluates to NULL (which is considered satisfied) if the operand is NULL [1][5]. Therefore, both `NOT NULL` and `CHECK` are required to fully reject NULL or nonpositive prices [2].\n3.  **Ensure all-or-nothing updates:** While the provided excerpts do not explicitly detail transaction syntax (such as `BEGIN`/`COMMIT`/`ROLLBACK`), they establish that constraints are enforced when rows are inserted or updated [6]. To achieve an \"all-or-nothing\" behavior for a group of updates, you must wrap the update statements in a transaction. If any update violates the `NOT NULL` or `CHECK` constraints, the transaction can be rolled back, ensuring that no partial changes are committed.\n\n**Missing Fact:** The provided context does not contain specific instructions or syntax for wrapping multiple updates in a transaction to achieve atomicity (all-or-nothing behavior).",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              2,
+              2,
+              5,
+              1,
+              5,
+              2,
+              6
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-037",
+          "contextIds": [
+            160,
+            159,
+            158,
+            161,
+            157,
+            162
+          ],
+          "text": "An inner join omits a weather row for an unknown city because there is no matching entry in the `cities` table for that city, causing the join to ignore the unmatched rows in the `weather` table [5]. To prevent future non-null city references to nonexistent cities, one would typically use a foreign key constraint, but the provided text does not mention foreign keys or referential integrity constraints; it only discusses join syntax and outer joins [1][2][3][4][5][6].",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              5,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-040",
+          "contextIds": [
+            158,
+            157,
+            159,
+            161,
+            160,
+            153
+          ],
+          "text": "To join the `weather` table to itself without ambiguous instance names, you must use table aliases (e.g., `w1` and `w2`) to distinguish between the two instances of the table in the `FROM` clause [4]. The query structure is:\n\n`SELECT w1.city, w1.temp_lo AS low, w1.temp_hi AS high, w2.city, w2.temp_lo AS low, w2.temp_hi AS high FROM weather w1 JOIN weather w2 ON w1.temp_lo < w2.temp_lo AND w1.temp_hi > w2.temp_hi;` [4].\n\nTo calculate a single result over multiple rows (an aggregate function), you use functions such as `max`, `min`, `sum`, `avg`, or `count` [6]. For example, to find the highest low-temperature reading, you would use:\n\n`SELECT max(temp_lo) FROM weather;` [6].\n\nNote that while the document provides the syntax for self-joins [4] and the syntax for aggregate functions [6], it does not provide a specific example combining a self-join with an aggregate function in a single query.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              4,
+              4,
+              6,
+              6,
+              4,
+              6
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "guidance": "For each part, identify which supplied passage actually states the necessary fact. If the facts for a workflow are present in separate excerpts, give the workflow directly, citing each fact where you use it. The excerpts need not contain a worked example of the combination. If a necessary fact is absent, answer the supported parts and say simply that the excerpts do not establish the remaining part. Never name or speculate about an outside solution, even with a caveat. Do not cite a missing fact or a sentence about missing evidence. Use the text of the excerpts, not a title or nearby topic.",
+      "placement": "replace partial-evidence guidance",
+      "result": "REJECTED",
+      "reason": "The FastAPI and self-join answers still treated supported combinations as missing. The foreign-key term reappeared in an example of an absent fact.",
+      "answers": [
+        {
+          "id": "fastapi-036",
+          "contextIds": [
+            93,
+            90,
+            60,
+            84,
+            73,
+            92
+          ],
+          "text": "Based on the provided excerpts, here is how FastAPI handles shared resource checks and stopping requests:\n\n1.  **Running a Shared Check:** You can define a dependency function (e.g., `common_parameters`) and inject it into your path operation functions using `Depends()`. FastAPI will automatically call this dependency function with the correct parameters whenever a new request arrives, allowing you to write shared code once that runs before the endpoint logic [6].\n2.  **Stopping the Request:** The provided excerpts **do not establish** how to stop the request if the check reports a missing resource. While excerpt [5] mentions that raising an `HTTPException` results in a specific HTTP status code (like 404) and JSON response, it does not explicitly link this mechanism to the `Depends` workflow or describe how a dependency function itself triggers this stop. Excerpt [4] discusses exception handlers but does not describe using them within a dependency to halt a request based on a resource check.\n\nTherefore, while the excerpts confirm how to run shared code via dependencies [6], they do not provide the specific mechanism for stopping the request within that dependency context.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              6,
+              5,
+              4,
+              6
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-031",
+          "contextIds": [
+            118,
+            120,
+            121,
+            132,
+            117,
+            119
+          ],
+          "text": "To reject NULL or nonpositive prices and ensure an all-or-nothing update workflow in PostgreSQL, you can combine the following constraints and transaction behaviors:\n\n1.  **Reject NULL Prices:** Use a `NOT NULL` constraint on the price column. This is functionally equivalent to `CHECK (column_name IS NOT NULL)` but is more efficient in PostgreSQL [2].\n2.  **Reject Nonpositive Prices:** Use a `CHECK` constraint such as `CHECK (price > 0)` [2][5]. Note that a standard `CHECK` constraint alone does not prevent NULL values because the expression evaluates to NULL (which is considered satisfied) if the operand is NULL [1][5]. Therefore, you must combine `NOT NULL` with the `CHECK` constraint to ensure the price is both present and positive [2].\n3.  **Ensure All-or-Nothing (Atomicity):** While the provided excerpts do not explicitly detail transaction syntax (such as `BEGIN`/`COMMIT`/`ROLLBACK`), they establish that constraints are checked when rows are inserted or updated [6]. In standard SQL/PostgreSQL behavior, if a constraint violation occurs during an update, the transaction can be rolled back to ensure atomicity. However, the excerpts **do not establish** the specific mechanism for grouping updates into an all-or-nothing transaction; they only confirm that constraints are enforced at the time of row insertion or update [6].\n\n**Summary of Supported Steps:**\n*   Define the column as `price numeric NOT NULL CHECK (price > 0)` [2].\n*   This ensures that any update attempting to set the price to NULL or a value less than or equal to zero will be rejected by the constraint check [1][2][5].\n*   The excerpts do not provide information on how to group multiple updates into a single atomic transaction.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              2,
+              2,
+              5,
+              1,
+              5,
+              2,
+              6,
+              6,
+              2,
+              1,
+              2,
+              5
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-037",
+          "contextIds": [
+            160,
+            159,
+            158,
+            161,
+            157,
+            162
+          ],
+          "text": "Based on the provided excerpts:\n\n1.  **Why an inner join omits a weather row for an unknown city:**\n    An inner join omits rows from the `weather` table that do not have a matching entry in the `cities` table because the join operation ignores unmatched rows. Specifically, if there is no matching entry in the `cities` table for a city (such as Hayward), the join ignores the unmatched rows in the `weather` table [3][5]. This is in contrast to an outer join, which would substitute empty (null) values for the missing columns [1][2].\n\n2.  **Constraint to prevent future non-null city references to nonexistent cities:**\n    I could not find this in the document. The provided excerpts discuss join syntax, outer joins, self joins, and column qualification, but they do not mention specific constraints (such as foreign key constraints) that prevent non-null references to nonexistent cities.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              3,
+              5,
+              1,
+              2
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        },
+        {
+          "id": "postgresql-040",
+          "contextIds": [
+            158,
+            157,
+            159,
+            161,
+            160,
+            153
+          ],
+          "text": "To join the `weather` table to itself without ambiguous instance names, you must use table aliases (e.g., `w1` and `w2`) to distinguish between the two instances of the table in the `FROM` clause [4]. For example: `FROM weather w1 JOIN weather w2 ON ...` [4].\n\nHowever, the provided excerpts do not establish how to calculate a single result over multiple joined rows in this specific self-join context. While the excerpts mention that aggregate functions compute a single result from multiple input rows [6], they do not provide an example or syntax for applying an aggregate function to the result of a self-join. The self-join example in [4] returns multiple rows rather than a single aggregated result.",
+          "finishReason": "stop",
+          "validation": {
+            "valid": true,
+            "kind": "cited",
+            "numbers": [
+              4,
+              4,
+              6,
+              4
+            ],
+            "invalid": [],
+            "invalidTokens": [],
+            "adjacentDuplicates": false,
+            "semanticSupport": "not-verified"
+          }
+        }
+      ]
+    }
+  ],
+  "independent_offline_controls": {
+    "stored_high_advisory_rejected": "Unreviewed dependency findings",
+    "missing_live_authorization": {
+      "exit": 2,
+      "receipt_created": false
+    },
+    "snapshot": {
+      "exit": 1,
+      "reason": "Snapshot already exists"
+    },
+    "cloud-workspace": {
+      "exit": 1,
+      "reason": "AssertionError"
+    },
+    "observability": {
+      "exit": 1,
+      "reason": "Invalid verification run name"
+    }
+  },
+  "immutable_database_check": {
+    "original_index_chunks": 151,
+    "selected_index_chunks": 162,
+    "original_content_restored_after_cache_probe": true
+  },
+  "historical_deployment_undeclared_paths": [
+    "lib/evidence.ts",
+    "lib/observability/http.ts",
+    "lib/security/http.ts",
+    "lib/types.ts",
+    "pnpm-lock.yaml"
+  ],
+  "independently_rechecked_artifacts": [
+    {
+      "artifact": "eval/results/observability/ui-redesign-d/evaluation.json",
+      "sha256": "f38b84ebc4b901af0b12c822909cf7b5fdc45f531947b152592a3e89992bd876",
+      "questions": 100,
+      "source": "b40319ccce62390edd4f8acd6573abc836671f53"
+    },
+    {
+      "artifact": "eval/results/observability/grounding-repair-a/evaluation.json",
+      "sha256": "d96525ade952d0fc5ec155e49e0f042d409fbe55de0b33b4d20709d5ed5a5064",
+      "questions": 100,
+      "source": "ddb0e0c27284eef9986983ee211541eaee776209"
+    }
+  ],
+  "verification": {
+    "measured_revision_unique_tests": {
+      "python": 218,
+      "typescript": 340
+    },
+    "including_offline_citation_replay": {
+      "python": 220,
+      "typescript": 340,
+      "make_test_exit": 0,
+      "make_lint_exit": 0
+    },
+    "build": {
+      "command": "pnpm exec next build --webpack",
+      "exit": 0
+    },
+    "typescript_coverage": {
+      "statements_pct": 57.55,
+      "branches_pct": 57.26,
+      "functions_pct": 51.36,
+      "lines_pct": 61.54
+    },
+    "native_workspace_runs": [
+      {
+        "run": "workspace-http-grounding-coverage-a",
+        "status": "PASS",
+        "checks": 63,
+        "fresh_answers": 10,
+        "cancelled_requests": 1
+      },
+      {
+        "run": "workspace-http-grounding-repair-a",
+        "status": "PASS",
+        "checks": 63,
+        "fresh_answers": 10,
+        "cancelled_requests": 1
+      }
+    ],
+    "guest_access": {
+      "signed_in_guest_own_private_document": 404,
+      "guest_library_only_public": true,
+      "guest_limit": 429,
+      "retry_after_positive": true,
+      "new_model_calls": 0
+    },
+    "security_http": 66,
+    "sql_checks": 27,
+    "observability_assertions": 138,
+    "observability_request_ids": 33,
+    "container_checks": 26,
+    "container_runtime": {
+      "ollama": "0.40.9",
+      "ready": 200,
+      "node": "24.22.1",
+      "uid": 1000
+    },
+    "unrelated_containers": {
+      "unchanged": true,
+      "count": 10
+    },
+    "linux_ci": [
+      {
+        "check": "ci_migrations",
+        "exit": 0
+      },
+      {
+        "check": "ci_retrieval",
+        "exit": 0
+      }
+    ],
+    "native_contract_commands": [
+      {
+        "label": "scripts.observability_setup",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "coverage",
+          "run",
+          "-m",
+          "scripts.observability_setup"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "scripts.security_http",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "coverage",
+          "run",
+          "-m",
+          "scripts.security_http"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "scripts.observability_http",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "coverage",
+          "run",
+          "-m",
+          "scripts.observability_http"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "scripts.feedback_to_eval",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "coverage",
+          "run",
+          "-m",
+          "scripts.feedback_to_eval"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.validate_dataset",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.validate_dataset",
+          "--require-review"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "frozen-step5-v1",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.prompting_gate",
+          "--baseline",
+          "eval/results/reranking-selected.json",
+          "--candidate",
+          "eval/results/prompting/step5-v1.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "frozen-grounded-v1",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.prompting_gate",
+          "--baseline",
+          "eval/results/reranking-selected.json",
+          "--candidate",
+          "eval/results/prompting/grounded-v1.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.prompt_bytes",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.prompt_bytes"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "historical-citations",
+        "command": [
+          "node",
+          "--import",
+          "tsx",
+          "eval/recheck_citations.ts"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.citation_cache_http",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.citation_cache_http"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.cache_http",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.cache_http",
+          "--prompt-version",
+          "step5-v1",
+          "--out",
+          ".local/grounding-repair-a/cache.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.reranking_smoke",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.reranking_smoke",
+          "--out",
+          ".local/grounding-repair-a/stream.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.reranking_integrity",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.reranking_integrity",
+          "--out",
+          ".local/grounding-repair-a/integrity.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "eval.prompting_report",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "eval.prompting_report",
+          "--out",
+          ".local/grounding-repair-a/old-prompting-report.json"
+        ],
+        "exit": 0
+      },
+      {
+        "label": "scripts.security_audit",
+        "command": [
+          ".venv/bin/python",
+          "-m",
+          "scripts.security_audit"
+        ],
+        "exit": 1
+      }
+    ],
+    "python_security_scans": [
+      {
+        "name": "python",
+        "exit": 0,
+        "packages": 38,
+        "findings": 0
+      },
+      {
+        "name": "reranker",
+        "exit": 0,
+        "packages": 42,
+        "findings": 0
+      }
+    ],
+    "mobile_browser": [
+      {
+        "checks": [
+          "mobile public library, selection, free-form composer and width",
+          "guest FastAPI answer and exact original cited passage",
+          "guest missing-information refusal",
+          "light, keyboard dark theme, glass and reduced-motion persistence",
+          "mobile registration and sign-in",
+          "mobile file input, upload, indexing and selection",
+          "personal answer, citation focus and source viewer",
+          "personal follow-up",
+          "session and indexed document persist on reload"
+        ],
+        "viewport": "390x844 mobile emulation",
+        "engine": "Chrome/157.0.8103.79",
+        "errors": [],
+        "status": "FAIL",
+        "failure": "sole synthetic document"
+      },
+      {
+        "checks": [
+          "same isolated browser profile and intended fixture",
+          "delete own synthetic document",
+          "session sign-out"
+        ],
+        "viewport": "390x844 mobile emulation",
+        "engine": "Chrome/157.0.8103.79",
+        "errors": [],
+        "status": "PASS"
+      }
+    ],
+    "supplemental_security_control_replay": "Same audit response; policy rejected the new high finding as expected. No second live registry check.",
+    "integrated_coverage": {
+      "python_pct": 72.67,
+      "covered_statements": 1598,
+      "total_statements": 2199,
+      "minimum_pct": 70,
+      "bounded_fixture_load": {
+        "command": "python -m coverage run -m scripts.load_test --run-id grounding-coverage-a",
+        "raw_path": ".local/grounding-repair-a/bounded-load-result.json",
+        "raw_sha256": "46fad059d587a89d72c211bae94b1c06de996f481563220bd38d89a86465812b",
+        "status": "PASS",
+        "git_revision": "ddb0e0c27284eef9986983ee211541eaee776209",
+        "stages": [
+          {
+            "users": 5,
+            "mode": "read",
+            "aborted": false,
+            "requests": 90,
+            "http_status_counts": {
+              "200": 90
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 5,
+            "mode": "authentication",
+            "aborted": false,
+            "requests": 90,
+            "http_status_counts": {
+              "200": 90
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 5,
+            "mode": "cached",
+            "aborted": false,
+            "requests": 90,
+            "http_status_counts": {
+              "200": 59,
+              "429": 31
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 5,
+            "mode": "streaming",
+            "aborted": false,
+            "requests": 26,
+            "http_status_counts": {
+              "200": 26
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 5,
+            "mode": "cancellation",
+            "aborted": false,
+            "requests": 90,
+            "http_status_counts": {
+              "200": 49,
+              "429": 41
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 5,
+            "mode": "upload",
+            "aborted": false,
+            "requests": 90,
+            "http_status_counts": {
+              "201": 22,
+              "429": 68
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "read",
+            "aborted": false,
+            "requests": 360,
+            "http_status_counts": {
+              "200": 360
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "authentication",
+            "aborted": false,
+            "requests": 360,
+            "http_status_counts": {
+              "200": 120,
+              "429": 240
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "cached",
+            "aborted": false,
+            "requests": 350,
+            "http_status_counts": {
+              "200": 284,
+              "429": 66
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "streaming",
+            "aborted": false,
+            "requests": 35,
+            "http_status_counts": {
+              "200": 35
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "cancellation",
+            "aborted": false,
+            "requests": 345,
+            "http_status_counts": {
+              "200": 345
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 20,
+            "mode": "upload",
+            "aborted": false,
+            "requests": 354,
+            "http_status_counts": {
+              "429": 298,
+              "201": 56
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "read",
+            "aborted": false,
+            "requests": 890,
+            "http_status_counts": {
+              "200": 890
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "authentication",
+            "aborted": false,
+            "requests": 890,
+            "http_status_counts": {
+              "200": 120,
+              "429": 770
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "cached",
+            "aborted": false,
+            "requests": 875,
+            "http_status_counts": {
+              "200": 658,
+              "429": 217
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "streaming",
+            "aborted": false,
+            "requests": 57,
+            "http_status_counts": {
+              "200": 57
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "cancellation",
+            "aborted": false,
+            "requests": 873,
+            "http_status_counts": {
+              "200": 873
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          },
+          {
+            "users": 50,
+            "mode": "upload",
+            "aborted": false,
+            "requests": 886,
+            "http_status_counts": {
+              "201": 87,
+              "429": 799
+            },
+            "validation": {
+              "all_users_attempted": true,
+              "metrics_present": true,
+              "cached_hits": true,
+              "uncached_bypass": true,
+              "cancellation_accounting": true
+            }
+          }
+        ],
+        "http_status_counts": {
+          "200": 4056,
+          "429": 2530,
+          "201": 165
+        },
+        "coverage_command": "make cov-integration-gate",
+        "coverage_exit": 0,
+        "coverage_total": "TOTAL                               2199    601  72.67%"
+      }
+    },
+    "precommit_secret_scan": {
+      "status": "PASS",
+      "scope": "All tracked and intended untracked files; all reachable Git commits; actual private env/fixture values; credential patterns; final browser assets",
+      "counts": {
+        "files": 848,
+        "history_commits": 128,
+        "client_assets": 65
+      },
+      "findings": [],
+      "secrets_printed": false
+    }
+  }
+}
