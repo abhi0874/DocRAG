@@ -1,0 +1,80 @@
+name: Production security maintenance
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 5 * * 1'
+    - cron: '37 4 * * *'
+permissions: {}
+concurrency:
+  group: production-security-maintenance
+  cancel-in-progress: false
+env:
+  RELEASE: 732f3fcd388861477702d53b797dee0bf65daf00
+  IMAGE: ghcr.io/abhi0874/docrag@sha256:7077e6878eb1e887de3c4cc1c74970545266913c73f263a3f6fac2a7a2c7175e
+jobs:
+  scan:
+    if: github.event.schedule != '37 4 * * *'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ env.RELEASE }}
+          persist-credentials: false
+      - name: Fetch checksum-pinned Trivy
+        run: |
+          cd "$RUNNER_TEMP"
+          curl --fail --location --retry 2 -o trivy.tgz https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz
+          echo 'bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf  trivy.tgz' | sha256sum -c -
+          tar -xzf trivy.tgz trivy
+      - name: Scan pinned runtime and release lockfiles
+        run: |
+          mkdir -p "$RUNNER_TEMP/reports"
+          "$RUNNER_TEMP/trivy" image --platform linux/amd64 --scanners vuln --format json --output "$RUNNER_TEMP/reports/image.json" "$IMAGE"
+          "$RUNNER_TEMP/trivy" fs --scanners vuln --format json --output "$RUNNER_TEMP/reports/source.json" .
+          jq -se 'all(.[]; (.Results | length) > 0)' "$RUNNER_TEMP"/reports/*.json
+          jq -se 'any(.[] | .Results[]; (.Target | endswith("pnpm-lock.yaml")))' "$RUNNER_TEMP/reports/source.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: production-security-reports
+          path: ${{ runner.temp }}/reports/*.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Report high and critical findings
+        run: |
+          jq -r '.Results[].Vulnerabilities[]? | select(.Severity=="HIGH" or .Severity=="CRITICAL") | [.Severity,.VulnerabilityID,.PkgName,.InstalledVersion,.FixedVersion] | @tsv' "$RUNNER_TEMP"/reports/*.json
+          jq -se '[.[] | .Results[].Vulnerabilities[]? | select(.Severity=="HIGH" or .Severity=="CRITICAL")] | length==0' "$RUNNER_TEMP"/reports/*.json
+  notify:
+    needs: scan
+    if: always()
+    runs-on: ubuntu-24.04
+    permissions:
+      issues: write
+    timeout-minutes: 4
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SCAN: ${{ needs.scan.result }}
+      EXPIRY: '2026-11-25T08:00:00Z'
+    steps:
+      - name: Notify the operator
+        run: |
+          notify() {
+            local title="$1" body="$2" number
+            number=$(gh issue list --state open --search "in:title \"$title\"" --json title,number --limit 50 | jq -r --arg t "$title" '.[]|select(.title==$t)|.number' | head -1)
+            if [ -z "$number" ]; then
+              gh issue create --assignee abhi0874 --title "$title" --body "$body"
+            elif [ "$SCAN" = failure ] && [ "$title" = "Production security scan needs review" ]; then
+              gh issue comment "$number" --body "$body"
+            fi
+          }
+          run="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          if [ "$(date -u +%s)" -ge "$(( $(date -u -d "$EXPIRY" +%s) - 7*86400 ))" ]; then
+            notify 'DocRAG glibc exception deadline · 25 Nov 2026' "Operator action due $EXPIRY. Follow SECURITY_MAINTENANCE.md. Suspend the demo by the deadline unless a verified replacement or explicit owner decision is in effect. $run"
+          fi
+          if [[ "$SCAN" != success && "$SCAN" != skipped ]]; then
+            notify 'Production security scan needs review' "Review the findings or scanner failure in $run. Reports are attached to the scan. Verify release scope and apply the withdrawal procedure when applicable."
+          fi

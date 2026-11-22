@@ -1,0 +1,22 @@
+# DocRAG security maintenance
+
+**Operator deadline — 25 November 2026 at 13:30 IST (08:00 UTC).** EX-DOCRAG-732F3FC-01 covers two glibc findings on the existing Render Free service for source `732f3fc` and AMD64 digest `sha256:7077e6878eb1e887de3c4cc1c74970545266913c73f263a3f6fac2a7a2c7175e`. Older approvals cover different images. Only the owner may explicitly accept a new term. The workflow alerts the operator and grants no extension. [Owner approval and scope](https://github.com/abhi0874/DocRAG/blob/efb913d/docs/security/proposals/docrag-732f3fc/OWNER_ACCEPTANCE.json).
+
+## What to watch
+
+- Open **Security and quality** on GitHub for Dependabot and secret alerts. Security updates create reviewable PRs for supported default-branch dependencies. The scheduled workflow separately checks the deployed release because the default branch contains older application code. Production uses a pinned image and manual promotion.
+- **Actions → Production security maintenance** scans the pinned GHCR image and the release lockfiles weekly. Reports retain all reported severities for 30 days. High/critical findings or a scan failure produce an assigned GitHub issue. A small daily check opens a deadline issue within seven days of expiry. Check personal GitHub notification delivery for assigned issues, failed workflows and vulnerability alerts. GitHub schedules can be delayed or disabled after inactivity. Keep a separate calendar reminder for the exact withdrawal time.
+- Once a month check the last successful execution of the scanner, open issues and alerts, Render restarts/memory/latency, and both public endpoints (`/api/health` and `/api/ready`). Also verify the image and source pins against Render after **every** release. A red findings gate with usable reports requires triage. A missing or failed scan means visibility is impaired.
+- Immediately investigate secret alerts, critical/high findings, credible reachability, abnormal restarts, or lost monitoring. Rotate any exposed credential at its issuer. Use private security channels for secrets and sensitive evidence.
+
+## Findings reviewed on 22 November
+
+The production image scan found **0 critical, 1 high, 46 medium, 18 low and 3 unknown** occurrences. The Node lockfile audit reported two moderate tooling findings. The bundled picomatch advisory was withdrawn by GitHub on 18 November. This is an advisory disposition, not a patched Next.js bundle. [GitHub advisory](https://github.com/advisories/GHSA-fc5q-39xc-vjpf)
+
+Debian still lists both glibc issues as vulnerable on Trixie. Memory pressure or an indirect native call could cause a crash or memory corruption. The earlier exposure review identified no document-to-function path. Render terminates TLS and the application serves HTTP. The reclassified High OpenSSL QUIC issue requires a QUIC server. The two other OpenSSL issues require an existing PEM stack reused after failure or a Suite B TLS server. None has a supported Trixie fix as of review. Preserve scanner visibility and reassess on any listener, input or native dependency change. [Five individual advisories and exposure review](https://github.com/abhi0874/DocRAG/blob/feat/production-rag/docs/security/proposals/docrag-4d888d6/SYSTEM_LIBRARIES.md)
+
+## Patch or withdraw
+
+1. Check the vendor fix against the exact runtime package, supported distroless base and Node 24.22.1. Build and scan a new immutable image, verify non-root execution, run applicable unit, security and isolation checks, and require passing hosted CI. Record the digest and a fresh decision for any residual risk.
+2. After approved promotion, check health, readiness and Render logs. Use two synthetic accounts and a short non-confidential PDF to verify registration, indexing, real streamed Gemini Q&A, page citations, follow-up, refusal, isolation, deletion and sign-out. Check mobile layout, themes and glass controls. Remove test data. Update the workflow pins, expiry and evidence.
+3. On expiry, supported fix for an accepted risk, incident, credible exposure, scope drift or lost monitoring, withdraw under the approval. In Render open **docrag-demo → Settings → Suspend Web Service**. Verify external requests no longer reach the application. Preserve Neon, configuration and both registry digests. Roll back only to a separately authorized image that resolves the trigger. Both previous glibc approvals expire at the same deadline. [Release and rollback details](https://github.com/abhi0874/DocRAG/blob/feat/production-rag/docs/publication/WORKSPACE_RELEASE.md)
