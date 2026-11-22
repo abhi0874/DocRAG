@@ -58,7 +58,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
       SCAN: ${{ needs.scan.result }}
-      EXPIRY: '2026-11-25T08:00:00Z'
+      EXPIRY: '2026-12-25T08:00:00Z'
     steps:
       - name: Notify the operator
         run: |
@@ -73,7 +73,7 @@ jobs:
           }
           run="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           if [ "$(date -u +%s)" -ge "$(( $(date -u -d "$EXPIRY" +%s) - 7*86400 ))" ]; then
-            notify 'DocRAG glibc exception deadline · 25 Nov 2026' "Operator action due $EXPIRY. Follow SECURITY_MAINTENANCE.md. Suspend the demo by the deadline unless a verified replacement or explicit owner decision is in effect. $run"
+            notify 'DocRAG glibc exception deadline · 25 Dec 2026' "Operator action due $EXPIRY. Follow SECURITY_MAINTENANCE.md. Suspend the demo by the deadline unless a verified replacement or explicit owner decision is in effect. $run"
           fi
           if [[ "$SCAN" != success && "$SCAN" != skipped ]]; then
             notify 'Production security scan needs review' "Review the findings or scanner failure in $run. Reports are attached to the scan. Verify release scope and apply the withdrawal procedure when applicable."

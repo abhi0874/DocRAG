@@ -1,6 +1,12 @@
 # DocRAG security maintenance
 
-**Operator deadline — 25 November 2026 at 13:30 IST (08:00 UTC).** EX-DOCRAG-732F3FC-01 covers two glibc findings on the existing Render Free service for source `732f3fc` and AMD64 digest `sha256:7077e6878eb1e887de3c4cc1c74970545266913c73f263a3f6fac2a7a2c7175e`. Older approvals cover different images. Only the owner may explicitly accept a new term. The workflow alerts the operator and grants no extension. [Owner approval and scope](https://github.com/abhi0874/DocRAG/blob/efb913d/docs/security/proposals/docrag-732f3fc/OWNER_ACCEPTANCE.json).
+## Current owner approval
+
+Recorded on 22 November 2026. The owner supplied the following decision for Render service `srv-dbrf4l0u01pc73b2dneg`. Its deadline is **25 December 2026, 08:00 UTC**.
+
+> As DocRAG owner and Render operator, I approve **EX-DOCRAG-732F3FC-02** solely for the existing `docrag-demo` Render Free service, source `732f3fc`, AMD64 image `sha256:7077e6878eb1e887de3c4cc1c74970545266913c73f263a3f6fac2a7a2c7175e`. I accept the residual crash and memory-corruption risks of CVE-2026-100290 and CVE-2026-115819 through **25 December 2026 at 13:30 IST**, with no automatic renewal. Consent, ownership isolation, quotas, monitoring, and all scanner findings remain in force. I will withdraw the release sooner on a supported fix for either accepted finding, credible exposure, a security incident, loss of monitoring, or a change to the image, listener, or approved scope.
+
+This supersedes the November deadline for this image alone. The OpenSSL finding remains open for separate review. [Prior approval](https://github.com/abhi0874/DocRAG/blob/efb913d/docs/security/proposals/docrag-732f3fc/OWNER_ACCEPTANCE.json) · [November reminder](https://github.com/abhi0874/DocRAG/issues/3) · [Security scan finding](https://github.com/abhi0874/DocRAG/issues/4)
 
 ## What to watch
 
@@ -19,4 +25,4 @@ Debian still lists both glibc issues as vulnerable on Trixie. Memory pressure or
 
 1. Check the vendor fix against the exact runtime package, supported distroless base and Node 24.22.1. Build and scan a new immutable image, verify non-root execution, run applicable unit, security and isolation checks, and require passing hosted CI. Record the digest and a fresh decision for any residual risk.
 2. After approved promotion, check health, readiness and Render logs. Use two synthetic accounts and a short non-confidential PDF to verify registration, indexing, real streamed Gemini Q&A, page citations, follow-up, refusal, isolation, deletion and sign-out. Check mobile layout, themes and glass controls. Remove test data. Update the workflow pins, expiry and evidence.
-3. On expiry, supported fix for an accepted risk, incident, credible exposure, scope drift or lost monitoring, withdraw under the approval. In Render open **docrag-demo → Settings → Suspend Web Service**. Verify external requests no longer reach the application. Preserve Neon, configuration and both registry digests. Roll back only to a separately authorized image that resolves the trigger. Both previous glibc approvals expire at the same deadline. [Release and rollback details](https://github.com/abhi0874/DocRAG/blob/feat/production-rag/docs/publication/WORKSPACE_RELEASE.md)
+3. On expiry, supported fix for an accepted risk, incident, credible exposure, scope drift or lost monitoring, withdraw under the approval. In Render open **docrag-demo → Settings → Suspend Web Service**. Verify external requests no longer reach the application. Preserve Neon, configuration and both registry digests. Roll back only to a separately authorized image that resolves the trigger. Earlier images retain their original 25 November 2026 deadline. [Release and rollback details](https://github.com/abhi0874/DocRAG/blob/feat/production-rag/docs/publication/WORKSPACE_RELEASE.md)
